@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "548201543511",
+    "firebase_url": "https://ptvfirebaseproject.firebaseio.com",
+    "project_id": "ptvfirebaseproject",
+    "storage_bucket": "ptvfirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548201543511:android:4dd9b64800d6ca85",
+        "android_client_info": {
+          "package_name": "com.fongmi.android.ptv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548201543511-mb16nd59rjmmqsc23cjpgree4quc1d9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvHybWa0M_kYm5C6kyXXszEfcWE7HV2ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

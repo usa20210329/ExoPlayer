@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "727391018552",
+    "firebase_url": "https://htvfirebaseproject.firebaseio.com",
+    "project_id": "htvfirebaseproject",
+    "storage_bucket": "htvfirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727391018552:android:bc46b24ed9913c18",
+        "android_client_info": {
+          "package_name": "com.fongmi.android.htv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727391018552-r4lrkifmd1o5kiluuu9e5g1f16gqirg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQORVi9wphElMingm83YSjBKOEssVpPMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
