@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <com.devbrackets.android.exomedia.ui.widget.VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        app:measureBasedOnAspectRatio="false"
+        app:useTextureViewBacking="true"
+        app:videoScale="fitXY" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/shadow"
+        android:clipToPadding="false"
+        android:minWidth="200dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        tools:listitem="@layout/adapter_main" />
+
+    <include layout="@layout/view_widget" />
+
+    <ImageView
+        android:id="@+id/splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/splash"
+        android:contentDescription="@string/app_name"
+        android:scaleType="center"
+        android:src="@drawable/ic_splash" />
+
+</merge>

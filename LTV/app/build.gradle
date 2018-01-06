@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        flavorDimensions "targetSdkVersion"
+    }
+
+    productFlavors {
+        htv {
+            applicationId "com.fongmi.android.htv"
+            versionCode 70
+            versionName "1.7.0"
+        }
+        ltv {
+            applicationId "com.fongmi.android.ltv"
+            versionCode 70
+            versionName "1.7.0"
+        }
+        otv {
+            applicationId "com.fongmi.android.otv"
+            versionCode 70
+            versionName "1.7.0"
+        }
+        ptv {
+            applicationId "com.fongmi.android.ptv"
+            versionCode 70
+            versionName "1.7.0"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${variant.productFlavors[0].name}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:leanback-v17:$supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    implementation "com.google.firebase:firebase-database:$firebaseVersion"
+    implementation "com.google.firebase:firebase-storage:$firebaseVersion"
+    implementation "com.google.code.gson:gson:2.8.2"
+    implementation "com.devbrackets.android:exomedia:4.1.0"
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    ltvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
+    ltvImplementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+}
+
+apply plugin: 'com.google.gms.google-services'
