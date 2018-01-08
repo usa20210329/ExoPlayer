@@ -1,6 +1,5 @@
 package com.fongmi.android.tv;
 
-import com.fongmi.android.tv.model.Account;
 import com.fongmi.android.tv.model.Info;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.utils.Encrypt;
@@ -18,7 +17,7 @@ import static com.fongmi.android.tv.Constant.UUID;
 
 public class UserData {
 
-    private List<Account> mItems;
+    private List<String> mItems;
     private Info mInfo;
     private String hx;
     private long ts;
@@ -50,7 +49,7 @@ public class UserData {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                while (iterator.hasNext()) mItems.add(iterator.next().getValue(Account.class));
+                while (iterator.hasNext()) mItems.add(iterator.next().getValue(String.class));
                 setAccount();
             }
         });
@@ -66,12 +65,12 @@ public class UserData {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int min = calendar.get(Calendar.MINUTE);
-        index = (hour * 60 + min) / 10;
+        index = (hour * 60 + min) / 15;
     }
 
     private String getUser(Info info) {
         String hash = new HashId(info.getSalt()).encode(info.getTs());
-        return info.getIp() + "\t" + mItems.get(index).getAccount() + "\t" + PASS + "\t" + hash + "\t" + getUuidSum();
+        return info.getIp() + "\t" + mItems.get(index) + "\t" + PASS + "\t" + hash + "\t" + getUuidSum();
     }
 
     private int getUuidSum() {
