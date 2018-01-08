@@ -26,11 +26,6 @@ android {
             versionCode 70
             versionName "1.7.0"
         }
-        ptv {
-            applicationId "com.fongmi.android.ptv"
-            versionCode 70
-            versionName "1.7.0"
-        }
     }
 
     buildTypes {
