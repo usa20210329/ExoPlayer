@@ -26,6 +26,7 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
     private OnItemClickListener mItemClickListener;
     private Handler mHandler;
     private boolean mVisible;
+    private boolean mWaiting;
     private int mPosition;
     private int mCount;
 
@@ -122,23 +123,30 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    int onMoveUp() {
+    int onMoveUp(boolean wait) {
+        mWaiting = wait;
         mPosition = mPosition > 0 ? --mPosition : mItems.size() - 1;
-        setChannel(500);
+        setChannel(wait ? 5000 : 500);
         return mPosition;
     }
 
-    int onMoveDown() {
+    int onMoveDown(boolean wait) {
+        mWaiting = wait;
         mPosition = mPosition < mItems.size() - 1 ? ++mPosition : 0;
-        setChannel(500);
+        setChannel(wait ? 5000 : 500);
         return mPosition;
+    }
+
+    void onCenter() {
+        if (mWaiting) setChannel(0);
+        mWaiting = false;
     }
 
     void onResume() {
         if (mPosition > -1 && mPosition < mItems.size()) {
             setChannel(0);
         } else if (mPosition != -1) {
-            onMoveDown();
+            onMoveDown(false);
         }
     }
 

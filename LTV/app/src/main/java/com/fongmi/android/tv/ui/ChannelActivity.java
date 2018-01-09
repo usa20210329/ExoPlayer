@@ -29,7 +29,6 @@ import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.utils.KeyDown;
-import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
 
@@ -353,7 +352,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (Utils.isDpadKey(event) || Utils.isBackKey(event)) {
+        if (Utils.hasEvent(event)) {
             return mKeyDown.onKeyDown(event);
         } else {
             return super.dispatchKeyEvent(event);
@@ -362,8 +361,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public void onKeyVertical(boolean isTop) {
+        boolean wait = infoVisible();
         mHandler.removeCallbacks(mRunnable);
-        mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp() : mAdapter.onMoveDown());
+        mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(wait) : mAdapter.onMoveDown(wait));
     }
 
     @Override
@@ -377,6 +377,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public void onKeyCenter() {
+        mAdapter.onCenter();
         toggleInfo();
     }
 

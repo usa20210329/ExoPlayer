@@ -17,7 +17,7 @@ public class Utils {
         return App.getInstance().getResources().getDisplayMetrics();
     }
 
-    public static String getString(int resId) {
+    static String getString(int resId) {
         return App.getInstance().getString(resId);
     }
 
@@ -33,12 +33,36 @@ public class Utils {
         return event.getKeyCode() >= KeyEvent.KEYCODE_0 && event.getKeyCode() <= KeyEvent.KEYCODE_9;
     }
 
-    public static boolean isDpadKey(KeyEvent event) {
-        return event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() >= KeyEvent.KEYCODE_DPAD_UP && event.getKeyCode() <= KeyEvent.KEYCODE_DPAD_CENTER;
+    public static boolean hasEvent(KeyEvent event) {
+        return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event));
     }
 
-    public static boolean isBackKey(KeyEvent event) {
-        return event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_BACK;
+    private static boolean isArrowKey(KeyEvent event) {
+        return isEnterKey(event) || isUpKey(event) || isDownKey(event) || isLeftKey(event) || isRightKey(event);
+    }
+
+    static boolean isBackKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_BACK;
+    }
+
+    static boolean isEnterKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER || event.getKeyCode() == KeyEvent.KEYCODE_SPACE || event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER;
+    }
+
+    static boolean isUpKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_UP || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_UP;
+    }
+
+    static boolean isDownKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_DOWN;
+    }
+
+    static boolean isLeftKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT;
+    }
+
+    static boolean isRightKey(KeyEvent event) {
+        return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT;
     }
 
     public static void setImmersiveMode(Activity activity) {

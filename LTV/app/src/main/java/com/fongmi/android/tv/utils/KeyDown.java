@@ -32,17 +32,17 @@ public class KeyDown {
     }
 
     public boolean onKeyDown(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP) {
+        if (Utils.isUpKey(event)) {
             mKeyDown.onKeyVertical(true);
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN) {
+        } else if (Utils.isDownKey(event)) {
             mKeyDown.onKeyVertical(false);
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
+        } else if (Utils.isLeftKey(event)) {
             mKeyDown.onKeyHorizontal(true);
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
+        } else if (Utils.isRightKey(event)) {
             mKeyDown.onKeyHorizontal(false);
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER) {
+        } else if (Utils.isEnterKey(event)) {
             mKeyDown.onKeyCenter();
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+        } else if (Utils.isBackKey(event)) {
             mKeyDown.onKeyBack();
         }
         return true;
