@@ -53,7 +53,7 @@ class WebService extends AsyncTask<Void, Integer, String> {
     protected void onPostExecute(String result) {
         switch (soap.getName()) {
             case WTV_NOTICE:
-                Notify.show(result);
+                Notify.alert(result);
                 break;
             case WTV_CHANNEL:
                 callback.onResponse(Root.getChannels(result));

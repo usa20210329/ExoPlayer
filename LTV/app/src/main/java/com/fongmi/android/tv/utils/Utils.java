@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
@@ -89,7 +88,7 @@ public class Utils {
         FirebaseDatabase.getInstance().getReference().child("notice").addValueEventListener(new AsyncTaskRunnerCallback() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Notify.show(dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT);
+                Notify.alert(dataSnapshot.getValue().toString());
             }
         });
     }

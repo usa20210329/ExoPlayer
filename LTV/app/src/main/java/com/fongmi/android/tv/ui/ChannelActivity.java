@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
@@ -383,7 +382,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         boolean wait = infoVisible();
         mHandler.removeCallbacks(mRunnable);
         mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(wait) : mAdapter.onMoveDown(wait));
-        Notify.showOnce("dpad", R.string.channel_hint_dpad);
+        Notify.once("dpad", R.string.channel_hint_dpad);
     }
 
     @Override
@@ -436,7 +435,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             hideUI();
         } else if (showBackHint()) {
             mHandler.postDelayed(mBackHint, 3000);
-            Notify.show(R.string.channel_hint_back, Toast.LENGTH_SHORT);
+            Notify.show(R.string.channel_hint_back);
         } else {
             moveTaskToBack(true);
             mAdapter.removeHiddenChannel();
