@@ -9,6 +9,8 @@ import com.fongmi.android.tv.utils.Utils;
 
 import org.ksoap2.serialization.SoapObject;
 
+import java.util.List;
+
 import static com.fongmi.android.tv.Constant.CHANNEL_NO;
 import static com.fongmi.android.tv.Constant.FREE_GEO;
 import static com.fongmi.android.tv.Constant.REGISTER_ID;
@@ -31,13 +33,12 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(WTV_CHANNEL), callback).executeOnExecutor(mExecutor);
-        Utils.getChannels(callback);
+        new WebService(getSoap(WTV_CHANNEL), getCallback(callback)).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        if (channel.getNumber() > 3000) callback.onResponse(channel.getUrl());
+        if (channel.getNumber() > 700) callback.onResponse(channel.getUrl());
         else new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
     }
 
@@ -52,6 +53,11 @@ public class ApiService extends BaseApiService {
             public void onResponse(String result) {
                 Geo.save(result);
                 callback.onResponse();
+            }
+
+            @Override
+            public void onResponse(List<Channel> items) {
+                Utils.getChannels(callback, items);
             }
         };
     }

@@ -88,18 +88,12 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
     }
 
     void addAll(List<Channel> items) {
-        addAllChannel(items);
+        mHides.clear();
+        mItems.clear();
+        mItems.addAll(items);
         removeHiddenChannel();
         notifyDataSetChanged();
         onResume();
-    }
-
-    private void addAllChannel(List<Channel> items) {
-        for (Channel item : items) {
-            if (mItems.contains(item)) continue;
-            if (mHides.contains(item)) continue;
-            mItems.add(item);
-        }
     }
 
     void removeHiddenChannel() {
