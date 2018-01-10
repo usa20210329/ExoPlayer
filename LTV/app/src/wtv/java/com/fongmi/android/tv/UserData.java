@@ -1,9 +1,12 @@
 package com.fongmi.android.tv;
 
+import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.model.Geo;
 
 import org.ksoap2.serialization.SoapObject;
 
+import static com.fongmi.android.tv.Constant.CHANNEL_NO;
+import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.REGISTER_ID;
 import static com.fongmi.android.tv.Constant.REGISTER_IP;
 import static com.fongmi.android.tv.Constant.REGISTER_MAC;
@@ -27,5 +30,9 @@ class UserData {
         soap.addProperty(REGISTER_ID, USER_ID);
         soap.addProperty(REGISTER_IP, Geo.get());
         return soap;
+    }
+
+    SoapObject getSoap(Channel channel) {
+        return getSoap(WTV_CHANNEL_URL).addProperty(CHANNEL_NO, channel.getNumber());
     }
 }

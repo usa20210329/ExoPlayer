@@ -25,7 +25,7 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        callback.onResponse(channel.getUrl().replace("%20", ""));
+        new WebService(UserData.getInstance().getSoap(channel), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
