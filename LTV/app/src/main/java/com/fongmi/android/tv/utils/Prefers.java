@@ -19,6 +19,14 @@ public class Prefers {
         getPreferences().edit().putString(key, value).apply();
     }
 
+    public static boolean getBoolean(String key) {
+        return getPreferences().getBoolean(key, false);
+    }
+
+    public static void putBoolean(String key, boolean value) {
+        getPreferences().edit().putBoolean(key, value).apply();
+    }
+
     public static int getTextSize() {
         return getPreferences().getInt("size", 0);
     }

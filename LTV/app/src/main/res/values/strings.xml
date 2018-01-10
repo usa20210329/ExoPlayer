@@ -5,7 +5,8 @@
     <string name="channel.empty">無此頻道</string>
     <string name="channel.setting">字體大小</string>
     <string name="channel.error">發生錯誤&#8230;</string>
-    <string name="channel.back.hint">再按一次即可退出</string>
+    <string name="channel.hint.back">再按一次即可退出</string>
+    <string name="channel.hint.dpad">請按 確認鍵 進行播放</string>
     <string name="channel.update">正在下載新版本&#8230;</string>
     <string name="channel.info"><xliff:g name="name">%02d</xliff:g>　<xliff:g name="name">%s</xliff:g></string>
 

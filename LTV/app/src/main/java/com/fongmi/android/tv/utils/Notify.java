@@ -30,6 +30,13 @@ public class Notify {
         getInstance().makeText(text, duration);
     }
 
+    public static void showOnce(String key, int resId) {
+        if (!Prefers.getBoolean(key)) {
+            Prefers.putBoolean(key, true);
+            show(resId, Toast.LENGTH_LONG);
+        }
+    }
+
     private void makeText(String message, int duration) {
         if (message.length() < 3) return;
         Toast.makeText(App.getInstance(), message, duration).show();

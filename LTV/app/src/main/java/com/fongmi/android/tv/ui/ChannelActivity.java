@@ -383,6 +383,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         boolean wait = infoVisible();
         mHandler.removeCallbacks(mRunnable);
         mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(wait) : mAdapter.onMoveDown(wait));
+        Notify.showOnce("dpad", R.string.channel_hint_dpad);
     }
 
     @Override
@@ -435,7 +436,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             hideUI();
         } else if (showBackHint()) {
             mHandler.postDelayed(mBackHint, 3000);
-            Notify.show(R.string.channel_back_hint, Toast.LENGTH_SHORT);
+            Notify.show(R.string.channel_hint_back, Toast.LENGTH_SHORT);
         } else {
             moveTaskToBack(true);
             mAdapter.removeHiddenChannel();
