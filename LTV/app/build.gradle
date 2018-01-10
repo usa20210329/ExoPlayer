@@ -13,18 +13,18 @@ android {
     productFlavors {
         htv {
             applicationId "com.fongmi.android.htv"
-            versionCode 71
-            versionName "1.7.1"
+            versionCode 72
+            versionName "1.7.2"
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
-            versionCode 71
-            versionName "1.7.1"
+            versionCode 72
+            versionName "1.7.2"
         }
         wtv {
             applicationId "com.fongmi.android.wtv"
-            versionCode 71
-            versionName "1.7.1"
+            versionCode 72
+            versionName "1.7.2"
         }
     }
 
