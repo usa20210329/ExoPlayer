@@ -5,6 +5,7 @@ import com.fongmi.android.tv.model.Geo;
 import com.fongmi.android.tv.network.AsyncTaskRunner;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.network.BaseApiService;
+import com.fongmi.android.tv.utils.Utils;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -31,11 +32,13 @@ public class ApiService extends BaseApiService {
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
         new WebService(getSoap(WTV_CHANNEL), callback).executeOnExecutor(mExecutor);
+        Utils.getChannels(callback);
     }
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
+        if (channel.getNumber() > 3000) callback.onResponse(channel.getUrl());
+        else new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
     }
 
     @Override

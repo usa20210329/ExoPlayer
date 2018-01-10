@@ -7,9 +7,13 @@ import android.view.View;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
+import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
 
@@ -73,6 +77,17 @@ public class Utils {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public static void getChannels(final AsyncTaskRunnerCallback callback) {
+        FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncTaskRunnerCallback() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+                List<Channel> items = new ArrayList<>();
+                for (DataSnapshot item : data.getChildren()) items.add(item.getValue(Channel.class));
+                callback.onResponse(items);
+            }
+        });
     }
 
     public static void getDatabase(final Activity activity) {

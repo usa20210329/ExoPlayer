@@ -351,7 +351,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     @OnClick(R.id.hide)
     public void onHide() {
         mHandler.removeCallbacks(mAddCount);
-        mHandler.postDelayed(mAddCount, 1000);
+        mHandler.postDelayed(mAddCount, 500);
     }
 
     @Override
