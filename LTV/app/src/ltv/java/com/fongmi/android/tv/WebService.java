@@ -1,7 +1,9 @@
 package com.fongmi.android.tv;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 
+import com.fongmi.android.tv.model.Geo;
 import com.fongmi.android.tv.model.Root;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.utils.Notify;
@@ -10,6 +12,8 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
+import java.security.MessageDigest;
 
 import static com.fongmi.android.tv.Constant.LTV_CHANNEL;
 import static com.fongmi.android.tv.Constant.LTV_CHANNEL_URL;
@@ -59,8 +63,21 @@ class WebService extends AsyncTask<Void, Integer, String> {
                 callback.onResponse(Root.getChannels(result));
                 break;
             case LTV_CHANNEL_URL:
-                callback.onResponse(UserData.getInstance().getRealUrl(result));
+                callback.onResponse(getRealUrl(result));
                 break;
+        }
+    }
+
+    private String getRealUrl(String url) {
+        try {
+            int index = url.indexOf("ex=") + 3;
+            String ex = url.substring(index);
+            String key = "1Qaw3esZx" + Geo.get() + ex;
+            key = Base64.encodeToString(MessageDigest.getInstance("MD5").digest(key.getBytes()), 0);
+            key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "");
+            return url.concat("&st=").concat(key);
+        } catch (Exception e) {
+            return url;
         }
     }
 }
