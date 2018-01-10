@@ -18,12 +18,20 @@ public class Notify {
         show(Utils.getString(resId));
     }
 
-    public static void show(String text) {
-        getInstance().makeText(text);
+    public static void show(int resId, int duration) {
+        show(Utils.getString(resId), duration);
     }
 
-    private void makeText(String message) {
+    public static void show(String text) {
+        getInstance().makeText(text, Toast.LENGTH_LONG);
+    }
+
+    public static void show(String text, int duration) {
+        getInstance().makeText(text, duration);
+    }
+
+    private void makeText(String message, int duration) {
         if (message.length() < 3) return;
-        Toast.makeText(App.getInstance(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.getInstance(), message, duration).show();
     }
 }

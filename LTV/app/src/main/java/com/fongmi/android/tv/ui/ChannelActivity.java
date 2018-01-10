@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
@@ -29,6 +30,7 @@ import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.utils.KeyDown;
+import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
 
@@ -54,6 +56,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     private ChannelAdapter mAdapter;
     private KeyDown mKeyDown;
     private Handler mHandler;
+    private boolean mBackPress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +201,13 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         }
     };
 
+    private Runnable mBackHint = new Runnable() {
+        @Override
+        public void run() {
+            mBackPress = false;
+        }
+    };
+
     private Runnable mAddCount = new Runnable() {
         @Override
         public void run() {
@@ -223,6 +233,15 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     private boolean cardVisible() {
         return mSetting.getAlpha() == 1;
+    }
+
+    private boolean showBackHint() {
+        if (!mBackPress) {
+            mBackPress = true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void toggleInfo() {
@@ -414,6 +433,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             hideCard();
         } else if (infoVisible()) {
             hideUI();
+        } else if (showBackHint()) {
+            mHandler.postDelayed(mBackHint, 3000);
+            Notify.show(R.string.channel_back_hint, Toast.LENGTH_SHORT);
         } else {
             moveTaskToBack(true);
             mAdapter.removeHiddenChannel();
