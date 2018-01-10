@@ -6,26 +6,36 @@ import com.fongmi.android.tv.network.AsyncTaskRunner;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.network.BaseApiService;
 
+import org.ksoap2.serialization.SoapObject;
+
+import static com.fongmi.android.tv.Constant.CHANNEL_NO;
 import static com.fongmi.android.tv.Constant.FREE_GEO;
+import static com.fongmi.android.tv.Constant.REGISTER_ID;
+import static com.fongmi.android.tv.Constant.REGISTER_IP;
+import static com.fongmi.android.tv.Constant.REGISTER_MAC;
+import static com.fongmi.android.tv.Constant.TEMP_URI;
+import static com.fongmi.android.tv.Constant.USER_ID;
+import static com.fongmi.android.tv.Constant.USER_MAC;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL;
+import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.WTV_NOTICE;
 
 public class ApiService extends BaseApiService {
 
     @Override
     public void onInit(AsyncTaskRunnerCallback callback) {
+        new WebService(getSoap(WTV_NOTICE)).executeOnExecutor(mExecutor);
         new AsyncTaskRunner(FREE_GEO, getCallback(callback)).executeOnExecutor(mExecutor);
-        new WebService(UserData.getInstance().getSoap(WTV_NOTICE)).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
-        new WebService(UserData.getInstance().getSoap(WTV_CHANNEL), callback).executeOnExecutor(mExecutor);
+        new WebService(getSoap(WTV_CHANNEL), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        new WebService(UserData.getInstance().getSoap(channel), callback).executeOnExecutor(mExecutor);
+        new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
@@ -41,5 +51,17 @@ public class ApiService extends BaseApiService {
                 callback.onResponse();
             }
         };
+    }
+
+    private SoapObject getSoap(String name) {
+        SoapObject soap = new SoapObject(TEMP_URI, name);
+        soap.addProperty(REGISTER_MAC, USER_MAC);
+        soap.addProperty(REGISTER_ID, USER_ID);
+        soap.addProperty(REGISTER_IP, Geo.get());
+        return soap;
+    }
+
+    private SoapObject getSoap(Channel channel) {
+        return getSoap(WTV_CHANNEL_URL).addProperty(CHANNEL_NO, channel.getNumber());
     }
 }
