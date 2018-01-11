@@ -11,7 +11,6 @@ import org.ksoap2.serialization.SoapObject;
 
 import java.util.List;
 
-import static com.fongmi.android.tv.Constant.CHANNEL_NO;
 import static com.fongmi.android.tv.Constant.FREE_GEO;
 import static com.fongmi.android.tv.Constant.REGISTER_ID;
 import static com.fongmi.android.tv.Constant.REGISTER_IP;
@@ -20,7 +19,6 @@ import static com.fongmi.android.tv.Constant.TEMP_URI;
 import static com.fongmi.android.tv.Constant.USER_ID;
 import static com.fongmi.android.tv.Constant.USER_MAC;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL;
-import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.WTV_NOTICE;
 
 public class ApiService extends BaseApiService {
@@ -28,36 +26,49 @@ public class ApiService extends BaseApiService {
     @Override
     public void onInit(AsyncTaskRunnerCallback callback) {
         new WebService(getSoap(WTV_NOTICE)).executeOnExecutor(mExecutor);
-        new AsyncTaskRunner(FREE_GEO, getCallback(callback)).executeOnExecutor(mExecutor);
+        new AsyncTaskRunner(FREE_GEO, getGeo(callback)).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(WTV_CHANNEL), getCallback(callback)).executeOnExecutor(mExecutor);
+        Utils.getChannels(getCallback(callback));
     }
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        if (channel.getNumber() > 700) callback.onResponse(channel.getUrl());
-        else new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
+        callback.onResponse(channel.getUrl());
     }
 
     @Override
     public void onRetry(AsyncTaskRunnerCallback callback) {
-        new AsyncTaskRunner(FREE_GEO, getCallback(callback)).executeOnExecutor(mExecutor);
+        new AsyncTaskRunner(FREE_GEO, getGeo(callback)).executeOnExecutor(mExecutor);
     }
 
-    private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback) {
+    private AsyncTaskRunnerCallback getGeo(final AsyncTaskRunnerCallback callback) {
         return new AsyncTaskRunnerCallback() {
             @Override
             public void onResponse(String result) {
                 Geo.save(result);
                 callback.onResponse();
             }
+        };
+    }
 
+    private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback) {
+        return new AsyncTaskRunnerCallback() {
             @Override
             public void onResponse(List<Channel> items) {
-                Utils.getChannels(callback, items);
+                new WebService(getSoap(WTV_CHANNEL), getCallback(callback, items)).executeOnExecutor(mExecutor);
+            }
+        };
+    }
+
+    private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback, final List<Channel> extras) {
+        return new AsyncTaskRunnerCallback() {
+            @Override
+            public void onResponse(List<Channel> items) {
+                items.addAll(extras);
+                callback.onResponse(items);
             }
         };
     }
@@ -68,9 +79,5 @@ public class ApiService extends BaseApiService {
         soap.addProperty(REGISTER_ID, USER_ID);
         soap.addProperty(REGISTER_IP, Geo.get());
         return soap;
-    }
-
-    private SoapObject getSoap(Channel channel) {
-        return getSoap(WTV_CHANNEL_URL).addProperty(CHANNEL_NO, channel.getNumber());
     }
 }

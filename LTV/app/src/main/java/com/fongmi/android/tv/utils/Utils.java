@@ -80,14 +80,11 @@ public class Utils {
     }
 
     public static void getChannels(final AsyncTaskRunnerCallback callback) {
-        getChannels(callback, new ArrayList<Channel>());
-    }
-
-    public static void getChannels(final AsyncTaskRunnerCallback callback, final List<Channel> items) {
         FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncTaskRunnerCallback() {
             @Override
             public void onDataChange(DataSnapshot data) {
-                for (DataSnapshot item : data.getChildren()) items.add(item.getValue(Channel.class));
+                List<Channel> items = new ArrayList<>();
+                for (DataSnapshot item : data.getChildren()) items.add(Channel.create(item));
                 callback.onResponse(items);
             }
         });

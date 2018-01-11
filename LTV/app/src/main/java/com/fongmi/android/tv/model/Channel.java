@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
+import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +35,10 @@ public class Channel {
 
     public static Channel create(String number) {
         return new Channel(number);
+    }
+
+    public static Channel create(DataSnapshot data) {
+        return data.getValue(Channel.class);
     }
 
     public static List<Channel> arrayFrom(String str) {
