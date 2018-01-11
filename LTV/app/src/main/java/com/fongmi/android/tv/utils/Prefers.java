@@ -19,12 +19,16 @@ public class Prefers {
         getPreferences().edit().putString(key, value).apply();
     }
 
-    public static boolean getBoolean(String key) {
-        return getPreferences().getBoolean(key, false);
+    public static boolean hasWait() {
+        return getPreferences().contains("wait");
     }
 
-    public static void putBoolean(String key, boolean value) {
-        getPreferences().edit().putBoolean(key, value).apply();
+    public static boolean isWait() {
+        return getPreferences().getBoolean("wait", false);
+    }
+
+    public static void putWait(boolean value) {
+        getPreferences().edit().putBoolean("wait", value).apply();
     }
 
     public static int getTextSize() {

@@ -55,7 +55,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     private ChannelAdapter mAdapter;
     private KeyDown mKeyDown;
     private Handler mHandler;
-    private boolean mBackPress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,13 +199,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         }
     };
 
-    private Runnable mBackHint = new Runnable() {
-        @Override
-        public void run() {
-            mBackPress = false;
-        }
-    };
-
     private Runnable mAddCount = new Runnable() {
         @Override
         public void run() {
@@ -234,13 +226,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         return mSetting.getAlpha() == 1;
     }
 
-    private boolean showBackHint() {
-        if (!mBackPress) {
-            mBackPress = true;
-            return true;
-        } else {
-            return false;
-        }
+    private boolean needWait() {
+        return infoVisible() && Prefers.isWait();
     }
 
     private void toggleInfo() {
@@ -361,7 +348,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (Utils.isDigitKey(event)) {
+        if (Utils.isDigitKey(keyCode)) {
             return mKeyDown.onKeyDown(keyCode);
         } else {
             return super.onKeyDown(keyCode, event);
@@ -379,10 +366,12 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public void onKeyVertical(boolean isTop) {
-        boolean wait = infoVisible();
-        mHandler.removeCallbacks(mRunnable);
-        mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(wait) : mAdapter.onMoveDown(wait));
-        Notify.once("dpad", R.string.channel_hint_dpad);
+        if (Prefers.hasWait()) {
+            mHandler.removeCallbacks(mRunnable);
+            mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(needWait()) : mAdapter.onMoveDown(needWait()));
+        } else {
+            Notify.showDialog(this);
+        }
     }
 
     @Override
@@ -433,9 +422,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             hideCard();
         } else if (infoVisible()) {
             hideUI();
-        } else if (showBackHint()) {
-            mHandler.postDelayed(mBackHint, 3000);
-            Notify.show(R.string.channel_hint_back);
         } else {
             moveTaskToBack(true);
             mAdapter.removeHiddenChannel();

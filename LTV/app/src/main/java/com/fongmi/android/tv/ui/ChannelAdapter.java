@@ -126,14 +126,14 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
     int onMoveUp(boolean wait) {
         mWaiting = wait;
         mPosition = mPosition > 0 ? --mPosition : mItems.size() - 1;
-        setChannel(wait ? 5000 : 500);
+        setChannel(wait ? 10000 : 500);
         return mPosition;
     }
 
     int onMoveDown(boolean wait) {
         mWaiting = wait;
         mPosition = mPosition < mItems.size() - 1 ? ++mPosition : 0;
-        setChannel(wait ? 5000 : 500);
+        setChannel(wait ? 10000 : 500);
         return mPosition;
     }
 

@@ -23,7 +23,7 @@ public class KeyDown {
     public boolean onKeyDown(int keyCode) {
         if (mHandler == null) mHandler = new Handler();
         if (mText == null) mText = new StringBuilder();
-        mText.append(keyCode - 7);
+        mText.append(getNumber(keyCode));
         mNumber.setText(mText.toString());
         mNumber.setVisibility(View.VISIBLE);
         mHandler.removeCallbacks(mRunnable);
@@ -46,6 +46,10 @@ public class KeyDown {
             mKeyDown.onKeyBack();
         }
         return true;
+    }
+
+    private int getNumber(int keyCode) {
+        return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
     }
 
     private Runnable mRunnable = new Runnable() {
