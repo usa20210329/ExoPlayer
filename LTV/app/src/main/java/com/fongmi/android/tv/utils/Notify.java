@@ -49,7 +49,7 @@ public class Notify {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                         Prefers.putWait(which == 0);
-                        return false;
+                        return true;
                     }
                 }).show();
     }
