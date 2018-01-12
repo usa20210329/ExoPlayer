@@ -53,7 +53,7 @@
                 android:text="@string/setting.common.back"
                 android:textSize="16sp" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -111,7 +111,7 @@
                 android:text="@string/setting.control.play"
                 android:textSize="16sp" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

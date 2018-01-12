@@ -1,10 +1,10 @@
 package com.fongmi.android.tv.utils;
 
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -53,8 +53,8 @@ public class Notify {
         ViewGroup view = dialog.getCustomView().findViewById(R.id.control);
         SeekBar size = dialog.getCustomView().findViewById(R.id.size);
         SeekBar delay = dialog.getCustomView().findViewById(R.id.delay);
-        Switch back = dialog.getCustomView().findViewById(R.id.back);
-        Switch play = dialog.getCustomView().findViewById(R.id.play);
+        SwitchCompat back = dialog.getCustomView().findViewById(R.id.back);
+        SwitchCompat play = dialog.getCustomView().findViewById(R.id.play);
         view.setVisibility(visibility);
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());
