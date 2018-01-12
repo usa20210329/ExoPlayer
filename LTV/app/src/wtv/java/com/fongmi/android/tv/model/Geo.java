@@ -20,10 +20,10 @@ public class Geo {
     }
 
     public static void save(String result) {
-        Prefers.putString("ip", objectFrom(result).getIp());
+        Prefers.putIp(objectFrom(result).getIp());
     }
 
     public static String get() {
-        return Prefers.getString("ip");
+        return Prefers.getIp();
     }
 }

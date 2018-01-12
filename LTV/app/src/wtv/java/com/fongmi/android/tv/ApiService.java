@@ -11,6 +11,7 @@ import org.ksoap2.serialization.SoapObject;
 
 import java.util.List;
 
+import static com.fongmi.android.tv.Constant.CHANNEL_NO;
 import static com.fongmi.android.tv.Constant.FREE_GEO;
 import static com.fongmi.android.tv.Constant.REGISTER_ID;
 import static com.fongmi.android.tv.Constant.REGISTER_IP;
@@ -19,6 +20,7 @@ import static com.fongmi.android.tv.Constant.TEMP_URI;
 import static com.fongmi.android.tv.Constant.USER_ID;
 import static com.fongmi.android.tv.Constant.USER_MAC;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL;
+import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.WTV_NOTICE;
 
 public class ApiService extends BaseApiService {
@@ -36,7 +38,8 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        callback.onResponse(channel.getUrl());
+        if (channel.getNumber() > 700) callback.onResponse(channel.getUrl());
+        else new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
@@ -79,5 +82,9 @@ public class ApiService extends BaseApiService {
         soap.addProperty(REGISTER_ID, USER_ID);
         soap.addProperty(REGISTER_IP, Geo.get());
         return soap;
+    }
+
+    private SoapObject getSoap(Channel channel) {
+        return getSoap(WTV_CHANNEL_URL).addProperty(CHANNEL_NO, channel.getNumber());
     }
 }

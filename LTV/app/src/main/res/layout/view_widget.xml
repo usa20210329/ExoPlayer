@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:contentDescription="@string/channel.setting"
         android:src="@drawable/ic_action_setting" />
 
     <View
@@ -44,7 +43,5 @@
         android:textSize="64sp"
         android:visibility="gone"
         tools:text="12" />
-
-    <include layout="@layout/view_setting" />
 
 </merge>

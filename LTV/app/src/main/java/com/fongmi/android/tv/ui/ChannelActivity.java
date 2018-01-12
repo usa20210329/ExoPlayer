@@ -5,9 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
@@ -43,10 +40,8 @@ import butterknife.OnTouch;
 public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-    @BindView(R.id.seekBar) AppCompatSeekBar mSeekBar;
     @BindView(R.id.videoView) VideoView mVideoView;
     @BindView(R.id.progress) ProgressBar mProgress;
-    @BindView(R.id.setting) ViewGroup mSetting;
     @BindView(R.id.splash) ImageView mSplash;
     @BindView(R.id.number) TextView mNumber;
     @BindView(R.id.gear) ImageView mGear;
@@ -55,6 +50,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     private ChannelAdapter mAdapter;
     private KeyDown mKeyDown;
     private Handler mHandler;
+    private long mBackTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +65,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     private void initView() {
         mHandler = new Handler();
         mKeyDown = new KeyDown(this, mNumber);
-        mSeekBar.setProgress(Prefers.getTextSize());
-        ViewCompat.setElevation(mSetting, 8);
         Utils.getDatabase(this);
         setRecyclerView();
         setInfoWidth();
@@ -109,23 +103,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
                         mHandler.postDelayed(mRunnable, 3000);
                         break;
                 }
-            }
-        });
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Prefers.putTextSize(progress);
-                mAdapter.notifyDataSetChanged();
-                setInfoWidth();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                hideCard();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
             }
         });
     }
@@ -222,29 +199,19 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         return mRecyclerView.getAlpha() == 1;
     }
 
-    private boolean cardVisible() {
-        return mSetting.getAlpha() == 1;
+    private boolean playWait() {
+        return Prefers.isPlayWait() && infoVisible();
     }
 
-    private boolean needWait() {
-        return infoVisible() && Prefers.isWait();
+    private boolean backWait() {
+        return Prefers.isBackWait() && System.currentTimeMillis() - mBackTime > 2000;
     }
 
     private void toggleInfo() {
-        if (cardVisible()) {
-            hideCard();
-        } else if (infoVisible()) {
+        if (infoVisible()) {
             hideUI();
         } else {
             showUI();
-        }
-    }
-
-    private void toggleCard() {
-        if (cardVisible()) {
-            hideCard();
-        } else {
-            showCard();
         }
     }
 
@@ -254,7 +221,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             @Override
             public void onAnimationStart(Animator animation) {
                 mGear.setVisibility(View.VISIBLE);
-
             }
         }).start();
         mRecyclerView.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
@@ -280,25 +246,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         }).start();
     }
 
-    private void showCard() {
-        mHandler.removeCallbacks(mRunnable);
-        mSetting.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mSetting.setVisibility(View.VISIBLE);
-            }
-        }).start();
-    }
-
-    private void hideCard() {
-        mSetting.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mSetting.setVisibility(View.GONE);
-            }
-        }).start();
-    }
-
     private void hideSplash() {
         mSplash.animate().setStartDelay(1500).alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -310,18 +257,16 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     }
 
     private void setInfoWidth() {
-        mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getTextSize() * 8 + 64);
+        mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 64);
         ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
-        params.width = Utils.dp2px(200 + Prefers.getTextSize() * 20);
+        params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
         mRecyclerView.setLayoutParams(params);
     }
 
-    private void checkCard(int diff, View view) {
-        if (cardVisible()) {
-            mSeekBar.incrementProgressBy(diff);
-        } else {
-            view.performClick();
-        }
+    public void onSizeChange(int progress) {
+        Prefers.putSize(progress);
+        mAdapter.notifyDataSetChanged();
+        setInfoWidth();
     }
 
     @OnTouch(R.id.videoView)
@@ -332,7 +277,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @OnClick(R.id.gear)
     public void onGear() {
-        toggleCard();
+        Notify.showDialog(this);
     }
 
     @OnClick(R.id.hide)
@@ -366,20 +311,16 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public void onKeyVertical(boolean isTop) {
-        if (Prefers.hasWait()) {
-            mHandler.removeCallbacks(mRunnable);
-            mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(needWait()) : mAdapter.onMoveDown(needWait()));
-        } else {
-            Notify.showDialog(this);
-        }
+        mHandler.removeCallbacks(mRunnable);
+        mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(playWait()) : mAdapter.onMoveDown(playWait()));
     }
 
     @Override
     public void onKeyHorizontal(boolean isLeft) {
         if (isLeft) {
-            checkCard(-1, mHide);
+            mHide.performClick();
         } else {
-            checkCard(1, mGear);
+            Notify.showDialog(this, View.VISIBLE);
         }
     }
 
@@ -418,10 +359,11 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     @Override
     public void onBackPressed() {
-        if (cardVisible()) {
-            hideCard();
-        } else if (infoVisible()) {
+        if (infoVisible()) {
             hideUI();
+        } else if (backWait()) {
+            mBackTime = System.currentTimeMillis();
+            Notify.show(R.string.channel_hint_back);
         } else {
             moveTaskToBack(true);
             mAdapter.removeHiddenChannel();

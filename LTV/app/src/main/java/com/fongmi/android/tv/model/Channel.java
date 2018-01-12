@@ -98,7 +98,7 @@ public class Channel {
     }
 
     public int getTextSize() {
-        return Prefers.getTextSize() * 2 + 14;
+        return Prefers.getSize() * 2 + 14;
     }
 
     @Override

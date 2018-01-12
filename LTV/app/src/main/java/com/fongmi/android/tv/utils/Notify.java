@@ -1,13 +1,17 @@
 package com.fongmi.android.tv.utils;
 
-import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.impl.SeekBarListener;
+import com.fongmi.android.tv.ui.ChannelActivity;
 
 public class Notify {
 
@@ -40,17 +44,47 @@ public class Notify {
         mToast.show();
     }
 
-    public static void showDialog(Activity activity) {
-        new MaterialDialog.Builder(activity)
-                .theme(Theme.LIGHT)
-                .title(R.string.channel_wait)
-                .items(R.array.select_wait)
-                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        Prefers.putWait(which == 0);
-                        return true;
-                    }
-                }).show();
+    public static void showDialog(ChannelActivity context) {
+        showDialog(context, View.GONE);
+    }
+
+    public static void showDialog(final ChannelActivity context, int visibility) {
+        MaterialDialog dialog = new MaterialDialog.Builder(context).customView(R.layout.view_setting, true).show();
+        SeekBar size = dialog.getCustomView().findViewById(R.id.size);
+        SeekBar delay = dialog.getCustomView().findViewById(R.id.delay);
+        ViewGroup view = dialog.getCustomView().findViewById(R.id.control);
+        RadioGroup back = dialog.getCustomView().findViewById(R.id.back);
+        RadioGroup play = dialog.getCustomView().findViewById(R.id.play);
+        RadioButton backWait = dialog.getCustomView().findViewById(R.id.back_wait);
+        RadioButton playWait = dialog.getCustomView().findViewById(R.id.play_wait);
+        view.setVisibility(visibility);
+        size.setProgress(Prefers.getSize());
+        delay.setProgress(Prefers.getDelay());
+        backWait.setChecked(Prefers.isBackWait());
+        playWait.setChecked(Prefers.isPlayWait());
+        size.setOnSeekBarChangeListener(new SeekBarListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                context.onSizeChange(progress);
+            }
+        });
+        delay.setOnSeekBarChangeListener(new SeekBarListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Prefers.putDelay(progress);
+            }
+        });
+        back.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Prefers.putBackWait(checkedId == R.id.back_wait);
+            }
+        });
+        play.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Prefers.putPlayWait(checkedId == R.id.play_wait);
+            }
+        });
     }
 }

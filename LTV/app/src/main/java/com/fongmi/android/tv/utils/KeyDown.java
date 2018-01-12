@@ -27,7 +27,7 @@ public class KeyDown {
         mNumber.setText(mText.toString());
         mNumber.setVisibility(View.VISIBLE);
         mHandler.removeCallbacks(mRunnable);
-        mHandler.postDelayed(mRunnable, 1000);
+        mHandler.postDelayed(mRunnable, getDelay());
         return true;
     }
 
@@ -46,6 +46,10 @@ public class KeyDown {
             mKeyDown.onKeyBack();
         }
         return true;
+    }
+
+    private int getDelay() {
+        return Prefers.getDelay() * 500 + 500;
     }
 
     private int getNumber(int keyCode) {

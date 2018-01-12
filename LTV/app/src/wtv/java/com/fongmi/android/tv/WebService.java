@@ -13,6 +13,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import static com.fongmi.android.tv.Constant.URL;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL;
+import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.WTV_NOTICE;
 
 class WebService extends AsyncTask<Void, Integer, String> {
@@ -56,6 +57,9 @@ class WebService extends AsyncTask<Void, Integer, String> {
                 break;
             case WTV_CHANNEL:
                 callback.onResponse(Root.getChannels(result));
+                break;
+            case WTV_CHANNEL_URL:
+                callback.onResponse(result);
                 break;
         }
     }
