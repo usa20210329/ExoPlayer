@@ -39,12 +39,10 @@
 
         </TableRow>
 
-        <RadioGroup
-            android:id="@+id/back"
+        <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:checkedButton="@+id/back_instant"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -55,22 +53,12 @@
                 android:text="@string/setting.common.back"
                 android:textSize="16sp" />
 
-            <RadioButton
-                android:id="@+id/back_instant"
+            <Switch
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/setting.common.back.instant"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content" />
 
-            <RadioButton
-                android:id="@+id/back_wait"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting.common.back.wait"
-                android:textSize="16sp" />
-
-        </RadioGroup>
+        </TableRow>
     </LinearLayout>
 
     <LinearLayout
@@ -79,8 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,12 +97,10 @@
 
         </TableRow>
 
-        <RadioGroup
-            android:id="@+id/play"
+        <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:checkedButton="@+id/play_instant"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -126,21 +111,11 @@
                 android:text="@string/setting.control.play"
                 android:textSize="16sp" />
 
-            <RadioButton
-                android:id="@+id/play_instant"
+            <Switch
+                android:id="@+id/play"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/setting.control.play.instant"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content" />
 
-            <RadioButton
-                android:id="@+id/play_wait"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting.control.play.wait"
-                android:textSize="16sp" />
-
-        </RadioGroup>
+        </TableRow>
     </LinearLayout>
 </LinearLayout>

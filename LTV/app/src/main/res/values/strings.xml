@@ -11,13 +11,9 @@
     <!-- Setting -->
     <string name="setting.common">共用設定</string>
     <string name="setting.common.size">字體大小</string>
-    <string name="setting.common.back">退出方式</string>
-    <string name="setting.common.back.instant">立即退出</string>
-    <string name="setting.common.back.wait">防呆提示</string>
+    <string name="setting.common.back">防呆退出</string>
     <string name="setting.control">電視設定</string>
     <string name="setting.control.delay">按鍵延遲</string>
-    <string name="setting.control.play">播放方式</string>
-    <string name="setting.control.play.instant">立即播放</string>
-    <string name="setting.control.play.wait">按確認鍵</string>
+    <string name="setting.control.play">選擇播放</string>
 
 </resources>

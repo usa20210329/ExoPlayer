@@ -2,9 +2,9 @@ package com.fongmi.android.tv.utils;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -50,18 +50,16 @@ public class Notify {
 
     public static void showDialog(final ChannelActivity context, int visibility) {
         MaterialDialog dialog = new MaterialDialog.Builder(context).customView(R.layout.view_setting, true).show();
+        ViewGroup view = dialog.getCustomView().findViewById(R.id.control);
         SeekBar size = dialog.getCustomView().findViewById(R.id.size);
         SeekBar delay = dialog.getCustomView().findViewById(R.id.delay);
-        ViewGroup view = dialog.getCustomView().findViewById(R.id.control);
-        RadioGroup back = dialog.getCustomView().findViewById(R.id.back);
-        RadioGroup play = dialog.getCustomView().findViewById(R.id.play);
-        RadioButton backWait = dialog.getCustomView().findViewById(R.id.back_wait);
-        RadioButton playWait = dialog.getCustomView().findViewById(R.id.play_wait);
+        Switch back = dialog.getCustomView().findViewById(R.id.back);
+        Switch play = dialog.getCustomView().findViewById(R.id.play);
         view.setVisibility(visibility);
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());
-        backWait.setChecked(Prefers.isBackWait());
-        playWait.setChecked(Prefers.isPlayWait());
+        back.setChecked(Prefers.isBackWait());
+        play.setChecked(Prefers.isPlayWait());
         size.setOnSeekBarChangeListener(new SeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -74,16 +72,16 @@ public class Notify {
                 Prefers.putDelay(progress);
             }
         });
-        back.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        back.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Prefers.putBackWait(checkedId == R.id.back_wait);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefers.putBackWait(isChecked);
             }
         });
-        play.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        play.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Prefers.putPlayWait(checkedId == R.id.play_wait);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefers.putPlayWait(isChecked);
             }
         });
     }
