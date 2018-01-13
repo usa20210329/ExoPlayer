@@ -1,13 +1,14 @@
 package com.fongmi.android.tv.utils;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.SeekBarListener;
@@ -49,12 +50,12 @@ public class Notify {
     }
 
     public static void showDialog(final ChannelActivity context, int visibility) {
-        MaterialDialog dialog = new MaterialDialog.Builder(context).customView(R.layout.view_setting, true).show();
-        ViewGroup view = dialog.getCustomView().findViewById(R.id.control);
-        SeekBar size = dialog.getCustomView().findViewById(R.id.size);
-        SeekBar delay = dialog.getCustomView().findViewById(R.id.delay);
-        SwitchCompat back = dialog.getCustomView().findViewById(R.id.back);
-        SwitchCompat play = dialog.getCustomView().findViewById(R.id.play);
+        AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
+        ViewGroup view = dialog.findViewById(R.id.control);
+        SeekBar size = dialog.findViewById(R.id.size);
+        SeekBar delay = dialog.findViewById(R.id.delay);
+        CheckBox back = dialog.findViewById(R.id.back);
+        CheckBox play = dialog.findViewById(R.id.play);
         view.setVisibility(visibility);
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());

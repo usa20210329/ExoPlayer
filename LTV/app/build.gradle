@@ -13,18 +13,18 @@ android {
     productFlavors {
         htv {
             applicationId "com.fongmi.android.htv"
-            versionCode 77
-            versionName "1.7.7"
+            versionCode 78
+            versionName "1.7.8"
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
-            versionCode 75
-            versionName "1.7.5"
+            versionCode 78
+            versionName "1.7.8"
         }
         wtv {
             applicationId "com.fongmi.android.wtv"
-            versionCode 77
-            versionName "1.7.7"
+            versionCode 78
+            versionName "1.7.8"
         }
     }
 
@@ -51,7 +51,6 @@ dependencies {
     implementation "com.google.firebase:firebase-database:$firebaseVersion"
     implementation "com.google.firebase:firebase-storage:$firebaseVersion"
     implementation "com.google.code.gson:gson:2.8.2"
-    implementation "com.afollestad.material-dialogs:core:0.9.6.0"
     implementation "com.devbrackets.android:exomedia:4.1.0"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     ltvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
