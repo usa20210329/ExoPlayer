@@ -23,8 +23,8 @@ android {
         }
         wtv {
             applicationId "com.fongmi.android.wtv"
-            versionCode 78
-            versionName "1.7.8"
+            versionCode 79
+            versionName "1.7.9"
         }
     }
 
