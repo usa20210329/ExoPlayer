@@ -10,9 +10,10 @@ class Constant {
     static final String REGISTER_IP = "REGISTER_IP";
     static final String REGISTER_MAC = "REGISTER_MAC";
     static final String WTV_NOTICE = "WTV_NOTICE";
+    static final String WTV_REGISTER = "WTV_REGISTER";
     static final String WTV_CHANNEL = "WTV_CHANNEL_WOWZA";
     static final String WTV_CHANNEL_URL = "WTV_CHANNEL_URL_WOWZA";
-    static final String USER_MAC = "08:00:27:0D:AB:D9";
+    static final String USER_MAC = "02:00:00:00:00:00";
     static final String USER_ID = "29548376802690";
 
 }

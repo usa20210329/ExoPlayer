@@ -22,12 +22,14 @@ import static com.fongmi.android.tv.Constant.USER_MAC;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL;
 import static com.fongmi.android.tv.Constant.WTV_CHANNEL_URL;
 import static com.fongmi.android.tv.Constant.WTV_NOTICE;
+import static com.fongmi.android.tv.Constant.WTV_REGISTER;
 
 public class ApiService extends BaseApiService {
 
     @Override
     public void onInit(AsyncTaskRunnerCallback callback) {
         new WebService(getSoap(WTV_NOTICE)).executeOnExecutor(mExecutor);
+        new WebService(getSoap(WTV_REGISTER)).executeOnExecutor(mExecutor);
         new AsyncTaskRunner(FREE_GEO, getGeo(callback)).executeOnExecutor(mExecutor);
     }
 
