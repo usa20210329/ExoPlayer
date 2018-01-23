@@ -54,9 +54,7 @@ dependencies {
     implementation "com.devbrackets.android:exomedia:4.1.0"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     ltvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
-    wtvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
     ltvImplementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
-    wtvImplementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }
 
