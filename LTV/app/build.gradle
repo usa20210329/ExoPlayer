@@ -52,7 +52,7 @@ android {
 dependencies {
     ltvImplementation project(":ltv")
     wtvImplementation project(":ltv")
-    ptvImplementation(name: 'ptv', ext: 'aar')
+    ptvImplementation project(":ptv")
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:leanback-v17:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
