@@ -1,6 +1,8 @@
 .gradle
 .idea
 *.iml
+*.aar
 /build
 /app/build
+/ptv/build
 /local.properties

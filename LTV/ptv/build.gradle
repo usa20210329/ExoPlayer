@@ -1,0 +1,18 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+    implementation "org.apache.httpcomponents:httpclient:4.5.4"
+    implementation "com.google.code.gson:gson:2.8.2"
+}

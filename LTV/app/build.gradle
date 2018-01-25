@@ -21,6 +21,11 @@ android {
             versionCode 78
             versionName "1.7.8"
         }
+        ptv {
+            applicationId "com.fongmi.android.ptv"
+            versionCode 78
+            versionName "1.7.8"
+        }
         wtv {
             applicationId "com.fongmi.android.wtv"
             versionCode 80
@@ -56,6 +61,7 @@ dependencies {
     ltvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
     ltvImplementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    ptvImplementation(name: 'ptv', ext: 'aar')
 }
 
 apply plugin: 'com.google.gms.google-services'

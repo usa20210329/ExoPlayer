@@ -31,6 +31,10 @@
 # okio
 -dontwarn okio.**
 
+# apache
+-keep class org.apache.** { *; }
+-dontwarn org.apache.**
+
 # Add this global rule
 -keepattributes Signature
 
