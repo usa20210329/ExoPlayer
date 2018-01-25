@@ -14,20 +14,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 
+import static com.fongmi.android.ltv.library.Constant.*;
+
 public class Ltv {
 
-    private static final String URL = "http://132.148.82.117/ltv/ltv_service.asmx";
-    private static final String GEO = "http://freegeoip.net/json/";
-    private static final String TEMP_URI = "http://tempuri.org/";
-    private static final String CHANNEL_NO = "CHANNEL_NO";
-    private static final String REGISTER_ID = "REGISTER_ID";
-    private static final String REGISTER_IP = "REGISTER_IP";
-    private static final String REGISTER_MAC = "REGISTER_MAC";
-    private static final String LTV_NOTICE = "LTV_NOTICE";
-    private static final String LTV_CHANNEL = "LTV_CHANNEL";
-    private static final String LTV_CHANNEL_URL = "LTV_CHANNEL_URL";
-    private static final String USER_MAC = "02:00:00:00:00:00";
-    private static final String USER_ID = "34550490704212";
     private static String mIp = "";
 
     public static String getNotice() {

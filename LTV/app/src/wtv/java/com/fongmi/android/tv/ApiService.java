@@ -8,10 +8,7 @@ import com.fongmi.android.tv.utils.Utils;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fongmi.android.tv.Constant.LTV_CHANNEL;
-import static com.fongmi.android.tv.Constant.LTV_CHANNEL_URL;
-import static com.fongmi.android.tv.Constant.LTV_GEO;
-import static com.fongmi.android.tv.Constant.LTV_NOTICE;
+import static com.fongmi.android.ltv.library.Constant.*;
 
 public class ApiService extends BaseApiService {
 
