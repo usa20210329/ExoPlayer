@@ -42,7 +42,11 @@ public class Channel {
     }
 
     public static List<Channel> arrayFrom(String str) {
-        return new Gson().fromJson(str, new TypeToken<ArrayList<Channel>>() {}.getType());
+        if (TextUtils.isEmpty(str)) {
+            return new ArrayList<>();
+        } else {
+            return new Gson().fromJson(str, new TypeToken<ArrayList<Channel>>() {}.getType());
+        }
     }
 
     public int getNumber() {
