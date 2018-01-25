@@ -4,5 +4,6 @@
 *.aar
 /build
 /app/build
+/ltv/build
 /ptv/build
 /local.properties

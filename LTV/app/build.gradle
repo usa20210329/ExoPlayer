@@ -50,6 +50,9 @@ android {
 }
 
 dependencies {
+    ltvImplementation(name: 'ltv', ext: 'aar')
+    wtvImplementation(name: 'ltv', ext: 'aar')
+    ptvImplementation(name: 'ptv', ext: 'aar')
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:leanback-v17:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
@@ -58,10 +61,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.2"
     implementation "com.devbrackets.android:exomedia:4.1.0"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
-    ltvImplementation "com.github.smart-fun:XmlToJson:1.4.4"
-    ltvImplementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    ptvImplementation(name: 'ptv', ext: 'aar')
 }
 
 apply plugin: 'com.google.gms.google-services'

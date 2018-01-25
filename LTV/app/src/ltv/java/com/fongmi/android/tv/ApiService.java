@@ -1,67 +1,34 @@
 package com.fongmi.android.tv;
 
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.model.Geo;
-import com.fongmi.android.tv.network.AsyncTaskRunner;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.network.BaseApiService;
 
-import org.ksoap2.serialization.SoapObject;
-
-import static com.fongmi.android.tv.Constant.CHANNEL_NO;
-import static com.fongmi.android.tv.Constant.FREE_GEO;
 import static com.fongmi.android.tv.Constant.LTV_CHANNEL;
 import static com.fongmi.android.tv.Constant.LTV_CHANNEL_URL;
+import static com.fongmi.android.tv.Constant.LTV_GEO;
 import static com.fongmi.android.tv.Constant.LTV_NOTICE;
-import static com.fongmi.android.tv.Constant.REGISTER_ID;
-import static com.fongmi.android.tv.Constant.REGISTER_IP;
-import static com.fongmi.android.tv.Constant.REGISTER_MAC;
-import static com.fongmi.android.tv.Constant.TEMP_URI;
-import static com.fongmi.android.tv.Constant.USER_ID;
-import static com.fongmi.android.tv.Constant.USER_MAC;
 
 public class ApiService extends BaseApiService {
 
     @Override
     public void onInit(AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(LTV_NOTICE)).executeOnExecutor(mExecutor);
-        new AsyncTaskRunner(FREE_GEO, getCallback(callback)).executeOnExecutor(mExecutor);
+        new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
+        new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(LTV_CHANNEL), callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_CHANNEL, callback).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
-        new WebService(getSoap(channel), callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_CHANNEL_URL, channel.getNumber(), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void onRetry(AsyncTaskRunnerCallback callback) {
-        new AsyncTaskRunner(FREE_GEO, getCallback(callback)).executeOnExecutor(mExecutor);
-    }
-
-    private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback) {
-        return new AsyncTaskRunnerCallback() {
-            @Override
-            public void onResponse(String result) {
-                Geo.save(result);
-                callback.onResponse();
-            }
-        };
-    }
-
-    private SoapObject getSoap(String name) {
-        SoapObject soap = new SoapObject(TEMP_URI, name);
-        soap.addProperty(REGISTER_MAC, USER_MAC);
-        soap.addProperty(REGISTER_ID, USER_ID);
-        soap.addProperty(REGISTER_IP, Geo.get());
-        return soap;
-    }
-
-    private SoapObject getSoap(Channel channel) {
-        return getSoap(LTV_CHANNEL_URL).addProperty(CHANNEL_NO, channel.getNumber());
+        new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 }
