@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class Ptv {
 
-    private static final String USER = "";
-    private static final String ID = "";
+    private static final String ID = "DeviceId";
     private static final String JS = "http://120.24.179.81/tv/online.asp?v=3&u=" + ID;
+    private static final String USER = "UserId";
     private DefaultHttpClient client;
     private String url, name;
 

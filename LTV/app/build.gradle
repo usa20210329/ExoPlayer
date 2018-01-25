@@ -21,11 +21,6 @@ android {
             versionCode 78
             versionName "1.7.8"
         }
-        ptv {
-            applicationId "com.fongmi.android.ptv"
-            versionCode 78
-            versionName "1.7.8"
-        }
         wtv {
             applicationId "com.fongmi.android.wtv"
             versionCode 80
@@ -52,7 +47,6 @@ android {
 dependencies {
     ltvImplementation project(":ltv")
     wtvImplementation project(":ltv")
-    ptvImplementation project(":ptv")
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:leanback-v17:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
