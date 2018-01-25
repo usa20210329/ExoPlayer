@@ -45,7 +45,7 @@ public class Ltv {
     public static String getGeo() {
         Geo geo = Geo.objectFrom(getResult());
         mIp = geo.getIp();
-        return geo.getIp();
+        return mIp;
     }
 
     private static String getRealUrl(String url) {
