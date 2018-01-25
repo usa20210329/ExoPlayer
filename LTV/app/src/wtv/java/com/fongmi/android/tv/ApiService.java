@@ -5,6 +5,7 @@ import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.network.BaseApiService;
 import com.fongmi.android.tv.utils.Utils;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.fongmi.android.tv.Constant.LTV_CHANNEL;
@@ -22,7 +23,11 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void getChannels(AsyncTaskRunnerCallback callback) {
-        Utils.getChannels(getCallback(callback));
+        Utils.getChannels(getCallback(callback, Collections.<Channel>emptyList()));
+    }
+
+    private void getChannels(AsyncTaskRunnerCallback callback, List<Channel> extras) {
+        new WebService(LTV_CHANNEL, getCallback(callback, extras)).executeOnExecutor(mExecutor);
     }
 
     @Override
@@ -35,19 +40,11 @@ public class ApiService extends BaseApiService {
         new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 
-    private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback) {
-        return new AsyncTaskRunnerCallback() {
-            @Override
-            public void onResponse(List<Channel> items) {
-                new WebService(LTV_CHANNEL, getCallback(callback, items)).executeOnExecutor(mExecutor);
-            }
-        };
-    }
-
     private AsyncTaskRunnerCallback getCallback(final AsyncTaskRunnerCallback callback, final List<Channel> extras) {
         return new AsyncTaskRunnerCallback() {
             @Override
             public void onResponse(List<Channel> items) {
+                if (extras.isEmpty()) getChannels(callback, items);
                 items.addAll(extras);
                 callback.onResponse(items);
             }
