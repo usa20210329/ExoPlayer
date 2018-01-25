@@ -50,8 +50,8 @@ android {
 }
 
 dependencies {
-    ltvImplementation(name: 'ltv', ext: 'aar')
-    wtvImplementation(name: 'ltv', ext: 'aar')
+    ltvImplementation project(":ltv")
+    wtvImplementation project(":ltv")
     ptvImplementation(name: 'ptv', ext: 'aar')
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:leanback-v17:$supportLibraryVersion"
