@@ -2,93 +2,49 @@ package com.fongmi.android.ltv.library;
 
 import android.util.Base64;
 
-import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
 
 import static com.fongmi.android.ltv.library.Constant.*;
 
 public class Ltv {
 
-    private static String mIp = "";
+    private String mIp;
 
-    public static String getNotice() {
-        return getResult(getSoap(LTV_NOTICE));
+    private static class Loader {
+        static volatile Ltv INSTANCE = new Ltv();
     }
 
-    public static String getChannel() {
-        return Item.getChannels(getResult(getSoap(LTV_CHANNEL)));
+    public static Ltv getInstance() {
+        return Loader.INSTANCE;
     }
 
-    public static String getUrl(int number) {
-        return getRealUrl(getResult(getSoap(number)));
+    public String getNotice() {
+        return Utils.getResult(getSoap(LTV_NOTICE));
     }
 
-    public static String getGeo() {
-        Geo geo = Geo.objectFrom(getResult());
-        mIp = geo.getIp();
-        return mIp;
+    public String getChannel() {
+        return Item.getChannels(Utils.getResult(getSoap(LTV_CHANNEL)));
     }
 
-    private static String getRealUrl(String url) {
-        try {
-            int index = url.indexOf("ex=") + 3;
-            String ex = url.substring(index);
-            String key = "1Qaw3esZx" + mIp + ex;
-            key = Base64.encodeToString(MessageDigest.getInstance("MD5").digest(key.getBytes()), 0);
-            key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "");
-            return url.concat("&st=").concat(key);
-        } catch (Exception e) {
-            return url;
-        }
+    public String getUrl(int number) {
+        return getRealUrl(Utils.getResult(getSoap(number)));
     }
 
-    private static String getResult(SoapObject soap) {
-        try {
-            SoapSerializationEnvelope soapserializationenvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            soapserializationenvelope.bodyOut = soap;
-            soapserializationenvelope.dotNet = true;
-            soapserializationenvelope.setOutputSoapObject(soap);
-            HttpTransportSE trans = new HttpTransportSE(URL, 30000);
-            String action = soap.getNamespace() + soap.getName();
-            trans.call(action, soapserializationenvelope);
-            return soapserializationenvelope.getResponse().toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+    public String getGeo() {
+        mIp = Geo.get(Utils.getResult());
+        return null;
     }
 
-    private static String getResult() {
-        try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(GEO).openConnection();
-            conn.setReadTimeout(30000);
-            conn.setConnectTimeout(30000);
-            StringBuilder sb = new StringBuilder();
-            int count;
-            char[] buf = new char[1024];
-            InputStream is = conn.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-            while ((count = isr.read(buf)) != -1) {
-                sb.append(new String(buf, 0, count));
-            }
-            is.close();
-            isr.close();
-            return sb.toString();
-        } catch (IOException e) {
-            return "";
-        }
+    private String getRealUrl(String url) {
+        int index = url.indexOf("ex=") + 3;
+        String ex = url.substring(index);
+        String key = "1Qaw3esZx" + mIp + ex;
+        key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
+        key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "");
+        return url.concat("&st=").concat(key);
     }
 
-    private static SoapObject getSoap(String name) {
+    private SoapObject getSoap(String name) {
         SoapObject soap = new SoapObject(TEMP_URI, name);
         soap.addProperty(REGISTER_MAC, USER_MAC);
         soap.addProperty(REGISTER_ID, USER_ID);
@@ -96,7 +52,7 @@ public class Ltv {
         return soap;
     }
 
-    private static SoapObject getSoap(int number) {
+    private SoapObject getSoap(int number) {
         return getSoap(LTV_CHANNEL_URL).addProperty(CHANNEL_NO, number);
     }
 }

@@ -34,13 +34,13 @@ class WebService extends AsyncTask<Void, Integer, String> {
     protected String doInBackground(Void... params) {
         switch (action) {
             case LTV_GEO:
-                return Ltv.getGeo();
+                return Ltv.getInstance().getGeo();
             case LTV_NOTICE:
-                return Ltv.getNotice();
+                return Ltv.getInstance().getNotice();
             case LTV_CHANNEL:
-                return Ltv.getChannel();
+                return Ltv.getInstance().getChannel();
             default:
-                return channel.getNumber() > 100 ? channel.getUrl() : Ltv.getUrl(channel.getNumber());
+                return channel.getNumber() > 100 ? channel.getUrl() : Ltv.getInstance().getUrl(channel.getNumber());
         }
     }
 

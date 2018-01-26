@@ -7,7 +7,6 @@ import com.fongmi.android.tv.App;
 
 public class Prefers {
 
-    private static final String IP = "ip";
     private static final String SIZE = "size";
     private static final String DELAY = "delay";
     private static final String BACK_WAIT = "back_wait";
@@ -31,14 +30,6 @@ public class Prefers {
 
     private static void putBoolean(String key, boolean value) {
         getPreferences().edit().putBoolean(key, value).apply();
-    }
-
-    public static String getIp() {
-        return getPreferences().getString(IP, "");
-    }
-
-    public static void putIp(String value) {
-        getPreferences().edit().putString(IP, value).apply();
     }
 
     public static int getSize() {

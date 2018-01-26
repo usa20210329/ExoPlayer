@@ -10,11 +10,15 @@ class Geo {
     @SerializedName("ip")
     private String ip;
 
-    static Geo objectFrom(String str) {
+    private static Geo objectFrom(String str) {
         return TextUtils.isEmpty(str) ? new Geo() : new Gson().fromJson(str, Geo.class);
     }
 
-    String getIp() {
+    private String getIp() {
         return TextUtils.isEmpty(ip) ? "" : ip;
+    }
+
+    static String get(String result) {
+        return objectFrom(result).getIp();
     }
 }

@@ -1,7 +1,6 @@
 package com.fongmi.android.tv.utils;
 
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -22,16 +21,12 @@ public class Notify {
         static volatile Notify INSTANCE = new Notify();
     }
 
-    public static Notify getInstance() {
+    private static Notify getInstance() {
         return Loader.INSTANCE;
     }
 
     public static void show(int resId) {
-        show(Utils.getString(resId));
-    }
-
-    public static void show(String text) {
-        getInstance().makeText(text, Toast.LENGTH_SHORT);
+        getInstance().makeText(Utils.getString(resId), Toast.LENGTH_SHORT);
     }
 
     public static void alert(String text) {
