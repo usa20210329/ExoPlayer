@@ -49,13 +49,18 @@ public class Notify {
         ViewGroup view = dialog.findViewById(R.id.control);
         SeekBar size = dialog.findViewById(R.id.size);
         SeekBar delay = dialog.findViewById(R.id.delay);
+        CheckBox keep = dialog.findViewById(R.id.keep);
         CheckBox back = dialog.findViewById(R.id.back);
         CheckBox play = dialog.findViewById(R.id.play);
         view.setVisibility(visibility);
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());
+        keep.setChecked(Prefers.isKeep());
         back.setChecked(Prefers.isBackWait());
         play.setChecked(Prefers.isPlayWait());
+        setListener(keep, Prefers.KEEP);
+        setListener(back, Prefers.BACK_WAIT);
+        setListener(play, Prefers.PLAY_WAIT);
         size.setOnSeekBarChangeListener(new SeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -68,16 +73,13 @@ public class Notify {
                 Prefers.putDelay(progress);
             }
         });
-        back.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    }
+
+    private static void setListener(CheckBox checkBox, final String key) {
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Prefers.putBackWait(isChecked);
-            }
-        });
-        play.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Prefers.putPlayWait(isChecked);
+                Prefers.putBoolean(key, isChecked);
             }
         });
     }

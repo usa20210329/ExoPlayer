@@ -9,8 +9,9 @@ public class Prefers {
 
     private static final String SIZE = "size";
     private static final String DELAY = "delay";
-    private static final String BACK_WAIT = "back_wait";
-    private static final String PLAY_WAIT = "play_wait";
+    static final String KEEP = "keep";
+    static final String BACK_WAIT = "back_wait";
+    static final String PLAY_WAIT = "play_wait";
 
     private static SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
@@ -28,7 +29,7 @@ public class Prefers {
         return getPreferences().getBoolean(key, false);
     }
 
-    private static void putBoolean(String key, boolean value) {
+    static void putBoolean(String key, boolean value) {
         getPreferences().edit().putBoolean(key, value).apply();
     }
 
@@ -48,19 +49,15 @@ public class Prefers {
         putInt(DELAY, value);
     }
 
+    public static boolean isKeep() {
+        return getBoolean(KEEP);
+    }
+
     public static boolean isBackWait() {
         return getBoolean(BACK_WAIT);
     }
 
-    static void putBackWait(boolean value) {
-        putBoolean(BACK_WAIT, value);
-    }
-
     public static boolean isPlayWait() {
         return getBoolean(PLAY_WAIT);
-    }
-
-    static void putPlayWait(boolean value) {
-        putBoolean(PLAY_WAIT, value);
     }
 }

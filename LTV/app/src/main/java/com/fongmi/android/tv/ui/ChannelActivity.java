@@ -67,6 +67,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         mKeyDown = new KeyDown(this, mNumber);
         Utils.getDatabase(this);
         setRecyclerView();
+        showProgress();
         setInfoWidth();
         hideSplash();
         onInit();
@@ -128,6 +129,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             @Override
             public void onResponse(List<Channel> items) {
                 mAdapter.addAll(items);
+                hideProgress();
             }
         });
     }
@@ -347,14 +349,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     protected void onResume() {
         super.onResume();
         mAdapter.setVisible(true);
-        mAdapter.onResume();
+        if (!Prefers.isKeep()) mAdapter.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mAdapter.setVisible(false);
-        mVideoView.pause();
+        if (!Prefers.isKeep()) mVideoView.pause();
     }
 
     @Override
