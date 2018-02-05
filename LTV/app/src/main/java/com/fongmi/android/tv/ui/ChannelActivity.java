@@ -136,7 +136,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     private void onPlay(Channel channel) {
         if (channel.hasUrl()) {
-            playVideo(channel.getRealUrl());
+            playVideo(channel);
         } else {
             showProgress();
             ApiService.getInstance().getChannelUrl(channel, getCallback(channel));
@@ -158,15 +158,15 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             @Override
             public void onResponse(String url) {
                 channel.setRealUrl(url);
-                playVideo(channel.getRealUrl());
+                playVideo(channel);
             }
         };
     }
 
-    private void playVideo(String url) {
+    private void playVideo(Channel channel) {
         mHandler.removeCallbacks(mRunnable);
         mHandler.postDelayed(mRunnable, 3000);
-        mVideoView.setVideoURI(Uri.parse(url));
+        mVideoView.setVideoURI(Uri.parse(channel.getRealUrl()));
         mVideoView.start();
         showProgress();
     }
