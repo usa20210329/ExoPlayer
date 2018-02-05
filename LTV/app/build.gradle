@@ -13,18 +13,13 @@ android {
     productFlavors {
         htv {
             applicationId "com.fongmi.android.htv"
-            versionCode 83
-            versionName "1.8.3"
+            versionCode 1
+            versionName "1.0.1"
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
-            versionCode 83
-            versionName "1.8.3"
-        }
-        wtv {
-            applicationId "com.fongmi.android.wtv"
-            versionCode 83
-            versionName "1.8.3"
+            versionCode 1
+            versionName "1.0.1"
         }
     }
 
@@ -46,7 +41,6 @@ android {
 
 dependencies {
     ltvImplementation project(":ltv")
-    wtvImplementation project(":ltv")
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:leanback-v17:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
