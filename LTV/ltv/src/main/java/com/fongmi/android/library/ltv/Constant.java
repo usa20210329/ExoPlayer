@@ -1,11 +1,11 @@
-package com.fongmi.android.ltv.library;
+package com.fongmi.android.library.ltv;
 
 public class Constant {
 
     //URL
-    static final String URL = "http://132.148.82.117/ltv/ltv_service.asmx";
-    static final String GEO = "http://freegeoip.net/json/";
-    static final String TEMP_URI = "http://tempuri.org/";
+    public static final String URL = "http://132.148.82.117/ltv/ltv_service.asmx";
+    public static final String GEO = "http://freegeoip.net/json/";
+    public static final String TEMP_URI = "http://tempuri.org/";
 
     //PARAMETER
     static final String CHANNEL_NO = "CHANNEL_NO";

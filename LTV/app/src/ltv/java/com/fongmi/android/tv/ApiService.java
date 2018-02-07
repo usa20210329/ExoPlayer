@@ -4,7 +4,7 @@ import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.network.BaseApiService;
 
-import static com.fongmi.android.ltv.library.Constant.*;
+import static com.fongmi.android.library.ltv.Constant.*;
 
 public class ApiService extends BaseApiService {
 

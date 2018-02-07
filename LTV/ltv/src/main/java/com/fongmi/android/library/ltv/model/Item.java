@@ -1,4 +1,4 @@
-package com.fongmi.android.ltv.library;
+package com.fongmi.android.library.ltv.model;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
-class Item {
+public class Item {
 
     @SerializedName("root")
     private Item root;
@@ -22,7 +22,7 @@ class Item {
         return root.channels;
     }
 
-    static String getChannels(String result) {
+    public static String getChannels(String result) {
         try {
             XmlToJson xmlToJson = new XmlToJson.Builder(result).build();
             String jsonString = xmlToJson.toString().replace("\\/", "/");

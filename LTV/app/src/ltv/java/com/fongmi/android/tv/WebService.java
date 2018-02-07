@@ -2,12 +2,12 @@ package com.fongmi.android.tv;
 
 import android.os.AsyncTask;
 
-import com.fongmi.android.ltv.library.Ltv;
+import com.fongmi.android.library.ltv.Ltv;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
 import com.fongmi.android.tv.utils.Notify;
 
-import static com.fongmi.android.ltv.library.Constant.*;
+import static com.fongmi.android.library.ltv.Constant.*;
 
 class WebService extends AsyncTask<Void, Integer, String> {
 
