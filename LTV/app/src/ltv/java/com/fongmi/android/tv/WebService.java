@@ -4,14 +4,14 @@ import android.os.AsyncTask;
 
 import com.fongmi.android.library.ltv.Ltv;
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
+import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.utils.Notify;
 
 import static com.fongmi.android.library.ltv.Constant.*;
 
 class WebService extends AsyncTask<Void, Integer, String> {
 
-    private AsyncTaskRunnerCallback callback;
+    private AsyncCallback callback;
     private String action;
     private int number;
 
@@ -19,12 +19,12 @@ class WebService extends AsyncTask<Void, Integer, String> {
         this.action = action;
     }
 
-    WebService(String action, AsyncTaskRunnerCallback callback) {
+    WebService(String action, AsyncCallback callback) {
         this.action = action;
         this.callback = callback;
     }
 
-    WebService(String action, int number, AsyncTaskRunnerCallback callback) {
+    WebService(String action, int number, AsyncCallback callback) {
         this.action = action;
         this.number = number;
         this.callback = callback;

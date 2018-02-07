@@ -24,7 +24,7 @@ import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
+import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
@@ -116,7 +116,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     }
 
     private void onInit() {
-        ApiService.getInstance().onInit(new AsyncTaskRunnerCallback() {
+        ApiService.getInstance().onInit(new AsyncCallback() {
             @Override
             public void onResponse() {
                 getChannels();
@@ -125,7 +125,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     }
 
     private void getChannels() {
-        ApiService.getInstance().getChannels(new AsyncTaskRunnerCallback() {
+        ApiService.getInstance().getChannels(new AsyncCallback() {
             @Override
             public void onResponse(List<Channel> items) {
                 mAdapter.addAll(items);
@@ -145,7 +145,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
     private void onRetry() {
         mAdapter.resetUrl();
-        ApiService.getInstance().onRetry(new AsyncTaskRunnerCallback() {
+        ApiService.getInstance().onRetry(new AsyncCallback() {
             @Override
             public void onResponse() {
                 mAdapter.onResume();
@@ -153,8 +153,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         });
     }
 
-    private AsyncTaskRunnerCallback getCallback(final Channel channel) {
-        return new AsyncTaskRunnerCallback() {
+    private AsyncCallback getCallback(final Channel channel) {
+        return new AsyncCallback() {
             @Override
             public void onResponse(String url) {
                 channel.setRealUrl(url);

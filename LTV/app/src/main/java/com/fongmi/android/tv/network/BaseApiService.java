@@ -19,7 +19,7 @@ public abstract class BaseApiService implements ApiServiceImpl {
     }
 
     @Override
-    public void onInit(AsyncTaskRunnerCallback callback) {
+    public void onInit(AsyncCallback callback) {
         callback.onResponse();
     }
 }

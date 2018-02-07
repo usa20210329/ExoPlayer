@@ -7,7 +7,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public abstract class AsyncTaskRunnerCallback implements ValueEventListener {
+public abstract class AsyncCallback implements ValueEventListener {
 
     public void onResponse() {
     }

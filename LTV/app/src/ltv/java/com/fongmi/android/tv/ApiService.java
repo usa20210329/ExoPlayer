@@ -1,7 +1,7 @@
 package com.fongmi.android.tv;
 
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
+import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.network.BaseApiService;
 
 import static com.fongmi.android.library.ltv.Constant.*;
@@ -9,23 +9,23 @@ import static com.fongmi.android.library.ltv.Constant.*;
 public class ApiService extends BaseApiService {
 
     @Override
-    public void onInit(AsyncTaskRunnerCallback callback) {
+    public void onInit(AsyncCallback callback) {
         new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
         new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 
     @Override
-    public void getChannels(AsyncTaskRunnerCallback callback) {
+    public void getChannels(AsyncCallback callback) {
         new WebService(LTV_CHANNEL, callback).executeOnExecutor(mExecutor);
     }
 
     @Override
-    public void getChannelUrl(Channel channel, AsyncTaskRunnerCallback callback) {
+    public void getChannelUrl(Channel channel, AsyncCallback callback) {
         new WebService(LTV_CHANNEL_URL, channel.getNumber(), callback).executeOnExecutor(mExecutor);
     }
 
     @Override
-    public void onRetry(AsyncTaskRunnerCallback callback) {
+    public void onRetry(AsyncCallback callback) {
         new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 }

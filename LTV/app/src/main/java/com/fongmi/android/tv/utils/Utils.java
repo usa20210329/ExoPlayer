@@ -8,7 +8,7 @@ import android.view.View;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.network.AsyncTaskRunnerCallback;
+import com.fongmi.android.tv.network.AsyncCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -87,8 +87,8 @@ public class Utils {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
-    public static void getChannels(final AsyncTaskRunnerCallback callback) {
-        FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncTaskRunnerCallback() {
+    public static void getChannels(final AsyncCallback callback) {
+        FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
             @Override
             public void onDataChange(DataSnapshot data) {
                 List<Channel> items = new ArrayList<>();
@@ -99,7 +99,7 @@ public class Utils {
     }
 
     public static void getDatabase(final Activity activity) {
-        FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncTaskRunnerCallback() {
+        FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncCallback() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 FileUtil.checkUpdate(activity, (long) dataSnapshot.getValue());
@@ -108,7 +108,7 @@ public class Utils {
     }
 
     public static void getNotice() {
-        FirebaseDatabase.getInstance().getReference().child("notice").addValueEventListener(new AsyncTaskRunnerCallback() {
+        FirebaseDatabase.getInstance().getReference().child("notice").addValueEventListener(new AsyncCallback() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Notify.alert(dataSnapshot.getValue().toString());
