@@ -1,5 +1,6 @@
 .gradle
 .idea
 *.iml
+*htv
 *build
 /local.properties
