@@ -17,6 +17,14 @@ public class Prefers {
         return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
     }
 
+    public static String getString(String key) {
+        return getPreferences().getString(key, "");
+    }
+
+    public static void putString(String key, String value) {
+        getPreferences().edit().putString(key, value).apply();
+    }
+
     private static Integer getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }
