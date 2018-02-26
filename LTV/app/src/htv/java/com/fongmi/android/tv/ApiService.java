@@ -29,7 +29,7 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void onRetry(AsyncCallback callback) {
-        callback.onResponse();
+        callback.onResponse(false);
     }
 
     private void getToken(final AsyncCallback callback) {
@@ -37,7 +37,7 @@ public class ApiService extends BaseApiService {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Prefers.putString(KEY, dataSnapshot.getValue().toString());
-                callback.onResponse();
+                callback.onResponse(true);
             }
         });
     }

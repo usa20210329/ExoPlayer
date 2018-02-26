@@ -35,7 +35,7 @@ class DataTask extends AsyncTask<Void, Integer, String> {
     protected void onPostExecute(String result) {
         switch (action) {
             case OTV_INFO:
-                callback.onResponse();
+                callback.onResponse(true);
                 break;
             case OTV_CHANNEL:
                 callback.onResponse(Channel.arrayFrom(result));

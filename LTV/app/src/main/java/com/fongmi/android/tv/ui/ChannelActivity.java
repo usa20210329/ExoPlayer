@@ -2,6 +2,7 @@ package com.fongmi.android.tv.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,10 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
-import com.devbrackets.android.exomedia.listener.OnErrorListener;
-import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.KeyDownImpl;
@@ -80,15 +79,15 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
                 onPlay(item);
             }
         });
-        mVideoView.setOnPreparedListener(new OnPreparedListener() {
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared() {
+            public void onPrepared(MediaPlayer mp) {
                 hideProgress();
             }
         });
-        mVideoView.setOnErrorListener(new OnErrorListener() {
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
-            public boolean onError(Exception e) {
+            public boolean onError(MediaPlayer mp, int what, int extra) {
                 onRetry();
                 return true;
             }
@@ -118,7 +117,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     private void onInit() {
         ApiService.getInstance().onInit(new AsyncCallback() {
             @Override
-            public void onResponse() {
+            public void onResponse(boolean success) {
                 getChannels();
             }
         });
@@ -147,8 +146,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         mAdapter.resetUrl();
         ApiService.getInstance().onRetry(new AsyncCallback() {
             @Override
-            public void onResponse() {
-                mAdapter.onResume();
+            public void onResponse(boolean success) {
+                if (success) mAdapter.onResume();
+                else hideProgress();
             }
         });
     }

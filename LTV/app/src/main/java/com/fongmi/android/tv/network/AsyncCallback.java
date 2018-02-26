@@ -18,6 +18,9 @@ public abstract class AsyncCallback implements ValueEventListener {
     public void onResponse(List<Channel> items) {
     }
 
+    public void onResponse(boolean success) {
+    }
+
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
     }

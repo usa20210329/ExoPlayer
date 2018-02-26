@@ -48,7 +48,7 @@ class WebService extends AsyncTask<Void, Integer, String> {
     protected void onPostExecute(String result) {
         switch (action) {
             case LTV_GEO:
-                callback.onResponse();
+                callback.onResponse(true);
                 break;
             case LTV_NOTICE:
                 Notify.alert(result);
