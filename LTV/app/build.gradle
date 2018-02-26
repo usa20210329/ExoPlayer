@@ -13,8 +13,8 @@ android {
     productFlavors {
         htv {
             applicationId "com.fongmi.android.htv"
-            versionCode 3
-            versionName "1.0.3"
+            versionCode 4
+            versionName "1.0.4"
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
