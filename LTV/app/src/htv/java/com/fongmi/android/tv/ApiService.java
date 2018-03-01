@@ -45,8 +45,6 @@ public class ApiService extends BaseApiService {
     private String getUrl(String url) {
         if (url.contains(KEY)) {
             return url.replace(KEY, Prefers.getString(KEY));
-        } else if (url.startsWith("http://58.99.33.2:1935/")) {
-            return url.concat("?checkCode=37050688asdfsdfsadf&as=654321&aa=825623&dr=");
         } else {
             return url;
         }
