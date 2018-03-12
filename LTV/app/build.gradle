@@ -18,13 +18,13 @@ android {
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
-            versionCode 4
-            versionName "1.0.4"
+            versionCode 5
+            versionName "1.0.5"
         }
         otv {
             applicationId "com.fongmi.android.otv"
-            versionCode 4
-            versionName "1.0.4"
+            versionCode 5
+            versionName "1.0.5"
         }
     }
 
