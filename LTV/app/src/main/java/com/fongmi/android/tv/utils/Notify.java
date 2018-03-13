@@ -1,14 +1,10 @@
 package com.fongmi.android.tv.utils;
 
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -51,14 +47,11 @@ public class Notify {
     public static void showDialog(final ChannelActivity context, int visibility) {
         AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
         ViewGroup control = dialog.findViewById(R.id.control);
-        ViewGroup ltv = dialog.findViewById(R.id.ltv);
         SeekBar size = dialog.findViewById(R.id.size);
         SeekBar delay = dialog.findViewById(R.id.delay);
         CheckBox keep = dialog.findViewById(R.id.keep);
         CheckBox back = dialog.findViewById(R.id.back);
         CheckBox play = dialog.findViewById(R.id.play);
-        EditText mail = dialog.findViewById(R.id.mail);
-        ltv.setVisibility(App.isLtv() ? View.VISIBLE : View.GONE);
         control.setVisibility(visibility);
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());
@@ -68,12 +61,6 @@ public class Notify {
         setListener(keep, Prefers.KEEP);
         setListener(back, Prefers.BACK_WAIT);
         setListener(play, Prefers.PLAY_WAIT);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (App.isLtv()) context.onInit();
-            }
-        });
         size.setOnSeekBarChangeListener(new SeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -84,22 +71,6 @@ public class Notify {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Prefers.putDelay(progress);
-            }
-        });
-        mail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Prefers.putString("mail", s.toString());
             }
         });
     }

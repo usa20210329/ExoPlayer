@@ -147,28 +147,4 @@
 
         </TableRow>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ltv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting.ltv"
-            android:textColor="@color/teal_500" />
-
-        <EditText
-            android:id="@+id/mail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/setting.ltv.hint"
-            android:inputType="textEmailAddress"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 </LinearLayout>

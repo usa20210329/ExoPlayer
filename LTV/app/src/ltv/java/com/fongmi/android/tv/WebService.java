@@ -3,7 +3,6 @@ package com.fongmi.android.tv;
 import android.os.AsyncTask;
 
 import com.fongmi.android.library.ltv.Ltv;
-import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.utils.Notify;
 
@@ -37,8 +36,6 @@ class WebService extends AsyncTask<Void, Integer, String> {
                 return Ltv.getInstance().getGeo();
             case LTV_NOTICE:
                 return Ltv.getInstance().getNotice();
-            case LTV_CHANNEL:
-                return Ltv.getInstance().getChannel();
             default:
                 return Ltv.getInstance().getUrl(number);
         }
@@ -52,9 +49,6 @@ class WebService extends AsyncTask<Void, Integer, String> {
                 break;
             case LTV_NOTICE:
                 Notify.alert(result);
-                break;
-            case LTV_CHANNEL:
-                callback.onResponse(Channel.arrayFrom(result));
                 break;
             case LTV_CHANNEL_URL:
                 callback.onResponse(result);

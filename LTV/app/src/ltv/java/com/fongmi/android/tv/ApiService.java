@@ -1,10 +1,9 @@
 package com.fongmi.android.tv;
 
-import com.fongmi.android.library.ltv.Ltv;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.network.BaseApiService;
-import com.fongmi.android.tv.utils.Prefers;
+import com.fongmi.android.tv.utils.Utils;
 
 import static com.fongmi.android.library.ltv.Constant.*;
 
@@ -12,14 +11,13 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void onInit(AsyncCallback callback) {
-        Ltv.getInstance().setId(Prefers.getString("mail"));
         new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
         new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
     }
 
     @Override
     public void getChannels(AsyncCallback callback) {
-        new WebService(LTV_CHANNEL, callback).executeOnExecutor(mExecutor);
+        Utils.getChannels(callback);
     }
 
     @Override

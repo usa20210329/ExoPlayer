@@ -9,9 +9,6 @@ import java.util.List;
 
 public abstract class AsyncCallback implements ValueEventListener {
 
-    public void onResponse() {
-    }
-
     public void onResponse(String result) {
     }
 

@@ -115,7 +115,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void onInit() {
+    private void onInit() {
         ApiService.getInstance().onInit(new AsyncCallback() {
             @Override
             public void onResponse(boolean success) {
