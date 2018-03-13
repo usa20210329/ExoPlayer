@@ -21,11 +21,6 @@ android {
             versionCode 5
             versionName "1.0.5"
         }
-        otv {
-            applicationId "com.fongmi.android.otv"
-            versionCode 5
-            versionName "1.0.5"
-        }
     }
 
     buildTypes {
@@ -46,7 +41,6 @@ android {
 
 dependencies {
     ltvImplementation project(":ltv")
-    otvImplementation project(":otv")
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
