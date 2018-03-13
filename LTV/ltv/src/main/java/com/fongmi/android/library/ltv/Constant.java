@@ -3,7 +3,7 @@ package com.fongmi.android.library.ltv;
 public class Constant {
 
     //URL
-    public static final String URL = "http://132.148.82.117/ltv/ltv_service.asmx";
+    public static final String URL = "http://210.61.151.11/ltv_service.asmx";
     public static final String GEO = "http://freegeoip.net/json/";
     public static final String TEMP_URI = "http://tempuri.org/";
 
@@ -13,7 +13,6 @@ public class Constant {
     static final String REGISTER_IP = "REGISTER_IP";
     static final String REGISTER_MAC = "REGISTER_MAC";
     static final String USER_MAC = "02:00:00:00:00:00";
-    static final String USER_ID = "34550490704212";
 
     //ACTION
     public static final String LTV_GEO = "LTV_GEO";

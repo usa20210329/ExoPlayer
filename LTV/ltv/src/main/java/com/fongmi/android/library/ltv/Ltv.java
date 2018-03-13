@@ -1,5 +1,6 @@
 package com.fongmi.android.library.ltv;
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.fongmi.android.library.ltv.model.Geo;
@@ -11,6 +12,7 @@ import org.ksoap2.serialization.SoapObject;
 public class Ltv {
 
     private String mIp;
+    private String mId;
 
     private static class Loader {
         static volatile Ltv INSTANCE = new Ltv();
@@ -18,6 +20,10 @@ public class Ltv {
 
     public static Ltv getInstance() {
         return Loader.INSTANCE;
+    }
+
+    private Ltv() {
+        this.mId = "34550490704212";
     }
 
     public String getNotice() {
@@ -37,6 +43,11 @@ public class Ltv {
         return null;
     }
 
+    public void setId(String id) {
+        if (TextUtils.isEmpty(id)) return;
+        this.mId = id;
+    }
+
     private String getRealUrl(String url) {
         int index = url.indexOf("ex=") + 3;
         String ex = url.substring(index);
@@ -49,7 +60,7 @@ public class Ltv {
     private SoapObject getSoap(String name) {
         SoapObject soap = new SoapObject(Constant.TEMP_URI, name);
         soap.addProperty(Constant.REGISTER_MAC, Constant.USER_MAC);
-        soap.addProperty(Constant.REGISTER_ID, Constant.USER_ID);
+        soap.addProperty(Constant.REGISTER_ID, mId);
         soap.addProperty(Constant.REGISTER_IP, mIp);
         return soap;
     }
