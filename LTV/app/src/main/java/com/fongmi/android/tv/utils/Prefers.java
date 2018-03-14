@@ -9,12 +9,21 @@ public class Prefers {
 
     private static final String SIZE = "size";
     private static final String DELAY = "delay";
+    private static final String MAIL = "mail";
     static final String KEEP = "keep";
     static final String BACK_WAIT = "back_wait";
     static final String PLAY_WAIT = "play_wait";
 
     private static SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+    }
+
+    private static String getString(String key) {
+        return getPreferences().getString(key, "");
+    }
+
+    private static void putString(String key, String value) {
+        getPreferences().edit().putString(key, value).apply();
     }
 
     private static Integer getInt(String key, int defaultValue) {
@@ -59,5 +68,13 @@ public class Prefers {
 
     public static boolean isPlayWait() {
         return getBoolean(PLAY_WAIT);
+    }
+
+    public static void putMail(String mail) {
+        putString(MAIL, mail);
+    }
+
+    public static String getMail() {
+        return getString(MAIL);
     }
 }

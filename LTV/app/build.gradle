@@ -18,8 +18,8 @@ android {
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
-            versionCode 9
-            versionName "1.0.9"
+            versionCode 1
+            versionName "1.0.1"
         }
     }
 

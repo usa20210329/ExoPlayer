@@ -18,6 +18,7 @@ public class Constant {
     //ACTION
     public static final String LTV_GEO = "LTV_GEO";
     public static final String LTV_NOTICE = "LTV_NOTICE";
+    public static final String LTV_CHANNEL = "LTV_CHANNEL";
     public static final String LTV_CHANNEL_URL = "LTV_CHANNEL_URL";
 
 }

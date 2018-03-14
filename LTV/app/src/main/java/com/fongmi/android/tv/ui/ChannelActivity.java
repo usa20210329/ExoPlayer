@@ -124,7 +124,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         });
     }
 
-    private void getChannels() {
+    public void getChannels() {
         ApiService.getInstance().getChannels(new AsyncCallback() {
             @Override
             public void onResponse(List<Channel> items) {
