@@ -66,15 +66,10 @@ public class Notify {
         back.setChecked(Prefers.isBackWait());
         play.setChecked(Prefers.isPlayWait());
         mail.setText(Prefers.getMail());
+        setDismiss(context, dialog);
         setListener(keep, Prefers.KEEP);
         setListener(back, Prefers.BACK_WAIT);
         setListener(play, Prefers.PLAY_WAIT);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (App.isLtv()) context.getChannels();
-            }
-        });
         size.setOnSeekBarChangeListener(new SeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -101,6 +96,15 @@ public class Notify {
             @Override
             public void afterTextChanged(Editable s) {
                 Prefers.putMail(s.toString());
+            }
+        });
+    }
+
+    private static void setDismiss(final ChannelActivity context, AlertDialog dialog) {
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (App.isLtv()) context.getChannels();
             }
         });
     }
