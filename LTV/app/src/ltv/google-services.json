@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "334783114489",
-    "firebase_url": "https://l2tvfirebaseproject.firebaseio.com",
-    "project_id": "l2tvfirebaseproject",
-    "storage_bucket": "l2tvfirebaseproject.appspot.com"
+    "project_number": "605129588220",
+    "firebase_url": "https://ltvfirebaseproject-d395b.firebaseio.com",
+    "project_id": "ltvfirebaseproject-d395b",
+    "storage_bucket": "ltvfirebaseproject-d395b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:334783114489:android:c6e1b05ee173d015",
+        "mobilesdk_app_id": "1:605129588220:android:c6e1b05ee173d015",
         "android_client_info": {
           "package_name": "com.fongmi.android.ltv"
         }
       },
       "oauth_client": [
         {
-          "client_id": "334783114489-7ur4jape0cac0qgi0jmhskfm4121up0t.apps.googleusercontent.com",
+          "client_id": "605129588220-f2ni99136dp9ct366d3g9ktclp8q4qhe.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfz6UyiS6jy-mya-Uz-fIxVwH4SCfuKDA"
+          "current_key": "AIzaSyCnd-O1RZWBrc-cV-w53wZXjgfP7fTyniM"
         }
       ],
       "services": {

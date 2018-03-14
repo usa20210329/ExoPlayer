@@ -18,6 +18,11 @@ android {
         }
         ltv {
             applicationId "com.fongmi.android.ltv"
+            versionCode 9
+            versionName "1.0.9"
+        }
+        l2tv {
+            applicationId "com.fongmi.android.l2tv"
             versionCode 1
             versionName "1.0.1"
         }
@@ -41,6 +46,7 @@ android {
 
 dependencies {
     ltvImplementation project(":ltv")
+    l2tvImplementation project(":ltv")
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"

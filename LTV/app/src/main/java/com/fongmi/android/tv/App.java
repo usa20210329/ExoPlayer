@@ -15,6 +15,6 @@ public class App extends Application {
     }
 
     public static boolean isLtv() {
-        return BuildConfig.FLAVOR.equals("ltv");
+        return BuildConfig.FLAVOR.equals("l2tv");
     }
 }
