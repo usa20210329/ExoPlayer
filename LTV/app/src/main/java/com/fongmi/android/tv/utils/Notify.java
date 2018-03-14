@@ -3,7 +3,6 @@ package com.fongmi.android.tv.utils;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.SeekBarListener;
+import com.fongmi.android.tv.impl.TextWatcher;
 import com.fongmi.android.tv.ui.ChannelActivity;
 
 public class Notify {
@@ -59,7 +59,7 @@ public class Notify {
         CheckBox play = dialog.findViewById(R.id.play);
         EditText mail = dialog.findViewById(R.id.mail);
         control.setVisibility(visibility);
-        ltv.setVisibility(App.isLtv() ? View.VISIBLE : View.GONE);
+        ltv.setVisibility(getVisibility());
         size.setProgress(Prefers.getSize());
         delay.setProgress(Prefers.getDelay());
         keep.setChecked(Prefers.isKeep());
@@ -84,27 +84,24 @@ public class Notify {
         });
         mail.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
             public void afterTextChanged(Editable s) {
                 Prefers.putMail(s.toString());
             }
         });
     }
 
+    private static int getVisibility() {
+        return App.isLtv() ? View.VISIBLE : View.GONE;
+    }
+
     private static void setDismiss(final ChannelActivity context, AlertDialog dialog) {
+        final String mail = Prefers.getMail();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (App.isLtv()) context.getChannels();
+                if (App.isLtv() && !mail.equals(Prefers.getMail())) {
+                    context.getChannels();
+                }
             }
         });
     }
