@@ -14,7 +14,7 @@ public class App extends Application {
         return instance;
     }
 
-    public static boolean isTwo() {
-        return BuildConfig.FLAVOR.equals("l2tv");
+    public static boolean isLtv() {
+        return BuildConfig.FLAVOR.equals("ltv");
     }
 }

@@ -91,7 +91,7 @@ public class Notify {
     }
 
     private static int getVisibility() {
-        return App.isTwo() ? View.VISIBLE : View.GONE;
+        return App.isLtv() ? View.VISIBLE : View.GONE;
     }
 
     private static void setDismiss(final ChannelActivity context, AlertDialog dialog) {
@@ -99,7 +99,7 @@ public class Notify {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (App.isTwo() && !mail.equals(Prefers.getMail())) {
+                if (App.isLtv() && !mail.equals(Prefers.getMail())) {
                     context.getChannels();
                 }
             }

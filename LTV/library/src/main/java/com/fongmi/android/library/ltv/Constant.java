@@ -14,6 +14,7 @@ public class Constant {
     static final String REGISTER_MAC = "REGISTER_MAC";
     static final String USER_MAC = "02:00:00:00:00:00";
     static final String USER_ID = "34550490704212";
+    static final String KEY = "1Qaw3esZx";
 
     //ACTION
     public static final String LTV_GEO = "LTV_GEO";

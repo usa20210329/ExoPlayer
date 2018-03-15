@@ -5,6 +5,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
+        applicationId "com.fongmi.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         flavorDimensions "targetSdkVersion"
@@ -12,19 +13,19 @@ android {
 
     productFlavors {
         htv {
-            applicationId "com.fongmi.android.htv"
             versionCode 9
             versionName "1.0.9"
+            applicationIdSuffix ".htv"
         }
         ltv {
-            applicationId "com.fongmi.android.ltv"
-            versionCode 9
-            versionName "1.0.9"
+            versionCode 3
+            versionName "1.0.3"
+            applicationIdSuffix ".ltv"
         }
-        l2tv {
-            applicationId "com.fongmi.android.l2tv"
-            versionCode 2
-            versionName "1.0.2"
+        wtv {
+            versionCode 3
+            versionName "1.0.3"
+            applicationIdSuffix ".wtv"
         }
     }
 
@@ -46,7 +47,7 @@ android {
 
 dependencies {
     ltvImplementation project(':library')
-    l2tvImplementation project(':library')
+    wtvImplementation project(':library')
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"

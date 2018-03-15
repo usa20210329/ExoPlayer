@@ -50,8 +50,7 @@ public class Ltv {
 
     private String getRealUrl(String url) {
         int index = url.indexOf("ex=") + 3;
-        String ex = url.substring(index);
-        String key = "1Qaw3esZx" + mIp + ex;
+        String key = KEY + url.substring(index);
         key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
         key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "");
         return url.concat("&st=").concat(key);
