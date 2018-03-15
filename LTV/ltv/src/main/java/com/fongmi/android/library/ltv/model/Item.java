@@ -24,9 +24,9 @@ public class Item {
 
     public static String getChannels(String result) {
         try {
-            XmlToJson xmlToJson = new XmlToJson.Builder(result).build();
-            String jsonString = xmlToJson.toString().replace("\\/", "/");
-            return new Gson().toJson(Item.objectFrom(jsonString).getChannels());
+            XmlToJson xml = new XmlToJson.Builder(result).build();
+            String json = xml.toString().replace("\\/", "/");
+            return new Gson().toJson(objectFrom(json).getChannels());
         } catch (Exception e) {
             return "";
         }

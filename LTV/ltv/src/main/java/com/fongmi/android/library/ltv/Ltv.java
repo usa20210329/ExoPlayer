@@ -9,6 +9,8 @@ import com.fongmi.android.library.ltv.utils.Utils;
 
 import org.ksoap2.serialization.SoapObject;
 
+import static com.fongmi.android.library.ltv.Constant.*;
+
 public class Ltv {
 
     private String mIp;
@@ -23,15 +25,15 @@ public class Ltv {
     }
 
     private Ltv() {
-        this.mId = Constant.USER_ID;
+        this.mId = USER_ID;
     }
 
     public String getNotice() {
-        return Utils.getResult(getSoap(Constant.LTV_NOTICE));
+        return Utils.getResult(getSoap(LTV_NOTICE));
     }
 
     public String getChannel() {
-        return Item.getChannels(Utils.getResult(getSoap(Constant.LTV_CHANNEL)));
+        return Item.getChannels(Utils.getResult(getSoap(LTV_CHANNEL)));
     }
 
     public String getUrl(int number) {
@@ -39,12 +41,11 @@ public class Ltv {
     }
 
     public String getGeo() {
-        mIp = Geo.get(Utils.getResult());
-        return null;
+        return mIp = Geo.get(Utils.getResult());
     }
 
     public void setId(String id) {
-        this.mId = TextUtils.isEmpty(id) ? Constant.USER_ID : id;
+        this.mId = TextUtils.isEmpty(id) ? USER_ID : id;
     }
 
     private String getRealUrl(String url) {
@@ -57,14 +58,14 @@ public class Ltv {
     }
 
     private SoapObject getSoap(String name) {
-        SoapObject soap = new SoapObject(Constant.TEMP_URI, name);
-        soap.addProperty(Constant.REGISTER_MAC, Constant.USER_MAC);
-        soap.addProperty(Constant.REGISTER_ID, mId);
-        soap.addProperty(Constant.REGISTER_IP, mIp);
+        SoapObject soap = new SoapObject(TEMP_URI, name);
+        soap.addProperty(REGISTER_MAC, USER_MAC);
+        soap.addProperty(REGISTER_ID, mId);
+        soap.addProperty(REGISTER_IP, mIp);
         return soap;
     }
 
     private SoapObject getSoap(int number) {
-        return getSoap(Constant.LTV_CHANNEL_URL).addProperty(Constant.CHANNEL_NO, number);
+        return getSoap(LTV_CHANNEL_URL).addProperty(CHANNEL_NO, number);
     }
 }
