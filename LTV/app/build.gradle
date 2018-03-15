@@ -45,8 +45,8 @@ android {
 }
 
 dependencies {
-    ltvImplementation project(":ltv")
-    l2tvImplementation project(":ltv")
+    ltvImplementation project(':library')
+    l2tvImplementation project(':library')
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
