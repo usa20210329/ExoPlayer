@@ -32,25 +32,25 @@ class WebService extends AsyncTask<Void, Integer, String> {
     @Override
     protected String doInBackground(Void... params) {
         switch (action) {
-            case LTV_GEO:
-                return Ltv.getInstance().getGeo();
             case LTV_NOTICE:
                 return Ltv.getInstance().getNotice();
             case LTV_SAMPLE:
                 return Ltv.getInstance().getSample();
-            default:
+            case LTV_CHANNEL_URL:
                 return Ltv.getInstance().getUrl(m3u8);
+            default:
+                return Ltv.getInstance().getGeo();
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
         switch (action) {
-            case LTV_GEO:
-                callback.onResponse(true);
-                break;
             case LTV_NOTICE:
                 Notify.alert(result);
+                break;
+            case LTV_SAMPLE:
+                callback.onResponse(true);
                 break;
             case LTV_CHANNEL_URL:
                 callback.onResponse(result);

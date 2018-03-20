@@ -12,8 +12,8 @@ public class ApiService extends BaseApiService {
     @Override
     public void onInit(AsyncCallback callback) {
         new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
-        new WebService(LTV_SAMPLE).executeOnExecutor(mExecutor);
-        new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_GEO).executeOnExecutor(mExecutor);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ApiService extends BaseApiService {
 
     @Override
     public void onRetry(AsyncCallback callback) {
-        new WebService(LTV_SAMPLE).executeOnExecutor(mExecutor);
-        new WebService(LTV_GEO, callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
+        new WebService(LTV_GEO).executeOnExecutor(mExecutor);
     }
 }
