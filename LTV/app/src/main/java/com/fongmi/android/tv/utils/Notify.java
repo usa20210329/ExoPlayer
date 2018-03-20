@@ -58,6 +58,7 @@ public class Notify {
         CheckBox back = dialog.findViewById(R.id.back);
         CheckBox play = dialog.findViewById(R.id.play);
         EditText mail = dialog.findViewById(R.id.mail);
+        EditText pwd = dialog.findViewById(R.id.pwd);
         control.setVisibility(visibility);
         ltv.setVisibility(getVisibility());
         size.setProgress(Prefers.getSize());
@@ -66,10 +67,13 @@ public class Notify {
         back.setChecked(Prefers.isBackWait());
         play.setChecked(Prefers.isPlayWait());
         mail.setText(Prefers.getMail());
+        pwd.setText(Prefers.getPwd());
         setDismiss(context, dialog);
         setListener(keep, Prefers.KEEP);
         setListener(back, Prefers.BACK_WAIT);
         setListener(play, Prefers.PLAY_WAIT);
+        setListener(mail, Prefers.MAIL);
+        setListener(pwd, Prefers.PWD);
         size.setOnSeekBarChangeListener(new SeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -82,12 +86,6 @@ public class Notify {
                 Prefers.putDelay(progress);
             }
         });
-        mail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                Prefers.putMail(s.toString());
-            }
-        });
     }
 
     private static int getVisibility() {
@@ -95,13 +93,10 @@ public class Notify {
     }
 
     private static void setDismiss(final ChannelActivity context, AlertDialog dialog) {
-        final String mail = Prefers.getMail();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (App.isLtv() && !mail.equals(Prefers.getMail())) {
-                    context.getChannels();
-                }
+                if (App.isLtv()) context.onRetry();
             }
         });
     }
@@ -111,6 +106,15 @@ public class Notify {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Prefers.putBoolean(key, isChecked);
+            }
+        });
+    }
+
+    private static void setListener(EditText editText, final String key) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                Prefers.putString(key, s.toString());
             }
         });
     }

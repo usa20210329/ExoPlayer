@@ -17,6 +17,7 @@
     <string name="setting.control.delay">數字鍵延遲</string>
     <string name="setting.control.play">確認鍵播放</string>
     <string name="setting.ltv">L2TV設定</string>
-    <string name="setting.ltv.hint">會員帳號</string>
+    <string name="setting.ltv.hint.mail">會員帳號</string>
+    <string name="setting.ltv.hint.pwd">會員密碼</string>
 
 </resources>

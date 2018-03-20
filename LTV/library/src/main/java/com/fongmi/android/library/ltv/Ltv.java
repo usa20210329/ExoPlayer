@@ -1,7 +1,6 @@
 package com.fongmi.android.library.ltv;
 
 import android.text.TextUtils;
-import android.util.Base64;
 
 import com.fongmi.android.library.ltv.model.Geo;
 import com.fongmi.android.library.ltv.model.Item;
@@ -15,6 +14,7 @@ public class Ltv {
 
     private String mIp;
     private String mId;
+    private String mToken;
 
     private static class Loader {
         static volatile Ltv INSTANCE = new Ltv();
@@ -32,12 +32,20 @@ public class Ltv {
         return Utils.getResult(getSoap(LTV_NOTICE));
     }
 
+    public String onLogin(String... params) {
+        try {
+            return mToken = Utils.getResult(getSoap(params[0], params[1])).split("\n")[2];
+        } catch (Exception e) {
+            return mToken = null;
+        }
+    }
+
     public String getChannel() {
         return Item.getChannels(Utils.getResult(getSoap(LTV_CHANNEL)));
     }
 
     public String getUrl(int number) {
-        return getRealUrl(Utils.getResult(getSoap(number)));
+        return Utils.getResult(getSoap(number));
     }
 
     public String getGeo() {
@@ -48,14 +56,6 @@ public class Ltv {
         this.mId = TextUtils.isEmpty(id) ? USER_ID : id;
     }
 
-    private String getRealUrl(String url) {
-        int index = url.indexOf("ex=") + 3;
-        String key = KEY + url.substring(index);
-        key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
-        key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "");
-        return url.concat("&st=").concat(key);
-    }
-
     private SoapObject getSoap(String name) {
         SoapObject soap = new SoapObject(TEMP_URI, name);
         soap.addProperty(REGISTER_MAC, USER_MAC);
@@ -64,7 +64,17 @@ public class Ltv {
         return soap;
     }
 
+    private SoapObject getSoap(String mail, String pwd) {
+        SoapObject soap = new SoapObject(TEMP_URI, LOGON);
+        soap.addProperty(REGISTER_EMAIL, mail);
+        soap.addProperty(REGISTER_PASSWORD, pwd);
+        return soap;
+    }
+
     private SoapObject getSoap(int number) {
-        return getSoap(LTV_CHANNEL_URL).addProperty(CHANNEL_NO, number);
+        SoapObject soap = getSoap(LTV_CHANNEL_URL);
+        soap.addProperty(LOGON_TOKEN, mToken);
+        soap.addProperty(CHANNEL_NO, number);
+        return soap;
     }
 }

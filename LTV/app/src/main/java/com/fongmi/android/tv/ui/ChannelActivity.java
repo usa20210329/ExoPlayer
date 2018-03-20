@@ -124,7 +124,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
         });
     }
 
-    public void getChannels() {
+    private void getChannels() {
         ApiService.getInstance().getChannels(new AsyncCallback() {
             @Override
             public void onResponse(List<Channel> items) {
@@ -150,10 +150,16 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
                 channel.setRealUrl(url);
                 playVideo(channel);
             }
+
+            @Override
+            public void onError(String result) {
+                hideProgress();
+                Notify.alert(result);
+            }
         };
     }
 
-    private void onRetry() {
+    public void onRetry() {
         mAdapter.resetUrl();
         ApiService.getInstance().onRetry(new AsyncCallback() {
             @Override
