@@ -18,14 +18,9 @@ android {
             applicationIdSuffix ".htv"
         }
         ltv {
-            versionCode 3
-            versionName "1.0.3"
+            versionCode 4
+            versionName "1.0.4"
             applicationIdSuffix ".ltv"
-        }
-        wtv {
-            versionCode 3
-            versionName "1.0.3"
-            applicationIdSuffix ".wtv"
         }
     }
 
@@ -47,7 +42,6 @@ android {
 
 dependencies {
     ltvImplementation project(':library')
-    wtvImplementation project(':library')
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"

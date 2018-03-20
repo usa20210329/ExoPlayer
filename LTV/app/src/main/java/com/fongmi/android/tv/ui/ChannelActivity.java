@@ -155,6 +155,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
             public void onError(String result) {
                 hideProgress();
                 Notify.alert(result);
+                mVideoView.stopPlayback();
             }
         };
     }
