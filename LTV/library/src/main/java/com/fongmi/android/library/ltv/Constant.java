@@ -18,7 +18,6 @@ public class Constant {
     static final String REGISTER_PASSWORD = "REGISTER_PASSWORD";
     static final String USER_MAC = "02:00:00:00:00:00";
     static final String USER_ID = "34550490704212";
-    static final String KEY = "1Qaw3esZx";
 
     //ACTION
     public static final String LTV_GEO = "LTV_GEO";
@@ -26,5 +25,6 @@ public class Constant {
     public static final String LTV_NOTICE = "LTV_NOTICE";
     public static final String LTV_CHANNEL = "LTV_CHANNEL";
     public static final String LTV_CHANNEL_URL = "LTV_CHANNEL_URL";
+    public static final String LTV_SAMPLE = "LTV_SAMPLE";
 
 }

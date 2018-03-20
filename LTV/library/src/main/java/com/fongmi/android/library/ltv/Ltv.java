@@ -1,7 +1,5 @@
 package com.fongmi.android.library.ltv;
 
-import android.text.TextUtils;
-
 import com.fongmi.android.library.ltv.model.Geo;
 import com.fongmi.android.library.ltv.model.Item;
 import com.fongmi.android.library.ltv.utils.Utils;
@@ -13,8 +11,8 @@ import static com.fongmi.android.library.ltv.Constant.*;
 public class Ltv {
 
     private String mIp;
-    private String mId;
     private String mToken;
+    private String mSample;
 
     private static class Loader {
         static volatile Ltv INSTANCE = new Ltv();
@@ -22,10 +20,6 @@ public class Ltv {
 
     public static Ltv getInstance() {
         return Loader.INSTANCE;
-    }
-
-    private Ltv() {
-        this.mId = USER_ID;
     }
 
     public String getNotice() {
@@ -48,18 +42,25 @@ public class Ltv {
         return Utils.getResult(getSoap(number));
     }
 
+    public String getUrl(String m3u8) {
+        return mSample.replace("m3u8", m3u8);
+    }
+
     public String getGeo() {
         return mIp = Geo.get(Utils.getResult());
     }
 
-    public void setId(String id) {
-        this.mId = TextUtils.isEmpty(id) ? USER_ID : id;
+    public String getSample() {
+        String result = Utils.getResult(getSoap(1));
+        String domain = result.substring(0, result.lastIndexOf("/") + 1);
+        String param = result.substring(result.lastIndexOf("?"), result.length());
+        return mSample = domain + "m3u8" + param;
     }
 
     private SoapObject getSoap(String name) {
         SoapObject soap = new SoapObject(TEMP_URI, name);
         soap.addProperty(REGISTER_MAC, USER_MAC);
-        soap.addProperty(REGISTER_ID, mId);
+        soap.addProperty(REGISTER_ID, USER_ID);
         soap.addProperty(REGISTER_IP, mIp);
         return soap;
     }

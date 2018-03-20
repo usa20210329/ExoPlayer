@@ -22,6 +22,11 @@ android {
             versionName "1.0.5"
             applicationIdSuffix ".ltv"
         }
+        wtv {
+            versionCode 5
+            versionName "1.0.5"
+            applicationIdSuffix ".wtv"
+        }
     }
 
     buildTypes {
@@ -42,6 +47,7 @@ android {
 
 dependencies {
     ltvImplementation project(':library')
+    wtvImplementation project(':library')
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
