@@ -26,9 +26,6 @@ public class Item {
         try {
             XmlToJson xml = new XmlToJson.Builder(result).build();
             String json = xml.toString().replace("\\/", "/");
-            json = json.replace(" [會員] ", "");
-            json = json.replace(" [訪客] ", "");
-            json = json.replace(" [皇冠] ", "");
             return new Gson().toJson(objectFrom(json).getChannels());
         } catch (Exception e) {
             return "";
