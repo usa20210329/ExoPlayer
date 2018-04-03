@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Channel {
 
-    @SerializedName(value = "number", alternate = {"CH_NO", "channel"})
+    @SerializedName(value = "number", alternate = {"CH_NO"})
     private int number;
     @SerializedName(value = "name", alternate = {"CH_NAME"})
     private String name;
