@@ -48,6 +48,7 @@ android {
 dependencies {
     ltvImplementation project(':library')
     wtvImplementation project(':library')
+    implementation "com.android.support:support-v4:$supportLibVersion"
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
