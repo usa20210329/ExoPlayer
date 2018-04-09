@@ -12,7 +12,7 @@ class WebService extends AsyncTask<Void, Integer, String> {
 
     private AsyncCallback callback;
     private String action;
-    private String m3u8;
+    private String url;
 
     WebService(String action) {
         this.action = action;
@@ -23,9 +23,9 @@ class WebService extends AsyncTask<Void, Integer, String> {
         this.callback = callback;
     }
 
-    WebService(String action, String m3u8, AsyncCallback callback) {
+    WebService(String action, String url, AsyncCallback callback) {
+        this.url = url;
         this.action = action;
-        this.m3u8 = m3u8;
         this.callback = callback;
     }
 
@@ -37,7 +37,7 @@ class WebService extends AsyncTask<Void, Integer, String> {
             case LTV_SAMPLE:
                 return Ltv.getInstance().getSample();
             case LTV_CHANNEL_URL:
-                return Ltv.getInstance().getUrl(m3u8);
+                return Ltv.getInstance().getUrl(url);
             default:
                 return Ltv.getInstance().getGeo();
         }

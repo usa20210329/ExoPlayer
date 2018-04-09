@@ -42,8 +42,8 @@ public class Ltv {
         return Utils.getResult(getSoap(number));
     }
 
-    public String getUrl(String m3u8) {
-        return mSample.replace("m3u8", m3u8);
+    public String getUrl(String url) {
+        return url.startsWith("http") ? url : mSample.replace("m3u8", url);
     }
 
     public String getGeo() {
