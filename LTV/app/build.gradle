@@ -12,19 +12,14 @@ android {
     }
 
     productFlavors {
-        htv {
-            versionCode 10
-            versionName "1.1.0"
-            applicationIdSuffix ".htv"
-        }
         ltv {
             versionCode 8
             versionName "1.0.8"
             applicationIdSuffix ".ltv"
         }
         wtv {
-            versionCode 7
-            versionName "1.0.7"
+            versionCode 8
+            versionName "1.0.8"
             applicationIdSuffix ".wtv"
         }
     }
@@ -52,10 +47,10 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
-    implementation "com.google.firebase:firebase-database:$firebaseVersion"
-    implementation "com.google.firebase:firebase-storage:$firebaseVersion"
+    implementation "com.google.firebase:firebase-database:15.0.1"
+    implementation "com.google.firebase:firebase-storage:15.0.2"
     implementation "com.google.code.gson:gson:2.8.2"
-    implementation "com.devbrackets.android:exomedia:4.1.0"
+    implementation "com.devbrackets.android:exomedia:4.2.0"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }
