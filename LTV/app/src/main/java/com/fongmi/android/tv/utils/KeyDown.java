@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
 
@@ -18,11 +17,15 @@ public class KeyDown {
     public KeyDown(KeyDownImpl keyDown, TextView number) {
         this.mKeyDown = keyDown;
         this.mNumber = number;
+        this.init();
+    }
+
+    private void init() {
+        if (mHandler == null) mHandler = new Handler();
+        if (mText == null) mText = new StringBuilder();
     }
 
     public boolean onKeyDown(int keyCode) {
-        if (mHandler == null) mHandler = new Handler();
-        if (mText == null) mText = new StringBuilder();
         mText.append(getNumber(keyCode));
         mNumber.setText(mText.toString());
         mNumber.setVisibility(View.VISIBLE);
@@ -46,6 +49,13 @@ public class KeyDown {
             mKeyDown.onKeyBack();
         }
         return true;
+    }
+
+    public void setNumber(String number) {
+        mNumber.setText(number);
+        mNumber.setVisibility(View.VISIBLE);
+        mHandler.removeCallbacks(mRunnable);
+        mHandler.postDelayed(mRunnable, getDelay());
     }
 
     private int getDelay() {

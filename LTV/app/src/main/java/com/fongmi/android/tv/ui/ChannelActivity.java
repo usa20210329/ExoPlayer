@@ -16,7 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTouch;
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
@@ -31,11 +34,6 @@ import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTouch;
 
 public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
@@ -332,6 +330,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
     public void onKeyVertical(boolean isTop) {
         mHandler.removeCallbacks(mRunnable);
         mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(playWait()) : mAdapter.onMoveDown(playWait()));
+        mKeyDown.setNumber(mAdapter.getNumber());
     }
 
     @Override

@@ -1,23 +1,23 @@
 package com.fongmi.android.tv.ui;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.utils.Notify;
+import com.fongmi.android.tv.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
@@ -137,6 +137,10 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
         return mPosition;
     }
 
+    String getNumber() {
+        return Utils.getString(R.string.channel_number, mItems.get(mPosition).getNumber());
+    }
+
     void onCenter() {
         if (mWaiting) setChannel(0);
         mWaiting = false;
@@ -169,14 +173,15 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
         return mItems.size();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_main, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Channel item = mItems.get(position);
         holder.info.setText(item.getInfo());
         holder.info.setSelected(item.isSelect());

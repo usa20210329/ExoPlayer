@@ -6,6 +6,7 @@
     <string name="channel.error">發生錯誤&#8230;</string>
     <string name="channel.update">正在下載新版本&#8230;</string>
     <string name="channel.hint.back">再按一次即可退出</string>
+    <string name="channel.number"><xliff:g name="name">%02d</xliff:g></string>
     <string name="channel.info"><xliff:g name="name">%02d</xliff:g>　<xliff:g name="name">%s</xliff:g></string>
 
     <!-- Setting -->
