@@ -1,6 +1,7 @@
 package com.fongmi.android.library.ltv;
 
 import android.util.Base64;
+import android.util.Patterns;
 import com.fongmi.android.library.ltv.model.Geo;
 import com.fongmi.android.library.ltv.model.Item;
 import com.fongmi.android.library.ltv.utils.Utils;
@@ -39,7 +40,8 @@ public class Ltv {
     }
 
     public String getUrl(int number) {
-        return getRealUrl(Utils.getResult(getSoap(number)));
+        String result = Utils.getResult(getSoap(number));
+        return Patterns.WEB_URL.matcher(result).matches() ? getRealUrl(result) : result;
     }
 
     public String getUrl(String url) {
