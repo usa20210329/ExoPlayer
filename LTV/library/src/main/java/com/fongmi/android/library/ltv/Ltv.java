@@ -1,9 +1,9 @@
 package com.fongmi.android.library.ltv;
 
+import android.util.Base64;
 import com.fongmi.android.library.ltv.model.Geo;
 import com.fongmi.android.library.ltv.model.Item;
 import com.fongmi.android.library.ltv.utils.Utils;
-
 import org.ksoap2.serialization.SoapObject;
 
 import static com.fongmi.android.library.ltv.Constant.*;
@@ -39,11 +39,11 @@ public class Ltv {
     }
 
     public String getUrl(int number) {
-        return Utils.getResult(getSoap(number));
+        return getRealUrl(Utils.getResult(getSoap(number)));
     }
 
     public String getUrl(String url) {
-        return url.startsWith("http") ? url : mSample.replace("m3u8", url);
+        return url.startsWith("http") ? url : getRealUrl(mSample.replace("m3u8", url));
     }
 
     public String getGeo() {
@@ -77,5 +77,13 @@ public class Ltv {
         soap.addProperty(LOGON_TOKEN, mToken);
         soap.addProperty(CHANNEL_NO, number);
         return soap;
+    }
+
+    private String getRealUrl(String url) {
+        int index = url.indexOf("ex=") + 3;
+        String key = KEY + url.substring(index);
+        key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
+        key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "").replaceAll("\r", "");
+        return url.concat("&st=").concat(key);
     }
 }
