@@ -8,18 +8,18 @@ import java.util.concurrent.Executors;
 
 public abstract class BaseApiService implements ApiServiceImpl {
 
-    protected ExecutorService mExecutor = Executors.newCachedThreadPool();
+	protected ExecutorService mExecutor = Executors.newCachedThreadPool();
 
-    private static class Loader {
-        static volatile ApiService INSTANCE = new ApiService();
-    }
+	private static class Loader {
+		static volatile ApiService INSTANCE = new ApiService();
+	}
 
-    public static ApiService getInstance() {
-        return Loader.INSTANCE;
-    }
+	public static ApiService getInstance() {
+		return Loader.INSTANCE;
+	}
 
-    @Override
-    public void onInit(AsyncCallback callback) {
-        callback.onResponse(true);
-    }
+	@Override
+	public void onInit(AsyncCallback callback) {
+		callback.onResponse(true);
+	}
 }

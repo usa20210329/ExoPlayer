@@ -16,47 +16,47 @@ import java.security.MessageDigest;
 
 public class Utils {
 
-    public static MessageDigest getMd5() {
-        try {
-            return MessageDigest.getInstance("MD5");
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public static MessageDigest getMd5() {
+		try {
+			return MessageDigest.getInstance("MD5");
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-    public static String getResult(SoapObject soap) {
-        try {
-            SoapSerializationEnvelope soapserializationenvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            soapserializationenvelope.bodyOut = soap;
-            soapserializationenvelope.dotNet = true;
-            soapserializationenvelope.setOutputSoapObject(soap);
-            HttpTransportSE trans = new HttpTransportSE(Constant.URL, 30000);
-            String action = soap.getNamespace() + soap.getName();
-            trans.call(action, soapserializationenvelope);
-            return soapserializationenvelope.getResponse().toString();
-        } catch (Exception e) {
-            return "";
-        }
-    }
+	public static String getResult(SoapObject soap) {
+		try {
+			SoapSerializationEnvelope soapserializationenvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			soapserializationenvelope.bodyOut = soap;
+			soapserializationenvelope.dotNet = true;
+			soapserializationenvelope.setOutputSoapObject(soap);
+			HttpTransportSE trans = new HttpTransportSE(Constant.URL, 30000);
+			String action = soap.getNamespace() + soap.getName();
+			trans.call(action, soapserializationenvelope);
+			return soapserializationenvelope.getResponse().toString();
+		} catch (Exception e) {
+			return "";
+		}
+	}
 
-    public static String getResult() {
-        try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(Constant.GEO).openConnection();
-            conn.setReadTimeout(30000);
-            conn.setConnectTimeout(30000);
-            StringBuilder sb = new StringBuilder();
-            int count;
-            char[] buf = new char[1024];
-            InputStream is = conn.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-            while ((count = isr.read(buf)) != -1) {
-                sb.append(new String(buf, 0, count));
-            }
-            is.close();
-            isr.close();
-            return sb.toString();
-        } catch (IOException e) {
-            return "";
-        }
-    }
+	public static String getResult() {
+		try {
+			HttpURLConnection conn = (HttpURLConnection) new URL(Constant.GEO).openConnection();
+			conn.setReadTimeout(30000);
+			conn.setConnectTimeout(30000);
+			StringBuilder sb = new StringBuilder();
+			int count;
+			char[] buf = new char[1024];
+			InputStream is = conn.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			while ((count = isr.read(buf)) != -1) {
+				sb.append(new String(buf, 0, count));
+			}
+			is.close();
+			isr.close();
+			return sb.toString();
+		} catch (IOException e) {
+			return "";
+		}
+	}
 }

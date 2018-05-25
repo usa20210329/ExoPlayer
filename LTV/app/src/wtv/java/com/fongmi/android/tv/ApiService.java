@@ -9,26 +9,26 @@ import static com.fongmi.android.library.ltv.Constant.*;
 
 public class ApiService extends BaseApiService {
 
-    @Override
-    public void onInit(AsyncCallback callback) {
-        new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
-        new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
-        new WebService(LTV_GEO).executeOnExecutor(mExecutor);
-    }
+	@Override
+	public void onInit(AsyncCallback callback) {
+		new WebService(LTV_NOTICE).executeOnExecutor(mExecutor);
+		new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
+		new WebService(LTV_GEO).executeOnExecutor(mExecutor);
+	}
 
-    @Override
-    public void getChannels(AsyncCallback callback) {
-        Utils.getChannels(callback);
-    }
+	@Override
+	public void getChannels(AsyncCallback callback) {
+		Utils.getChannels(callback);
+	}
 
-    @Override
-    public void getChannelUrl(Channel channel, AsyncCallback callback) {
-        new WebService(LTV_CHANNEL_URL, channel.getUrl(), callback).executeOnExecutor(mExecutor);
-    }
+	@Override
+	public void getChannelUrl(Channel channel, AsyncCallback callback) {
+		new WebService(LTV_CHANNEL_URL, channel.getUrl(), callback).executeOnExecutor(mExecutor);
+	}
 
-    @Override
-    public void onRetry(AsyncCallback callback) {
-        new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
-        new WebService(LTV_GEO).executeOnExecutor(mExecutor);
-    }
+	@Override
+	public void onRetry(AsyncCallback callback) {
+		new WebService(LTV_SAMPLE, callback).executeOnExecutor(mExecutor);
+		new WebService(LTV_GEO).executeOnExecutor(mExecutor);
+	}
 }

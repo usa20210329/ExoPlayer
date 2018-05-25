@@ -9,26 +9,26 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 public class Item {
 
-    @SerializedName("root")
-    private Item root;
-    @SerializedName("CH_LIST")
-    private List channels;
+	@SerializedName("root")
+	private Item root;
+	@SerializedName("CH_LIST")
+	private List channels;
 
-    private static Item objectFrom(String str) {
-        return new Gson().fromJson(str, Item.class);
-    }
+	private static Item objectFrom(String str) {
+		return new Gson().fromJson(str, Item.class);
+	}
 
-    private List getChannels() {
-        return root.channels;
-    }
+	private List getChannels() {
+		return root.channels;
+	}
 
-    public static String getChannels(String result) {
-        try {
-            XmlToJson xml = new XmlToJson.Builder(result).build();
-            String json = xml.toString().replace("\\/", "/");
-            return new Gson().toJson(objectFrom(json).getChannels());
-        } catch (Exception e) {
-            return "";
-        }
-    }
+	public static String getChannels(String result) {
+		try {
+			XmlToJson xml = new XmlToJson.Builder(result).build();
+			String json = xml.toString().replace("\\/", "/");
+			return new Gson().toJson(objectFrom(json).getChannels());
+		} catch (Exception e) {
+			return "";
+		}
+	}
 }
