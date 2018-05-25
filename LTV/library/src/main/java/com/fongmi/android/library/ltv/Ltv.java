@@ -2,10 +2,6 @@ package com.fongmi.android.library.ltv;
 
 import android.util.Base64;
 
-import com.fongmi.android.library.ltv.model.Geo;
-import com.fongmi.android.library.ltv.model.Item;
-import com.fongmi.android.library.ltv.utils.Utils;
-
 import org.ksoap2.serialization.SoapObject;
 
 import static com.fongmi.android.library.ltv.Constant.*;
@@ -25,10 +21,6 @@ public class Ltv {
 
 	public String getNotice() {
 		return Utils.getResult(getSoap(LTV_NOTICE));
-	}
-
-	public String getChannel() {
-		return Item.getChannels(Utils.getResult(getSoap(LTV_CHANNEL)));
 	}
 
 	public String getUrl(String url) {

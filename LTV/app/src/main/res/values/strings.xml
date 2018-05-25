@@ -13,12 +13,8 @@
     <string name="setting.common">一般設定</string>
     <string name="setting.common.size">字體大小</string>
     <string name="setting.common.back">防呆退出</string>
-    <string name="setting.common.keep">背景播放</string>
     <string name="setting.control">控制設定</string>
     <string name="setting.control.delay">數字鍵延遲</string>
     <string name="setting.control.play">確認鍵播放</string>
-    <string name="setting.ltv">L2TV設定</string>
-    <string name="setting.ltv.hint.mail">會員帳號</string>
-    <string name="setting.ltv.hint.pwd">會員密碼</string>
 
 </resources>

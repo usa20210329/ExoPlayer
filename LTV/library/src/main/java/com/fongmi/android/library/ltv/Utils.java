@@ -1,6 +1,4 @@
-package com.fongmi.android.library.ltv.utils;
-
-import com.fongmi.android.library.ltv.Constant;
+package com.fongmi.android.library.ltv;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -14,9 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 
-public class Utils {
+class Utils {
 
-	public static MessageDigest getMd5() {
+	static MessageDigest getMd5() {
 		try {
 			return MessageDigest.getInstance("MD5");
 		} catch (Exception e) {
@@ -24,7 +22,7 @@ public class Utils {
 		}
 	}
 
-	public static String getResult(SoapObject soap) {
+	static String getResult(SoapObject soap) {
 		try {
 			SoapSerializationEnvelope soapserializationenvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			soapserializationenvelope.bodyOut = soap;
@@ -39,7 +37,7 @@ public class Utils {
 		}
 	}
 
-	public static String getResult() {
+	static String getResult() {
 		try {
 			HttpURLConnection conn = (HttpURLConnection) new URL(Constant.GEO).openConnection();
 			conn.setReadTimeout(30000);

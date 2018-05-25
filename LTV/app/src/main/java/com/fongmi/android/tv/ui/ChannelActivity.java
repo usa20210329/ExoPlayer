@@ -367,14 +367,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onResume() {
 		super.onResume();
 		mAdapter.setVisible(true);
-		if (!Prefers.isKeep()) mAdapter.onResume();
+		mAdapter.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mAdapter.setVisible(false);
-		if (!Prefers.isKeep()) mVideoView.pause();
+		mVideoView.stopPlayback();
 	}
 
 	@Override

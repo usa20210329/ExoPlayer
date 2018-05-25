@@ -1,11 +1,11 @@
-package com.fongmi.android.library.ltv.model;
+package com.fongmi.android.library.ltv;
 
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-public class Geo {
+class Geo {
 
 	@SerializedName("ip")
 	private String ip;
@@ -18,7 +18,7 @@ public class Geo {
 		return TextUtils.isEmpty(ip) ? "" : ip;
 	}
 
-	public static String get(String result) {
+	static String get(String result) {
 		return objectFrom(result).getIp();
 	}
 }

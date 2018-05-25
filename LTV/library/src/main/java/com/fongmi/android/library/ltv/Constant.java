@@ -13,14 +13,13 @@ public class Constant {
 	static final String REGISTER_IP = "REGISTER_IP";
 	static final String REGISTER_MAC = "REGISTER_MAC";
 	static final String USER_MAC = "02:00:00:00:00:00";
-	static final String USER_ID = "34550490704212";
+	static final String USER_ID = "L2TV";
 	static final String KEY = "PiyDfix8765";
 
 	//ACTION
 	public static final String LTV_GEO = "LTV_GEO";
 	public static final String LTV_NOTICE = "LTV_NOTICE";
-	public static final String LTV_CHANNEL = "LTV_CHANNEL";
-	public static final String LTV_CHANNEL_URL = "LTV_CHANNEL_URL";
 	public static final String LTV_SAMPLE = "LTV_SAMPLE";
+	public static final String LTV_CHANNEL_URL = "LTV_CHANNEL_URL";
 
 }
