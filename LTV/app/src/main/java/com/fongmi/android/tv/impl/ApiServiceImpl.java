@@ -5,11 +5,11 @@ import com.fongmi.android.tv.network.AsyncCallback;
 
 public interface ApiServiceImpl {
 
-	void onInit(AsyncCallback callback);
+    void onInit(AsyncCallback callback);
 
-	void getChannels(AsyncCallback callback);
+    void getChannels(AsyncCallback callback);
 
-	void getChannelUrl(Channel channel, AsyncCallback callback);
+    void getChannelUrl(Channel channel, AsyncCallback callback);
 
-	void onRetry(AsyncCallback callback);
+    void onRetry(AsyncCallback callback);
 }

@@ -4,13 +4,13 @@ import com.fongmi.android.tv.model.Channel;
 
 public interface KeyDownImpl {
 
-	void onFind(Channel channel);
+    void onFind(Channel channel);
 
-	void onKeyVertical(boolean isTop);
+    void onKeyVertical(boolean isTop);
 
-	void onKeyHorizontal(boolean isLeft);
+    void onKeyHorizontal(boolean isLeft);
 
-	void onKeyCenter();
+    void onKeyCenter();
 
-	void onKeyBack();
+    void onKeyBack();
 }

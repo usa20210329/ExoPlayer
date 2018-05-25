@@ -9,6 +9,7 @@ import static com.fongmi.android.library.ltv.Constant.*;
 public class Ltv {
 
 	private String mIp;
+	private String mKey;
 	private String mSample;
 
 	private static class Loader {
@@ -17,6 +18,10 @@ public class Ltv {
 
 	public static Ltv getInstance() {
 		return Loader.INSTANCE;
+	}
+
+	public void setKey(String key) {
+		this.mKey = key;
 	}
 
 	public String getNotice() {
@@ -54,7 +59,7 @@ public class Ltv {
 
 	private String getRealUrl(String url) {
 		int index = url.indexOf("ex=") + 3;
-		String key = url.substring(index);
+		String key = mKey + url.substring(index);
 		key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
 		key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "").replaceAll("\r", "");
 		return url.concat("&st=").concat(key);
