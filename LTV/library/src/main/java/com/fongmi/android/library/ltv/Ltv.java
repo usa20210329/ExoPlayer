@@ -54,7 +54,7 @@ public class Ltv {
 
 	private String getRealUrl(String url) {
 		int index = url.indexOf("ex=") + 3;
-		String key = KEY + url.substring(index);
+		String key = url.substring(index);
 		key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
 		key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "").replaceAll("\r", "");
 		return url.concat("&st=").concat(key);
