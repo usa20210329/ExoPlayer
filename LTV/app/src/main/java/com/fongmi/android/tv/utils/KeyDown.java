@@ -10,70 +10,70 @@ import com.fongmi.android.tv.model.Channel;
 
 public class KeyDown {
 
-    private StringBuilder mText;
-    private KeyDownImpl mKeyDown;
-    private Handler mHandler;
-    private TextView mNumber;
+	private StringBuilder mText;
+	private KeyDownImpl mKeyDown;
+	private Handler mHandler;
+	private TextView mNumber;
 
-    public KeyDown(KeyDownImpl keyDown, TextView number) {
-        this.mKeyDown = keyDown;
-        this.mNumber = number;
-        this.init();
-    }
+	public KeyDown(KeyDownImpl keyDown, TextView number) {
+		this.mKeyDown = keyDown;
+		this.mNumber = number;
+		this.init();
+	}
 
-    private void init() {
-        if (mHandler == null) mHandler = new Handler();
-        if (mText == null) mText = new StringBuilder();
-    }
+	private void init() {
+		if (mHandler == null) mHandler = new Handler();
+		if (mText == null) mText = new StringBuilder();
+	}
 
-    public boolean onKeyDown(int keyCode) {
-        mText.append(getNumber(keyCode));
-        mNumber.setText(mText.toString());
-        mNumber.setVisibility(View.VISIBLE);
-        mHandler.removeCallbacks(mRunnable);
-        mHandler.postDelayed(mRunnable, getDelay());
-        return true;
-    }
+	public boolean onKeyDown(int keyCode) {
+		mText.append(getNumber(keyCode));
+		mNumber.setText(mText.toString());
+		mNumber.setVisibility(View.VISIBLE);
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, getDelay());
+		return true;
+	}
 
-    public boolean onKeyDown(KeyEvent event) {
-        if (Utils.isUpKey(event)) {
-            mKeyDown.onKeyVertical(true);
-        } else if (Utils.isDownKey(event)) {
-            mKeyDown.onKeyVertical(false);
-        } else if (Utils.isLeftKey(event)) {
-            mKeyDown.onKeyHorizontal(true);
-        } else if (Utils.isRightKey(event)) {
-            mKeyDown.onKeyHorizontal(false);
-        } else if (Utils.isEnterKey(event)) {
-            mKeyDown.onKeyCenter();
-        } else if (Utils.isBackKey(event)) {
-            mKeyDown.onKeyBack();
-        }
-        return true;
-    }
+	public boolean onKeyDown(KeyEvent event) {
+		if (Utils.isUpKey(event)) {
+			mKeyDown.onKeyVertical(true);
+		} else if (Utils.isDownKey(event)) {
+			mKeyDown.onKeyVertical(false);
+		} else if (Utils.isLeftKey(event)) {
+			mKeyDown.onKeyHorizontal(true);
+		} else if (Utils.isRightKey(event)) {
+			mKeyDown.onKeyHorizontal(false);
+		} else if (Utils.isEnterKey(event)) {
+			mKeyDown.onKeyCenter();
+		} else if (Utils.isBackKey(event)) {
+			mKeyDown.onKeyBack();
+		}
+		return true;
+	}
 
-    public void setNumber(String number) {
-        mNumber.setText(number);
-        mNumber.setVisibility(View.VISIBLE);
-        mHandler.removeCallbacks(mRunnable);
-        mHandler.postDelayed(mRunnable, getDelay());
-    }
+	public void setNumber(String number) {
+		mNumber.setText(number);
+		mNumber.setVisibility(View.VISIBLE);
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, getDelay());
+	}
 
-    private int getDelay() {
-        return Prefers.getDelay() * 500 + 500;
-    }
+	private int getDelay() {
+		return Prefers.getDelay() * 500 + 500;
+	}
 
-    private int getNumber(int keyCode) {
-        return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
-    }
+	private int getNumber(int keyCode) {
+		return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
+	}
 
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mKeyDown.onFind(Channel.create(mNumber.getText().toString()));
-            mNumber.setVisibility(View.GONE);
-            mNumber.setText("");
-            mText.setLength(0);
-        }
-    };
+	private Runnable mRunnable = new Runnable() {
+		@Override
+		public void run() {
+			mKeyDown.onFind(Channel.create(mNumber.getText().toString()));
+			mNumber.setVisibility(View.GONE);
+			mNumber.setText("");
+			mText.setLength(0);
+		}
+	};
 }

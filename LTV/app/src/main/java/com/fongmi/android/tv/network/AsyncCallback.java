@@ -11,20 +11,20 @@ import java.util.List;
 
 public abstract class AsyncCallback implements ValueEventListener {
 
-    public void onResponse() {
-    }
+	public void onResponse() {
+	}
 
-    public void onResponse(String result) {
-    }
+	public void onResponse(String result) {
+	}
 
-    public void onResponse(List<Channel> items) {
-    }
+	public void onResponse(List<Channel> items) {
+	}
 
-    @Override
-    public void onDataChange(@NonNull DataSnapshot data) {
-    }
+	@Override
+	public void onDataChange(@NonNull DataSnapshot data) {
+	}
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError data) {
-    }
+	@Override
+	public void onCancelled(@NonNull DatabaseError data) {
+	}
 }
