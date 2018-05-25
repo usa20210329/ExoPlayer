@@ -1,6 +1,7 @@
 package com.fongmi.android.tv.utils;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -90,7 +91,7 @@ public class Utils {
 	public static void getChannels(final AsyncCallback callback) {
 		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
 			@Override
-			public void onDataChange(DataSnapshot data) {
+			public void onDataChange(@NonNull DataSnapshot data) {
 				List<Channel> items = new ArrayList<>();
 				for (DataSnapshot item : data.getChildren()) items.add(Channel.create(item));
 				callback.onResponse(items);
@@ -101,8 +102,8 @@ public class Utils {
 	public static void getDatabase(final Activity activity) {
 		FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncCallback() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				FileUtil.checkUpdate(activity, (long) dataSnapshot.getValue());
+			public void onDataChange(@NonNull DataSnapshot data) {
+				FileUtil.checkUpdate(activity, (long) data.getValue());
 			}
 		});
 	}
@@ -110,8 +111,8 @@ public class Utils {
 	public static void getNotice() {
 		FirebaseDatabase.getInstance().getReference().child("notice").addValueEventListener(new AsyncCallback() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				Notify.alert(dataSnapshot.getValue().toString());
+			public void onDataChange(@NonNull DataSnapshot data) {
+				Notify.alert(data.getValue().toString());
 			}
 		});
 	}

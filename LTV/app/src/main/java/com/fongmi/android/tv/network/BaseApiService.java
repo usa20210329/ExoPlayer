@@ -20,6 +20,6 @@ public abstract class BaseApiService implements ApiServiceImpl {
 
 	@Override
 	public void onInit(AsyncCallback callback) {
-		callback.onResponse(true);
+		callback.onResponse();
 	}
 }

@@ -50,7 +50,7 @@ class WebService extends AsyncTask<Void, Integer, String> {
 				Notify.alert(result);
 				break;
 			case LTV_SAMPLE:
-				callback.onResponse(true);
+				callback.onResponse();
 				break;
 			case LTV_CHANNEL_URL:
 				callback.onResponse(result);
