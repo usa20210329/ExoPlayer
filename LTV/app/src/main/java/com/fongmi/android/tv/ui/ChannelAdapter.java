@@ -98,7 +98,7 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		onResume();
 	}
 
-	void removeHiddenChannel() {
+	private void removeHiddenChannel() {
 		Iterator<Channel> iterator = mItems.iterator();
 		while (iterator.hasNext()) {
 			Channel item = iterator.next();

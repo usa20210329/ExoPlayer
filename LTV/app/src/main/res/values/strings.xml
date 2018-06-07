@@ -5,16 +5,14 @@
     <string name="channel.empty">無此頻道</string>
     <string name="channel.error">發生錯誤&#8230;</string>
     <string name="channel.update">正在下載新版本&#8230;</string>
-    <string name="channel.hint.back">再按一次即可退出</string>
     <string name="channel.number"><xliff:g name="name">%02d</xliff:g></string>
     <string name="channel.info"><xliff:g name="name">%02d</xliff:g>　<xliff:g name="name">%s</xliff:g></string>
 
     <!-- Setting -->
     <string name="setting.common">一般設定</string>
     <string name="setting.common.size">字體大小</string>
-    <string name="setting.common.back">防呆退出</string>
     <string name="setting.control">控制設定</string>
     <string name="setting.control.delay">數字鍵延遲</string>
-    <string name="setting.control.play">確認鍵播放</string>
+    <string name="setting.control.enter">確認鍵播放</string>
 
 </resources>

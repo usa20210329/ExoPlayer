@@ -50,7 +50,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	private ChannelAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
-	private long mBackTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,11 +201,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private boolean playWait() {
-		return Prefers.isPlayWait() && infoVisible();
-	}
-
-	private boolean backWait() {
-		return Prefers.isBackWait() && System.currentTimeMillis() - mBackTime > 2000;
+		return Prefers.isEnter() && infoVisible();
 	}
 
 	private void toggleInfo() {
@@ -341,9 +336,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			Utils.setImmersiveMode(this);
-		}
+		if (hasFocus) Utils.setImmersiveMode(this);
 	}
 
 	@Override
@@ -364,12 +357,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onBackPressed() {
 		if (infoVisible()) {
 			hideUI();
-		} else if (backWait()) {
-			mBackTime = System.currentTimeMillis();
-			Notify.show(R.string.channel_hint_back);
 		} else {
-			moveTaskToBack(true);
-			mAdapter.removeHiddenChannel();
+			super.onBackPressed();
 		}
 	}
 }
