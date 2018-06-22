@@ -1,6 +1,6 @@
 package com.fongmi.android.library.ltv;
 
-import android.util.Base64;
+import com.l2tv.ltv.NativeApp;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -9,19 +9,18 @@ import static com.fongmi.android.library.ltv.Constant.*;
 public class Ltv {
 
 	private String mIp;
-	private String mKey;
 	private String mSample;
 
 	private static class Loader {
 		static volatile Ltv INSTANCE = new Ltv();
 	}
 
-	public static Ltv getInstance() {
-		return Loader.INSTANCE;
+	private Ltv() {
+		NativeApp.loadLibrary();
 	}
 
-	public void setKey(String key) {
-		this.mKey = key;
+	public static Ltv getInstance() {
+		return Loader.INSTANCE;
 	}
 
 	public String getNotice() {
@@ -59,8 +58,7 @@ public class Ltv {
 
 	private String getRealUrl(String url) {
 		int index = url.indexOf("ex=") + 3;
-		String key = mKey + url.substring(index);
-		key = Base64.encodeToString(Utils.getMd5().digest(key.getBytes()), 0);
+		String key = NativeApp.getinfo64(url.substring(index));
 		key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "").replaceAll("\r", "");
 		return url.concat("&st=").concat(key);
 	}

@@ -1,13 +1,10 @@
 package com.fongmi.android.tv;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.fongmi.android.library.ltv.Ltv;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.utils.Notify;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
 
 import static com.fongmi.android.library.ltv.Constant.LTV_CHANNEL_URL;
 import static com.fongmi.android.library.ltv.Constant.LTV_NOTICE;
@@ -60,18 +57,6 @@ class WebService extends AsyncTask<Void, Integer, String> {
 			case LTV_CHANNEL_URL:
 				callback.onResponse(result);
 				break;
-			default:
-				getKey();
-				break;
 		}
-	}
-
-	private void getKey() {
-		FirebaseDatabase.getInstance().getReference().child("key").addValueEventListener(new AsyncCallback() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot data) {
-				Ltv.getInstance().setKey(data.getValue().toString());
-			}
-		});
 	}
 }
