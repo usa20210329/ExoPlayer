@@ -1,7 +1,5 @@
 package com.fongmi.android.library.ltv;
 
-import com.l2tv.ltv.NativeApp;
-
 import org.ksoap2.serialization.SoapObject;
 
 import static com.fongmi.android.library.ltv.Constant.*;
@@ -28,7 +26,7 @@ public class Ltv {
 	}
 
 	public String getUrl(String url) {
-		return url.startsWith("http") ? url : getRealUrl(mSample.replace("m3u8", url));
+		return url.startsWith("http") ? url : mSample.replace("m3u8", url);
 	}
 
 	public String getGeo() {
@@ -54,12 +52,5 @@ public class Ltv {
 		soap.addProperty(REGISTER_ID, USER_ID);
 		soap.addProperty(REGISTER_IP, mIp);
 		return soap;
-	}
-
-	private String getRealUrl(String url) {
-		int index = url.indexOf("ex=") + 3;
-		String key = NativeApp.getinfo64(url.substring(index));
-		key = key.replace("+", "-").replace("/", "_").replace("=", "").replaceAll("\n", "").replaceAll("\r", "");
-		return url.concat("&st=").concat(key);
 	}
 }

@@ -6,9 +6,7 @@ import com.fongmi.android.library.ltv.Ltv;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.utils.Notify;
 
-import static com.fongmi.android.library.ltv.Constant.LTV_CHANNEL_URL;
-import static com.fongmi.android.library.ltv.Constant.LTV_NOTICE;
-import static com.fongmi.android.library.ltv.Constant.LTV_SAMPLE;
+import static com.fongmi.android.library.ltv.Constant.*;
 
 class WebService extends AsyncTask<Void, Integer, String> {
 
