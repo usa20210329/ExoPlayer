@@ -10,17 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.MessageDigest;
 
 class Utils {
-
-	static MessageDigest getMd5() {
-		try {
-			return MessageDigest.getInstance("MD5");
-		} catch (Exception e) {
-			return null;
-		}
-	}
 
 	static String getResult(SoapObject soap) {
 		try {

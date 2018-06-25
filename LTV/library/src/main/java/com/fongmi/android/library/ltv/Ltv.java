@@ -11,12 +11,12 @@ public class Ltv {
 	private String mIp;
 	private String mSample;
 
-	private static class Loader {
-		static volatile Ltv INSTANCE = new Ltv();
+	static {
+		System.loadLibrary("native-lib");
 	}
 
-	private Ltv() {
-		NativeApp.loadLibrary();
+	private static class Loader {
+		static volatile Ltv INSTANCE = new Ltv();
 	}
 
 	public static Ltv getInstance() {
