@@ -88,7 +88,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mVideoView.setOnErrorListener(new OnErrorListener() {
 			@Override
 			public boolean onError(Exception e) {
-				onRetry();
+				ApiService.getInstance().onRetry(getCallback());
 				return true;
 			}
 		});
@@ -152,14 +152,13 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		};
 	}
 
-	public void onRetry() {
-		ApiService.getInstance().onRetry(new AsyncCallback() {
+	private AsyncCallback getCallback() {
+		return new AsyncCallback() {
 			@Override
-			public void onResponse() {
-				mAdapter.resetUrl();
-				mAdapter.onResume();
+			public void onError() {
+				hideProgress();
 			}
-		});
+		};
 	}
 
 	private void playVideo(Channel channel) {

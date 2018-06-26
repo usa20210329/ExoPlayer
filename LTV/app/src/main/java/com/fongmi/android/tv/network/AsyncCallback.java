@@ -20,6 +20,9 @@ public abstract class AsyncCallback implements ValueEventListener {
 	public void onResponse(List<Channel> items) {
 	}
 
+	public void onError() {
+	}
+
 	@Override
 	public void onDataChange(@NonNull DataSnapshot data) {
 	}
