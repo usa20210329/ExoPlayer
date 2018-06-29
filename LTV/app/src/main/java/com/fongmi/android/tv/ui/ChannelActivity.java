@@ -64,7 +64,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mNumber);
-		Utils.getDatabase(this);
+		Utils.getVersion(this);
 		setRecyclerView();
 		showProgress();
 		setInfoWidth();
@@ -248,7 +248,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				mSplash.setVisibility(View.GONE);
-				Utils.getNotice();
 			}
 		}).start();
 	}

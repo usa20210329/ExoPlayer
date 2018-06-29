@@ -7,7 +7,7 @@ import com.fongmi.android.tv.network.AsyncCallback;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetTask extends AsyncTask<String, Void, String> {
+class GetTask extends AsyncTask<String, Void, String> {
 
 	private AsyncCallback callback;
 

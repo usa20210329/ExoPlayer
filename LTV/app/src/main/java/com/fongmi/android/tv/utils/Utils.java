@@ -99,20 +99,11 @@ public class Utils {
 		});
 	}
 
-	public static void getDatabase(final Activity activity) {
+	public static void getVersion(final Activity activity) {
 		FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
 				FileUtil.checkUpdate(activity, (long) data.getValue());
-			}
-		});
-	}
-
-	public static void getNotice() {
-		FirebaseDatabase.getInstance().getReference().child("notice").addValueEventListener(new AsyncCallback() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot data) {
-				Notify.alert(data.getValue().toString());
 			}
 		});
 	}

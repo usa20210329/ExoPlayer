@@ -29,10 +29,6 @@ public class Notify {
 		getInstance().makeText(Utils.getString(resId), Toast.LENGTH_SHORT);
 	}
 
-	public static void alert(String text) {
-		getInstance().makeText(text, Toast.LENGTH_LONG);
-	}
-
 	private void makeText(String message, int duration) {
 		if (message.length() < 3) return;
 		if (mToast != null) mToast.cancel();
