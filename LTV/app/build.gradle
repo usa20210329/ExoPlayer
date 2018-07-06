@@ -13,8 +13,8 @@ android {
 
     productFlavors {
         wtv {
-            versionCode 18
-            versionName "1.1.8"
+            versionCode 19
+            versionName "1.1.9"
             applicationIdSuffix ".wtv"
         }
     }
@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    wtvImplementation project(':library')
     implementation "com.android.support:support-v4:$supportLibVersion"
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
