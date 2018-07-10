@@ -155,9 +155,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	private AsyncCallback getCallback() {
 		return new AsyncCallback() {
 			@Override
-			public void onError() {
+			public void onResponse() {
 				mAdapter.resetUrl();
-				hideProgress();
+				mAdapter.onResume();
 			}
 		};
 	}
