@@ -3,5 +3,5 @@
 *.iml
 *build
 *json
-*Code
+*ode.java
 /local.properties
