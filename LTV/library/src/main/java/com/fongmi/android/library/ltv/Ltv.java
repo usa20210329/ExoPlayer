@@ -17,9 +17,6 @@ public class Ltv {
 	}
 
 	public String getSample() {
-		String result = Utils.getResult(Code.getSample());
-		String domain = result.substring(0, result.lastIndexOf("/") + 1);
-		String param = result.substring(result.lastIndexOf("?"), result.length());
-		return mSample = domain + "m3u8" + param;
+		return mSample = Code.getSample();
 	}
 }
