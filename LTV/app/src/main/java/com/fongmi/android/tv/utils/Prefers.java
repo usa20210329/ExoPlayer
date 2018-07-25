@@ -10,6 +10,7 @@ public class Prefers {
 	private static final String SIZE = "size";
 	private static final String DELAY = "delay";
 	private static final String ENTER = "enter";
+	private static final String BOOT = "boot";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
@@ -53,5 +54,13 @@ public class Prefers {
 
 	static void putEnter(boolean value) {
 		putBoolean(ENTER, value);
+	}
+
+	public static boolean isBoot() {
+		return getBoolean(BOOT);
+	}
+
+	static void putBoot(boolean value) {
+		putBoolean(BOOT, value);
 	}
 }

@@ -46,10 +46,12 @@ public class Notify {
 		SeekBar size = dialog.findViewById(R.id.size);
 		SeekBar delay = dialog.findViewById(R.id.delay);
 		CheckBox enter = dialog.findViewById(R.id.enter);
+		CheckBox boot = dialog.findViewById(R.id.boot);
 		control.setVisibility(visibility);
 		size.setProgress(Prefers.getSize());
 		delay.setProgress(Prefers.getDelay());
 		enter.setChecked(Prefers.isEnter());
+		boot.setChecked(Prefers.isBoot());
 		size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -66,6 +68,12 @@ public class Notify {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Prefers.putEnter(isChecked);
+			}
+		});
+		boot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Prefers.putBoot(isChecked);
 			}
 		});
 	}

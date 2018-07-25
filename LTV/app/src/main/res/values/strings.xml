@@ -14,5 +14,6 @@
     <string name="setting.control">控制設定</string>
     <string name="setting.control.delay">數字鍵延遲</string>
     <string name="setting.control.enter">確認鍵播放</string>
+    <string name="setting.control.boot">開機自啟動</string>
 
 </resources>
