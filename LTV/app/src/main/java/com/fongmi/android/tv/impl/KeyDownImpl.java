@@ -6,7 +6,7 @@ public interface KeyDownImpl {
 
 	void onFind(Channel channel);
 
-	void onKeyVertical(boolean isTop);
+	void onKeyVertical(boolean isNext);
 
 	void onKeyHorizontal(boolean isLeft);
 

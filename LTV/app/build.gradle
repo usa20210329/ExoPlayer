@@ -13,8 +13,8 @@ android {
 
     productFlavors {
         wtv {
-            versionCode 24
-            versionName "1.2.4"
+            versionCode 25
+            versionName "1.2.5"
             applicationIdSuffix ".wtv"
         }
     }
@@ -44,7 +44,7 @@ dependencies {
     implementation "com.google.firebase:firebase-database:16.0.1"
     implementation "com.google.firebase:firebase-storage:16.0.1"
     implementation "com.google.code.gson:gson:2.8.5"
-    implementation "com.devbrackets.android:exomedia:4.2.1"
+    implementation "com.devbrackets.android:exomedia:4.2.2"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

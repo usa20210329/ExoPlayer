@@ -306,9 +306,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onKeyVertical(boolean isTop) {
+	public void onKeyVertical(boolean isNext) {
 		mHandler.removeCallbacks(mRunnable);
-		mRecyclerView.smoothScrollToPosition(isTop ? mAdapter.onMoveUp(playWait()) : mAdapter.onMoveDown(playWait()));
+		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
 		mKeyDown.setNumber(mAdapter.getNumber());
 	}
 
