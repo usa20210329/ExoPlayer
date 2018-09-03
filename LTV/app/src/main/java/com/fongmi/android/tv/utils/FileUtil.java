@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
@@ -57,6 +56,7 @@ class FileUtil {
 
 	static void checkUpdate(Activity activity, long version) {
 		if (version > BuildConfig.VERSION_CODE) {
+			Notify.show(R.string.channel_update);
 			startDownload(activity);
 		} else {
 			FileUtil.clearFile(getApkFile());
@@ -67,19 +67,9 @@ class FileUtil {
 		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
 			@Override
 			public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-				Notify.show(R.string.channel_update);
-				openFile(activity);
+				openFile(activity, getApkFile());
 			}
 		});
-	}
-
-	private static void openFile(final Activity activity) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				FileUtil.openFile(activity, getApkFile());
-			}
-		}, 2000);
 	}
 
 	private static void openFile(Activity activity, File file) {
