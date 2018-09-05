@@ -14,7 +14,7 @@ public class ApiService extends BaseApiService {
 
 	@Override
 	public void getChannelUrl(Channel channel, AsyncCallback callback) {
-		new WebService(callback).executeOnExecutor(mExecutor, channel.getUrl());
+		CheckTask.execute(callback, channel.getUrl());
 	}
 
 	@Override
