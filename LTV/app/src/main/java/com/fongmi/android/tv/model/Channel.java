@@ -10,11 +10,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Channel {
 
-	@SerializedName(value = "number", alternate = {"CH_NO"})
+	@SerializedName("number")
 	private int number;
-	@SerializedName(value = "name", alternate = {"CH_NAME"})
+	@SerializedName("name")
 	private String name;
-	@SerializedName(value = "url", alternate = {"CH_URL"})
+	@SerializedName("url")
 	private String url;
 
 	private transient boolean hidden;
@@ -85,7 +85,7 @@ public class Channel {
 	}
 
 	public String getInfo() {
-		return Utils.getString(R.string.channel_info, getNumber(), getName());
+		return Utils.getString(R.string.channel_number, getNumber()) + "　" + getName();
 	}
 
 	public int getTextSize() {

@@ -13,8 +13,8 @@ android {
 
     productFlavors {
         wtv {
-            versionCode 26
-            versionName "1.2.6"
+            versionCode 27
+            versionName "1.2.7"
             applicationIdSuffix ".wtv"
         }
     }
@@ -41,8 +41,8 @@ dependencies {
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
     implementation "com.google.firebase:firebase-core:16.0.4"
-    implementation "com.google.firebase:firebase-database:16.0.3"
-    implementation "com.google.firebase:firebase-storage:16.0.3"
+    implementation "com.google.firebase:firebase-database:16.0.4"
+    implementation "com.google.firebase:firebase-storage:16.0.4"
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.devbrackets.android:exomedia:4.2.3"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"

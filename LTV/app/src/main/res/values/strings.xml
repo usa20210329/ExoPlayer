@@ -6,7 +6,6 @@
     <string name="channel.error">發生錯誤&#8230;</string>
     <string name="channel.update">發現新版本</string>
     <string name="channel.number"><xliff:g name="name">%02d</xliff:g></string>
-    <string name="channel.info"><xliff:g name="name">%02d</xliff:g>　<xliff:g name="name">%s</xliff:g></string>
 
     <!-- Setting -->
     <string name="setting.common">一般設定</string>
