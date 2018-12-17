@@ -11,6 +11,11 @@ android {
         flavorDimensions "targetSdkVersion"
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     productFlavors {
         wtv {
             versionCode 27
@@ -40,11 +45,11 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:leanback-v17:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
-    implementation "com.google.firebase:firebase-core:16.0.4"
-    implementation "com.google.firebase:firebase-database:16.0.4"
-    implementation "com.google.firebase:firebase-storage:16.0.4"
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-database:16.0.5"
+    implementation "com.google.firebase:firebase-storage:16.0.5"
     implementation "com.google.code.gson:gson:2.8.5"
-    implementation "com.devbrackets.android:exomedia:4.2.3"
+    implementation "com.devbrackets.android:exomedia:4.3.0"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }
