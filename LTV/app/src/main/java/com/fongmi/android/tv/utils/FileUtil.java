@@ -12,7 +12,6 @@ import android.util.Log;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
 import com.fongmi.android.tv.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -64,12 +63,7 @@ class FileUtil {
 	}
 
 	private static void startDownload(final Activity activity) {
-		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-			@Override
-			public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-				openFile(activity, getApkFile());
-			}
-		});
+		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(activity, getApkFile()));
 	}
 
 	private static void openFile(Activity activity, File file) {

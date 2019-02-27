@@ -26,13 +26,13 @@ public class Notify {
 	}
 
 	public static void show(int resId) {
-		getInstance().makeText(Utils.getString(resId), Toast.LENGTH_SHORT);
+		getInstance().makeText(Utils.getString(resId));
 	}
 
-	private void makeText(String message, int duration) {
+	private void makeText(String message) {
 		if (message.length() < 3) return;
 		if (mToast != null) mToast.cancel();
-		mToast = Toast.makeText(App.getInstance(), message, duration);
+		mToast = Toast.makeText(App.getInstance(), message, Toast.LENGTH_SHORT);
 		mToast.show();
 	}
 
@@ -52,6 +52,8 @@ public class Notify {
 		delay.setProgress(Prefers.getDelay());
 		enter.setChecked(Prefers.isEnter());
 		boot.setChecked(Prefers.isBoot());
+		enter.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putEnter(isChecked));
+		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -62,18 +64,6 @@ public class Notify {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				Prefers.putDelay(progress);
-			}
-		});
-		enter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Prefers.putEnter(isChecked);
-			}
-		});
-		boot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Prefers.putBoot(isChecked);
 			}
 		});
 	}

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.listener.OnErrorListener;
-import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
@@ -73,28 +72,15 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemClickListener(new ChannelAdapter.OnItemClickListener() {
-			@Override
-			public void onItemClick(Channel item) {
-				onPlay(item);
-			}
-		});
-		mVideoView.setOnPreparedListener(new OnPreparedListener() {
-			@Override
-			public void onPrepared() {
-				hideProgress();
-			}
-		});
-		mVideoView.setOnErrorListener(new OnErrorListener() {
-			@Override
-			public boolean onError(Exception e) {
-				ApiService.getInstance().onRetry(getCallback());
-				return true;
-			}
+		mAdapter.setOnItemClickListener(this::onPlay);
+		mVideoView.setOnPreparedListener(this::hideProgress);
+		mVideoView.setOnErrorListener((Exception e) -> {
+			ApiService.getInstance().onRetry(getCallback());
+			return true;
 		});
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
-			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 				switch (newState) {
 					case RecyclerView.SCROLL_STATE_DRAGGING:
 						mHandler.removeCallbacks(mRunnable);
@@ -156,8 +142,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		return new AsyncCallback() {
 			@Override
 			public void onResponse() {
-				mAdapter.resetUrl();
-				mAdapter.onResume();
+				Notify.show(R.string.channel_error);
+				mVideoView.reset();
+				hideProgress();
 			}
 		};
 	}
@@ -170,12 +157,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		showProgress();
 	}
 
-	private Runnable mRunnable = new Runnable() {
-		@Override
-		public void run() {
-			hideUI();
-		}
-	};
+	private Runnable mRunnable = this::hideUI;
 
 	private Runnable mAddCount = new Runnable() {
 		@Override
@@ -185,15 +167,11 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	};
 
 	private void showProgress() {
-		if (mProgress.getVisibility() == View.GONE) {
-			mProgress.setVisibility(View.VISIBLE);
-		}
+		if (mProgress.getVisibility() == View.GONE) mProgress.setVisibility(View.VISIBLE);
 	}
 
 	private void hideProgress() {
-		if (mProgress.getVisibility() == View.VISIBLE) {
-			mProgress.setVisibility(View.GONE);
-		}
+		if (mProgress.getVisibility() == View.VISIBLE) mProgress.setVisibility(View.GONE);
 	}
 
 	private boolean infoVisible() {
@@ -205,11 +183,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void toggleInfo() {
-		if (infoVisible()) {
-			hideUI();
-		} else {
-			showUI();
-		}
+		if (infoVisible()) hideUI();
+		else showUI();
 	}
 
 	private void showUI() {
@@ -289,20 +264,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (Utils.isDigitKey(keyCode)) {
-			return mKeyDown.onKeyDown(keyCode);
-		} else {
-			return super.onKeyDown(keyCode, event);
-		}
+		if (Utils.isDigitKey(keyCode)) return mKeyDown.onKeyDown(keyCode);
+		else return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (Utils.hasEvent(event)) {
-			return mKeyDown.onKeyDown(event);
-		} else {
-			return super.dispatchKeyEvent(event);
-		}
+		if (Utils.hasEvent(event)) return mKeyDown.onKeyDown(event);
+		else return super.dispatchKeyEvent(event);
 	}
 
 	@Override
@@ -314,11 +283,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyHorizontal(boolean isLeft) {
-		if (isLeft) {
-			mHide.performClick();
-		} else {
-			Notify.showDialog(this, View.VISIBLE);
-		}
+		if (isLeft) mHide.performClick();
+		else Notify.showDialog(this, View.VISIBLE);
 	}
 
 	@Override
@@ -354,10 +320,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onBackPressed() {
-		if (infoVisible()) {
-			hideUI();
-		} else {
-			super.onBackPressed();
-		}
+		if (infoVisible()) hideUI();
+		else super.onBackPressed();
 	}
 }

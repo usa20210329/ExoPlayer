@@ -67,9 +67,7 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
-			if (mVisible) {
-				mItemClickListener.onItemClick(mItems.get(mPosition));
-			}
+			if (mVisible) mItemClickListener.onItemClick(mItems.get(mPosition));
 		}
 	};
 
@@ -118,11 +116,6 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 			mHides.clear();
 			resetCount();
 		}
-	}
-
-	void resetUrl() {
-		for (Channel item : mItems) item.setRealUrl("");
-		notifyDataSetChanged();
 	}
 
 	int onMoveUp(boolean wait) {

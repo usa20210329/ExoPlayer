@@ -68,10 +68,6 @@ public class Channel {
 		this.realUrl = realUrl;
 	}
 
-	public String getFile() {
-		return getUrl().substring(getUrl().lastIndexOf("/") + 1, getUrl().length());
-	}
-
 	public void deselect() {
 		setSelect(false);
 	}
