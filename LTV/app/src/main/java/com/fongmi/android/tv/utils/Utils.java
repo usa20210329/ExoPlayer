@@ -88,7 +88,7 @@ public class Utils {
 						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 	}
 
-	public static void getChannels(final AsyncCallback callback) {
+	public static void getChannels(AsyncCallback callback) {
 		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
@@ -99,7 +99,7 @@ public class Utils {
 		});
 	}
 
-	public static void getVersion(final Activity activity) {
+	public static void getVersion(Activity activity) {
 		FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
