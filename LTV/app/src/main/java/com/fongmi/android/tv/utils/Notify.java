@@ -30,7 +30,6 @@ public class Notify {
 	}
 
 	private void makeText(String message) {
-		if (message.length() < 3) return;
 		if (mToast != null) mToast.cancel();
 		mToast = Toast.makeText(App.getInstance(), message, Toast.LENGTH_SHORT);
 		mToast.show();

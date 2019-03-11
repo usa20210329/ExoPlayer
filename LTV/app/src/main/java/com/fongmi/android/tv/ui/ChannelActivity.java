@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,30 +66,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		setRecyclerView();
 		showProgress();
 		setInfoWidth();
+		getChannels();
 		hideSplash();
-		onInit();
 	}
 
 	private void initEvent() {
 		mAdapter.setOnItemClickListener(this::onPlay);
 		mVideoView.setOnPreparedListener(this::hideProgress);
-		mVideoView.setOnErrorListener((Exception e) -> {
-			ApiService.getInstance().onRetry(getCallback());
-			return true;
-		});
-		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-				switch (newState) {
-					case RecyclerView.SCROLL_STATE_DRAGGING:
-						mHandler.removeCallbacks(mRunnable);
-						break;
-					case RecyclerView.SCROLL_STATE_IDLE:
-						mHandler.postDelayed(mRunnable, 3000);
-						break;
-				}
-			}
-		});
+		mVideoView.setOnErrorListener((Exception e) -> onError());
 	}
 
 	private void setRecyclerView() {
@@ -98,15 +81,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.setHasFixedSize(true);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		mRecyclerView.setAdapter(mAdapter);
-	}
-
-	private void onInit() {
-		ApiService.getInstance().onInit(new AsyncCallback() {
-			@Override
-			public void onResponse() {
-				getChannels();
-			}
-		});
 	}
 
 	private void getChannels() {
@@ -138,15 +112,11 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		};
 	}
 
-	private AsyncCallback getCallback() {
-		return new AsyncCallback() {
-			@Override
-			public void onResponse() {
-				Notify.show(R.string.channel_error);
-				mVideoView.reset();
-				hideProgress();
-			}
-		};
+	private boolean onError() {
+		Notify.show(R.string.channel_error);
+		mVideoView.reset();
+		hideProgress();
+		return true;
 	}
 
 	private void playVideo(Channel channel) {

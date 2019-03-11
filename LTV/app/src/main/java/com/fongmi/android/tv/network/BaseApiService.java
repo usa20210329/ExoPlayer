@@ -12,9 +12,4 @@ public abstract class BaseApiService implements ApiServiceImpl {
 	public static ApiService getInstance() {
 		return Loader.INSTANCE;
 	}
-
-	@Override
-	public void onInit(AsyncCallback callback) {
-		callback.onResponse();
-	}
 }
