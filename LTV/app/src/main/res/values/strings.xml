@@ -3,7 +3,6 @@
     <!-- App -->
     <string name="channel.unlock">已解鎖</string>
     <string name="channel.empty">無此頻道</string>
-    <string name="channel.error">發生錯誤&#8230;</string>
     <string name="channel.update">發現新版本</string>
     <string name="channel.number"><xliff:g name="name">%02d</xliff:g></string>
 

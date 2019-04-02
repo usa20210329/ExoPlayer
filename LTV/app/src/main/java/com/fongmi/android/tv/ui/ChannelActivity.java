@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.abdularis.app.analogtvnoise.AnalogTvNoise;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
@@ -40,6 +41,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
+	@BindView(R.id.noise) AnalogTvNoise mNoise;
 	@BindView(R.id.splash) ImageView mSplash;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
@@ -113,9 +115,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private boolean onError() {
-		Notify.show(R.string.channel_error);
 		mVideoView.reset();
 		hideProgress();
+		showError();
 		return true;
 	}
 
@@ -125,6 +127,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mVideoView.setVideoURI(Uri.parse(channel.getRealUrl()));
 		mVideoView.start();
 		showProgress();
+		hideError();
 	}
 
 	private Runnable mRunnable = this::hideUI;
@@ -142,6 +145,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void hideProgress() {
 		if (mProgress.getVisibility() == View.VISIBLE) mProgress.setVisibility(View.GONE);
+	}
+
+	private void showError() {
+		if (mNoise.getVisibility() == View.GONE) mNoise.setVisibility(View.VISIBLE);
+	}
+
+	private void hideError() {
+		if (mNoise.getVisibility() == View.VISIBLE) mNoise.setVisibility(View.GONE);
 	}
 
 	private boolean infoVisible() {

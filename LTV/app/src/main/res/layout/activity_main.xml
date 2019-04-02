@@ -14,6 +14,12 @@
         app:useTextureViewBacking="true"
         app:videoScale="fitXY" />
 
+    <com.abdularis.app.analogtvnoise.AnalogTvNoise
+        android:id="@+id/noise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="wrap_content"
@@ -21,8 +27,8 @@
         android:background="@drawable/shadow"
         android:clipToPadding="false"
         android:minWidth="200dp"
-        android:paddingBottom="4dp"
         android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         tools:listitem="@layout/adapter_main" />
 
     <include layout="@layout/view_widget" />
