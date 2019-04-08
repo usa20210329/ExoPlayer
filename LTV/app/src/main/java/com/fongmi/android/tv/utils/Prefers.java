@@ -11,12 +11,13 @@ public class Prefers {
 	private static final String DELAY = "delay";
 	private static final String ENTER = "enter";
 	private static final String BOOT = "boot";
+	private static final String FULL = "full";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
 	}
 
-	private static Integer getInt(String key, int defaultValue) {
+	private static int getInt(String key, int defaultValue) {
 		return getPreferences().getInt(key, defaultValue);
 	}
 
@@ -24,8 +25,12 @@ public class Prefers {
 		getPreferences().edit().putInt(key, value).apply();
 	}
 
-	private static Boolean getBoolean(String key) {
-		return getPreferences().getBoolean(key, false);
+	private static boolean getBoolean(String key) {
+		return getBoolean(key, false);
+	}
+
+	private static boolean getBoolean(String key, boolean defaultValue) {
+		return getPreferences().getBoolean(key, defaultValue);
 	}
 
 	private static void putBoolean(String key, boolean value) {
@@ -62,5 +67,13 @@ public class Prefers {
 
 	static void putBoot(boolean value) {
 		putBoolean(BOOT, value);
+	}
+
+	public static boolean isFull() {
+		return getBoolean(FULL, true);
+	}
+
+	static void putFull(boolean value) {
+		putBoolean(FULL, value);
 	}
 }

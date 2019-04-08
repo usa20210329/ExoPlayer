@@ -9,9 +9,10 @@
     <!-- Setting -->
     <string name="setting.common">一般設定</string>
     <string name="setting.common.size">字體大小</string>
+    <string name="setting.common.boot">開機啟動</string>
+    <string name="setting.common.full">全螢幕</string>
     <string name="setting.control">控制設定</string>
     <string name="setting.control.delay">數字鍵延遲</string>
     <string name="setting.control.enter">確認鍵播放</string>
-    <string name="setting.control.boot">開機自啟動</string>
 
 </resources>

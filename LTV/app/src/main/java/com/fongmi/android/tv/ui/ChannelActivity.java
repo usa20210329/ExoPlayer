@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.abdularis.app.analogtvnoise.AnalogTvNoise;
+import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
@@ -68,6 +69,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		setRecyclerView();
 		showProgress();
 		setInfoWidth();
+		setScaleType();
 		getChannels();
 		hideSplash();
 	}
@@ -219,6 +221,10 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		Prefers.putSize(progress);
 		mAdapter.notifyDataSetChanged();
 		setInfoWidth();
+	}
+
+	public void setScaleType() {
+		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
 	@OnTouch(R.id.videoView)
