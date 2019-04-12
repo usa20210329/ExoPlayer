@@ -41,7 +41,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".ui.BootReceiver">
+        <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />

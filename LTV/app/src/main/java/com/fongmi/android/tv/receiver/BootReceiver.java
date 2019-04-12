@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.ui;
+package com.fongmi.android.tv.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
