@@ -37,9 +37,9 @@ public class KeyDown {
 
 	public boolean onKeyDown(KeyEvent event) {
 		if (Utils.isUpKey(event)) {
-			mKeyDown.onKeyVertical(true);
+			mKeyDown.onKeyVertical(Prefers.isRev());
 		} else if (Utils.isDownKey(event)) {
-			mKeyDown.onKeyVertical(false);
+			mKeyDown.onKeyVertical(!Prefers.isRev());
 		} else if (Utils.isLeftKey(event)) {
 			mKeyDown.onKeyHorizontal(true);
 		} else if (Utils.isRightKey(event)) {

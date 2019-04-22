@@ -12,6 +12,7 @@ public class Prefers {
 	private static final String ENTER = "enter";
 	private static final String BOOT = "boot";
 	private static final String FULL = "full";
+	private static final String REV = "rev";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
@@ -75,5 +76,13 @@ public class Prefers {
 
 	static void putFull(boolean value) {
 		putBoolean(FULL, value);
+	}
+
+	public static boolean isRev() {
+		return getBoolean(REV);
+	}
+
+	static void putRev(boolean value) {
+		putBoolean(REV, value);
 	}
 }
