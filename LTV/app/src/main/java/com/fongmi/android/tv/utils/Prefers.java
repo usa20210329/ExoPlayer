@@ -78,7 +78,7 @@ public class Prefers {
 		putBoolean(FULL, value);
 	}
 
-	public static boolean isRev() {
+	static boolean isRev() {
 		return getBoolean(REV);
 	}
 

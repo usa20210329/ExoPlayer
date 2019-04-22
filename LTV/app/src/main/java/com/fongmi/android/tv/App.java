@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.devbrackets.android.exomedia.ExoMedia;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 
 import okhttp3.OkHttpClient;
@@ -30,12 +29,6 @@ public class App extends Application {
 	}
 
 	private void configureExoMedia() {
-		ExoMedia.setDataSourceFactoryProvider(new ExoMedia.DataSourceFactoryProvider() {
-			@NonNull
-			@Override
-			public DataSource.Factory provide(@NonNull String userAgent, @Nullable TransferListener listener) {
-				return new OkHttpDataSourceFactory(new OkHttpClient(), "VasCreativePlayer/02.12.0183 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener);
-			}
-		});
+		ExoMedia.setDataSourceFactoryProvider((@NonNull String userAgent, @Nullable TransferListener listener) -> new OkHttpDataSourceFactory(new OkHttpClient(), "VasCreativePlayer/02.12.0183 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener));
 	}
 }
