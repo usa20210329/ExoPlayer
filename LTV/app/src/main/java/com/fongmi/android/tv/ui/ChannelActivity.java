@@ -161,17 +161,20 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		return mRecyclerView.getAlpha() == 1;
 	}
 
+	private boolean infoInvisible() {
+		return mRecyclerView.getAlpha() == 0;
+	}
+
 	private boolean playWait() {
 		return Prefers.isEnter() && infoVisible();
 	}
 
-	private void toggleInfo() {
+	private void toggleUI() {
 		if (infoVisible()) hideUI();
 		else showUI();
 	}
 
 	private void showUI() {
-		mHandler.removeCallbacks(mRunnable);
 		mGear.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
@@ -229,7 +232,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) toggleInfo();
+		if (event.getAction() == KeyEvent.ACTION_UP) toggleUI();
 		return true;
 	}
 
@@ -245,8 +248,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onFind(Channel channel, int delay) {
-		mAdapter.findChannel(mRecyclerView, channel, delay);
+	public void onFind(Channel channel) {
+		mAdapter.findChannel(mRecyclerView, channel);
 	}
 
 	@Override
@@ -263,9 +266,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		mHandler.removeCallbacks(mRunnable);
 		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
-		mKeyDown.setNumber(mAdapter.getNumber());
+		if (infoInvisible()) showUI();
 	}
 
 	@Override
@@ -277,7 +279,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	public void onKeyCenter() {
 		mAdapter.onCenter();
-		toggleInfo();
+		toggleUI();
 	}
 
 	@Override

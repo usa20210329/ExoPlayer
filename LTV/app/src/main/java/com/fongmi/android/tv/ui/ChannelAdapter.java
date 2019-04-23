@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.utils.Notify;
-import com.fongmi.android.tv.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -132,10 +131,6 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		return mPosition;
 	}
 
-	String getNumber() {
-		return Utils.getString(R.string.channel_number, mItems.get(mPosition).getNumber());
-	}
-
 	void onCenter() {
 		if (mWaiting) setChannel(0);
 		mWaiting = false;
@@ -149,11 +144,11 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		}
 	}
 
-	void findChannel(RecyclerView recyclerView, Channel channel, int delay) {
+	void findChannel(RecyclerView recyclerView, Channel channel) {
 		if (!mItems.contains(channel)) return;
 		recyclerView.smoothScrollToPosition(mItems.indexOf(channel));
 		setPosition(mItems.indexOf(channel));
-		setChannel(delay);
+		setChannel(0);
 	}
 
 	void setVisible(boolean visible) {

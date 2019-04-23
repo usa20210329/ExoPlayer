@@ -4,7 +4,7 @@ import com.fongmi.android.tv.model.Channel;
 
 public interface KeyDownImpl {
 
-	void onFind(Channel channel, int delay);
+	void onFind(Channel channel);
 
 	void onKeyVertical(boolean isNext);
 

@@ -32,7 +32,6 @@ public class KeyDown {
 		mNumber.setVisibility(View.VISIBLE);
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
-		mKeyDown.onFind(Channel.create(mText.toString()), getDelay());
 		return true;
 	}
 
@@ -53,13 +52,6 @@ public class KeyDown {
 		return true;
 	}
 
-	public void setNumber(String number) {
-		mNumber.setText(number);
-		mNumber.setVisibility(View.VISIBLE);
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, getDelay());
-	}
-
 	private int getDelay() {
 		return Prefers.getDelay() * 500 + 500;
 	}
@@ -71,6 +63,7 @@ public class KeyDown {
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
+			mKeyDown.onFind(Channel.create(mText.toString()));
 			mNumber.setVisibility(View.GONE);
 			mNumber.setText("");
 			mText.setLength(0);
