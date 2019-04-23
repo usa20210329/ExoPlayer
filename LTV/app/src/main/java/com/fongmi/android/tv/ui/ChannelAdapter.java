@@ -149,14 +149,11 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		}
 	}
 
-	void findChannel(RecyclerView recyclerView, Channel channel) {
-		if (mItems.contains(channel)) {
-			recyclerView.smoothScrollToPosition(mItems.indexOf(channel));
-			setPosition(mItems.indexOf(channel));
-			setChannel(0);
-		} else {
-			Notify.show(R.string.channel_empty);
-		}
+	void findChannel(RecyclerView recyclerView, Channel channel, int delay) {
+		if (!mItems.contains(channel)) return;
+		recyclerView.smoothScrollToPosition(mItems.indexOf(channel));
+		setPosition(mItems.indexOf(channel));
+		setChannel(delay);
 	}
 
 	void setVisible(boolean visible) {

@@ -32,6 +32,7 @@ public class KeyDown {
 		mNumber.setVisibility(View.VISIBLE);
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
+		mKeyDown.onFind(Channel.create(mText.toString()), getDelay());
 		return true;
 	}
 
@@ -70,7 +71,6 @@ public class KeyDown {
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
-			mKeyDown.onFind(Channel.create(mNumber.getText().toString()));
 			mNumber.setVisibility(View.GONE);
 			mNumber.setText("");
 			mText.setLength(0);

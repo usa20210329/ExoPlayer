@@ -245,8 +245,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onFind(Channel channel) {
-		mAdapter.findChannel(mRecyclerView, channel);
+	public void onFind(Channel channel, int delay) {
+		mAdapter.findChannel(mRecyclerView, channel, delay);
 	}
 
 	@Override
