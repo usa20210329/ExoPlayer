@@ -29,6 +29,6 @@ public class App extends Application {
 	}
 
 	private void configureExoMedia() {
-		ExoMedia.setDataSourceFactoryProvider((@NonNull String userAgent, @Nullable TransferListener listener) -> new OkHttpDataSourceFactory(new OkHttpClient(), "VasCreativePlayer/02.12.0183 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener));
+		ExoMedia.setDataSourceFactoryProvider((@NonNull String userAgent, @Nullable TransferListener listener) -> new OkHttpDataSourceFactory(new OkHttpClient(), "VasCreativePlayer/20.19.0520 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener));
 	}
 }
