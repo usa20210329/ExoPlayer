@@ -144,6 +144,12 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		}
 	}
 
+	void resetUrl() {
+		for (Channel item : mItems) item.setRealUrl("");
+		notifyDataSetChanged();
+		onResume();
+	}
+
 	void findChannel(RecyclerView recyclerView, Channel channel) {
 		if (!mItems.contains(channel)) return;
 		recyclerView.smoothScrollToPosition(mItems.indexOf(channel));

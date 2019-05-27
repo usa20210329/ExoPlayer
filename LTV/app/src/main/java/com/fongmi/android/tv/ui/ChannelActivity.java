@@ -51,6 +51,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	private ChannelAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
+	private int retry;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void initEvent() {
 		mAdapter.setOnItemClickListener(this::onPlay);
-		mVideoView.setOnPreparedListener(this::hideProgress);
-		mVideoView.setOnErrorListener((Exception e) -> onError());
+		mVideoView.setOnPreparedListener(this::onPrepared);
+		mVideoView.setOnErrorListener((Exception e) -> onRetry());
 	}
 
 	private void setRecyclerView() {
@@ -116,11 +117,21 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		};
 	}
 
-	private boolean onError() {
+	private void onPrepared() {
+		hideProgress();
+		retry = 0;
+	}
+
+	private boolean onRetry() {
+		if (++retry > 1) onError();
+		else mAdapter.resetUrl();
+		return true;
+	}
+
+	private void onError() {
 		mVideoView.reset();
 		hideProgress();
 		showError();
-		return true;
 	}
 
 	private void playVideo(Channel channel) {
