@@ -1,6 +1,6 @@
 package com.fongmi.android.tv.network;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fongmi.android.tv.model.Channel;
 import com.google.firebase.database.DataSnapshot;

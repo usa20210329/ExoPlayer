@@ -5,17 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.abdularis.app.analogtvnoise.AnalogTvNoise;
 import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
@@ -44,7 +46,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.progress) ProgressBar mProgress;
 	@BindView(R.id.noise) AnalogTvNoise mNoise;
 	@BindView(R.id.splash) ImageView mSplash;
+	@BindView(R.id.info) LinearLayout mInfo;
 	@BindView(R.id.number) TextView mNumber;
+	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.gear) ImageView mGear;
 	@BindView(R.id.hide) View mHide;
 
@@ -65,7 +69,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void initView() {
 		mHandler = new Handler();
-		mKeyDown = new KeyDown(this, mNumber);
+		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
 		Utils.getVersion(this);
 		setRecyclerView();
 		showProgress();
@@ -92,6 +96,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		ApiService.getInstance().getChannels(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
+				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
 				hideProgress();
 			}
@@ -225,7 +230,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void setInfoWidth() {
-		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 64);
+		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 48);
+		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 48);
 		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
 		params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
 		mRecyclerView.setLayoutParams(params);

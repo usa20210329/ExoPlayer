@@ -2,7 +2,7 @@ package com.fongmi.android.tv.utils;
 
 import android.app.Activity;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
