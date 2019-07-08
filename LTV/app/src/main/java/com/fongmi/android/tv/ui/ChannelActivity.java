@@ -72,8 +72,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
 		Utils.getVersion(this);
 		setRecyclerView();
+		setCustomSize();
 		showProgress();
-		setInfoWidth();
 		setScaleType();
 		getChannels();
 		hideSplash();
@@ -229,9 +229,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		}).start();
 	}
 
-	private void setInfoWidth() {
-		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 48);
-		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 8 + 48);
+	private void setCustomSize() {
+		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
+		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
 		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
 		params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
 		mRecyclerView.setLayoutParams(params);
@@ -240,7 +240,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onSizeChange(int progress) {
 		Prefers.putSize(progress);
 		mAdapter.notifyDataSetChanged();
-		setInfoWidth();
+		setCustomSize();
 	}
 
 	public void setScaleType() {
