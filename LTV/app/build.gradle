@@ -18,8 +18,8 @@ android {
 
     productFlavors {
         wtv {
-            versionCode 37
-            versionName "1.3.7"
+            versionCode 38
+            versionName "1.3.8"
             applicationIdSuffix ".wtv"
         }
     }

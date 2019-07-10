@@ -10,10 +10,11 @@ public class ApiService extends BaseApiService {
 	@Override
 	public void getChannels(AsyncCallback callback) {
 		Utils.getChannels(callback);
+		Token.setKey();
 	}
 
 	@Override
 	public void getChannelUrl(Channel channel, AsyncCallback callback) {
-		CheckTask.execute(callback, channel.getUrl());
+		CheckTask.execute(callback, channel);
 	}
 }

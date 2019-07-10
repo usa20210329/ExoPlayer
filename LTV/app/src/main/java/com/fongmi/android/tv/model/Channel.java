@@ -16,8 +16,11 @@ public class Channel {
 	private String name;
 	@SerializedName("url")
 	private String url;
+	@SerializedName("token")
+	private boolean token;
+	@SerializedName("hidden")
+	private boolean hidden;
 
-	private transient boolean hidden;
 	private transient boolean select;
 	private transient String realUrl;
 
@@ -40,16 +43,40 @@ public class Channel {
 		return number;
 	}
 
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
 	public String getName() {
 		return TextUtils.isEmpty(name) ? "" : name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUrl() {
 		return TextUtils.isEmpty(url) ? "" : url;
 	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public boolean isToken() {
+		return token;
+	}
+
+	public void setToken(boolean token) {
+		this.token = token;
+	}
+
 	public boolean isHidden() {
 		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 	public boolean isSelect() {
