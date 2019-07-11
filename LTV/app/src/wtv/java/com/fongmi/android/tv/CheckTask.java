@@ -8,36 +8,31 @@ import com.fongmi.android.tv.network.AsyncCallback;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class CheckTask extends AsyncTask<Void, Integer, String> {
+class CheckTask extends AsyncTask<Channel, Integer, String> {
 
 	private AsyncCallback callback;
-	private Channel channel;
 
 	static void execute(AsyncCallback callback, Channel channel) {
-		new CheckTask(callback, channel).execute();
+		new CheckTask(callback).execute(channel);
 	}
 
-	private CheckTask(AsyncCallback callback, Channel channel) {
+	private CheckTask(AsyncCallback callback) {
 		this.callback = callback;
-		this.channel = channel;
 	}
 
 	@Override
-	protected void onPreExecute() {
-		if (channel.isToken()) channel.setUrl(channel.getUrl().concat(Token.get()));
-	}
-
-	@Override
-	protected String doInBackground(Void... voids) {
+	protected String doInBackground(Channel... channels) {
 		try {
-			HttpURLConnection conn = (HttpURLConnection) new URL(channel.getUrl()).openConnection();
+			String url = channels[0].getUrl();
+			if (channels[0].isToken()) url = url.concat(Token.get());
+			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setInstanceFollowRedirects(false);
 			conn.connect();
 			conn.getInputStream();
 			boolean redirect = conn.getResponseCode() / 100 == 3;
-			return redirect ? conn.getHeaderField("Location") : channel.getUrl();
+			return redirect ? conn.getHeaderField("Location") : url;
 		} catch (Exception e) {
-			return channel.getUrl();
+			return channels[0].getUrl();
 		}
 	}
 

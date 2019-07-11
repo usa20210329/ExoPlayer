@@ -128,7 +128,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private boolean onRetry() {
-		if (++retry > 1) onError();
+		if (++retry > 2) onError();
 		else mAdapter.resetUrl();
 		return true;
 	}
