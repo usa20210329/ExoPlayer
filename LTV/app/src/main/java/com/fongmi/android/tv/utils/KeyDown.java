@@ -77,10 +77,10 @@ public class KeyDown {
 	private void showChannelInfo() {
 		mInfo.setVisibility(View.VISIBLE);
 		mNumber.setText(mText.toString());
-		Channel channel = Channel.create(mText.toString());
-		boolean isExist = mChannels.contains(channel);
+		int index = mChannels.indexOf(Channel.create(mText.toString()));
+		boolean isExist = index >= 0 && !mChannels.get(index).isHidden();
 		mName.setVisibility(isExist ? View.VISIBLE : View.GONE);
-		if (isExist) mName.setText(mChannels.get(mChannels.indexOf(channel)).getName());
+		if (isExist) mName.setText(mChannels.get(index).getName());
 	}
 
 	private Runnable mRunnable = new Runnable() {
