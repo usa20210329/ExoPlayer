@@ -48,8 +48,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.splash) ImageView mSplash;
 	@BindView(R.id.info) LinearLayout mInfo;
 	@BindView(R.id.number) TextView mNumber;
-	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.gear) ImageView mGear;
+	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
 	private ChannelAdapter mAdapter;
