@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.fongmi.android"
@@ -42,13 +42,13 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.leanback:leanback:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.exoplayer:extension-okhttp:2.9.1'
-    implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-database:18.0.1'
-    implementation 'com.google.firebase:firebase-storage:18.1.1'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-database:19.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.devbrackets.android:exomedia:4.3.0'
     implementation 'com.github.abdularis:AnalogTvNoiseView:0.1'
