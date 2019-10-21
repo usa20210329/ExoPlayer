@@ -99,6 +99,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
 				hideProgress();
+				checkKeep();
 			}
 		});
 	}
@@ -116,10 +117,15 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		return new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				channel.setRealUrl(url);
+				channel.setReal(url);
 				playVideo(channel);
 			}
 		};
+	}
+
+	private void checkKeep() {
+		if (Prefers.getKeep() == -1) return;
+		onFind(Channel.create(Prefers.getKeep()));
 	}
 
 	private void onPrepared() {
@@ -128,7 +134,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private boolean onRetry() {
-		if (++retry > 2) onError();
+		if (++retry > 1) onError();
 		else mAdapter.resetUrl();
 		return true;
 	}
@@ -140,9 +146,10 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void playVideo(Channel channel) {
+		Prefers.putKeep(channel.getNumber());
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, 3000);
-		mVideoView.setVideoURI(Uri.parse(channel.getRealUrl()));
+		mVideoView.setVideoURI(Uri.parse(channel.getReal()));
 		mVideoView.start();
 		showProgress();
 		hideError();
@@ -266,7 +273,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onFind(Channel channel) {
-		mAdapter.findChannel(mRecyclerView, channel);
+		mRecyclerView.scrollToPosition(mAdapter.getIndex(channel));
+		mAdapter.setPosition(mAdapter.getIndex(channel));
 	}
 
 	@Override
@@ -314,7 +322,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onResume() {
 		super.onResume();
 		mAdapter.setVisible(true);
-		mAdapter.onResume();
+		mAdapter.setChannel(0);
 	}
 
 	@Override

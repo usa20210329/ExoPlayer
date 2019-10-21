@@ -6,33 +6,25 @@ import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
-import com.google.gson.annotations.SerializedName;
 
 public class Channel {
 
-	@SerializedName("number")
 	private int number;
-	@SerializedName("name")
 	private String name;
-	@SerializedName("url")
 	private String url;
-	@SerializedName("token")
+	private String real;
 	private boolean token;
-	@SerializedName("hidden")
 	private boolean hidden;
-
-	private transient boolean select;
-	private transient String realUrl;
-
-	public Channel() {
-	}
-
-	public Channel(String number) {
-		this.number = Integer.valueOf(number);
-	}
+	private boolean select;
 
 	public static Channel create(String number) {
-		return new Channel(number);
+		return create(Integer.valueOf(number));
+	}
+
+	public static Channel create(int number) {
+		Channel channel = new Channel();
+		channel.setNumber(number);
+		return channel;
 	}
 
 	public static Channel create(DataSnapshot data) {
@@ -59,24 +51,20 @@ public class Channel {
 		return TextUtils.isEmpty(url) ? "" : url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public String getReal() {
+		return TextUtils.isEmpty(real) ? "" : real;
+	}
+
+	public void setReal(String real) {
+		this.real = real;
 	}
 
 	public boolean isToken() {
 		return token;
 	}
 
-	public void setToken(boolean token) {
-		this.token = token;
-	}
-
 	public boolean isHidden() {
 		return hidden;
-	}
-
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
 	}
 
 	public boolean isSelect() {
@@ -85,14 +73,6 @@ public class Channel {
 
 	private void setSelect(boolean select) {
 		this.select = select;
-	}
-
-	public String getRealUrl() {
-		return TextUtils.isEmpty(realUrl) ? "" : realUrl;
-	}
-
-	public void setRealUrl(String realUrl) {
-		this.realUrl = realUrl;
 	}
 
 	public void deselect() {
@@ -104,7 +84,7 @@ public class Channel {
 	}
 
 	public boolean hasUrl() {
-		return getRealUrl().length() > 0;
+		return getReal().length() > 0;
 	}
 
 	public String getInfo() {
@@ -120,6 +100,6 @@ public class Channel {
 		if (this == obj) return true;
 		if (!(obj instanceof Channel)) return false;
 		Channel it = (Channel) obj;
-		return number == it.number;
+		return getNumber() == it.getNumber();
 	}
 }

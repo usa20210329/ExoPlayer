@@ -24,10 +24,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# ksoap2
--keep class org.xmlpull.v1.** { *; }
--dontwarn org.xmlpull.v1.**
-
 # okio
 -dontwarn okio.**
 

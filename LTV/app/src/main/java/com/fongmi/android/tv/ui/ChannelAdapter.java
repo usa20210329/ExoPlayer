@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
 
 class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
+	private OnItemClickListener mItemClickListener;
 	private List<Channel> mItems;
 	private List<Channel> mHides;
-	private OnItemClickListener mItemClickListener;
 	private Handler mHandler;
 	private boolean mVisible;
 	private boolean mWaiting;
@@ -36,8 +36,14 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
 		this.mHandler = new Handler();
-		this.mPosition = -1;
 	}
+
+	private Runnable mRunnable = new Runnable() {
+		@Override
+		public void run() {
+			if (mVisible) mItemClickListener.onItemClick(mItems.get(getPosition()));
+		}
+	};
 
 	interface OnItemClickListener {
 		void onItemClick(Channel item);
@@ -45,6 +51,10 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
 	void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
+	}
+
+	private void resetCount() {
+		this.mCount = 0;
 	}
 
 	class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -60,31 +70,7 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		@Override
 		public void onClick(View view) {
 			setPosition(getLayoutPosition());
-			setChannel(0);
 		}
-	}
-
-	private Runnable mRunnable = new Runnable() {
-		@Override
-		public void run() {
-			if (mVisible) mItemClickListener.onItemClick(mItems.get(mPosition));
-		}
-	};
-
-	private void resetCount() {
-		this.mCount = 0;
-	}
-
-	private void setPosition(int position) {
-		this.mPosition = position;
-	}
-
-	private void setChannel(int delay) {
-		for (Channel item : mItems) item.deselect();
-		mItems.get(mPosition).select();
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, delay);
-		notifyDataSetChanged();
 	}
 
 	void addAll(List<Channel> items) {
@@ -93,7 +79,6 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		mItems.addAll(items);
 		removeHiddenChannel();
 		notifyDataSetChanged();
-		onResume();
 	}
 
 	private void removeHiddenChannel() {
@@ -101,7 +86,6 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		while (iterator.hasNext()) {
 			Channel item = iterator.next();
 			if (item.isHidden()) {
-				item.deselect();
 				mHides.add(item);
 				iterator.remove();
 			}
@@ -109,27 +93,39 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 	}
 
 	void addCount() {
-		if (mHides.size() > 0 && ++mCount > 4) {
-			mItems.addAll(mHides);
-			notifyDataSetChanged();
-			Notify.show(R.string.channel_unlock);
-			mHides.clear();
-			resetCount();
-		}
+		if (mHides.isEmpty() || ++mCount < 5) return;
+		mItems.addAll(mHides);
+		notifyDataSetChanged();
+		Notify.show(R.string.channel_unlock);
+		mHides.clear();
+		resetCount();
 	}
 
 	int onMoveUp(boolean wait) {
 		mWaiting = wait;
-		mPosition = mPosition > 0 ? --mPosition : mItems.size() - 1;
+		mPosition = getPosition() > 0 ? --mPosition : mItems.size() - 1;
 		setChannel(wait ? 10000 : 500);
 		return mPosition;
 	}
 
 	int onMoveDown(boolean wait) {
 		mWaiting = wait;
-		mPosition = mPosition < mItems.size() - 1 ? ++mPosition : 0;
+		mPosition = getPosition() < mItems.size() - 1 ? ++mPosition : 0;
 		setChannel(wait ? 10000 : 500);
 		return mPosition;
+	}
+
+	void setChannel(int delay) {
+		if (getPosition() < 0 || getPosition() > mItems.size() - 1) return;
+		for (Channel item : mItems) item.deselect();
+		mItems.get(getPosition()).select();
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, delay);
+		notifyDataSetChanged();
+	}
+
+	int getIndex(Channel channel) {
+		return mItems.indexOf(channel);
 	}
 
 	void onCenter() {
@@ -137,24 +133,18 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		mWaiting = false;
 	}
 
-	void onResume() {
-		if (mPosition > -1 && mPosition < mItems.size()) {
-			setChannel(0);
-		} else if (mPosition != -1) {
-			onMoveDown(false);
-		}
-	}
-
 	void resetUrl() {
-		for (Channel item : mItems) item.setRealUrl("");
+		for (Channel item : mItems) item.setReal("");
 		notifyDataSetChanged();
-		onResume();
+		setChannel(0);
 	}
 
-	void findChannel(RecyclerView recyclerView, Channel channel) {
-		if (!mItems.contains(channel)) return;
-		recyclerView.smoothScrollToPosition(mItems.indexOf(channel));
-		setPosition(mItems.indexOf(channel));
+	int getPosition() {
+		return mPosition;
+	}
+
+	void setPosition(int position) {
+		this.mPosition = position;
 		setChannel(0);
 	}
 
@@ -170,8 +160,7 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_main, parent, false);
-		return new ViewHolder(view);
+		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_main, parent, false));
 	}
 
 	@Override

@@ -9,6 +9,8 @@ import com.devbrackets.android.exomedia.ExoMedia;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 
 public class App extends Application {
@@ -30,6 +32,7 @@ public class App extends Application {
 	}
 
 	private void configureExoMedia() {
-		ExoMedia.setDataSourceFactoryProvider((@NonNull String userAgent, @Nullable TransferListener listener) -> new OkHttpDataSourceFactory(new OkHttpClient(), "VasCreativePlayer/20.19.0520 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener));
+		OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS).build();
+		ExoMedia.setDataSourceFactoryProvider((@NonNull String userAgent, @Nullable TransferListener listener) -> new OkHttpDataSourceFactory(client, "VasCreativePlayer/20.19.0520 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0", listener));
 	}
 }

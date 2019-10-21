@@ -12,6 +12,7 @@ public class Prefers {
 	private static final String ENTER = "enter";
 	private static final String BOOT = "boot";
 	private static final String FULL = "full";
+	private static final String KEEP = "keep";
 	private static final String REV = "rev";
 
 	private static SharedPreferences getPreferences() {
@@ -76,6 +77,14 @@ public class Prefers {
 
 	static void putFull(boolean value) {
 		putBoolean(FULL, value);
+	}
+
+	public static int getKeep() {
+		return getInt(KEEP, -1);
+	}
+
+	public static void putKeep(int value) {
+		putInt(KEEP, value);
 	}
 
 	static boolean isRev() {
