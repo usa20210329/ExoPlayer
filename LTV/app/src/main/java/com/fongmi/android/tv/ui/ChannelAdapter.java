@@ -57,6 +57,10 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		this.mCount = 0;
 	}
 
+	private int getPosition() {
+		return mPosition;
+	}
+
 	class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		@BindView(R.id.info) TextView info;
@@ -137,10 +141,6 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		for (Channel item : mItems) item.setReal("");
 		notifyDataSetChanged();
 		setChannel(0);
-	}
-
-	int getPosition() {
-		return mPosition;
 	}
 
 	void setPosition(int position) {
