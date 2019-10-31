@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,6 +84,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.setOnItemClickListener(this::onPlay);
 		mVideoView.setOnPreparedListener(this::onPrepared);
 		mVideoView.setOnErrorListener((Exception e) -> onRetry());
+		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
@@ -161,6 +163,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		@Override
 		public void run() {
 			mAdapter.addCount();
+		}
+	};
+
+	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+			if (newState == RecyclerView.SCROLL_STATE_IDLE) mHandler.postDelayed(mRunnable, 2000);
+			else mHandler.removeCallbacks(mRunnable);
 		}
 	};
 
