@@ -73,7 +73,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		Utils.getVersion(this);
 		setRecyclerView();
 		setCustomSize();
-		showProgress();
 		setScaleType();
 		getList();
 	}
@@ -98,7 +97,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
-				hideProgress();
 				checkKeep();
 			}
 		});
@@ -192,7 +190,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		return mRecyclerView.getAlpha() == 1;
 	}
 
-	private boolean infoInvisible() {
+	private boolean infoGone() {
 		return mRecyclerView.getAlpha() == 0;
 	}
 
@@ -291,7 +289,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	public void onKeyVertical(boolean isNext) {
 		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
-		if (infoInvisible()) showUI();
+		if (infoGone()) showUI();
 	}
 
 	@Override
