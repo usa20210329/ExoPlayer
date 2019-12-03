@@ -5,7 +5,7 @@ import com.fongmi.android.tv.network.AsyncCallback;
 
 public interface ApiServiceImpl {
 
-	void getChannels(AsyncCallback callback);
+	void getList(AsyncCallback callback);
 
-	void getChannelUrl(Channel channel, AsyncCallback callback);
+	void getUrl(Channel channel, AsyncCallback callback);
 }

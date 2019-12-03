@@ -42,16 +42,12 @@ class FileUtil {
 	}
 
 	private static String getMimeType(String fileName) {
-		try {
-			String mimeType = URLConnection.guessContentTypeFromName(fileName);
-			return TextUtils.isEmpty(mimeType) ? "*/*" : mimeType;
-		} catch (Exception e) {
-			return "*/*";
-		}
+		String mimeType = URLConnection.guessContentTypeFromName(fileName);
+		return TextUtils.isEmpty(mimeType) ? "*/*" : mimeType;
 	}
 
-	private static Uri getProviderUri(Context context, File file) {
-		return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider", file);
+	private static Uri getShareUri(Context context, File file) {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
 	}
 
 	static void checkUpdate(Activity activity, long version) {
@@ -63,20 +59,15 @@ class FileUtil {
 		}
 	}
 
-	private static void startDownload(final Activity activity) {
+	private static void startDownload(Activity activity) {
 		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(activity, getApkFile()));
 	}
 
 	private static void openFile(Activity activity, File file) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		Uri uri = Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileUtil.getProviderUri(activity, file);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-		intent.setDataAndType(uri, FileUtil.getMimeType(file.getName()));
-		try {
-			activity.startActivity(intent);
-			activity.finish();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		intent.setDataAndType(getShareUri(activity, file), FileUtil.getMimeType(file.getName()));
+		activity.startActivity(intent);
+		activity.finish();
 	}
 }

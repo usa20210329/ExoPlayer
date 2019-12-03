@@ -45,7 +45,7 @@ public class KeyDown {
 		mText.append(getNumber(keyCode));
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
-		showChannelInfo();
+		showInfo();
 		return true;
 	}
 
@@ -74,13 +74,13 @@ public class KeyDown {
 		return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
 	}
 
-	private void showChannelInfo() {
+	private void showInfo() {
 		mInfo.setVisibility(View.VISIBLE);
 		mNumber.setText(mText.toString());
 		int index = mChannels.indexOf(Channel.create(mText.toString()));
-		boolean isExist = index >= 0 && !mChannels.get(index).isHidden();
-		mName.setVisibility(isExist ? View.VISIBLE : View.GONE);
-		if (isExist) mName.setText(mChannels.get(index).getName());
+		boolean exist = index != -1 && !mChannels.get(index).isHidden();
+		mName.setVisibility(exist ? View.VISIBLE : View.GONE);
+		if (exist) mName.setText(mChannels.get(index).getName());
 	}
 
 	private Runnable mRunnable = new Runnable() {

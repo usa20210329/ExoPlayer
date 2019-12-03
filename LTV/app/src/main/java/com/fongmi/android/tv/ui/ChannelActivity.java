@@ -76,8 +76,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		setCustomSize();
 		showProgress();
 		setScaleType();
-		getChannels();
 		hideSplash();
+		getList();
 	}
 
 	private void initEvent() {
@@ -94,8 +94,8 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	private void getChannels() {
-		ApiService.getInstance().getChannels(new AsyncCallback() {
+	private void getList() {
+		ApiService.getInstance().getList(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
@@ -111,7 +111,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 			playVideo(channel);
 		} else {
 			showProgress();
-			ApiService.getInstance().getChannelUrl(channel, getCallback(channel));
+			ApiService.getInstance().getUrl(channel, getCallback(channel));
 		}
 	}
 

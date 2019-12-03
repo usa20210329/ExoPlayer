@@ -8,13 +8,13 @@ import com.fongmi.android.tv.utils.Utils;
 public class ApiService extends BaseApiService {
 
 	@Override
-	public void getChannels(AsyncCallback callback) {
-		Utils.getChannels(callback);
+	public void getList(AsyncCallback callback) {
+		Utils.getList(callback);
 		Token.setKey();
 	}
 
 	@Override
-	public void getChannelUrl(Channel channel, AsyncCallback callback) {
+	public void getUrl(Channel channel, AsyncCallback callback) {
 		CheckTask.execute(callback, channel);
 	}
 }

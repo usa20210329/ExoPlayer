@@ -86,7 +86,7 @@ public class Utils {
 		activity.getWindow().getDecorView().setSystemUiVisibility(flags);
 	}
 
-	public static void getChannels(AsyncCallback callback) {
+	public static void getList(AsyncCallback callback) {
 		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
