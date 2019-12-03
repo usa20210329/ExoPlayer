@@ -46,7 +46,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
 	@BindView(R.id.noise) AnalogTvNoise mNoise;
-	@BindView(R.id.splash) ImageView mSplash;
 	@BindView(R.id.info) LinearLayout mInfo;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
@@ -76,7 +75,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		setCustomSize();
 		showProgress();
 		setScaleType();
-		hideSplash();
 		getList();
 	}
 
@@ -233,15 +231,6 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				mRecyclerView.setVisibility(View.GONE);
-			}
-		}).start();
-	}
-
-	private void hideSplash() {
-		mSplash.animate().setStartDelay(1500).alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				mSplash.setVisibility(View.GONE);
 			}
 		}).start();
 	}
