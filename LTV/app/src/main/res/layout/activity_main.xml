@@ -21,14 +21,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shadow"
+        android:background="#80000000"
         android:clipToPadding="false"
-        android:minWidth="200dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        tools:listitem="@layout/adapter_main" />
+        android:paddingBottom="16dp"
+        tools:listitem="@layout/adapter_type" />
 
     <include layout="@layout/view_widget" />
 

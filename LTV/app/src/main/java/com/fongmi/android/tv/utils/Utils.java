@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
-import com.fongmi.android.tv.model.Channel;
+import com.fongmi.android.tv.model.Type;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
@@ -87,11 +87,11 @@ public class Utils {
 	}
 
 	public static void getList(AsyncCallback callback) {
-		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
+		FirebaseDatabase.getInstance().getReference().child("type").addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
-				List<Channel> items = new ArrayList<>();
-				for (DataSnapshot item : data.getChildren()) items.add(Channel.create(item));
+				List<Type> items = new ArrayList<>();
+				for (DataSnapshot item : data.getChildren()) items.add(Type.create(item));
 				callback.onResponse(items);
 			}
 		});
