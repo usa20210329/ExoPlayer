@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
+	@BindView(R.id.channel) ViewGroup mChannel;
 	@BindView(R.id.noise) AnalogTvNoise mNoise;
-	@BindView(R.id.left) ViewGroup mLeft;
 	@BindView(R.id.info) ViewGroup mInfo;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 		hideError();
 	}
 
-	private Runnable mRunnable = this::hideUI;
+	private Runnable mRunnable = this::hideUi;
 
 	private Runnable mAddCount = new Runnable() {
 		@Override
@@ -176,39 +176,40 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 		if (mNoise.getVisibility() == View.VISIBLE) mNoise.setVisibility(View.GONE);
 	}
 
-	private boolean leftVisible() {
-		return mLeft.getAlpha() == 1;
+	private boolean isUiVisible() {
+		return mChannel.getAlpha() == 1;
 	}
 
-	private boolean leftGone() {
-		return mLeft.getAlpha() == 0;
+	private boolean isUiGone() {
+		return mChannel.getAlpha() == 0;
 	}
 
 	private boolean playWait() {
-		return Prefers.isEnter() && leftVisible();
+		return Prefers.isEnter() && isUiVisible();
 	}
 
-	private void toggleUI() {
-		if (leftVisible()) hideUI();
-		else showUI();
+	private void toggleUi() {
+		if (isUiVisible()) hideUi();
+		else showUi();
 	}
 
-	private void showUI() {
-		Utils.showViews(mLeft, mGear);
+	private void showUi() {
+		Utils.showViews(mChannel, mGear);
 		mHandler.removeCallbacks(mRunnable);
 	}
 
-	private void hideUI() {
-		Utils.hideViews(mLeft, mGear);
+	private void hideUi() {
+		Utils.hideViews(mChannel, mGear);
 		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void setCustomSize() {
 		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
 		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
-		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
+		mTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
+		ViewGroup.LayoutParams params = mChannel.getLayoutParams();
 		params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
-		mRecyclerView.setLayoutParams(params);
+		mChannel.setLayoutParams(params);
 	}
 
 	public void onSizeChange(int progress) {
@@ -229,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) toggleUI();
+		if (event.getAction() == KeyEvent.ACTION_UP) toggleUi();
 		return true;
 	}
 
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@Override
 	public void onKeyVertical(boolean isNext) {
 		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
-		if (leftGone()) showUI();
+		if (isUiGone()) showUi();
 	}
 
 	@Override
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@Override
 	public void onKeyCenter() {
 		mAdapter.onCenter();
-		toggleUI();
+		toggleUi();
 	}
 
 	@Override
@@ -310,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
 	@Override
 	public void onBackPressed() {
-		if (leftGone()) hideUI();
+		if (isUiVisible()) hideUi();
 		else super.onBackPressed();
 	}
 }
