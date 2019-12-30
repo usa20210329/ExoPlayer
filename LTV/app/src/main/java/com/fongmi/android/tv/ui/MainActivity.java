@@ -156,8 +156,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-			if (newState == RecyclerView.SCROLL_STATE_IDLE) mHandler.postDelayed(mRunnable, 2000);
-			else mHandler.removeCallbacks(mRunnable);
+			mHandler.removeCallbacks(mRunnable);
 		}
 	};
 
@@ -256,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
 	@OnClick(R.id.gear)
 	public void onGear() {
+		mHandler.removeCallbacks(mRunnable);
 		Notify.showDialog(this);
 	}
 
