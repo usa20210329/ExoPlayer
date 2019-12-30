@@ -3,5 +3,7 @@
 *.iml
 *build
 *json
+*lucky
+*ken.java
 *ode.java
 /local.properties
