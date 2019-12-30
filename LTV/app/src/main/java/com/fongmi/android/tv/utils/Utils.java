@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.utils;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.os.Build;
 import android.util.DisplayMetrics;
@@ -78,6 +80,32 @@ public class Utils {
 
 	static boolean isRightKey(KeyEvent event) {
 		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT;
+	}
+
+	public static void showViews(View... views) {
+		for (View view : views) showView(view);
+	}
+
+	public static void hideViews(View... views) {
+		for (View view : views) hideView(view);
+	}
+
+	private static void showView(View view) {
+		view.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				view.setVisibility(View.VISIBLE);
+			}
+		}).start();
+	}
+
+	private static void hideView(View view) {
+		view.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				view.setVisibility(View.GONE);
+			}
+		}).start();
 	}
 
 	public static void setImmersiveMode(Activity activity) {

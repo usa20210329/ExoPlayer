@@ -1,7 +1,5 @@
 package com.fongmi.android.tv.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +30,7 @@ import com.fongmi.android.tv.ui.adapter.MainAdapter;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
+import com.fongmi.android.tv.utils.Time;
 import com.fongmi.android.tv.utils.Utils;
 
 import java.util.List;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@BindView(R.id.info) LinearLayout mInfo;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
+	@BindView(R.id.time) TextView mTime;
 	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
@@ -194,33 +194,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	private void showUI() {
-		mGear.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator animation) {
-				mGear.setVisibility(View.VISIBLE);
-			}
-		}).start();
-		mRecyclerView.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator animation) {
-				mRecyclerView.setVisibility(View.VISIBLE);
-			}
-		}).start();
+		Utils.showViews(mTime, mGear, mRecyclerView);
 	}
 
 	private void hideUI() {
-		mGear.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				mGear.setVisibility(View.GONE);
-			}
-		}).start();
-		mRecyclerView.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				mRecyclerView.setVisibility(View.GONE);
-			}
-		}).start();
+		Utils.hideViews(mTime, mGear, mRecyclerView);
 	}
 
 	private void setCustomSize() {
@@ -315,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Time.getInstance().set(this);
 		mAdapter.setVisible(true);
 		mAdapter.setChannel(0);
 	}
@@ -322,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@Override
 	protected void onPause() {
 		super.onPause();
+		Time.getInstance().cancel();
 		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
 	}
