@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
 	@BindView(R.id.noise) AnalogTvNoise mNoise;
-	@BindView(R.id.info) LinearLayout mInfo;
+	@BindView(R.id.left) ViewGroup mLeft;
+	@BindView(R.id.info) ViewGroup mInfo;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
 	@BindView(R.id.time) TextView mTime;
@@ -176,31 +176,31 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 		if (mNoise.getVisibility() == View.VISIBLE) mNoise.setVisibility(View.GONE);
 	}
 
-	private boolean infoVisible() {
-		return mRecyclerView.getAlpha() == 1;
+	private boolean leftVisible() {
+		return mLeft.getAlpha() == 1;
 	}
 
-	private boolean infoGone() {
-		return mRecyclerView.getAlpha() == 0;
+	private boolean leftGone() {
+		return mLeft.getAlpha() == 0;
 	}
 
 	private boolean playWait() {
-		return Prefers.isEnter() && infoVisible();
+		return Prefers.isEnter() && leftVisible();
 	}
 
 	private void toggleUI() {
-		if (infoVisible()) hideUI();
+		if (leftVisible()) hideUI();
 		else showUI();
 	}
 
 	private void showUI() {
+		Utils.showViews(mLeft, mGear);
 		mHandler.removeCallbacks(mRunnable);
-		Utils.showViews(mTime, mGear, mRecyclerView);
 	}
 
 	private void hideUI() {
+		Utils.hideViews(mLeft, mGear);
 		mHandler.removeCallbacks(mRunnable);
-		Utils.hideViews(mTime, mGear, mRecyclerView);
 	}
 
 	private void setCustomSize() {
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	@Override
 	public void onKeyVertical(boolean isNext) {
 		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
-		if (infoGone()) showUI();
+		if (leftGone()) showUI();
 	}
 
 	@Override
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
 	@Override
 	public void onBackPressed() {
-		if (infoVisible()) hideUI();
+		if (leftGone()) hideUI();
 		else super.onBackPressed();
 	}
 }

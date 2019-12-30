@@ -3,7 +3,7 @@ package com.fongmi.android.tv.utils;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fongmi.android.tv.impl.KeyDownImpl;
@@ -18,11 +18,11 @@ public class KeyDown {
 	private KeyDownImpl mKeyDown;
 	private StringBuilder mText;
 	private Handler mHandler;
-	private LinearLayout mInfo;
+	private ViewGroup mInfo;
 	private TextView mNumber;
 	private TextView mName;
 
-	public KeyDown(KeyDownImpl keyDown, LinearLayout info, TextView number, TextView name) {
+	public KeyDown(KeyDownImpl keyDown, ViewGroup info, TextView number, TextView name) {
 		this.mKeyDown = keyDown;
 		this.mNumber = number;
 		this.mName = name;
