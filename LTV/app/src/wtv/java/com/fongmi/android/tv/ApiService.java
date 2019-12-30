@@ -14,7 +14,7 @@ public class ApiService extends BaseApiService {
 	}
 
 	@Override
-	public void getUrl(Channel channel, AsyncCallback callback) {
-		CheckTask.execute(callback, channel);
+	public void getUrl(Channel item, AsyncCallback callback) {
+		CheckTask.execute(callback, item);
 	}
 }

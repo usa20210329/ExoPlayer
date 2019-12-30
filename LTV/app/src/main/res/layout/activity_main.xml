@@ -24,10 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/shadow"
-        android:clipToPadding="false"
         android:minWidth="200dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         tools:listitem="@layout/adapter_main" />
 
     <include layout="@layout/view_widget" />

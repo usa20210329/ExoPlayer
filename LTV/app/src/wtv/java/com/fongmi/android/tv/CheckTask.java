@@ -12,8 +12,8 @@ class CheckTask extends AsyncTask<Channel, Integer, String> {
 
 	private AsyncCallback callback;
 
-	static void execute(AsyncCallback callback, Channel channel) {
-		new CheckTask(callback).execute(channel);
+	static void execute(AsyncCallback callback, Channel item) {
+		new CheckTask(callback).execute(item);
 	}
 
 	private CheckTask(AsyncCallback callback) {

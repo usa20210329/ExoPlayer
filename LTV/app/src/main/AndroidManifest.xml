@@ -51,7 +51,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.ChannelActivity"
+            android:name=".ui.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape">
             <intent-filter>

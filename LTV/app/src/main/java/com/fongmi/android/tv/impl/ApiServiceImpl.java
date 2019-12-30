@@ -7,5 +7,5 @@ public interface ApiServiceImpl {
 
 	void getList(AsyncCallback callback);
 
-	void getUrl(Channel channel, AsyncCallback callback);
+	void getUrl(Channel item, AsyncCallback callback);
 }

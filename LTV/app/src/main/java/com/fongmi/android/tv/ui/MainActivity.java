@@ -28,6 +28,7 @@ import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncCallback;
+import com.fongmi.android.tv.ui.adapter.MainAdapter;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
+public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener, KeyDownImpl {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -52,7 +53,7 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
-	private ChannelAdapter mAdapter;
+	private MainAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private int retry;
@@ -78,15 +79,14 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemClickListener(this::onPlay);
+		mAdapter.setOnItemClickListener(this);
 		mVideoView.setOnPreparedListener(this::onPrepared);
 		mVideoView.setOnErrorListener((Exception e) -> onRetry());
 		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
-		mAdapter = new ChannelAdapter();
-		mRecyclerView.setHasFixedSize(true);
+		mAdapter = new MainAdapter();
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		mRecyclerView.setAdapter(mAdapter);
 	}
@@ -102,27 +102,18 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		});
 	}
 
-	private void onPlay(Channel channel) {
-		if (channel.hasUrl()) {
-			playVideo(channel);
-		} else {
-			showProgress();
-			ApiService.getInstance().getUrl(channel, getCallback(channel));
-		}
-	}
-
-	private AsyncCallback getCallback(final Channel channel) {
-		return new AsyncCallback() {
+	private void getUrl(Channel item) {
+		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				channel.setReal(url);
-				playVideo(channel);
+				item.setReal(url);
+				playVideo(item);
 			}
-		};
+		});
 	}
 
 	private void checkKeep() {
-		if (Prefers.getKeep() == -1) return;
+		if (Prefers.getKeep().isEmpty()) return;
 		onFind(Channel.create(Prefers.getKeep()));
 	}
 
@@ -143,11 +134,11 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		showError();
 	}
 
-	private void playVideo(Channel channel) {
-		Prefers.putKeep(channel.getNumber());
+	private void playVideo(Channel item) {
+		Prefers.putKeep(item.getNumber());
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, 3000);
-		mVideoView.setVideoURI(Uri.parse(channel.getReal()));
+		mVideoView.setVideoURI(Uri.parse(item.getReal()));
 		mVideoView.start();
 		showProgress();
 		hideError();
@@ -251,6 +242,12 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
+	@Override
+	public void onItemClick(Channel item) {
+		if (item.hasUrl()) playVideo(item);
+		else getUrl(item);
+	}
+
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_UP) toggleUI();
@@ -269,9 +266,9 @@ public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onFind(Channel channel) {
-		mRecyclerView.scrollToPosition(mAdapter.getIndex(channel));
-		mAdapter.setPosition(mAdapter.getIndex(channel));
+	public void onFind(Channel item) {
+		mRecyclerView.scrollToPosition(mAdapter.getIndex(item));
+		mAdapter.setPosition(mAdapter.getIndex(item));
 	}
 
 	@Override

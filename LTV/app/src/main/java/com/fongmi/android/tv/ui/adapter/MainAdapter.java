@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.ui;
+package com.fongmi.android.tv.ui.adapter;
 
 import android.os.Handler;
 import android.util.TypedValue;
@@ -15,24 +15,23 @@ import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.utils.Notify;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
 	private OnItemClickListener mItemClickListener;
 	private List<Channel> mItems;
 	private List<Channel> mHides;
 	private Handler mHandler;
-	private boolean mVisible;
-	private boolean mWaiting;
-	private int mPosition;
-	private int mCount;
+	private boolean visible;
+	private boolean waiting;
+	private int position;
+	private int count;
 
-	ChannelAdapter() {
+	public MainAdapter() {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
 		this.mHandler = new Handler();
@@ -41,29 +40,27 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
-			if (mVisible) mItemClickListener.onItemClick(mItems.get(getPosition()));
+			if (visible) mItemClickListener.onItemClick(mItems.get(position));
 		}
 	};
 
-	interface OnItemClickListener {
+	public interface OnItemClickListener {
+
 		void onItemClick(Channel item);
 	}
 
-	void setOnItemClickListener(OnItemClickListener itemClickListener) {
+	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
 	}
 
-	private void resetCount() {
-		this.mCount = 0;
-	}
-
-	private int getPosition() {
-		return mPosition;
+	private void setCount() {
+		this.count = 0;
 	}
 
 	class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		@BindView(R.id.info) TextView info;
+		@BindView(R.id.number) TextView number;
+		@BindView(R.id.name) TextView name;
 
 		ViewHolder(View view) {
 			super(view);
@@ -77,79 +74,74 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 		}
 	}
 
-	void addAll(List<Channel> items) {
+	public void addAll(List<Channel> items) {
 		mHides.clear();
 		mItems.clear();
-		mItems.addAll(items);
-		removeHiddenChannel();
+		addChannel(items);
 		notifyDataSetChanged();
 	}
 
-	private void removeHiddenChannel() {
-		Iterator<Channel> iterator = mItems.iterator();
-		while (iterator.hasNext()) {
-			Channel item = iterator.next();
-			if (item.isHidden()) {
-				mHides.add(item);
-				iterator.remove();
-			}
+	private void addChannel(List<Channel> items) {
+		for (Channel item : items) {
+			if (item.isHidden()) mHides.add(item);
+			else mItems.add(item);
 		}
 	}
 
-	void addCount() {
-		if (mHides.isEmpty() || ++mCount < 5) return;
+	public void addCount() {
+		if (mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mHides);
 		notifyDataSetChanged();
 		Notify.show(R.string.channel_unlock);
 		mHides.clear();
-		resetCount();
+		setCount();
 	}
 
-	int onMoveUp(boolean wait) {
-		mWaiting = wait;
-		mPosition = getPosition() > 0 ? --mPosition : mItems.size() - 1;
-		setChannel(wait ? 10000 : 500);
-		return mPosition;
+	public int onMoveUp(boolean wait) {
+		this.waiting = wait;
+		this.position = position > 0 ? --position : mItems.size() - 1;
+		this.setChannel(wait ? 10000 : 500);
+		return position;
 	}
 
-	int onMoveDown(boolean wait) {
-		mWaiting = wait;
-		mPosition = getPosition() < mItems.size() - 1 ? ++mPosition : 0;
-		setChannel(wait ? 10000 : 500);
-		return mPosition;
+	public int onMoveDown(boolean wait) {
+		this.waiting = wait;
+		this.position = position < mItems.size() - 1 ? ++position : 0;
+		this.setChannel(wait ? 10000 : 500);
+		return position;
 	}
 
-	void setChannel(int delay) {
-		if (getPosition() < 0 || getPosition() > mItems.size() - 1) return;
+	public void setChannel(int delay) {
+		if (position < 0 || position > mItems.size() - 1) return;
 		for (Channel item : mItems) item.deselect();
-		mItems.get(getPosition()).select();
+		mItems.get(position).select();
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, delay);
 		notifyDataSetChanged();
 	}
 
-	int getIndex(Channel channel) {
-		return mItems.indexOf(channel);
+	public int getIndex(Channel item) {
+		return mItems.indexOf(item);
 	}
 
-	void onCenter() {
-		if (mWaiting) setChannel(0);
-		mWaiting = false;
+	public void onCenter() {
+		if (waiting) setChannel(0);
+		this.waiting = false;
 	}
 
-	void resetUrl() {
+	public void resetUrl() {
 		for (Channel item : mItems) item.setReal("");
 		notifyDataSetChanged();
 		setChannel(0);
 	}
 
-	void setPosition(int position) {
-		this.mPosition = position;
-		setChannel(0);
+	public void setPosition(int position) {
+		this.position = position;
+		this.setChannel(0);
 	}
 
-	void setVisible(boolean visible) {
-		this.mVisible = visible;
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	@Override
@@ -166,8 +158,10 @@ class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		Channel item = mItems.get(position);
-		holder.info.setText(item.getInfo());
-		holder.info.setSelected(item.isSelect());
-		holder.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+		holder.name.setText(item.getName());
+		holder.number.setText(item.getNumber());
+		holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+		holder.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+		holder.itemView.setSelected(item.isSelect());
 	}
 }

@@ -17,10 +17,10 @@ android {
     }
 
     productFlavors {
-        lucky {
+        ltv {
             versionCode 45
             versionName "1.4.5"
-            applicationIdSuffix ".lucky"
+            applicationIdSuffix ".ltv"
         }
         wtv {
             versionCode 45

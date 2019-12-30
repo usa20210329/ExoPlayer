@@ -2,14 +2,12 @@ package com.fongmi.android.tv.model;
 
 import android.text.TextUtils;
 
-import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.utils.Prefers;
-import com.fongmi.android.tv.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
 
 public class Channel {
 
-	private int number;
+	private String number;
 	private String name;
 	private String url;
 	private String real;
@@ -18,24 +16,20 @@ public class Channel {
 	private boolean select;
 
 	public static Channel create(String number) {
-		return create(Integer.valueOf(number));
-	}
-
-	public static Channel create(int number) {
-		Channel channel = new Channel();
-		channel.setNumber(number);
-		return channel;
+		Channel item = new Channel();
+		item.setNumber(number);
+		return item;
 	}
 
 	public static Channel create(DataSnapshot data) {
 		return data.getValue(Channel.class);
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
@@ -87,10 +81,6 @@ public class Channel {
 		return getReal().length() > 0;
 	}
 
-	public String getInfo() {
-		return Utils.getString(R.string.channel_number, getNumber()) + "　" + getName();
-	}
-
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}
@@ -100,6 +90,6 @@ public class Channel {
 		if (this == obj) return true;
 		if (!(obj instanceof Channel)) return false;
 		Channel it = (Channel) obj;
-		return getNumber() == it.getNumber();
+		return getNumber().equals(it.getNumber());
 	}
 }
