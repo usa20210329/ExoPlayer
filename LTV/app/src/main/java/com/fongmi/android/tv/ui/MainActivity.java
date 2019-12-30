@@ -194,10 +194,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	private void showUI() {
+		mHandler.removeCallbacks(mRunnable);
 		Utils.showViews(mTime, mGear, mRecyclerView);
 	}
 
 	private void hideUI() {
+		mHandler.removeCallbacks(mRunnable);
 		Utils.hideViews(mTime, mGear, mRecyclerView);
 	}
 
