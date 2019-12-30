@@ -9,11 +9,13 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +27,7 @@ import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.model.Type;
 import com.fongmi.android.tv.network.AsyncCallback;
-import com.fongmi.android.tv.ui.adapter.TypeAdapter;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements TypeAdapter.OnItemClickListener, KeyDownImpl {
+public class ChannelActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
-	private TypeAdapter mAdapter;
+	private ChannelAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private int retry;
@@ -78,13 +78,15 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemClickListener(this);
+		mAdapter.setOnItemClickListener(this::onPlay);
 		mVideoView.setOnPreparedListener(this::onPrepared);
 		mVideoView.setOnErrorListener((Exception e) -> onRetry());
+		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
-		mAdapter = new TypeAdapter();
+		mAdapter = new ChannelAdapter();
+		mRecyclerView.setHasFixedSize(true);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		mRecyclerView.setAdapter(mAdapter);
 	}
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	private void getList() {
 		ApiService.getInstance().getList(new AsyncCallback() {
 			@Override
-			public void onResponse(List<Type> items) {
+			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
 				checkKeep();
@@ -100,18 +102,27 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 		});
 	}
 
-	private void getUrl(Channel item) {
-		ApiService.getInstance().getUrl(item, new AsyncCallback() {
+	private void onPlay(Channel channel) {
+		if (channel.hasUrl()) {
+			playVideo(channel);
+		} else {
+			showProgress();
+			ApiService.getInstance().getUrl(channel, getCallback(channel));
+		}
+	}
+
+	private AsyncCallback getCallback(final Channel channel) {
+		return new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				item.setReal(url);
-				playVideo(item);
+				channel.setReal(url);
+				playVideo(channel);
 			}
-		});
+		};
 	}
 
 	private void checkKeep() {
-		if (Prefers.getKeep().isEmpty()) return;
+		if (Prefers.getKeep() == -1) return;
 		onFind(Channel.create(Prefers.getKeep()));
 	}
 
@@ -151,6 +162,14 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 		}
 	};
 
+	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+			if (newState == RecyclerView.SCROLL_STATE_IDLE) mHandler.postDelayed(mRunnable, 2000);
+			else mHandler.removeCallbacks(mRunnable);
+		}
+	};
+
 	private void showProgress() {
 		if (mProgress.getVisibility() == View.GONE) mProgress.setVisibility(View.VISIBLE);
 	}
@@ -185,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	}
 
 	private void showUI() {
-		mHandler.removeCallbacks(mRunnable);
 		mGear.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
@@ -201,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	}
 
 	private void hideUI() {
-		mHandler.removeCallbacks(mRunnable);
 		mGear.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
@@ -219,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	private void setCustomSize() {
 		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
 		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
+		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
+		params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
+		mRecyclerView.setLayoutParams(params);
 	}
 
 	public void onSizeChange(int progress) {
@@ -231,20 +251,9 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
-	@Override
-	public void onItemClick(Channel item) {
-		if (item.hasUrl()) playVideo(item);
-		else getUrl(item);
-	}
-
-	@Override
-	public void onTypeClick() {
-		hideUI();
-	}
-
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) showUI();
+		if (event.getAction() == KeyEvent.ACTION_UP) toggleUI();
 		return true;
 	}
 
@@ -261,8 +270,8 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 
 	@Override
 	public void onFind(Channel channel) {
-		//mRecyclerView.scrollToPosition(mAdapter.getIndex(channel));
-		//mAdapter.setPosition(mAdapter.getIndex(channel));
+		mRecyclerView.scrollToPosition(mAdapter.getIndex(channel));
+		mAdapter.setPosition(mAdapter.getIndex(channel));
 	}
 
 	@Override
@@ -279,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		//mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
+		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
 		if (infoGone()) showUI();
 	}
 
@@ -291,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 
 	@Override
 	public void onKeyCenter() {
-		//mAdapter.onCenter();
+		mAdapter.onCenter();
 		toggleUI();
 	}
 
@@ -309,14 +318,14 @@ public class MainActivity extends AppCompatActivity implements TypeAdapter.OnIte
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//mAdapter.setVisible(true);
-		//mAdapter.setChannel(0);
+		mAdapter.setVisible(true);
+		mAdapter.setChannel(0);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//mAdapter.setVisible(false);
+		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
 	}
 

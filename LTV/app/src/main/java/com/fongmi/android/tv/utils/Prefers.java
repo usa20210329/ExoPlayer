@@ -19,14 +19,6 @@ public class Prefers {
 		return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
 	}
 
-	private static String getString(String key) {
-		return getPreferences().getString(key, "");
-	}
-
-	private static void putString(String key, String value) {
-		getPreferences().edit().putString(key, value).apply();
-	}
-
 	private static int getInt(String key, int defaultValue) {
 		return getPreferences().getInt(key, defaultValue);
 	}
@@ -87,12 +79,12 @@ public class Prefers {
 		putBoolean(FULL, value);
 	}
 
-	public static String getKeep() {
-		return getString(KEEP);
+	public static int getKeep() {
+		return getInt(KEEP, -1);
 	}
 
-	public static void putKeep(String value) {
-		putString(KEEP, value);
+	public static void putKeep(int value) {
+		putInt(KEEP, value);
 	}
 
 	static boolean isRev() {

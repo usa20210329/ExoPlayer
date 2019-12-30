@@ -2,7 +2,7 @@ package com.fongmi.android.tv.network;
 
 import androidx.annotation.NonNull;
 
-import com.fongmi.android.tv.model.Type;
+import com.fongmi.android.tv.model.Channel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -14,7 +14,7 @@ public abstract class AsyncCallback implements ValueEventListener {
 	public void onResponse(String result) {
 	}
 
-	public void onResponse(List<Type> items) {
+	public void onResponse(List<Channel> items) {
 	}
 
 	@Override

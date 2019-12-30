@@ -2,8 +2,6 @@
 .idea
 *.iml
 *build
-*ltv
 *json
 *ode.java
-*ken.java
 /local.properties

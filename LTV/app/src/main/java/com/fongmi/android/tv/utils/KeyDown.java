@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.model.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +36,9 @@ public class KeyDown {
 		if (mText == null) mText = new StringBuilder();
 	}
 
-	public void setChannels(List<Type> items) {
+	public void setChannels(List<Channel> items) {
 		mChannels.clear();
-		for (Type item : items) if (!item.isHidden()) mChannels.addAll(item.getChannel());
+		mChannels.addAll(items);
 	}
 
 	public boolean onKeyDown(int keyCode) {
@@ -79,8 +78,9 @@ public class KeyDown {
 		mInfo.setVisibility(View.VISIBLE);
 		mNumber.setText(mText.toString());
 		int index = mChannels.indexOf(Channel.create(mText.toString()));
-		mName.setVisibility(index != -1 ? View.VISIBLE : View.GONE);
-		if (index != -1) mName.setText(mChannels.get(index).getName());
+		boolean exist = index != -1 && !mChannels.get(index).isHidden();
+		mName.setVisibility(exist ? View.VISIBLE : View.GONE);
+		if (exist) mName.setText(mChannels.get(index).getName());
 	}
 
 	private Runnable mRunnable = new Runnable() {

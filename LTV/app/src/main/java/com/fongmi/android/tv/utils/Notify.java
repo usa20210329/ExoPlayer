@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.SeekBarListener;
-import com.fongmi.android.tv.ui.MainActivity;
+import com.fongmi.android.tv.ui.ChannelActivity;
 
 public class Notify {
 
@@ -36,11 +36,11 @@ public class Notify {
 		mToast.show();
 	}
 
-	public static void showDialog(MainActivity context) {
+	public static void showDialog(ChannelActivity context) {
 		showDialog(context, View.GONE);
 	}
 
-	public static void showDialog(final MainActivity context, int visibility) {
+	public static void showDialog(final ChannelActivity context, int visibility) {
 		AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
 		ViewGroup control = dialog.findViewById(R.id.control);
 		SeekBar size = dialog.findViewById(R.id.size);
