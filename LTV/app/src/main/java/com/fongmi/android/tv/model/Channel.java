@@ -2,28 +2,42 @@ package com.fongmi.android.tv.model;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.fongmi.android.tv.utils.Prefers;
 
+@Entity
 public class Channel {
 
+	@NonNull
+	@PrimaryKey
 	private String number;
 	private String name;
 	private String url;
-	private String real;
 	private boolean token;
-	private boolean select;
+	@Ignore private String real;
+	@Ignore private boolean select;
 
-	public static Channel create(String number) {
-		Channel channel = new Channel();
-		channel.setNumber(number);
-		return channel;
+	public Channel() {
 	}
 
+	public Channel(@NonNull String number) {
+		this.number = number;
+	}
+
+	public static Channel create(String number) {
+		return new Channel(number);
+	}
+
+	@NonNull
 	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(String number) {
+	public void setNumber(@NonNull String number) {
 		this.number = number;
 	}
 
@@ -39,6 +53,10 @@ public class Channel {
 		return TextUtils.isEmpty(url) ? "" : url;
 	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getReal() {
 		return TextUtils.isEmpty(real) ? "" : real;
 	}
@@ -51,11 +69,15 @@ public class Channel {
 		return token;
 	}
 
+	public void setToken(boolean token) {
+		this.token = token;
+	}
+
 	public boolean isSelect() {
 		return select;
 	}
 
-	private void setSelect(boolean select) {
+	public void setSelect(boolean select) {
 		this.select = select;
 	}
 

@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fongmi.android.tv.AppDatabase;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
@@ -12,7 +13,7 @@ import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
 	@BindView(R.id.number) TextView number;
 	@BindView(R.id.name) TextView name;
@@ -22,6 +23,7 @@ public class ChannelHolder extends RecyclerView.ViewHolder implements View.OnCli
 	public ChannelHolder(View view, ChannelAdapter adapter) {
 		super(view);
 		ButterKnife.bind(this, view);
+		view.setOnLongClickListener(this);
 		view.setOnClickListener(this);
 		setAdapter(adapter);
 	}
@@ -40,6 +42,13 @@ public class ChannelHolder extends RecyclerView.ViewHolder implements View.OnCli
 
 	@Override
 	public void onClick(View v) {
-		adapter.onItemClick(getLayoutPosition());
+		adapter.getListener().onItemClick(adapter.getItem(getLayoutPosition()));
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		if (adapter.getType().getId() == 0) AppDatabase.getInstance().getDao().delete(adapter.getItem(getLayoutPosition()));
+		else AppDatabase.getInstance().getDao().insert(adapter.getItem(getLayoutPosition()));
+		return adapter.getListener().onLongClick();
 	}
 }

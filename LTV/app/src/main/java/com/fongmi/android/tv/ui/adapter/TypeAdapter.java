@@ -50,6 +50,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	}
 
 	private void addType(List<Type> items) {
+		mItems.add(Type.create());
 		for (Type item : items) {
 			if (item.isHidden()) mHides.add(item);
 			else mItems.add(item);
@@ -69,10 +70,16 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		mItemClickListener.onItemClick(item);
 	}
 
+	public boolean onLongClick() {
+		mItems.remove(0);
+		mItems.add(0, Type.create());
+		notifyDataSetChanged();
+		return true;
+	}
+
 	public void resetUrl() {
 		for (Type type : mItems) for (Channel channel : type.getChannel()) channel.setReal("");
 		notifyDataSetChanged();
-		//setChannel(0);
 	}
 
 	public void addCount() {
