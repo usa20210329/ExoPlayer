@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TypeHolder extends RecyclerView.ViewHolder implements ChannelAdapter.OnItemClickListener {
+public class TypeHolder extends RecyclerView.ViewHolder {
 
 	@BindView(R.id.name) TextView name;
 	@BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -32,7 +32,7 @@ public class TypeHolder extends RecyclerView.ViewHolder implements ChannelAdapte
 	}
 
 	@OnClick(R.id.name)
-	void onName() {
+	public void onName() {
 		adapter.mItemClickListener.onTypeClick();
 	}
 
@@ -42,25 +42,18 @@ public class TypeHolder extends RecyclerView.ViewHolder implements ChannelAdapte
 
 	private void setRecyclerView() {
 		mAdapter = new ChannelAdapter();
-		mAdapter.setOnItemClickListener(this);
+		mAdapter.setOnItemClickListener(this::onItemClick);
 		recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-		recyclerView.setNestedScrollingEnabled(false);
 		recyclerView.setAdapter(mAdapter);
 	}
 
 	public void setType(Type item) {
 		name.setText(item.getName());
 		name.setTextSize(item.getTextSize());
-		mAdapter.addAll(item);
+		mAdapter.addAll(item.getChannel());
 	}
 
-	@Override
-	public void onItemClick(Channel item) {
+	private void onItemClick(Channel item) {
 		adapter.onItemClick(item);
-	}
-
-	@Override
-	public boolean onLongClick() {
-		return adapter.onLongClick();
 	}
 }
