@@ -23,7 +23,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000"
+        android:background="#4D000000"
         android:clipToPadding="false"
         android:paddingBottom="16dp"
         tools:listitem="@layout/adapter_type" />
