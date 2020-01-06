@@ -14,11 +14,14 @@ import java.util.List;
 public interface ChannelDao {
 
 	@Query("SELECT * FROM channel")
-	List<Channel> getFavorite();
+	List<Channel> getKeep();
+
+	@Query("SELECT COUNT(number) FROM channel WHERE number = :number")
+	int getCount(String number);
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	void insert(Channel device);
+	void insert(Channel item);
 
 	@Delete
-	void delete(Channel device);
+	void delete(Channel item);
 }

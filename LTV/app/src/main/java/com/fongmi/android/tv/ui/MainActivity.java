@@ -272,8 +272,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyCenter(boolean isLongPress) {
-		mAdapter.onCenter();
-		toggleUi();
+		if (isLongPress) mAdapter.onKeep();
+		else mAdapter.onCenter();
 	}
 
 	@Override

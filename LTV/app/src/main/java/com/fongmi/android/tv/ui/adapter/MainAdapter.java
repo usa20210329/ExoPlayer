@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fongmi.android.tv.AppDatabase;
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.dao.ChannelDao;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.utils.Notify;
 
@@ -127,6 +129,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 	public void onCenter() {
 		if (waiting) setChannel(0);
 		this.waiting = false;
+	}
+
+	public void onKeep() {
+		Channel item = mItems.get(position);
+		ChannelDao dao = AppDatabase.getInstance().getDao();
+		boolean exist = dao.getCount(item.getNumber()) > 0;
+		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
+		if (exist) dao.delete(item);
+		else dao.insert(item);
 	}
 
 	public void resetUrl() {
