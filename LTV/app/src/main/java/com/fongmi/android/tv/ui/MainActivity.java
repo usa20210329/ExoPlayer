@@ -25,7 +25,6 @@ import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.ApiService;
 import com.fongmi.android.tv.network.AsyncCallback;
-import com.fongmi.android.tv.ui.adapter.MainAdapter;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;

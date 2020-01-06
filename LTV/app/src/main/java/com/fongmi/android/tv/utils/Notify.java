@@ -40,7 +40,7 @@ public class Notify {
 		showDialog(context, View.GONE);
 	}
 
-	public static void showDialog(final MainActivity context, int visibility) {
+	public static void showDialog(MainActivity context, int visibility) {
 		AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
 		ViewGroup control = dialog.findViewById(R.id.control);
 		SeekBar size = dialog.findViewById(R.id.size);

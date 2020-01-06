@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.ui.adapter;
+package com.fongmi.android.tv.ui;
 
 import android.os.Handler;
 import android.util.TypedValue;
@@ -35,7 +35,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private int position;
 	private int count;
 
-	public MainAdapter() {
+	MainAdapter() {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
 		this.mHandler = new Handler();
@@ -54,7 +54,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		void onItemClick(Channel item);
 	}
 
-	public void setOnItemListener(OnItemClickListener itemClickListener) {
+	void setOnItemListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
 	}
 
@@ -101,7 +101,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		}
 	}
 
-	public void addAll(List<Channel> items) {
+	void addAll(List<Channel> items) {
 		mHides.clear();
 		mItems.clear();
 		addChannel(items);
@@ -118,7 +118,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		}
 	}
 
-	public void addCount() {
+	void addCount() {
 		if (mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mHides);
 		notifyDataSetChanged();
@@ -127,7 +127,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		setCount();
 	}
 
-	public int onMoveUp(boolean wait) {
+	int onMoveUp(boolean wait) {
 		this.waiting = wait;
 		this.position = position > 0 ? --position : mItems.size() - 1;
 		while (mItems.get(position) instanceof String) onMoveUp(wait);
@@ -135,7 +135,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		return position;
 	}
 
-	public int onMoveDown(boolean wait) {
+	int onMoveDown(boolean wait) {
 		this.waiting = wait;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
 		while (mItems.get(position) instanceof String) onMoveDown(wait);
@@ -152,16 +152,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		notifyDataSetChanged();
 	}
 
-	public int getIndex(Channel item) {
+	int getIndex(Channel item) {
 		return mItems.indexOf(item);
 	}
 
-	public void onCenter() {
+	void onCenter() {
 		if (waiting) setChannel(0);
 		this.waiting = false;
 	}
 
-	public boolean onKeep() {
+	boolean onKeep() {
 		Channel item = getItem(position);
 		boolean exist = mDao.getCount(item.getNumber()) > 0;
 		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
@@ -184,11 +184,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		mDao.insert(item);
 	}
 
-	public void setPosition(int position) {
+	void setPosition(int position) {
 		this.position = position;
 	}
 
-	public void setVisible(boolean visible) {
+	void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 
