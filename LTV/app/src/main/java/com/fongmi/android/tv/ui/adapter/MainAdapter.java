@@ -130,6 +130,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	public int onMoveUp(boolean wait) {
 		this.waiting = wait;
 		this.position = position > 0 ? --position : mItems.size() - 1;
+		while (mItems.get(position) instanceof String) onMoveUp(wait);
 		this.setChannel(wait ? 10000 : 500);
 		return position;
 	}
@@ -137,6 +138,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	public int onMoveDown(boolean wait) {
 		this.waiting = wait;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
+		while (mItems.get(position) instanceof String) onMoveDown(wait);
 		this.setChannel(wait ? 10000 : 500);
 		return position;
 	}
