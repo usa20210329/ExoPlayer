@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_info"
     android:orientation="horizontal"
     android:paddingStart="16dp"
     android:paddingTop="16dp"
@@ -11,21 +10,13 @@
     android:paddingBottom="16dp">
 
     <TextView
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        tools:text="01" />
-
-    <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        tools:text="CNN" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="全部頻道" />
 
 </LinearLayout>

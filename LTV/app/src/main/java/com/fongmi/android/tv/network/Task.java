@@ -12,11 +12,7 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 
 	private AsyncCallback callback;
 
-	static void execute(Channel item, AsyncCallback callback) {
-		new Task(callback).execute(item);
-	}
-
-	private Task(AsyncCallback callback) {
+	Task(AsyncCallback callback) {
 		this.callback = callback;
 	}
 
@@ -26,8 +22,8 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 			String url = items[0].getUrl().concat(Token.get());
 			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setInstanceFollowRedirects(false);
-			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(5000);
+			conn.setConnectTimeout(15000);
+			conn.setReadTimeout(15000);
 			conn.connect();
 			conn.getInputStream();
 			return conn.getResponseCode() / 100 == 3 ? conn.getHeaderField("Location") : url;

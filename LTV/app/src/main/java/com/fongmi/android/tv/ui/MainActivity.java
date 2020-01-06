@@ -30,6 +30,7 @@ import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Time;
+import com.fongmi.android.tv.utils.Token;
 import com.fongmi.android.tv.utils.Utils;
 
 import java.util.List;
@@ -75,13 +76,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
+		Token.setKey();
 		getList();
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemClickListener(this::getUrl);
+		mAdapter.setOnItemListener(this::getUrl);
+		mVideoView.setOnErrorListener(this::onRetry);
 		mVideoView.setOnPreparedListener(this::onPrepared);
-		mVideoView.setOnErrorListener((Exception e) -> onRetry());
 		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void getList() {
-		ApiService.getList(new AsyncCallback() {
+		ApiService.getInstance().getList(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void getUrl(Channel item) {
-		ApiService.getUrl(item, new AsyncCallback() {
+		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
 				item.setReal(url);
@@ -122,13 +124,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		retry = 0;
 	}
 
-	private boolean onRetry() {
-		if (++retry > 1) onError();
-		else mAdapter.resetUrl();
+	private boolean onRetry(Exception e) {
+		if (++retry > 3) onError(e);
+		else mAdapter.setChannel(0);
 		return true;
 	}
 
-	private void onError() {
+	private void onError(Exception e) {
+		e.printStackTrace();
 		mVideoView.reset();
 		hideProgress();
 		showError();
@@ -244,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onFind(Channel item) {
 		mRecyclerView.scrollToPosition(mAdapter.getIndex(item));
 		mAdapter.setPosition(mAdapter.getIndex(item));
+		mAdapter.setChannel(0);
 	}
 
 	@Override

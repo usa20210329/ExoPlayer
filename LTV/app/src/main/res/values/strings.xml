@@ -5,6 +5,8 @@
     <string name="channel.update">發現新版本</string>
     <string name="channel.keep.insert">已加入收藏</string>
     <string name="channel.keep.delete">已移除收藏</string>
+    <string name="channel.type.keep">我的收藏</string>
+    <string name="channel.type.all">全部頻道</string>
 
     <!-- Setting -->
     <string name="setting.common">一般設定</string>

@@ -22,7 +22,7 @@ public class Utils {
 		return App.getInstance().getResources().getDisplayMetrics();
 	}
 
-	static String getString(int resId) {
+	public static String getString(int resId) {
 		return App.getInstance().getString(resId);
 	}
 

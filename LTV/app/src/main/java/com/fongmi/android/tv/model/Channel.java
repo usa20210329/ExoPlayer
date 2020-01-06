@@ -108,6 +108,16 @@ public class Channel {
 		return Prefers.getSize() * 2 + 14;
 	}
 
+	public Channel get() {
+		Channel item = new Channel();
+		item.setNumber(getNumber());
+		item.setName(getName());
+		item.setUrl(getUrl());
+		item.setToken(isToken());
+		item.setHidden(isHidden());
+		return item;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
