@@ -5,28 +5,16 @@ android {
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.fongmi.android"
+        applicationId "com.fongmi.android.ltv"
         minSdkVersion 18
         targetSdkVersion 29
-        flavorDimensions "targetSdkVersion"
+        versionCode 3
+        versionName "1.0.3"
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    productFlavors {
-        ltv {
-            versionCode 3
-            versionName "1.0.3"
-            applicationIdSuffix ".ltv"
-        }
-        wtv {
-            versionCode 45
-            versionName "1.4.5"
-            applicationIdSuffix ".wtv"
-        }
     }
 
     buildTypes {
@@ -35,12 +23,6 @@ android {
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            outputFileName = "${variant.productFlavors[0].name}.apk"
         }
     }
 }

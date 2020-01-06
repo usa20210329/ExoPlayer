@@ -122,7 +122,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		if (mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mHides);
 		notifyDataSetChanged();
-		Notify.show(R.string.channel_unlock);
+		Notify.show(R.string.app_unlock);
 		mHides.clear();
 		setCount();
 	}

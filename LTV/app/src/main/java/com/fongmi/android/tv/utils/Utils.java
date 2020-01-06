@@ -11,7 +11,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.fongmi.android.tv.App;
-import com.fongmi.android.tv.BuildConfig;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
@@ -107,7 +106,7 @@ public class Utils {
 	}
 
 	public static void getVersion(Activity activity) {
-		FirebaseDatabase.getInstance().getReference().child(BuildConfig.FLAVOR).addValueEventListener(new AsyncCallback() {
+		FirebaseDatabase.getInstance().getReference().child(App.getName()).addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
 				FileUtil.checkUpdate(activity, (long) data.getValue());

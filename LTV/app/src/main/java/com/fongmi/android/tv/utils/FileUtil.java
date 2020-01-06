@@ -24,7 +24,7 @@ class FileUtil {
 	private static final String TAG = FileUtil.class.getSimpleName();
 
 	private static String getApkName() {
-		return BuildConfig.FLAVOR.concat(".apk");
+		return App.getName().concat(".apk");
 	}
 
 	private static File getCachePath() {
@@ -52,7 +52,7 @@ class FileUtil {
 
 	static void checkUpdate(Activity activity, long version) {
 		if (version > BuildConfig.VERSION_CODE) {
-			Notify.show(R.string.channel_update);
+			Notify.show(R.string.app_update);
 			startDownload(activity);
 		} else {
 			FileUtil.clearFile(getApkFile());

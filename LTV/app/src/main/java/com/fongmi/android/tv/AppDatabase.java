@@ -20,7 +20,7 @@ public abstract class AppDatabase extends RoomDatabase {
 	}
 
 	private static AppDatabase create(Context context) {
-		return Room.databaseBuilder(context, AppDatabase.class, BuildConfig.FLAVOR).allowMainThreadQueries().build();
+		return Room.databaseBuilder(context, AppDatabase.class, App.getName()).allowMainThreadQueries().build();
 	}
 
 	public abstract ChannelDao getDao();

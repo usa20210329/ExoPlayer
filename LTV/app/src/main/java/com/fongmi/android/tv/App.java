@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.devbrackets.android.exomedia.ExoMedia;
+import com.fongmi.android.tv.utils.Utils;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 
@@ -23,6 +24,10 @@ public class App extends Application {
 
 	public static App getInstance() {
 		return instance;
+	}
+
+	public static String getName() {
+		return Utils.getString(R.string.app_name).toLowerCase();
 	}
 
 	@Override

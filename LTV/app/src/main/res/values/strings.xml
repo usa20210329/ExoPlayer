@@ -1,21 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
 
     <!-- App -->
-    <string name="channel.unlock">已解鎖</string>
-    <string name="channel.update">發現新版本</string>
-    <string name="channel.keep.insert">已加入收藏</string>
-    <string name="channel.keep.delete">已移除收藏</string>
-    <string name="channel.type.keep">我的收藏</string>
-    <string name="channel.type.all">全部頻道</string>
+	<string name="app_name">LTV</string>
+    <string name="app_unlock">已解鎖</string>
+    <string name="app_update">發現新版本</string>
+
+    <!-- Channel -->
+    <string name="channel_keep_insert">已加入收藏</string>
+    <string name="channel_keep_delete">已移除收藏</string>
+    <string name="channel_type_keep">我的收藏</string>
+    <string name="channel_type_all">全部頻道</string>
 
     <!-- Setting -->
-    <string name="setting.common">一般設定</string>
-    <string name="setting.common.size">字體大小</string>
-    <string name="setting.common.boot">開機啟動</string>
-    <string name="setting.common.full">全螢幕</string>
-    <string name="setting.control">控制設定</string>
-    <string name="setting.control.delay">數字鍵延遲</string>
-    <string name="setting.control.enter">確認鍵播放</string>
-    <string name="setting.control.rev">上下鍵相反</string>
+    <string name="setting_common">一般設定</string>
+    <string name="setting_common_size">字體大小</string>
+    <string name="setting_common_boot">開機啟動</string>
+    <string name="setting_common_full">全螢幕</string>
+    <string name="setting_control">控制設定</string>
+    <string name="setting_control_delay">數字鍵延遲</string>
+    <string name="setting_control_enter">確認鍵播放</string>
+    <string name="setting_control_rev">上下鍵相反</string>
 
 </resources>
