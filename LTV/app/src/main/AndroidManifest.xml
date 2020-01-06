@@ -17,7 +17,7 @@
         android:required="false" />
 
     <application
-        android:name="com.fongmi.android.ltv.App"
+        android:name=".App"
         android:allowBackup="false"
         android:banner="@drawable/ic_banner"
         android:fullBackupContent="false"
@@ -43,7 +43,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name="com.fongmi.android.ltv.receiver.BootReceiver">
+        <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -51,7 +51,7 @@
         </receiver>
 
         <activity
-            android:name="com.fongmi.android.ltv.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
