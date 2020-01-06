@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.abdularis.app.analogtvnoise.AnalogTvNoise;
 import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
-import com.fongmi.android.tv.ApiService;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.model.Channel;
+import com.fongmi.android.tv.network.ApiService;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.fongmi.android.tv.ui.adapter.MainAdapter;
 import com.fongmi.android.tv.utils.KeyDown;
@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener, KeyDownImpl {
+public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemClickListener(this);
+		mAdapter.setOnItemClickListener(this::getUrl);
 		mVideoView.setOnPreparedListener(this::onPrepared);
 		mVideoView.setOnErrorListener((Exception e) -> onRetry());
 		mRecyclerView.addOnScrollListener(mScrollListener);
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	private void getList() {
-		ApiService.getInstance().getList(new AsyncCallback() {
+		ApiService.getList(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	private void getUrl(Channel item) {
-		ApiService.getInstance().getUrl(item, new AsyncCallback() {
+		ApiService.getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
 				item.setReal(url);
@@ -222,12 +222,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
-	@Override
-	public void onItemClick(Channel item) {
-		if (item.hasUrl()) playVideo(item);
-		else getUrl(item);
-	}
-
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_UP) toggleUi();
@@ -277,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 	}
 
 	@Override
-	public void onKeyCenter() {
+	public void onKeyCenter(boolean isLongPress) {
 		mAdapter.onCenter();
 		toggleUi();
 	}

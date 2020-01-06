@@ -10,7 +10,7 @@ public interface KeyDownImpl {
 
 	void onKeyHorizontal(boolean isLeft);
 
-	void onKeyCenter();
+	void onKeyCenter(boolean isLongPress);
 
 	void onKeyBack();
 }

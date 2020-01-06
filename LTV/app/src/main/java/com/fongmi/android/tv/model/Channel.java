@@ -77,10 +77,6 @@ public class Channel {
 		setSelect(true);
 	}
 
-	public boolean hasUrl() {
-		return getReal().length() > 0;
-	}
-
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}

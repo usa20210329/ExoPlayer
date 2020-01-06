@@ -12,13 +12,9 @@ import androidx.annotation.NonNull;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
-import com.fongmi.android.tv.model.Channel;
 import com.fongmi.android.tv.network.AsyncCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Utils {
 
@@ -30,10 +26,6 @@ public class Utils {
 		return App.getInstance().getString(resId);
 	}
 
-	public static String getString(int resId, Object... formatArgs) {
-		return App.getInstance().getString(resId, formatArgs);
-	}
-
 	public static int dp2px(int dpValue) {
 		return Math.round(dpValue * getDisplayMetrics().density);
 	}
@@ -43,7 +35,7 @@ public class Utils {
 	}
 
 	public static boolean hasEvent(KeyEvent event) {
-		return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event));
+		return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event) || event.isLongPress());
 	}
 
 	private static boolean isArrowKey(KeyEvent event) {
@@ -112,17 +104,6 @@ public class Utils {
 		int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) flags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 		activity.getWindow().getDecorView().setSystemUiVisibility(flags);
-	}
-
-	public static void getList(AsyncCallback callback) {
-		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot data) {
-				List<Channel> items = new ArrayList<>();
-				for (DataSnapshot item : data.getChildren()) items.add(Channel.create(item));
-				callback.onResponse(items);
-			}
-		});
 	}
 
 	public static void getVersion(Activity activity) {
