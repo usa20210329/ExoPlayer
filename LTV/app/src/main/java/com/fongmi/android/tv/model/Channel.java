@@ -2,34 +2,49 @@ package com.fongmi.android.tv.model;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.fongmi.android.tv.utils.Prefers;
 import com.google.firebase.database.DataSnapshot;
 
+@Entity
 public class Channel {
 
+	@NonNull
+	@PrimaryKey
 	private String number;
 	private String name;
 	private String url;
-	private String real;
 	private boolean token;
 	private boolean hidden;
-	private boolean select;
+	@Ignore private String real;
+	@Ignore private boolean select;
 
 	public static Channel create(String number) {
-		Channel item = new Channel();
-		item.setNumber(number);
-		return item;
+		return new Channel(number);
 	}
 
 	public static Channel create(DataSnapshot data) {
 		return data.getValue(Channel.class);
 	}
 
+	public Channel() {
+		this("");
+	}
+
+	public Channel(@NonNull String number) {
+		this.number = number;
+	}
+
+	@NonNull
 	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(String number) {
+	public void setNumber(@NonNull String number) {
 		this.number = number;
 	}
 
@@ -45,6 +60,10 @@ public class Channel {
 		return TextUtils.isEmpty(url) ? "" : url;
 	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getReal() {
 		return TextUtils.isEmpty(real) ? "" : real;
 	}
@@ -57,8 +76,16 @@ public class Channel {
 		return token;
 	}
 
+	public void setToken(boolean token) {
+		this.token = token;
+	}
+
 	public boolean isHidden() {
 		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 	public boolean isSelect() {
