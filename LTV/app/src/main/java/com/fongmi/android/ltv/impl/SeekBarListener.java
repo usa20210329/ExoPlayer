@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.impl;
+package com.fongmi.android.ltv.impl;
 
 import android.widget.SeekBar;
 

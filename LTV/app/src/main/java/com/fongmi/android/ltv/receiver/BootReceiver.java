@@ -1,10 +1,10 @@
-package com.fongmi.android.tv.receiver;
+package com.fongmi.android.ltv.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.fongmi.android.tv.utils.Prefers;
+import com.fongmi.android.ltv.utils.Prefers;
 
 public class BootReceiver extends BroadcastReceiver {
 

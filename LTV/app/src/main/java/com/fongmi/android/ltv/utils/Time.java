@@ -1,9 +1,9 @@
-package com.fongmi.android.tv.utils;
+package com.fongmi.android.ltv.utils;
 
 import android.app.Activity;
 import android.widget.TextView;
 
-import com.fongmi.android.tv.R;
+import com.fongmi.android.ltv.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

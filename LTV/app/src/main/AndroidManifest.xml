@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fongmi.android.tv">
+    package="com.fongmi.android.ltv">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,7 @@
         android:required="false" />
 
     <application
-        android:name=".App"
+        android:name="com.fongmi.android.ltv.App"
         android:allowBackup="false"
         android:banner="@drawable/ic_banner"
         android:fullBackupContent="false"
@@ -43,7 +43,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".receiver.BootReceiver">
+        <receiver android:name="com.fongmi.android.ltv.receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -51,7 +51,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.fongmi.android.ltv.ui.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.ui;
+package com.fongmi.android.ltv.ui;
 
 import android.os.Handler;
 import android.util.TypedValue;
@@ -10,12 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fongmi.android.tv.AppDatabase;
-import com.fongmi.android.tv.R;
-import com.fongmi.android.tv.dao.ChannelDao;
-import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.utils.Notify;
-import com.fongmi.android.tv.utils.Utils;
+import com.fongmi.android.ltv.AppDatabase;
+import com.fongmi.android.ltv.R;
+import com.fongmi.android.ltv.dao.ChannelDao;
+import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.utils.Notify;
+import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

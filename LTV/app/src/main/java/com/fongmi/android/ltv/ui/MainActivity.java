@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.ui;
+package com.fongmi.android.ltv.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,17 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.abdularis.app.analogtvnoise.AnalogTvNoise;
 import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
-import com.fongmi.android.tv.R;
-import com.fongmi.android.tv.impl.KeyDownImpl;
-import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.network.ApiService;
-import com.fongmi.android.tv.network.AsyncCallback;
-import com.fongmi.android.tv.utils.KeyDown;
-import com.fongmi.android.tv.utils.Notify;
-import com.fongmi.android.tv.utils.Prefers;
-import com.fongmi.android.tv.utils.Time;
-import com.fongmi.android.tv.utils.Token;
-import com.fongmi.android.tv.utils.Utils;
+import com.fongmi.android.ltv.R;
+import com.fongmi.android.ltv.impl.KeyDownImpl;
+import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.network.ApiService;
+import com.fongmi.android.ltv.network.AsyncCallback;
+import com.fongmi.android.ltv.utils.KeyDown;
+import com.fongmi.android.ltv.utils.Notify;
+import com.fongmi.android.ltv.utils.Prefers;
+import com.fongmi.android.ltv.utils.Time;
+import com.fongmi.android.ltv.utils.Token;
+import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
 

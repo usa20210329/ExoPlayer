@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.dao;
+package com.fongmi.android.ltv.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.fongmi.android.tv.model.Channel;
+import com.fongmi.android.ltv.model.Channel;
 
 import java.util.List;
 

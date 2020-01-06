@@ -1,6 +1,6 @@
-package com.fongmi.android.tv.impl;
+package com.fongmi.android.ltv.impl;
 
-import com.fongmi.android.tv.model.Channel;
+import com.fongmi.android.ltv.model.Channel;
 
 public interface KeyDownImpl {
 

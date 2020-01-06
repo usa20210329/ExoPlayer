@@ -1,9 +1,9 @@
-package com.fongmi.android.tv.network;
+package com.fongmi.android.ltv.network;
 
 import android.os.AsyncTask;
 
-import com.fongmi.android.tv.model.Channel;
-import com.fongmi.android.tv.utils.Token;
+import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.utils.Token;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

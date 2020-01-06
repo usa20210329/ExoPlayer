@@ -1,4 +1,4 @@
-package com.fongmi.android.tv;
+package com.fongmi.android.ltv;
 
 import android.app.Application;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.devbrackets.android.exomedia.ExoMedia;
-import com.fongmi.android.tv.utils.Utils;
+import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 

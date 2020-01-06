@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.utils;
+package com.fongmi.android.ltv.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
-import com.fongmi.android.tv.App;
-import com.fongmi.android.tv.BuildConfig;
-import com.fongmi.android.tv.R;
+import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.BuildConfig;
+import com.fongmi.android.ltv.R;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 

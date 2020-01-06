@@ -1,9 +1,9 @@
-package com.fongmi.android.tv.utils;
+package com.fongmi.android.ltv.utils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.fongmi.android.tv.App;
+import com.fongmi.android.ltv.App;
 
 public class Prefers {
 

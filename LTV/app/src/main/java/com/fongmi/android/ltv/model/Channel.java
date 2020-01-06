@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.model;
+package com.fongmi.android.ltv.model;
 
 import android.text.TextUtils;
 
@@ -7,7 +7,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.fongmi.android.tv.utils.Prefers;
+import com.fongmi.android.ltv.utils.Prefers;
 import com.google.firebase.database.DataSnapshot;
 
 @Entity

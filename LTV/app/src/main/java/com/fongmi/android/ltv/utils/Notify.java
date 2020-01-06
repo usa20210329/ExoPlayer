@@ -1,4 +1,4 @@
-package com.fongmi.android.tv.utils;
+package com.fongmi.android.ltv.utils;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.fongmi.android.tv.App;
-import com.fongmi.android.tv.R;
-import com.fongmi.android.tv.impl.SeekBarListener;
-import com.fongmi.android.tv.ui.MainActivity;
+import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.R;
+import com.fongmi.android.ltv.impl.SeekBarListener;
+import com.fongmi.android.ltv.ui.MainActivity;
 
 public class Notify {
 
