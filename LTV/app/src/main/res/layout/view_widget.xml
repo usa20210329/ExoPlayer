@@ -10,7 +10,7 @@
         android:layout_height="56dp"
         android:layout_gravity="end|bottom"
         android:scaleType="center"
-        android:src="@drawable/ic_action_setting" />
+        android:src="@drawable/ic_setting" />
 
     <View
         android:id="@+id/hide"
