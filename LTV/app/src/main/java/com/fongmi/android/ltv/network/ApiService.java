@@ -33,11 +33,6 @@ public class ApiService {
 	}
 
 	public void getUrl(Channel item, AsyncCallback callback) {
-		if (item.isDynamic()) execute(item, callback);
-		else callback.onResponse(item.getUrl());
-	}
-
-	private void execute(Channel item, AsyncCallback callback) {
 		if (mTask != null) mTask.cancel(true);
 		mTask = new Task(callback);
 		mTask.execute(item);

@@ -21,8 +21,8 @@ import com.abdularis.app.analogtvnoise.AnalogTvNoise;
 import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.ltv.R;
-import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.AsyncCallback;
 import com.fongmi.android.ltv.utils.KeyDown;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemListener(this::getUrl);
+		mAdapter.setOnItemListener(this::onClick);
 		mVideoView.setOnErrorListener(this::onRetry);
 		mVideoView.setOnPreparedListener(this::onPrepared);
 		mRecyclerView.addOnScrollListener(mScrollListener);
@@ -114,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		onFind(Channel.create(Prefers.getKeep()));
 	}
 
+	private void onClick(Channel item) {
+		if (item.isDynamic()) getUrl(item);
+		else playVideo(item.getUrl());
+		showProgress();
+		hideError();
+	}
+
 	private void onPrepared() {
 		hideProgress();
 		retry = 0;
@@ -137,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mHandler.postDelayed(mRunnable, 3000);
 		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
-		showProgress();
-		hideError();
 	}
 
 	private Runnable mRunnable = this::hideUi;
