@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.fongmi.android.ltv.dao.ChannelDao;
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 
 @Database(entities = {Channel.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

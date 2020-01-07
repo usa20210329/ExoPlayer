@@ -1,6 +1,6 @@
 package com.fongmi.android.ltv.impl;
 
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 
 public interface KeyDownImpl {
 

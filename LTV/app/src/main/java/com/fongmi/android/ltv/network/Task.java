@@ -2,7 +2,7 @@ package com.fongmi.android.ltv.network;
 
 import android.os.AsyncTask;
 
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.utils.Token;
 
 import java.net.HttpURLConnection;

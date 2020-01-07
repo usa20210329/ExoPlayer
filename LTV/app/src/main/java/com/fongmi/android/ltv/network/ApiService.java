@@ -2,7 +2,7 @@ package com.fongmi.android.ltv.network;
 
 import androidx.annotation.NonNull;
 
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 

@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fongmi.android.ltv.model;
+package com.fongmi.android.ltv.bean;
 
 import android.text.TextUtils;
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fongmi.android.ltv.impl.KeyDownImpl;
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 
 import java.util.ArrayList;
 import java.util.List;

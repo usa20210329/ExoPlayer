@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fongmi.android.ltv.AppDatabase;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.dao.ChannelDao;
-import com.fongmi.android.ltv.model.Channel;
+import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Utils;
