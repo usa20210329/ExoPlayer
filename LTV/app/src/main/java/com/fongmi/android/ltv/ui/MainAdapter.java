@@ -15,6 +15,7 @@ import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.dao.ChannelDao;
 import com.fongmi.android.ltv.model.Channel;
 import com.fongmi.android.ltv.utils.Notify;
+import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		getItem(position).select();
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, delay);
+		Prefers.putKeep(getItem(position).getNumber());
 		notifyDataSetChanged();
 	}
 

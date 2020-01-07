@@ -20,7 +20,7 @@ public class Channel {
 	private String url;
 	private boolean token;
 	private boolean hidden;
-	@Ignore private String real;
+	private boolean dynamic;
 	@Ignore private boolean select;
 
 	public static Channel create(String number) {
@@ -64,14 +64,6 @@ public class Channel {
 		this.url = url;
 	}
 
-	public String getReal() {
-		return TextUtils.isEmpty(real) ? "" : real;
-	}
-
-	public void setReal(String real) {
-		this.real = real;
-	}
-
 	public boolean isToken() {
 		return token;
 	}
@@ -86,6 +78,14 @@ public class Channel {
 
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
 	}
 
 	public boolean isSelect() {

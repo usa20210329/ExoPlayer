@@ -19,7 +19,8 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 	@Override
 	protected String doInBackground(Channel... items) {
 		try {
-			String url = items[0].getUrl().concat(Token.get());
+			String url = items[0].getUrl();
+			if (items[0].isToken()) url = url.concat(Token.get());
 			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setInstanceFollowRedirects(false);
 			conn.setConnectTimeout(5000);
@@ -33,7 +34,7 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 	}
 
 	@Override
-	protected void onPostExecute(String result) {
-		callback.onResponse(result);
+	protected void onPostExecute(String url) {
+		callback.onResponse(url);
 	}
 }

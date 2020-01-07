@@ -107,8 +107,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				item.setReal(url);
-				playVideo(item);
+				playVideo(url);
 			}
 		});
 	}
@@ -136,11 +135,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		showError();
 	}
 
-	private void playVideo(Channel item) {
-		Prefers.putKeep(item.getNumber());
+	private void playVideo(String url) {
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, 3000);
-		mVideoView.setVideoURI(Uri.parse(item.getReal()));
+		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
 		showProgress();
 		hideError();

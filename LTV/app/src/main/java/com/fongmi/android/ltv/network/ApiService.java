@@ -33,7 +33,7 @@ public class ApiService {
 	}
 
 	public void getUrl(Channel item, AsyncCallback callback) {
-		if (item.isToken()) execute(item, callback);
+		if (item.isDynamic()) execute(item, callback);
 		else callback.onResponse(item.getUrl());
 	}
 
