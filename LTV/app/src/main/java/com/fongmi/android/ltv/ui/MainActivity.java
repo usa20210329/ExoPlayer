@@ -28,7 +28,6 @@ import com.fongmi.android.ltv.network.AsyncCallback;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
-import com.fongmi.android.ltv.utils.Time;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
@@ -44,12 +43,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
-	@BindView(R.id.channel) ViewGroup mChannel;
 	@BindView(R.id.noise) AnalogTvNoise mNoise;
 	@BindView(R.id.info) ViewGroup mInfo;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.gear) ImageView mGear;
-	@BindView(R.id.time) TextView mTime;
 	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private boolean onRetry(Exception e) {
 		if (++retry > 3) onError(e);
-		else mAdapter.setChannel(0);
+		else mAdapter.setChannel();
 		return true;
 	}
 
@@ -177,15 +174,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private boolean isUiVisible() {
-		return mChannel.getAlpha() == 1;
+		return mRecyclerView.getAlpha() == 1;
 	}
 
 	private boolean isUiGone() {
-		return mChannel.getAlpha() == 0;
-	}
-
-	private boolean playWait() {
-		return Prefers.isEnter() && isUiVisible();
+		return mRecyclerView.getAlpha() == 0;
 	}
 
 	private void toggleUi() {
@@ -194,22 +187,21 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void showUi() {
-		Utils.showViews(mChannel, mGear);
+		Utils.showViews(mRecyclerView, mGear);
 		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void hideUi() {
-		Utils.hideViews(mChannel, mGear);
+		Utils.hideViews(mRecyclerView, mGear);
 		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void setCustomSize() {
 		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
 		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
-		mTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
-		ViewGroup.LayoutParams params = mChannel.getLayoutParams();
+		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
 		params.width = Utils.dp2px(200 + Prefers.getSize() * 20);
-		mChannel.setLayoutParams(params);
+		mRecyclerView.setLayoutParams(params);
 	}
 
 	public void onSizeChange(int progress) {
@@ -244,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onFind(Channel item) {
 		mRecyclerView.scrollToPosition(mAdapter.getIndex(item));
 		mAdapter.setPosition(mAdapter.getIndex(item));
-		mAdapter.setChannel(0);
+		mAdapter.setChannel();
 	}
 
 	@Override
@@ -261,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown(playWait()) : mAdapter.onMoveUp(playWait()));
+		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
 		if (isUiGone()) showUi();
 	}
 
@@ -275,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onKeyCenter(boolean isLongPress) {
 		if (isLongPress) mAdapter.onKeep();
 		else mAdapter.onCenter();
+		showUi();
 	}
 
 	@Override
@@ -291,16 +284,12 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Time.getInstance().set(this);
-		mAdapter.setVisible(true);
-		mAdapter.setChannel(0);
+		mAdapter.setChannel();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Time.getInstance().cancel();
-		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
 	}
 

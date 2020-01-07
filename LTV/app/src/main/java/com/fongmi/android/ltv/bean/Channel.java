@@ -4,14 +4,13 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.fongmi.android.ltv.utils.Prefers;
 import com.google.firebase.database.DataSnapshot;
 
 @Entity
-public class Channel {
+public class Channel extends Bean {
 
 	@NonNull
 	@PrimaryKey
@@ -21,7 +20,6 @@ public class Channel {
 	private boolean token;
 	private boolean hidden;
 	private boolean dynamic;
-	@Ignore private boolean select;
 
 	public static Channel create(String number) {
 		return new Channel(number);
@@ -88,22 +86,6 @@ public class Channel {
 		this.dynamic = dynamic;
 	}
 
-	public boolean isSelect() {
-		return select;
-	}
-
-	private void setSelect(boolean select) {
-		this.select = select;
-	}
-
-	public void deselect() {
-		setSelect(false);
-	}
-
-	public void select() {
-		setSelect(true);
-	}
-
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}
@@ -115,6 +97,7 @@ public class Channel {
 		item.setUrl(getUrl());
 		item.setToken(isToken());
 		item.setHidden(isHidden());
+		item.setDynamic(isDynamic());
 		return item;
 	}
 

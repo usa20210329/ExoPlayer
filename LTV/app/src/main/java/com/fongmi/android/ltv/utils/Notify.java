@@ -45,18 +45,15 @@ public class Notify {
 		ViewGroup control = dialog.findViewById(R.id.control);
 		SeekBar size = dialog.findViewById(R.id.size);
 		SeekBar delay = dialog.findViewById(R.id.delay);
-		CheckBox enter = dialog.findViewById(R.id.enter);
 		CheckBox boot = dialog.findViewById(R.id.boot);
 		CheckBox full = dialog.findViewById(R.id.full);
 		CheckBox rev = dialog.findViewById(R.id.rev);
 		control.setVisibility(visibility);
 		size.setProgress(Prefers.getSize());
 		delay.setProgress(Prefers.getDelay());
-		enter.setChecked(Prefers.isEnter());
 		boot.setChecked(Prefers.isBoot());
 		full.setChecked(Prefers.isFull());
 		rev.setChecked(Prefers.isRev());
-		enter.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putEnter(isChecked));
 		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
 		full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {

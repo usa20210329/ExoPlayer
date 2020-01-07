@@ -1,6 +1,5 @@
 package com.fongmi.android.ltv.ui;
 
-import android.os.Handler;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fongmi.android.ltv.AppDatabase;
 import com.fongmi.android.ltv.R;
-import com.fongmi.android.ltv.dao.ChannelDao;
+import com.fongmi.android.ltv.bean.Bean;
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.bean.Type;
+import com.fongmi.android.ltv.dao.ChannelDao;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
-import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +30,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private List<Channel> mHides;
 	private List<Object> mItems;
 	private ChannelDao mDao;
-	private Handler mHandler;
-	private boolean visible;
-	private boolean waiting;
 	private int position;
 	private int count;
 
 	MainAdapter() {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
-		this.mHandler = new Handler();
 		this.mDao = AppDatabase.getInstance().getDao();
 	}
-
-	private Runnable mRunnable = new Runnable() {
-		@Override
-		public void run() {
-			if (visible) mItemClickListener.onItemClick(getItem(position));
-		}
-	};
 
 	public interface OnItemClickListener {
 
@@ -59,30 +48,49 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		this.mItemClickListener = itemClickListener;
 	}
 
-	private Channel getItem(int position) {
+	private Bean getBean(int position) {
+		return (Bean) mItems.get(position);
+	}
+
+	private Type getType(int position) {
+		return (Type) mItems.get(position);
+	}
+
+	private Channel getChannel(int position) {
 		return (Channel) mItems.get(position);
+	}
+
+	private boolean isType(int position) {
+		return mItems.get(position) instanceof Type;
 	}
 
 	private void setCount() {
 		this.count = 0;
 	}
 
-	class TypeHolder extends RecyclerView.ViewHolder {
+	class TypeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		@BindView(R.id.name) TextView name;
 
 		TypeHolder(View view) {
 			super(view);
 			ButterKnife.bind(this, view);
+			view.setOnClickListener(this);
+		}
+
+		@Override
+		public void onClick(View view) {
+			setPosition(getLayoutPosition());
+			setType();
 		}
 	}
 
-	class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+	class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
 		@BindView(R.id.number) TextView number;
 		@BindView(R.id.name) TextView name;
 
-		ViewHolder(View view) {
+		ChannelHolder(View view) {
 			super(view);
 			ButterKnife.bind(this, view);
 			view.setOnLongClickListener(this);
@@ -92,11 +100,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		@Override
 		public void onClick(View view) {
 			setPosition(getLayoutPosition());
-			setChannel(0);
+			setChannel();
 		}
 
 		@Override
-		public boolean onLongClick(View v) {
+		public boolean onLongClick(View view) {
 			setPosition(getLayoutPosition());
 			return onKeep();
 		}
@@ -110,9 +118,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	}
 
 	private void addChannel(List<Channel> items) {
-		mItems.add(Utils.getString(R.string.channel_type_keep));
+		mItems.add(Type.create(R.string.channel_type_keep));
 		mItems.addAll(mDao.getKeep());
-		mItems.add(Utils.getString(R.string.channel_type_all));
+		mItems.add(Type.create(R.string.channel_type_all));
 		for (Channel item : items) {
 			if (item.isHidden()) mHides.add(item);
 			else mItems.add(item);
@@ -128,29 +136,33 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		setCount();
 	}
 
-	int onMoveUp(boolean wait) {
-		this.waiting = wait;
+	int onMoveUp() {
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		while (mItems.get(position) instanceof String) onMoveUp(wait);
-		this.setChannel(wait ? 10000 : 500);
+		if (isType(position)) setType(); else setChannel();
 		return position;
 	}
 
-	int onMoveDown(boolean wait) {
-		this.waiting = wait;
+	int onMoveDown() {
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		while (mItems.get(position) instanceof String) onMoveDown(wait);
-		this.setChannel(wait ? 10000 : 500);
+		if (isType(position)) setType(); else setChannel();
 		return position;
 	}
 
-	public void setChannel(int delay) {
-		if (position < 0 || position > mItems.size() - 1) return;
-		for (int i = 0; i < mItems.size(); i++) if (mItems.get(i) instanceof Channel) ((Channel) mItems.get(i)).deselect();
-		getItem(position).select();
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, delay);
-		Prefers.putKeep(getItem(position).getNumber());
+	void onCenter() {
+		if (isType(position)) setType();
+		else setChannel();
+	}
+
+	private void setType() {
+		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
+		notifyDataSetChanged();
+	}
+
+	void setChannel() {
+		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
+		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
+		mItemClickListener.onItemClick(getChannel(position));
+		Prefers.putKeep(getChannel(position).getNumber());
 		notifyDataSetChanged();
 	}
 
@@ -158,13 +170,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		return mItems.indexOf(item);
 	}
 
-	void onCenter() {
-		if (waiting) setChannel(0);
-		this.waiting = false;
-	}
-
 	boolean onKeep() {
-		Channel item = getItem(position);
+		if (isType(position)) return false;
+		Channel item = getChannel(position);
 		boolean exist = mDao.getCount(item.getNumber()) > 0;
 		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
 		if (exist) delete(item);
@@ -180,7 +188,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	}
 
 	private void insert(Channel item) {
-		int index = mItems.indexOf(Utils.getString(R.string.channel_type_all));
+		int index = mItems.indexOf(Type.create(R.string.channel_type_all));
 		mItems.add(index, item.get());
 		notifyItemInserted(index);
 		mDao.insert(item);
@@ -190,19 +198,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		this.position = position;
 	}
 
-	void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
 	@Override
 	public int getItemCount() {
 		return mItems.size();
 	}
 
-
 	@Override
 	public int getItemViewType(int position) {
-		return mItems.get(position) instanceof String ? 1 : 2;
+		return isType(position) ? 1 : 2;
 	}
 
 	@NonNull
@@ -211,7 +214,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		if (viewType == 1) {
 			return new TypeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_type, parent, false));
 		} else {
-			return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_main, parent, false));
+			return new ChannelHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_channel, parent, false));
 		}
 	}
 
@@ -219,15 +222,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 		if (getItemViewType(position) == 1) {
 			TypeHolder type = (TypeHolder) viewHolder;
-			type.name.setText(mItems.get(position).toString());
+			Type item = getType(position);
+			type.name.setText(item.getName());
+			type.itemView.setSelected(item.isSelect());
+			type.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 		} else {
-			ViewHolder holder = (ViewHolder) viewHolder;
-			Channel item = getItem(position);
+			ChannelHolder holder = (ChannelHolder) viewHolder;
+			Channel item = getChannel(position);
 			holder.name.setText(item.getName());
 			holder.number.setText(item.getNumber());
+			holder.itemView.setSelected(item.isSelect());
 			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 			holder.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			holder.itemView.setSelected(item.isSelect());
 		}
 	}
 }

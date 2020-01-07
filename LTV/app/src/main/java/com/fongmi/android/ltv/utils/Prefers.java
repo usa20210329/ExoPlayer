@@ -9,7 +9,6 @@ public class Prefers {
 
 	private static final String SIZE = "size";
 	private static final String DELAY = "delay";
-	private static final String ENTER = "enter";
 	private static final String BOOT = "boot";
 	private static final String FULL = "full";
 	private static final String KEEP = "keep";
@@ -61,14 +60,6 @@ public class Prefers {
 
 	static void putDelay(int value) {
 		putInt(DELAY, value);
-	}
-
-	public static boolean isEnter() {
-		return getBoolean(ENTER);
-	}
-
-	static void putEnter(boolean value) {
-		putBoolean(ENTER, value);
 	}
 
 	public static boolean isBoot() {
