@@ -35,4 +35,4 @@
 -keepattributes Signature
 
 # Firebase
--keepclassmembers class com.fongmi.android.ltv.model.Channel { *; }
+-keepclassmembers class com.fongmi.android.ltv.bean.Channel { *; }
