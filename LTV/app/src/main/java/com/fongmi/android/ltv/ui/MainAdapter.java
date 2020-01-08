@@ -148,11 +148,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		return position;
 	}
 
-	void onCenter() {
-		if (isType(position)) setType();
-		else setChannel();
-	}
-
 	private void setType() {
 		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
 		notifyDataSetChanged();

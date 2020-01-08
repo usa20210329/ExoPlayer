@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-			mHandler.removeCallbacks(mRunnable);
+			if (newState == 1) mHandler.removeCallbacks(mRunnable);
 		}
 	};
 
@@ -271,8 +271,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	public void onKeyCenter(boolean isLongPress) {
 		if (isLongPress) mAdapter.onKeep();
-		else mAdapter.onCenter();
-		showUi();
+		else showUi();
 	}
 
 	@Override
