@@ -233,7 +233,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			holder.itemView.setSelected(item.isSelect());
 			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 			holder.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			Glide.with(App.getInstance()).load(item.getLogo()).into(holder.logo);
+			Glide.with(App.getInstance()).load(item.getLogo()).error(R.drawable.ic_logo_empty).into(holder.logo);
 		}
 	}
 }
