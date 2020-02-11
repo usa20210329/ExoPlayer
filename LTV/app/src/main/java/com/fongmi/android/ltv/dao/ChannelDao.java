@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface ChannelDao {
 
-	@Query("SELECT * FROM channel")
+	@Query("SELECT * FROM channel ORDER BY number")
 	List<Channel> getKeep();
 
 	@Query("SELECT COUNT(number) FROM channel WHERE number = :number")

@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.fongmi.android.ltv.dao.ChannelDao;
 import com.fongmi.android.ltv.bean.Channel;
 
-@Database(entities = {Channel.class}, version = 3, exportSchema = false)
+@Database(entities = {Channel.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
 	private static volatile AppDatabase instance;

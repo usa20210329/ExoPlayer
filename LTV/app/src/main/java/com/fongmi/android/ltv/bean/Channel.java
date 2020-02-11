@@ -16,6 +16,7 @@ public class Channel extends Bean {
 	@PrimaryKey
 	private String number;
 	private String name;
+	private String logo;
 	private String url;
 	private boolean token;
 	private boolean hidden;
@@ -54,6 +55,14 @@ public class Channel extends Bean {
 		this.name = name;
 	}
 
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
 	public String getUrl() {
 		return TextUtils.isEmpty(url) ? "" : url;
 	}
@@ -90,10 +99,15 @@ public class Channel extends Bean {
 		return Prefers.getSize() * 2 + 14;
 	}
 
+	public String getAgent() {
+		return isToken() ? "VasCreativePlayer/20.19.0520 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0" : "(Windows NT 10.0; Win64; x64) PotPlayer/1.7.13963";
+	}
+
 	public Channel get() {
 		Channel item = new Channel();
 		item.setNumber(getNumber());
 		item.setName(getName());
+		item.setLogo(getLogo());
 		item.setUrl(getUrl());
 		item.setToken(isToken());
 		item.setHidden(isHidden());

@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shadow"
-        android:minWidth="200dp"
+        android:minWidth="250dp"
         tools:listitem="@layout/adapter_channel" />
 
     <include layout="@layout/view_widget" />
