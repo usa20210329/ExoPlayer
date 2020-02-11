@@ -1,11 +1,15 @@
 package com.fongmi.android.ltv.bean;
 
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.bumptech.glide.Glide;
+import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.google.firebase.database.DataSnapshot;
 
@@ -101,8 +105,12 @@ public class Channel extends Bean {
 		return Prefers.getSize() * 2 + 14;
 	}
 
-	public String getAgent() {
-		return isToken() ? "VasCreativePlayer/20.19.0520 (Linux;Android 5.1.1) ExoPlayerLib/2.0.0" : "(Windows NT 10.0; Win64; x64) PotPlayer/1.7.13963";
+	private String getLogoUrl() {
+		return getLogo().startsWith("http") ? getLogo() : getLogo().isEmpty() ? "" : "http://www.fongmi.nde.tw/ltv/".concat(getLogo());
+	}
+
+	public void loadLogo(ImageView view) {
+		Glide.with(App.getInstance()).load(getLogoUrl()).error(R.drawable.ic_logo_empty).into(view);
 	}
 
 	public Channel get() {
