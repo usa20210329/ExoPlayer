@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.AppDatabase;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Bean;
@@ -31,6 +33,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private List<Channel> mHides;
 	private List<Object> mItems;
 	private ChannelDao mDao;
+	private boolean visible;
 	private int position;
 	private int count;
 
@@ -63,6 +66,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private boolean isType(int position) {
 		return mItems.get(position) instanceof Type;
+	}
+
+	private boolean isVisible() {
+		return visible;
+	}
+
+	void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	private void setCount() {
@@ -158,7 +169,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	void setChannel() {
 		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
 		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
-		mItemClickListener.onItemClick(getChannel(position));
+		if (isVisible()) mItemClickListener.onItemClick(getChannel(position));
 		Prefers.putKeep(getChannel(position).getNumber());
 		notifyDataSetChanged();
 	}
@@ -226,12 +237,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		} else {
 			ChannelHolder holder = (ChannelHolder) viewHolder;
 			Channel item = getChannel(position);
-			item.loadLogo(holder.logo);
 			holder.name.setText(item.getName());
 			holder.number.setText(item.getNumber());
 			holder.itemView.setSelected(item.isSelect());
 			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 			holder.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			Glide.with(App.getInstance()).load(item.getLogoUrl()).into(holder.logo);
 		}
 	}
 }

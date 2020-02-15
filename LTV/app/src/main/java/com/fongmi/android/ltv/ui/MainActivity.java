@@ -288,12 +288,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mAdapter.setVisible(true);
 		mAdapter.setChannel();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
 	}
 
