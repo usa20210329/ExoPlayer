@@ -193,6 +193,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		mDao.delete(item);
 		mItems.remove(item);
 		notifyItemRemoved(index);
+		--position;
 	}
 
 	private void insert(Channel item) {
@@ -200,6 +201,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		mItems.add(index, item.get());
 		notifyItemInserted(index);
 		mDao.insert(item);
+		++position;
 	}
 
 	void setPosition(int position) {
