@@ -2,15 +2,26 @@ package com.fongmi.android.ltv.bean;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.util.List;
+
 public class Config {
 
+	private List<Channel> channel;
+	private String provider;
 	private String key;
 	private String url;
-	private String provider;
 	private int version;
 
 	public static Config create(DataSnapshot data) {
 		return data.getValue(Config.class);
+	}
+
+	public List<Channel> getChannel() {
+		return channel;
+	}
+
+	public String getProvider() {
+		return provider;
 	}
 
 	public String getKey() {
@@ -19,10 +30,6 @@ public class Config {
 
 	public String getUrl() {
 		return url;
-	}
-
-	public String getProvider() {
-		return provider;
 	}
 
 	public int getVersion() {

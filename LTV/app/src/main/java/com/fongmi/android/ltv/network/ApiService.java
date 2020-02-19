@@ -3,11 +3,11 @@ package com.fongmi.android.ltv.network;
 import androidx.annotation.NonNull;
 
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.bean.Config;
+import com.fongmi.android.ltv.utils.FileUtil;
+import com.fongmi.android.ltv.utils.Token;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ApiService {
 
@@ -21,15 +21,19 @@ public class ApiService {
 		return Loader.INSTANCE;
 	}
 
-	public void getList(AsyncCallback callback) {
-		FirebaseDatabase.getInstance().getReference().child("channel").addValueEventListener(new AsyncCallback() {
+	public void getConfig(AsyncCallback callback) {
+		FirebaseDatabase.getInstance().getReference().addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot data) {
-				List<Channel> items = new ArrayList<>();
-				for (DataSnapshot item : data.getChildren()) items.add(Channel.create(item));
-				callback.onResponse(items);
+				setConfig(callback, Config.create(data));
 			}
 		});
+	}
+
+	private void setConfig(AsyncCallback callback, Config config) {
+		FileUtil.checkUpdate(config.getVersion());
+		callback.onResponse(config.getChannel());
+		Token.setConfig(config);
 	}
 
 	public void getUrl(Channel item, AsyncCallback callback) {

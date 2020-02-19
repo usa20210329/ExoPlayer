@@ -28,7 +28,6 @@ import com.fongmi.android.ltv.network.AsyncCallback;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
-import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
@@ -68,11 +67,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
-		Token.init(this);
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
-		getList();
+		getConfig();
 	}
 
 	private void initEvent() {
@@ -88,8 +86,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	private void getList() {
-		ApiService.getInstance().getList(new AsyncCallback() {
+	private void getConfig() {
+		ApiService.getInstance().getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);

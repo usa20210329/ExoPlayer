@@ -1,7 +1,5 @@
 package com.fongmi.android.ltv.utils;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,7 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.io.File;
 import java.net.URLConnection;
 
-class FileUtil {
+public class FileUtil {
 
 	private static final String TAG = FileUtil.class.getSimpleName();
 
@@ -46,28 +44,28 @@ class FileUtil {
 		return TextUtils.isEmpty(mimeType) ? "*/*" : mimeType;
 	}
 
-	private static Uri getShareUri(Context context, File file) {
-		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
+	private static Uri getShareUri(File file) {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(App.getInstance(), BuildConfig.APPLICATION_ID + ".FileProvider", file);
 	}
 
-	static void checkUpdate(Activity activity, long version) {
+	public static void checkUpdate(long version) {
 		if (version > BuildConfig.VERSION_CODE) {
 			Notify.show(R.string.app_update);
-			startDownload(activity);
+			startDownload();
 		} else {
 			FileUtil.clearFile(getApkFile());
 		}
 	}
 
-	private static void startDownload(Activity activity) {
-		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(activity, getApkFile()));
+	private static void startDownload() {
+		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(getApkFile()));
 	}
 
-	private static void openFile(Activity activity, File file) {
+	private static void openFile(File file) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-		intent.setDataAndType(getShareUri(activity, file), FileUtil.getMimeType(file.getName()));
-		activity.startActivity(intent);
-		activity.finish();
+		intent.setDataAndType(getShareUri(file), FileUtil.getMimeType(file.getName()));
+		App.getInstance().startActivity(intent);
 	}
 }

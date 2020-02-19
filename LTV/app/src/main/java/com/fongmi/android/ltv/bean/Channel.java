@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey;
 
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
-import com.google.firebase.database.DataSnapshot;
 
 import java.util.Locale;
 
@@ -27,10 +26,6 @@ public class Channel extends Bean {
 
 	public static Channel create(String number) {
 		return new Channel(String.format(Locale.getDefault(), "%03d", Integer.valueOf(number)));
-	}
-
-	public static Channel create(DataSnapshot data) {
-		return data.getValue(Channel.class);
 	}
 
 	public Channel() {
