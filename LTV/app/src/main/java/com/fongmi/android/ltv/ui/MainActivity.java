@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void onClick(Channel item) {
-		Token.setProvider(item);
 		if (item.isDynamic()) getUrl(item);
 		else playVideo(item.getUrl());
 		showProgress();
