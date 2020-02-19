@@ -7,6 +7,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.fongmi.android.ltv.utils.Prefers;
+import com.fongmi.android.ltv.utils.Token;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.Locale;
@@ -102,7 +103,7 @@ public class Channel extends Bean {
 	}
 
 	public String getLogoUrl() {
-		return getLogo().startsWith("http") ? getLogo() : getLogo().isEmpty() ? "" : "http://www.fongmi.nde.tw/ltv/".concat(getLogo());
+		return getLogo().startsWith("http") ? getLogo() : getLogo().isEmpty() ? "" : Token.getUrl().concat(getLogo());
 	}
 
 	public Channel get() {

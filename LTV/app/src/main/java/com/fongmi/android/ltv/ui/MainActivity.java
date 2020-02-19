@@ -68,11 +68,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
-		Utils.getVersion(this);
+		Token.init(this);
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
-		Token.init();
 		getList();
 	}
 

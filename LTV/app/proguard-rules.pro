@@ -36,3 +36,4 @@
 
 # Firebase
 -keepclassmembers class com.fongmi.android.ltv.bean.Channel { *; }
+-keepclassmembers class com.fongmi.android.ltv.bean.Config { *; }
