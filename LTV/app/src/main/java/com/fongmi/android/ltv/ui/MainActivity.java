@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void playVideo(String url) {
 		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 3000);
+		mHandler.postDelayed(mRunnable, 1500);
 		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
 	}
