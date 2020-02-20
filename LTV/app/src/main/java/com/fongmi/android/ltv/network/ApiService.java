@@ -1,12 +1,9 @@
 package com.fongmi.android.ltv.network;
 
-import androidx.annotation.NonNull;
-
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Config;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.Token;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ApiService {
@@ -24,8 +21,8 @@ public class ApiService {
 	public void getConfig(AsyncCallback callback) {
 		FirebaseDatabase.getInstance().getReference().addValueEventListener(new AsyncCallback() {
 			@Override
-			public void onDataChange(@NonNull DataSnapshot data) {
-				setConfig(callback, Config.create(data));
+			public void onResponse(Config config) {
+				setConfig(callback, config);
 			}
 		});
 	}
