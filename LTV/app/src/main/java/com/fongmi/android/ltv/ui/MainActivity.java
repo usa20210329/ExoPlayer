@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		mRecyclerView.smoothScrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
+		mRecyclerView.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
 		if (isUiGone()) showUi();
 	}
 
