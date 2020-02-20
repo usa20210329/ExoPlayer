@@ -35,7 +35,7 @@ public class ApiService {
 
 	public void getUrl(Channel item, AsyncCallback callback) {
 		if (mTask != null) mTask.cancel(true);
-		mTask = new Task(callback);
-		mTask.execute(item);
+		if (item.isDynamic()) mTask = new Task(callback, item);
+		else callback.onResponse(item.getUrl());
 	}
 }

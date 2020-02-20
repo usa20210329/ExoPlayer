@@ -12,8 +12,9 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 
 	private AsyncCallback callback;
 
-	Task(AsyncCallback callback) {
+	Task(AsyncCallback callback, Channel item) {
 		this.callback = callback;
+		this.execute(item);
 	}
 
 	@Override
@@ -26,7 +27,6 @@ public class Task extends AsyncTask<Channel, Integer, String> {
 			conn.setConnectTimeout(5000);
 			conn.setReadTimeout(5000);
 			conn.connect();
-			conn.getInputStream();
 			return conn.getResponseCode() / 100 == 3 ? conn.getHeaderField("Location") : url;
 		} catch (Exception e) {
 			return items[0].getUrl();
