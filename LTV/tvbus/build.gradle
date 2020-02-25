@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}
