@@ -12,18 +12,22 @@ public class TVCore {
 		}
 	}
 
-	private static TVCore inst;
-	private static long nativeHandle;
+	private long nativeHandle;
 
-	private TVCore() {
+	private static class Loader {
+		static volatile TVCore INSTANCE = new TVCore();
 	}
 
-	public static synchronized TVCore getInstance() {
-		if (inst == null) {
-			inst = new TVCore();
-			nativeHandle = inst.initialise();
+	public static TVCore get() {
+		return Loader.INSTANCE;
+	}
+
+	private TVCore() {
+		try {
+			nativeHandle = initialise();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
-		return inst;
 	}
 
 	public void setTVListener(TVListener listener) {
@@ -82,11 +86,11 @@ public class TVCore {
 		}
 	}
 
-	int run() {
+	void run() {
 		try {
-			return run(nativeHandle);
+			run(nativeHandle);
 		} catch (Throwable e) {
-			return -1;
+			e.printStackTrace();
 		}
 	}
 

@@ -23,11 +23,13 @@ import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
+import com.fongmi.android.ltv.impl.TvBusCallback;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.AsyncCallback;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
+import com.fongmi.android.ltv.utils.TvBus;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
@@ -37,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements KeyDownImpl {
+public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBusCallback {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		TvBus.get().init(this);
 		ButterKnife.bind(this);
 		Utils.setImmersiveMode(this);
 		initView();
@@ -231,6 +234,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	public void onHide() {
 		mHandler.removeCallbacks(mAddCount);
 		mHandler.postDelayed(mAddCount, 500);
+	}
+
+	@Override
+	public void onReady(String url) {
+		runOnUiThread(() -> playVideo(url));
 	}
 
 	@Override

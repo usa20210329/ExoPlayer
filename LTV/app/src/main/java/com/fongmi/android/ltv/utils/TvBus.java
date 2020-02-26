@@ -1,28 +1,41 @@
 package com.fongmi.android.ltv.utils;
 
-import android.app.Activity;
 import android.content.Intent;
 
+import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.impl.TvBusCallback;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.tvbus.engine.TVCore;
 import com.tvbus.engine.TVListener;
 import com.tvbus.engine.TVService;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class TvBus implements TVListener {
 
-	private static TVCore mTVCore;
+	private TvBusCallback callback;
 
-	private void startTVBus(Activity activity) {
-		mTVCore = TVCore.getInstance();
-		mTVCore.setTVListener(this);
-		activity.startService(new Intent(activity, TVService.class));
+	private static class Loader {
+		static volatile TvBus INSTANCE = new TvBus();
+	}
+
+	public static TvBus get() {
+		return Loader.INSTANCE;
+	}
+
+	public void init(TvBusCallback callback) {
+		this.callback = callback;
+		TVCore.get().setTVListener(this);
+		App.getInstance().startService(new Intent(App.getInstance(), TVService.class));
+	}
+
+	public void start(String url) {
+		TVCore.get().start(url);
 	}
 
 	@Override
 	public void onPrepared(String result) {
-		parseCallbackInfo("onPrepared", result);
+		JsonObject json = new Gson().fromJson(result, JsonObject.class);
+		if (json.get("hls") != null) callback.onReady(json.get("hls").getAsString());
 	}
 
 	@Override
@@ -43,27 +56,5 @@ public class TvBus implements TVListener {
 
 	@Override
 	public void onQuit(String result) {
-	}
-
-	private void parseCallbackInfo(String event, String result) {
-		JSONObject jsonObj = null;
-		try {
-			jsonObj = new JSONObject(result);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		switch (event) {
-			case "onPrepared":
-				
-				break;
-		}
-	}
-
-	private void startChannel(String address, String accessCode) {
-		if (accessCode == null) {
-			mTVCore.start(address);
-		} else {
-			mTVCore.start(address, accessCode);
-		}
 	}
 }

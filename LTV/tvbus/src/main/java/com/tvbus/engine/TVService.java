@@ -22,7 +22,7 @@ public class TVService extends Service {
 
 	@Override
 	public void onDestroy() {
-		TVCore.getInstance().quit();
+		TVCore.get().quit();
 		super.onDestroy();
 	}
 
@@ -33,12 +33,10 @@ public class TVService extends Service {
 
 	private class TVServer implements Runnable {
 
-		TVCore tvcore = TVCore.getInstance();
-
 		@Override
 		public void run() {
-			int retv = tvcore.init(getApplicationContext());
-			if (retv == 0) tvcore.run();
+			int ret = TVCore.get().init(getApplicationContext());
+			if (ret == 0) TVCore.get().run();
 		}
 	}
 }
