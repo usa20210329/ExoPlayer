@@ -15,7 +15,7 @@ public class Prefers {
 	private static final String REV = "rev";
 
 	private static SharedPreferences getPreferences() {
-		return PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+		return PreferenceManager.getDefaultSharedPreferences(App.get());
 	}
 
 	private static String getString(String key, String defaultValue) {

@@ -26,7 +26,7 @@ public class FileUtil {
 	}
 
 	private static File getCachePath() {
-		return App.getInstance().getExternalFilesDir("cache");
+		return App.get().getExternalCacheDir();
 	}
 
 	private static File getApkFile() {
@@ -45,7 +45,7 @@ public class FileUtil {
 	}
 
 	private static Uri getShareUri(File file) {
-		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(App.getInstance(), BuildConfig.APPLICATION_ID + ".FileProvider", file);
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(App.get(), App.get().getPackageName() + ".provider", file);
 	}
 
 	public static void checkUpdate(long version) {
@@ -66,6 +66,6 @@ public class FileUtil {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		intent.setDataAndType(getShareUri(file), FileUtil.getMimeType(file.getName()));
-		App.getInstance().startActivity(intent);
+		App.get().startActivity(intent);
 	}
 }

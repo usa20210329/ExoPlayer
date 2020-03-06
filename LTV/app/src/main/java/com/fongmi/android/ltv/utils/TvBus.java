@@ -25,7 +25,7 @@ public class TvBus implements TVListener {
 	public void init(TvBusCallback callback) {
 		this.callback = callback;
 		TVCore.get().setTVListener(this);
-		App.getInstance().startService(new Intent(App.getInstance(), TVService.class));
+		App.get().startService(new Intent(App.get(), TVService.class));
 	}
 
 	public void start(String url) {

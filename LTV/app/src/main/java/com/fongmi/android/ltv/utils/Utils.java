@@ -12,11 +12,11 @@ import com.fongmi.android.ltv.App;
 public class Utils {
 
 	private static DisplayMetrics getDisplayMetrics() {
-		return App.getInstance().getResources().getDisplayMetrics();
+		return App.get().getResources().getDisplayMetrics();
 	}
 
 	public static String getString(int resId) {
-		return App.getInstance().getString(resId);
+		return App.get().getString(resId);
 	}
 
 	public static int dp2px(int dpValue) {

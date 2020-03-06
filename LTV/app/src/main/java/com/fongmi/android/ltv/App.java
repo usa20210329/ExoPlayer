@@ -12,7 +12,7 @@ public class App extends Application {
 		instance = this;
 	}
 
-	public static App getInstance() {
+	public static App get() {
 		return instance;
 	}
 
