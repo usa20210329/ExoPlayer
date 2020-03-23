@@ -1,5 +1,6 @@
 package com.fongmi.android.ltv.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -17,7 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abdularis.app.analogtvnoise.AnalogTvNoise;
-import com.dueeeke.videoplayer.player.VideoView;
+import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
@@ -37,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBusCallback, VideoView.OnStateChangeListener {
+public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBusCallback {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -76,7 +78,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBu
 
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
-		mVideoView.setOnStateChangeListener(this);
+		mVideoView.setOnErrorListener(this::onRetry);
+		mVideoView.setOnPreparedListener(this::onPrepared);
 		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
@@ -124,20 +127,21 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBu
 		retry = 0;
 	}
 
-	private void onRetry() {
-		if (++retry > 3) onError();
+	private boolean onRetry(Exception e) {
+		if (++retry > 3) onError(e);
 		else mAdapter.setChannel();
+		return true;
 	}
 
-	private void onError() {
-		mVideoView.release();
+	private void onError(Exception e) {
+		e.printStackTrace();
+		mVideoView.reset();
 		hideProgress();
 		showError();
 	}
 
 	private void playVideo(String url) {
-		mVideoView.release();
-		mVideoView.setUrl(url);
+		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
 	}
 
@@ -211,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBu
 	}
 
 	public void setScaleType() {
-		mVideoView.setScreenScaleType(Prefers.isFull() ? VideoView.SCREEN_SCALE_MATCH_PARENT : VideoView.SCREEN_SCALE_DEFAULT);
+		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
 	@OnTouch(R.id.videoView)
@@ -280,16 +284,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBu
 	}
 
 	@Override
-	public void onPlayerStateChanged(int playerState) {
-	}
-
-	@Override
-	public void onPlayStateChanged(int playState) {
-		if (playState == VideoView.STATE_PREPARED) onPrepared();
-		else if (playState == VideoView.STATE_ERROR) onRetry();
-	}
-
-	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) Utils.setImmersiveMode(this);
@@ -299,20 +293,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl, TvBu
 	protected void onResume() {
 		super.onResume();
 		mAdapter.setVisible(true);
-		mVideoView.resume();
+		mAdapter.setChannel();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mAdapter.setVisible(false);
-		mVideoView.pause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		mVideoView.release();
+		mVideoView.stopPlayback();
 	}
 
 	@Override
