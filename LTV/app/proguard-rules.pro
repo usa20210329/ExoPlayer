@@ -14,3 +14,11 @@
 
 # tvbus
 -keep class com.tvbus.engine.** { *; }
+
+# dueeeke
+-keep class com.dueeeke.videoplayer.** { *; }
+-dontwarn com.dueeeke.videoplayer.**
+
+# ijk
+-keep class tv.danmaku.ijk.** { *; }
+-dontwarn tv.danmaku.ijk.**

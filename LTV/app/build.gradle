@@ -10,6 +10,9 @@ android {
         targetSdkVersion 29
         versionCode 21
         versionName "1.2.1"
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86"
+        }
     }
 
     compileOptions {
@@ -38,10 +41,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.leanback:leanback:1.0.0'
-    implementation 'androidx.room:room-runtime:2.2.4'
+    implementation 'androidx.room:room-runtime:2.2.5'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.devbrackets.android:exomedia:4.3.0'
-    implementation 'com.google.android.exoplayer:extension-okhttp:2.9.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.firebase:firebase-database:19.2.1'
@@ -49,8 +50,10 @@ dependencies {
     implementation 'com.github.abdularis:AnalogTvNoiseView:0.1'
     implementation 'com.github.bassaer:materialdesigncolors:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
+    implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
     implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'androidx.room:room-compiler:2.2.4'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 }
