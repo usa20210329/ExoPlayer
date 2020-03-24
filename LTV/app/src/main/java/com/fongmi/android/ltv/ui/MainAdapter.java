@@ -92,6 +92,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		@Override
 		public void onClick(View view) {
 			setPosition(getLayoutPosition());
+			addCount();
 			setType();
 		}
 	}
