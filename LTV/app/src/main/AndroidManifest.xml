@@ -63,7 +63,5 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.tvbus.engine.TVService" />
-
     </application>
 </manifest>
