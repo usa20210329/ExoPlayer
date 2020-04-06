@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.devbrackets.android:exomedia:4.3.0'
     implementation 'com.google.android.exoplayer:extension-okhttp:2.9.1'
     implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.github.abdularis:AnalogTvNoiseView:0.1'
     implementation 'com.github.bassaer:materialdesigncolors:1.0.0'
