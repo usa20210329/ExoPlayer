@@ -58,6 +58,8 @@ public class KeyDown {
 			mKeyDown.onKeyHorizontal(true);
 		} else if (Utils.isRightKey(event)) {
 			mKeyDown.onKeyHorizontal(false);
+		} else if (Utils.isMenuKey(event)) {
+			mKeyDown.onKeyCenter(true);
 		} else if (Utils.isEnterKey(event)) {
 			mKeyDown.onKeyCenter(event.isLongPress());
 		} else if (Utils.isBackKey(event)) {

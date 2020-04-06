@@ -28,7 +28,7 @@ public class Utils {
 	}
 
 	public static boolean hasEvent(KeyEvent event) {
-		return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event) || event.isLongPress());
+		return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event) || isMenuKey(event) || event.isLongPress());
 	}
 
 	private static boolean isArrowKey(KeyEvent event) {
@@ -47,16 +47,20 @@ public class Utils {
 		return event.getKeyCode() == KeyEvent.KEYCODE_BACK;
 	}
 
+	static boolean isMenuKey(KeyEvent event) {
+		return event.getKeyCode() == KeyEvent.KEYCODE_MENU;
+	}
+
 	static boolean isEnterKey(KeyEvent event) {
 		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER || event.getKeyCode() == KeyEvent.KEYCODE_SPACE || event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER;
 	}
 
 	static boolean isUpKey(KeyEvent event) {
-		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_UP || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_UP;
+		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_UP || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_UP || event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PREVIOUS;
 	}
 
 	static boolean isDownKey(KeyEvent event) {
-		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_DOWN;
+		return event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_CHANNEL_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_PAGE_DOWN || event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_NEXT;
 	}
 
 	static boolean isLeftKey(KeyEvent event) {
