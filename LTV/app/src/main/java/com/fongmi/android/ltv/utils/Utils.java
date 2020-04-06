@@ -104,11 +104,11 @@ public class Utils {
 		activity.getWindow().getDecorView().setSystemUiVisibility(flags);
 	}
 
-	public static String getAndroidId() {
+	static String getAndroidId() {
 		return Settings.Secure.getString(App.get().getContentResolver(), Settings.Secure.ANDROID_ID);
 	}
 
-	public static String getDevice() {
+	static String getDevice() {
 		String model = Build.MODEL;
 		String manufacturer = Build.MANUFACTURER;
 		if (model.startsWith(manufacturer)) return model;

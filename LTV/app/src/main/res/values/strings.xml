@@ -22,4 +22,10 @@
     <string name="setting_control_delay">數字鍵延遲</string>
     <string name="setting_control_rev">上下鍵相反</string>
 
+    <!-- Column -->
+    <string name="column_user">使用者</string>
+    <string name="column_device">裝置</string>
+    <string name="column_enable">啟用</string>
+    <string name="column_date">登入日期</string>
+
 </resources>

@@ -124,6 +124,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		}
 	}
 
+	void clear() {
+		mHides.clear();
+		mItems.clear();
+		notifyDataSetChanged();
+	}
+
 	void addAll(List<Channel> items) {
 		mHides.clear();
 		mItems.clear();
@@ -177,6 +183,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	int getIndex(Channel item) {
 		return mItems.indexOf(item);
+	}
+
+	boolean hasData() {
+		return getItemCount() > 0;
 	}
 
 	boolean onKeep() {

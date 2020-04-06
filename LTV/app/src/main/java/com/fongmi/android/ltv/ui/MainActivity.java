@@ -28,6 +28,7 @@ import com.fongmi.android.ltv.network.AsyncCallback;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
+import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
+				hideProgress();
 				checkKeep();
 			}
 		});
@@ -103,6 +105,16 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			@Override
 			public void onResponse(String url) {
 				playVideo(url);
+			}
+		});
+	}
+
+	private void getVerify() {
+		if (mAdapter.hasData()) Token.getConfig(new AsyncCallback() {
+			@Override
+			public void onError() {
+				mVideoView.reset();
+				mAdapter.clear();
 			}
 		});
 	}
@@ -287,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		super.onResume();
 		mAdapter.setVisible(true);
 		mAdapter.setChannel();
+		getVerify();
 	}
 
 	@Override
