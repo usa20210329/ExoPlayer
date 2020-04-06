@@ -3,6 +3,8 @@ package com.fongmi.android.ltv.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -100,5 +102,16 @@ public class Utils {
 	public static void setImmersiveMode(Activity activity) {
 		int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 		activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+	}
+
+	public static String getAndroidId() {
+		return Settings.Secure.getString(App.get().getContentResolver(), Settings.Secure.ANDROID_ID);
+	}
+
+	public static String getDevice() {
+		String model = Build.MODEL;
+		String manufacturer = Build.MANUFACTURER;
+		if (model.startsWith(manufacturer)) return model;
+		else return manufacturer + " " + model;
 	}
 }

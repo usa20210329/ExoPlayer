@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -48,12 +49,14 @@ public class Notify {
 		CheckBox boot = dialog.findViewById(R.id.boot);
 		CheckBox full = dialog.findViewById(R.id.full);
 		CheckBox rev = dialog.findViewById(R.id.rev);
+		TextView id = dialog.findViewById(R.id.id);
 		control.setVisibility(visibility);
 		size.setProgress(Prefers.getSize());
 		delay.setProgress(Prefers.getDelay());
 		boot.setChecked(Prefers.isBoot());
 		full.setChecked(Prefers.isFull());
 		rev.setChecked(Prefers.isRev());
+		id.setText(Utils.getAndroidId());
 		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
 		full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {

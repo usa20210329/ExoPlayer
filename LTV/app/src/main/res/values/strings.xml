@@ -4,6 +4,7 @@
     <string name="app_name">LTV</string>
     <string name="app_unlock">已解鎖</string>
     <string name="app_update">發現新版本</string>
+    <string name="app_disable">尚未開通服務</string>
 
     <!-- Channel -->
     <string name="channel_keep_insert">已加入收藏</string>
@@ -13,6 +14,7 @@
 
     <!-- Setting -->
     <string name="setting_common">一般設定</string>
+    <string name="setting_common_id">Android ID</string>
     <string name="setting_common_size">字體大小</string>
     <string name="setting_common_boot">開機啟動</string>
     <string name="setting_common_full">全螢幕</string>
