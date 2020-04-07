@@ -32,7 +32,7 @@
                 android:id="@+id/id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="6dp"
                 tools:text="ff112233445566aa" />
 
         </TableRow>
@@ -55,6 +55,7 @@
                 android:id="@+id/size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
                 android:max="7" />
 
         </TableRow>
@@ -128,6 +129,7 @@
                 android:id="@+id/delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
                 android:max="5" />
 
         </TableRow>
