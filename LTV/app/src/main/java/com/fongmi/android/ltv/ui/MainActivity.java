@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
-		showProgress();
 		getConfig();
 	}
 
@@ -94,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
-				hideProgress();
 				checkKeep();
 			}
 		});
@@ -105,16 +103,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			@Override
 			public void onResponse(String url) {
 				playVideo(url);
-			}
-		});
-	}
-
-	private void getVerify() {
-		if (mAdapter.hasData()) Token.getConfig(new AsyncCallback() {
-			@Override
-			public void onError() {
-				mVideoView.reset();
-				mAdapter.clear();
 			}
 		});
 	}
@@ -297,9 +285,9 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Token.check(this);
 		mAdapter.setVisible(true);
 		mAdapter.setChannel();
-		getVerify();
 	}
 
 	@Override

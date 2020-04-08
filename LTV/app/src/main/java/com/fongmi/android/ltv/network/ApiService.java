@@ -19,16 +19,6 @@ public class ApiService {
 	}
 
 	public void getConfig(AsyncCallback callback) {
-		Token.getConfig(new AsyncCallback() {
-			@Override
-			public void onSuccess() {
-				Token.updateUser();
-				getList(callback);
-			}
-		});
-	}
-
-	private void getList(AsyncCallback callback) {
 		FirebaseDatabase.getInstance().getReference().addValueEventListener(new AsyncCallback() {
 			@Override
 			public void onResponse(Config config) {
