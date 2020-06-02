@@ -119,6 +119,7 @@ public class Channel extends Bean {
 		item.setToken(isToken());
 		item.setHidden(isHidden());
 		item.setDynamic(isDynamic());
+		item.setProvider(getProvider());
 		return item;
 	}
 
