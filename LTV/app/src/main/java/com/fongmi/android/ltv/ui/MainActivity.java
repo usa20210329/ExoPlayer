@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void onClick(Channel item) {
+		Token.setProvider(item);
 		showProgress();
 		getUrl(item);
 		hideError();

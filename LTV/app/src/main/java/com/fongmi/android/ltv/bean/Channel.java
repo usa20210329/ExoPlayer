@@ -20,6 +20,7 @@ public class Channel extends Bean {
 	private String name;
 	private String logo;
 	private String url;
+	private String provider;
 	private boolean token;
 	private boolean hidden;
 	private boolean dynamic;
@@ -67,6 +68,14 @@ public class Channel extends Bean {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getProvider() {
+		return TextUtils.isEmpty(provider) ? Token.getProvider() : provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 	public boolean isToken() {
