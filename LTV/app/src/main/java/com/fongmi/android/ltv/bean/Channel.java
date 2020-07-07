@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.fongmi.android.ltv.utils.Prefers;
@@ -33,6 +34,7 @@ public class Channel extends Bean {
 		this("");
 	}
 
+	@Ignore
 	public Channel(@NonNull String number) {
 		this.number = number;
 	}

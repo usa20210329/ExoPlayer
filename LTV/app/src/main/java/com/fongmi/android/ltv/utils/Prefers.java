@@ -1,7 +1,8 @@
 package com.fongmi.android.ltv.utils;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 import com.fongmi.android.ltv.App;
 
