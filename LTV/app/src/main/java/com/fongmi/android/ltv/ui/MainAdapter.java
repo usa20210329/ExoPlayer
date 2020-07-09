@@ -182,7 +182,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	}
 
 	boolean onKeep() {
-		if (isType(position)) return false;
+		if (mItems.isEmpty() || isType(position)) return false;
 		Channel item = getChannel(position);
 		boolean exist = mDao.getCount(item.getNumber()) > 0;
 		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
