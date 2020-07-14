@@ -30,7 +30,11 @@ public class FileUtil {
 	}
 
 	private static File getApkFile() {
-		return new File(getCachePath(), getApkName());
+		return getCacheFile(getApkName());
+	}
+
+	public static File getCacheFile(String fileName) {
+		return new File(getCachePath(), fileName);
 	}
 
 	private static void clearFile(File file) {
