@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class HttpUtil {
 
-	private static final String VND_APPLE_MEGEURL = "vnd.apple.mpegurl";
+	private static final String VND_APPLE_URL = "vnd.apple.mpegurl";
 	private static final String FORCE_DOWNLOAD = "force-download";
 
 	public static HttpURLConnection connect(String url) throws IOException {
@@ -36,17 +36,11 @@ public class HttpUtil {
 		return cacheFile.getPath();
 	}
 
-	public static void download(String url) throws IOException {
-		HttpURLConnection conn = connect(url);
-		if (isFile(conn)) download(conn);
-		conn.disconnect();
-	}
-
 	public static boolean isRedirect(HttpURLConnection conn) throws IOException {
 		return conn.getResponseCode() / 100 == 3;
 	}
 
 	public static boolean isFile(HttpURLConnection conn) {
-		return conn.getContentType().contains(VND_APPLE_MEGEURL) || conn.getContentType().contains(FORCE_DOWNLOAD);
+		return conn.getContentType().contains(VND_APPLE_URL) || conn.getContentType().contains(FORCE_DOWNLOAD);
 	}
 }
