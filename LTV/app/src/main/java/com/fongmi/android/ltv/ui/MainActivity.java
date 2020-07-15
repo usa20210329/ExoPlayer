@@ -25,6 +25,8 @@ import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.AsyncCallback;
+import com.fongmi.android.ltv.network.DownloadTask;
+import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
@@ -32,6 +34,7 @@ import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
+import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private MainAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
+	private Timer mTimer;
 	private int retry;
 
 	@Override
@@ -102,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
+				if (FileUtil.isFile(url)) setTimer(item);
+				else cancelTimer();
 				playVideo(url);
 			}
 		});
@@ -142,6 +148,16 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void playVideo(String url) {
 		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
+	}
+
+	private void cancelTimer() {
+		if (mTimer != null) mTimer.cancel();
+	}
+
+	private void setTimer(Channel item) {
+		cancelTimer();
+		mTimer = new Timer();
+		mTimer.schedule(new DownloadTask(item.getUrl()), 0, 1000);
 	}
 
 	private Runnable mRunnable = this::hideUi;
@@ -296,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		super.onPause();
 		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
+		cancelTimer();
 	}
 
 	@Override
