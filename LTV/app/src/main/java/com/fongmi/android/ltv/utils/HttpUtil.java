@@ -1,7 +1,5 @@
 package com.fongmi.android.ltv.utils;
 
-import android.webkit.URLUtil;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +9,7 @@ import java.net.URL;
 
 public class HttpUtil {
 
-	private static final String CONTENT_DISPOSITION = "Content-Disposition";
+	private static final String VND_APPLE_MEGEURL = "vnd.apple.mpegurl";
 	private static final String FORCE_DOWNLOAD = "force-download";
 
 	public static HttpURLConnection connect(String url) throws IOException {
@@ -27,9 +25,7 @@ public class HttpUtil {
 	}
 
 	public static String download(HttpURLConnection conn) throws IOException {
-		String disposition = conn.getHeaderField(CONTENT_DISPOSITION);
-		String fileName = URLUtil.guessFileName(null, disposition, null);
-		File cacheFile = FileUtil.getCacheFile(fileName);
+		File cacheFile = FileUtil.getCacheFile("index.m3u8");
 		InputStream is = conn.getInputStream();
 		int bytesRead;
 		byte[] buffer = new byte[1024];
@@ -43,6 +39,7 @@ public class HttpUtil {
 	public static void download(String url) throws IOException {
 		HttpURLConnection conn = connect(url);
 		if (isFile(conn)) download(conn);
+		conn.disconnect();
 	}
 
 	public static boolean isRedirect(HttpURLConnection conn) throws IOException {
@@ -50,6 +47,6 @@ public class HttpUtil {
 	}
 
 	public static boolean isFile(HttpURLConnection conn) {
-		return conn.getContentType().contains(FORCE_DOWNLOAD);
+		return conn.getContentType().contains(VND_APPLE_MEGEURL) || conn.getContentType().contains(FORCE_DOWNLOAD);
 	}
 }
