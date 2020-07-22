@@ -19,6 +19,7 @@
     <string name="setting_control">控制設定</string>
     <string name="setting_control_delay">數字鍵延遲</string>
     <string name="setting_control_rev">上下鍵相反</string>
+    <string name="setting_control_ok">確認鍵播放</string>
 
     <!-- Column -->
     <string name="column_user">使用者</string>

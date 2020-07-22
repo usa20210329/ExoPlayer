@@ -1,5 +1,7 @@
 package com.fongmi.android.ltv.impl;
 
+import android.view.KeyEvent;
+
 import com.fongmi.android.ltv.bean.Channel;
 
 public interface KeyDownImpl {
@@ -10,7 +12,7 @@ public interface KeyDownImpl {
 
 	void onKeyHorizontal(boolean isLeft);
 
-	void onKeyCenter(boolean isLongPress);
+	void onKeyCenter(KeyEvent event);
 
 	void onKeyBack();
 }

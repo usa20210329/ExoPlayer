@@ -52,14 +52,17 @@ public class Notify {
 		CheckBox boot = dialog.findViewById(R.id.boot);
 		CheckBox full = dialog.findViewById(R.id.full);
 		CheckBox rev = dialog.findViewById(R.id.rev);
+		CheckBox ok = dialog.findViewById(R.id.ok);
 		control.setVisibility(visibility);
 		size.setProgress(Prefers.getSize());
 		delay.setProgress(Prefers.getDelay());
 		boot.setChecked(Prefers.isBoot());
 		full.setChecked(Prefers.isFull());
 		rev.setChecked(Prefers.isRev());
+		ok.setChecked(Prefers.isOk());
 		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
+		ok.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putOk(isChecked));
 		full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putFull(isChecked);
 			context.setScaleType();

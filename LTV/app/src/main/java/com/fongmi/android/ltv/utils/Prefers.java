@@ -8,12 +8,13 @@ import com.fongmi.android.ltv.App;
 
 public class Prefers {
 
-	private static final String SIZE = "size";
 	private static final String DELAY = "delay";
 	private static final String BOOT = "boot";
 	private static final String FULL = "full";
 	private static final String KEEP = "keep";
+	private static final String SIZE = "size";
 	private static final String REV = "rev";
+	private static final String OK = "ok";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
@@ -45,6 +46,14 @@ public class Prefers {
 
 	private static void putBoolean(String key, boolean value) {
 		getPreferences().edit().putBoolean(key, value).apply();
+	}
+
+	public static String getKeep() {
+		return getString(KEEP, "");
+	}
+
+	public static void putKeep(String value) {
+		putString(KEEP, value);
 	}
 
 	public static int getSize() {
@@ -79,19 +88,19 @@ public class Prefers {
 		putBoolean(FULL, value);
 	}
 
-	public static String getKeep() {
-		return getString(KEEP, "");
-	}
-
-	public static void putKeep(String value) {
-		putString(KEEP, value);
-	}
-
 	static boolean isRev() {
 		return getBoolean(REV);
 	}
 
 	static void putRev(boolean value) {
 		putBoolean(REV, value);
+	}
+
+	public static boolean isOk() {
+		return getBoolean(OK);
+	}
+
+	static void putOk(boolean value) {
+		putBoolean(OK, value);
 	}
 }

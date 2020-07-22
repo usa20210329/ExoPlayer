@@ -153,14 +153,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	int onMoveUp() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (isType(position)) setType(); else setChannel();
+		if (Prefers.isOk() || isType(position)) setType(); else setChannel();
 		return position;
 	}
 
 	int onMoveDown() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (isType(position)) setType(); else setChannel();
+		if (Prefers.isOk() || isType(position)) setType(); else setChannel();
 		return position;
 	}
 

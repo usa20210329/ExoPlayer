@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.hide) View mHide;
 
 	private MainAdapter mAdapter;
+	private boolean longPress;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private Timer mTimer;
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.setOnItemListener(this::onClick);
 		mVideoView.setOnErrorListener(this::onRetry);
 		mVideoView.setOnPreparedListener(this::onPrepared);
-		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
@@ -126,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void onPrepared() {
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 1500);
 		hideProgress();
 		retry = 0;
 	}
@@ -146,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void playVideo(String url) {
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, 2000);
 		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
 	}
@@ -166,13 +165,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		@Override
 		public void run() {
 			mAdapter.addCount();
-		}
-	};
-
-	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-		@Override
-		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-			if (newState == 1) mHandler.removeCallbacks(mRunnable);
 		}
 	};
 
@@ -241,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@OnClick(R.id.gear)
 	public void onGear() {
-		mHandler.removeCallbacks(mRunnable);
 		Notify.showDialog(this);
 	}
 
@@ -272,20 +263,28 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
+		mHandler.removeCallbacks(mRunnable);
 		mRecyclerView.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
 		if (isUiGone()) showUi();
 	}
 
 	@Override
 	public void onKeyHorizontal(boolean isLeft) {
+		mHandler.removeCallbacks(mRunnable);
 		if (isLeft) mHide.performClick();
 		else Notify.showDialog(this, View.VISIBLE);
 	}
 
 	@Override
-	public void onKeyCenter(boolean isLongPress) {
-		if (isLongPress) mAdapter.onKeep();
-		else showUi();
+	public void onKeyCenter(KeyEvent event) {
+		if (event.isLongPress()) {
+			mAdapter.onKeep();
+			longPress = true;
+		} else if (event.getAction() == KeyEvent.ACTION_UP) {
+			if (longPress) longPress = false;
+			else if (Prefers.isOk()) mAdapter.setChannel();
+			else toggleUi();
+		}
 	}
 
 	@Override

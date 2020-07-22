@@ -30,7 +30,7 @@ public class Utils {
 	}
 
 	public static boolean hasEvent(KeyEvent event) {
-		return event.getAction() == KeyEvent.ACTION_DOWN && (isArrowKey(event) || isBackKey(event) || isMenuKey(event) || event.isLongPress());
+		return isArrowKey(event) || isBackKey(event) || isMenuKey(event) || event.isLongPress();
 	}
 
 	private static boolean isArrowKey(KeyEvent event) {
