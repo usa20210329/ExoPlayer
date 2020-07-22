@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.setOnItemListener(this::onClick);
 		mVideoView.setOnErrorListener(this::onRetry);
 		mVideoView.setOnPreparedListener(this::onPrepared);
+		mRecyclerView.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void onPrepared() {
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, 1500);
 		hideProgress();
 		retry = 0;
 	}
@@ -143,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void playVideo(String url) {
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 2000);
 		mVideoView.setVideoURI(Uri.parse(url));
 		mVideoView.start();
 	}
@@ -168,6 +170,13 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		}
 	};
 
+	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+			if (newState == RecyclerView.SCROLL_STATE_DRAGGING) mHandler.removeCallbacks(mRunnable);
+		}
+	};
+
 	private void showProgress() {
 		if (mProgress.getVisibility() == View.GONE) mProgress.setVisibility(View.VISIBLE);
 	}
@@ -184,27 +193,25 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		if (mNoise.getVisibility() == View.VISIBLE) mNoise.setVisibility(View.GONE);
 	}
 
-	private boolean isUiVisible() {
+	private boolean isVisible() {
 		return mRecyclerView.getAlpha() == 1;
 	}
 
-	private boolean isUiGone() {
+	private boolean isGone() {
 		return mRecyclerView.getAlpha() == 0;
 	}
 
 	private void toggleUi() {
-		if (isUiVisible()) hideUi();
+		if (isVisible()) hideUi();
 		else showUi();
 	}
 
 	private void showUi() {
 		Utils.showViews(mRecyclerView, mGear);
-		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void hideUi() {
 		Utils.hideViews(mRecyclerView, mGear);
-		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void setCustomSize() {
@@ -263,14 +270,13 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		mHandler.removeCallbacks(mRunnable);
 		mRecyclerView.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
-		if (isUiGone()) showUi();
+		mHandler.removeCallbacks(mRunnable);
+		if (isGone()) showUi();
 	}
 
 	@Override
 	public void onKeyHorizontal(boolean isLeft) {
-		mHandler.removeCallbacks(mRunnable);
 		if (isLeft) mHide.performClick();
 		else Notify.showDialog(this, View.VISIBLE);
 	}
@@ -282,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			longPress = true;
 		} else if (event.getAction() == KeyEvent.ACTION_UP) {
 			if (longPress) longPress = false;
-			else if (Prefers.isOk()) mAdapter.setChannel();
+			else if (Prefers.isOk() && isVisible()) mAdapter.setChannel();
 			else toggleUi();
 		}
 	}
@@ -316,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onBackPressed() {
-		if (isUiVisible()) hideUi();
+		if (isVisible()) hideUi();
 		else super.onBackPressed();
 	}
 }

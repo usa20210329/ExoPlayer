@@ -93,8 +93,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		@Override
 		public void onClick(View view) {
 			setPosition(getLayoutPosition());
+			onSelect();
 			addCount();
-			setType();
 		}
 	}
 
@@ -153,18 +153,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	int onMoveUp() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (Prefers.isOk() || isType(position)) setType(); else setChannel();
+		if (Prefers.isOk() || isType(position)) onSelect(); else setChannel();
 		return position;
 	}
 
 	int onMoveDown() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (Prefers.isOk() || isType(position)) setType(); else setChannel();
+		if (Prefers.isOk() || isType(position)) onSelect(); else setChannel();
 		return position;
 	}
 
-	private void setType() {
+	private void onSelect() {
 		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
 		notifyDataSetChanged();
 	}
