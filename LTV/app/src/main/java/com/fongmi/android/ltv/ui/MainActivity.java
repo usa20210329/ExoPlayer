@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//Token.check(this);
+		Token.check(this);
 		mAdapter.setVisible(true);
 		mAdapter.setChannel();
 	}
