@@ -21,6 +21,7 @@ public class KeyDown {
 	private ViewGroup mInfo;
 	private TextView mNumber;
 	private TextView mName;
+	private boolean mPress;
 
 	public KeyDown(KeyDownImpl keyDown, ViewGroup info, TextView number, TextView name) {
 		this.mKeyDown = keyDown;
@@ -60,10 +61,22 @@ public class KeyDown {
 			mKeyDown.onKeyHorizontal(false);
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isBackKey(event)) {
 			mKeyDown.onKeyBack();
+		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isMenuKey(event)) {
+			mKeyDown.onLongPress();
 		} else if (Utils.isEnterKey(event)) {
-			mKeyDown.onKeyCenter(event);
+			checkPress(event);
 		}
 		return true;
+	}
+
+	private void checkPress(KeyEvent event) {
+		if (event.isLongPress()) {
+			mPress = true;
+			mKeyDown.onLongPress();
+		} else if (event.getAction() == KeyEvent.ACTION_UP) {
+			if (mPress) mPress = false;
+			else mKeyDown.onKeyCenter();
+		}
 	}
 
 	private int getDelay() {

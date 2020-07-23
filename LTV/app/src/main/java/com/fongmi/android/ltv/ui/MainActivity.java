@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.hide) View mHide;
 
 	private MainAdapter mAdapter;
-	private boolean longPress;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private Timer mTimer;
@@ -202,8 +201,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void toggleUi() {
-		if (isVisible()) hideUi();
-		else showUi();
+		if (isVisible()) hideUi(); else showUi();
 	}
 
 	private void showUi() {
@@ -282,20 +280,18 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onKeyCenter(KeyEvent event) {
-		if (event.isLongPress()) {
-			mAdapter.onKeep();
-			longPress = true;
-		} else if (event.getAction() == KeyEvent.ACTION_UP) {
-			if (longPress) longPress = false;
-			else if (Prefers.isOk() && isVisible()) mAdapter.setChannel();
-			else toggleUi();
-		}
+	public void onKeyCenter() {
+		if (isVisible()) mAdapter.setChannel(); else showUi();
 	}
 
 	@Override
 	public void onKeyBack() {
 		onBackPressed();
+	}
+
+	@Override
+	public void onLongPress() {
+		mAdapter.onKeep();
 	}
 
 	@Override
@@ -307,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Token.check(this);
+		//Token.check(this);
 		mAdapter.setVisible(true);
 		mAdapter.setChannel();
 	}
