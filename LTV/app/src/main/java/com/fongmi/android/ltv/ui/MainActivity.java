@@ -1,6 +1,5 @@
 package com.fongmi.android.ltv.ui;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -31,6 +30,7 @@ import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
+import com.fongmi.android.ltv.utils.TvBus;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.List;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 		Utils.setImmersiveMode(this);
+		TvBus.get().init();
 		initView();
 		initEvent();
 	}
@@ -146,8 +147,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void playVideo(String url) {
-		mVideoView.setVideoURI(Uri.parse(url));
-		mVideoView.start();
+		runOnUiThread(() -> {
+			mVideoView.setVideoPath(url);
+			mVideoView.start();
+		});
 	}
 
 	private void cancelTimer() {

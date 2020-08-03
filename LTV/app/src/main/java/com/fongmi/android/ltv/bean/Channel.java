@@ -104,6 +104,10 @@ public class Channel extends Bean {
 		this.dynamic = dynamic;
 	}
 
+	public boolean isTvBus() {
+		return getUrl().startsWith("tvbus://");
+	}
+
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}
