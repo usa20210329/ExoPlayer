@@ -24,12 +24,12 @@ public class TvBus implements TVListener {
 	}
 
 	public void init() {
-		TVCore.get().setTVListener(this);
+		TVCore.getInstance().setTVListener(this);
 		App.get().startService(new Intent(App.get(), TVService.class));
 	}
 
 	public void start(AsyncCallback callback, String url) {
-		TVCore.get().start(url);
+		TVCore.getInstance().start(url);
 		setCallback(callback);
 		setUrl(url);
 	}
@@ -62,7 +62,8 @@ public class TvBus implements TVListener {
 
 	@Override
 	public void onStop(String result) {
-		callback.onResponse(url);
+		JsonObject json = new Gson().fromJson(result, JsonObject.class);
+		if (json.get("errno").getAsString().equals("-120")) TVCore.getInstance().start(url);
 	}
 
 	@Override

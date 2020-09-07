@@ -33,6 +33,6 @@ public class CheckTask extends AsyncTask<Channel, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String url) {
-		if (!isCancelled()) callback.onResponse(url);
+		callback.onResponse(url);
 	}
 }

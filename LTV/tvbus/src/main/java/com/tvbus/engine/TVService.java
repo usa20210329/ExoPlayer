@@ -9,8 +9,7 @@ public class TVService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		TVServer server = new TVServer();
-		Thread thread = new Thread(server);
+		Thread thread = new Thread(new TVServer());
 		thread.setName("tvcore");
 		thread.start();
 	}
@@ -22,7 +21,7 @@ public class TVService extends Service {
 
 	@Override
 	public void onDestroy() {
-		TVCore.get().quit();
+		TVCore.getInstance().quit();
 		super.onDestroy();
 	}
 
@@ -33,10 +32,15 @@ public class TVService extends Service {
 
 	private class TVServer implements Runnable {
 
+		private TVCore tvcore;
+
+		private TVServer() {
+			this.tvcore = TVCore.getInstance();
+		}
+
 		@Override
 		public void run() {
-			int ret = TVCore.get().init(getApplicationContext());
-			if (ret == 0) TVCore.get().run();
+			if (tvcore.init(getApplicationContext()) == 0) tvcore.run();
 		}
 	}
 }
