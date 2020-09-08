@@ -316,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		super.onPause();
 		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
+		TvBus.get().stop();
 		cancelTimer();
 	}
 
