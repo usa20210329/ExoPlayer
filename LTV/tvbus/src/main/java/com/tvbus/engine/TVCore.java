@@ -5,11 +5,7 @@ import android.content.Context;
 public class TVCore {
 
 	static {
-		try {
-			System.loadLibrary("tvcore");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		System.loadLibrary("tvcore");
 	}
 
 	private long nativeHandle;
