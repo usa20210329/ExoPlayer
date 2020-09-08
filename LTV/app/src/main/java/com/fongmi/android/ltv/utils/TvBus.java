@@ -55,6 +55,13 @@ public class TvBus implements TVListener {
 	}
 
 	@Override
+	public void onStop(String result) {
+		JsonObject json = new Gson().fromJson(result, JsonObject.class);
+		int errno = json.get("errno").getAsInt();
+		if (errno < 0) TVCore.getInstance().start(url);
+	}
+
+	@Override
 	public void onInited(String result) {
 	}
 
@@ -64,13 +71,6 @@ public class TvBus implements TVListener {
 
 	@Override
 	public void onInfo(String result) {
-	}
-
-	@Override
-	public void onStop(String result) {
-		JsonObject json = new Gson().fromJson(result, JsonObject.class);
-		int errno = json.get("errno").getAsInt();
-		if (errno < 0) TVCore.getInstance().start(url);
 	}
 
 	@Override
