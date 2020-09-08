@@ -330,5 +330,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onDestroy() {
 		super.onDestroy();
 		TvBus.get().destroy();
+		System.exit(0);
 	}
 }
