@@ -325,4 +325,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		if (isVisible()) hideUi();
 		else super.onBackPressed();
 	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		TvBus.get().destroy();
+	}
 }

@@ -82,14 +82,6 @@ public class TVCore {
 		}
 	}
 
-	public void start(String url, String accessCode) {
-		try {
-			start2(nativeHandle, url, accessCode);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void stop() {
 		try {
 			stop(nativeHandle);
@@ -127,8 +119,6 @@ public class TVCore {
 	private native int run(long handle);
 
 	private native void start(long handle, String url);
-
-	private native void start2(long handle, String url, String accessCode);
 
 	private native void stop(long handle);
 

@@ -1,7 +1,5 @@
 package com.fongmi.android.ltv.utils;
 
-import android.content.Intent;
-
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.network.AsyncCallback;
 import com.google.gson.Gson;
@@ -24,8 +22,8 @@ public class TvBus implements TVListener {
 	}
 
 	public void init() {
-		App.get().startService(new Intent(App.get(), TVService.class));
 		TVCore.getInstance().setTVListener(this);
+		TVService.start(App.get());
 	}
 
 	public void start(AsyncCallback callback, String url) {
@@ -36,6 +34,10 @@ public class TvBus implements TVListener {
 
 	public void stop() {
 		TVCore.getInstance().stop();
+	}
+
+	public void destroy() {
+		TVService.stop(App.get());
 	}
 
 	private void setCallback(AsyncCallback callback) {
