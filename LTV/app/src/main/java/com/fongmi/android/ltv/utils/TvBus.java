@@ -11,6 +11,7 @@ import com.tvbus.engine.TVService;
 public class TvBus implements TVListener {
 
 	private AsyncCallback callback;
+	private TVCore tvcore;
 	private String url;
 
 	private static class Loader {
@@ -22,18 +23,22 @@ public class TvBus implements TVListener {
 	}
 
 	public void init() {
-		TVCore.getInstance().setTVListener(this);
+		tvcore = TVCore.getInstance();
+		tvcore.setAuthUrl(Token.AUTH_URL);
+		tvcore.setUsername(Token.USERNAME);
+		tvcore.setPassword(Token.PASSWORD);
+		tvcore.setTVListener(this);
 		TVService.start(App.get());
 	}
 
 	public void start(AsyncCallback callback, String url) {
-		TVCore.getInstance().start(url);
 		setCallback(callback);
+		tvcore.start(url);
 		setUrl(url);
 	}
 
 	public void stop() {
-		TVCore.getInstance().stop();
+		tvcore.stop();
 	}
 
 	public void destroy() {
@@ -58,7 +63,7 @@ public class TvBus implements TVListener {
 	public void onStop(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		int errno = json.get("errno").getAsInt();
-		if (errno < 0) TVCore.getInstance().start(url);
+		if (errno < 0) tvcore.start(url);
 	}
 
 	@Override
