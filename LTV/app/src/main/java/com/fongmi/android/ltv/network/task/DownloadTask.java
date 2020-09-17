@@ -1,6 +1,6 @@
-package com.fongmi.android.ltv.network;
+package com.fongmi.android.ltv.network.task;
 
-import com.fongmi.android.ltv.utils.HttpUtil;
+import com.fongmi.android.ltv.network.HttpHelper;
 
 import java.net.HttpURLConnection;
 import java.util.TimerTask;
@@ -16,8 +16,8 @@ public class DownloadTask extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			HttpURLConnection conn = HttpUtil.connect(url);
-			if (HttpUtil.isFile(conn)) HttpUtil.download(conn);
+			HttpURLConnection conn = HttpHelper.connect(url);
+			if (HttpHelper.isFile(conn)) HttpHelper.download(conn);
 			conn.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();

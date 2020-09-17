@@ -1,4 +1,6 @@
-package com.fongmi.android.ltv.utils;
+package com.fongmi.android.ltv.network;
+
+import com.fongmi.android.ltv.utils.FileUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,7 +9,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpUtil {
+public class HttpHelper {
 
 	private static final String VND_APPLE_URL = "vnd.apple.mpegurl";
 	private static final String FORCE_DOWNLOAD = "force-download";
