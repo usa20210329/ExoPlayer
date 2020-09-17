@@ -3,6 +3,7 @@ package com.fongmi.android.ltv.network;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Config;
 import com.fongmi.android.ltv.utils.FileUtil;
+import com.fongmi.android.ltv.utils.Force;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.TvBus;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,6 +38,7 @@ public class ApiService {
 	public void getUrl(Channel item, AsyncCallback callback) {
 		TvBus.get().stop(); if (mTask != null) mTask.cancel(true);
 		if (item.isTvBus()) TvBus.get().start(callback, item.getUrl());
+		else if (item.isP2P()) Force.get().start(callback, item.getUrl());
 		else if (item.isDynamic()) mTask = new CheckTask(callback, item);
 		else callback.onResponse(item.getUrl());
 	}

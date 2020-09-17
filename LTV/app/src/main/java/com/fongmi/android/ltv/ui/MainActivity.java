@@ -28,6 +28,7 @@ import com.fongmi.android.ltv.network.DownloadTask;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
+import com.fongmi.android.ltv.utils.Force;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.TvBus;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 		Utils.setImmersiveMode(this);
+		Force.get().init();
 		TvBus.get().init();
 		initView();
 		initEvent();
@@ -330,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onDestroy() {
 		super.onDestroy();
 		TvBus.get().destroy();
+		Force.get().destroy();
 		System.exit(0);
 	}
 }

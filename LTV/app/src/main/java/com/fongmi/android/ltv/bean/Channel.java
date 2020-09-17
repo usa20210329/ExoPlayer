@@ -108,6 +108,10 @@ public class Channel extends Bean {
 		return getUrl().startsWith("tvbus://");
 	}
 
+	public boolean isP2P() {
+		return getUrl().startsWith("p6p://");
+	}
+
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}
