@@ -25,6 +25,7 @@ import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.task.DownloadTask;
+import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.utils.FileUtil;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.name) TextView mName;
 	@BindView(R.id.hide) View mHide;
 
+	private VerifyReceiver mReceiver;
 	private MainAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
@@ -75,10 +77,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
+		mReceiver = VerifyReceiver.create(getVerifyCallback()).register(this);
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
-		getConfig();
+		Token.check();
 	}
 
 	private void initEvent() {
@@ -92,6 +95,15 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter = new MainAdapter();
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		mRecyclerView.setAdapter(mAdapter);
+	}
+
+	private AsyncCallback getVerifyCallback() {
+		return new AsyncCallback() {
+			@Override
+			public void onVerify() {
+				getConfig();
+			}
+		};
 	}
 
 	private void getConfig() {
@@ -308,7 +320,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Token.check(this);
 		mAdapter.setVisible(true);
 		mAdapter.setChannel();
 	}
@@ -331,6 +342,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		mReceiver.cancel(this);
 		TvBus.get().destroy();
 		Force.get().destroy();
 		System.exit(0);
