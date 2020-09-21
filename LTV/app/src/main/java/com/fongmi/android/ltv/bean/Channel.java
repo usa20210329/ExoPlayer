@@ -108,7 +108,7 @@ public class Channel extends Bean {
 		return getUrl().startsWith("tvbus://");
 	}
 
-	public boolean isP2P() {
+	public boolean isForce() {
 		return getUrl().startsWith("p6p://");
 	}
 
