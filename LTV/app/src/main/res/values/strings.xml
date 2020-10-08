@@ -10,6 +10,7 @@
     <string name="channel_keep_delete">已移除收藏</string>
     <string name="channel_type_keep">我的收藏</string>
     <string name="channel_type_all">全部頻道</string>
+    <string name="channel_error">發生錯誤…</string>
 
     <!-- Setting -->
     <string name="setting_common">一般設定</string>

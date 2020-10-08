@@ -1,15 +1,12 @@
 package com.fongmi.android.ltv.source;
 
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.IBinder;
 
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.impl.AsyncCallback;
-import com.forcetech.service.P6PService;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +24,7 @@ public class Force {
 	}
 
 	public void init() {
-		App.get().bindService(new Intent(App.get(), P6PService.class), mConnection, Context.BIND_AUTO_CREATE);
+		//App.get().bindService(new Intent(App.get(), P6PService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	public void destroy() {
