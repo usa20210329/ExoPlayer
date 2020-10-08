@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 		Utils.setImmersiveMode(this);
-		Force.get().init();
-		TvBus.get().init();
 		initView();
 		initEvent();
 	}
@@ -77,10 +75,13 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
-		mReceiver = VerifyReceiver.create(getVerifyCallback()).register(this);
+		mReceiver = VerifyReceiver.create(getCallback()).register(this);
+		Force.get().init();
+		TvBus.get().init();
 		setRecyclerView();
 		setCustomSize();
 		setScaleType();
+		showProgress();
 		Token.check();
 	}
 
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	private AsyncCallback getVerifyCallback() {
+	private AsyncCallback getCallback() {
 		return new AsyncCallback() {
 			@Override
 			public void onVerify() {
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 			public void onResponse(List<Channel> items) {
 				mKeyDown.setChannels(items);
 				mAdapter.addAll(items);
+				hideProgress();
 				checkKeep();
 			}
 		});
