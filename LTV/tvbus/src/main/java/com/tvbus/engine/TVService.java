@@ -8,11 +8,19 @@ import android.os.IBinder;
 public class TVService extends Service {
 
 	public static void start(Context context) {
-		context.startService(new Intent(context, TVService.class));
+		try {
+			context.startService(new Intent(context, TVService.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void stop(Context context) {
-		context.stopService(new Intent(context, TVService.class));
+		try {
+			context.stopService(new Intent(context, TVService.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

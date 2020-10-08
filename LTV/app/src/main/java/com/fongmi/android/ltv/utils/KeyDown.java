@@ -43,6 +43,7 @@ public class KeyDown {
 	}
 
 	public boolean onKeyDown(int keyCode) {
+		if (mText.length() >= 3) return false;
 		mText.append(getNumber(keyCode));
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
