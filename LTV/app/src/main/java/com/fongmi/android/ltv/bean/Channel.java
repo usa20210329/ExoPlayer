@@ -108,6 +108,10 @@ public class Channel extends Bean {
 		return getUrl().startsWith("tvbus://");
 	}
 
+	public boolean isForce() {
+		return getUrl().startsWith("p8p://");
+	}
+
 	public int getTextSize() {
 		return Prefers.getSize() * 2 + 14;
 	}

@@ -6,14 +6,14 @@ import android.os.IBinder;
 
 import com.forcetech.android.ForceTV;
 
-public class P6PService extends Service {
+public class P8PService extends Service {
 
 	private ForceTV forceTV;
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		forceTV = new ForceTV();
-		forceTV.start("p6p", 9910);
+		forceTV.start("p8p", 9910);
 		return null;
 	}
 

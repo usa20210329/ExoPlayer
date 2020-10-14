@@ -65,5 +65,7 @@
 
         <service android:name="com.tvbus.engine.TVService" />
 
+        <service android:name="com.forcetech.service.P8PService" android:process=":p8p" />
+
     </application>
 </manifest>
