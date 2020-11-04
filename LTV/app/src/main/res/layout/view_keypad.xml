@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="end|bottom"
-    android:layout_margin="8dp"
+    android:layout_margin="12dp"
     android:orientation="vertical"
     android:visibility="gone"
     tools:visibility="visible">
@@ -15,23 +15,17 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_1"
             android:text="@string/num_1" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_2"
             android:text="@string/num_2" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_3"
             android:text="@string/num_3" />
 
@@ -42,23 +36,17 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_4"
             android:text="@string/num_4" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_5"
             android:text="@string/num_5" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_6"
             android:text="@string/num_6" />
 
@@ -69,23 +57,17 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_7"
             android:text="@string/num_7" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_8"
             android:text="@string/num_8" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_9"
             android:text="@string/num_9" />
 
@@ -97,21 +79,17 @@
 
         <Button
             android:id="@+id/add"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            style="@style/KeyStyle"
             android:text="@string/add" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:onClick="onKeyDown"
+            style="@style/KeyStyle"
             android:tag="@string/num_0"
             android:text="@string/num_0" />
 
         <Button
             android:id="@+id/sub"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            style="@style/KeyStyle"
             android:text="@string/sub" />
 
     </TableRow>
