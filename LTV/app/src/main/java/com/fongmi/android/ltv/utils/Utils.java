@@ -3,9 +3,6 @@ package com.fongmi.android.ltv.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.UiModeManager;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
@@ -13,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.R;
 
 public class Utils {
 
@@ -26,11 +24,6 @@ public class Utils {
 
 	public static int dp2px(int dpValue) {
 		return Math.round(dpValue * getDisplayMetrics().density);
-	}
-
-	public static boolean isTvBox() {
-		UiModeManager manager = (UiModeManager) App.get().getSystemService(Context.UI_MODE_SERVICE);
-		return manager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
 	}
 
 	public static boolean isDigitKey(int keyCode) {
@@ -93,7 +86,7 @@ public class Utils {
 		view.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				view.setVisibility(View.VISIBLE);
+				if (view.getId() != R.id.keypad) view.setVisibility(View.VISIBLE);
 			}
 		}).start();
 	}
@@ -102,7 +95,7 @@ public class Utils {
 		view.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				view.setVisibility(View.GONE);
+				if (view.getId() != R.id.keypad) view.setVisibility(View.GONE);
 			}
 		}).start();
 	}

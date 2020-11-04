@@ -40,18 +40,24 @@ public class Notify {
 	}
 
 	public static void showDialog(MainActivity context) {
+		showDialog(context, View.GONE);
+	}
+
+	public static void showDialog(MainActivity context, int visible) {
 		AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
-		dialog.findViewById(R.id.control).setVisibility(Utils.isTvBox() ? View.VISIBLE : View.GONE);
+		dialog.findViewById(R.id.control).setVisibility(visible);
 		SeekBar size = dialog.findViewById(R.id.size);
 		SeekBar delay = dialog.findViewById(R.id.delay);
 		CheckBox boot = dialog.findViewById(R.id.boot);
 		CheckBox full = dialog.findViewById(R.id.full);
+		CheckBox pad = dialog.findViewById(R.id.pad);
 		CheckBox rev = dialog.findViewById(R.id.rev);
 		CheckBox ok = dialog.findViewById(R.id.ok);
 		delay.setProgress(Prefers.getDelay());
 		size.setProgress(Prefers.getSize());
 		boot.setChecked(Prefers.isBoot());
 		full.setChecked(Prefers.isFull());
+		pad.setChecked(Prefers.isPad());
 		rev.setChecked(Prefers.isRev());
 		ok.setChecked(Prefers.isOk());
 		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
@@ -60,6 +66,10 @@ public class Notify {
 		full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putFull(isChecked);
 			context.setScaleType();
+		});
+		pad.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+			Prefers.putPad(isChecked);
+			context.setKeypad();
 		});
 		size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override

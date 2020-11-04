@@ -13,6 +13,7 @@ public class Prefers {
 	private static final String FULL = "full";
 	private static final String KEEP = "keep";
 	private static final String SIZE = "size";
+	private static final String PAD = "pad";
 	private static final String REV = "rev";
 	private static final String OK = "ok";
 
@@ -86,6 +87,14 @@ public class Prefers {
 
 	static void putFull(boolean value) {
 		putBoolean(FULL, value);
+	}
+
+	public static boolean isPad() {
+		return getBoolean(PAD);
+	}
+
+	static void putPad(boolean value) {
+		putBoolean(PAD, value);
 	}
 
 	static boolean isRev() {

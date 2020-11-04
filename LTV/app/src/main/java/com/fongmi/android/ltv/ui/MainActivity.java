@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		TvBus.get().init();
 		Force.get().init();
 		setRecyclerView();
-		setCustomSize();
-		setScaleType();
 		showProgress();
 		Token.check();
 	}
@@ -117,10 +115,12 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void setConfig(List<Channel> items) {
-		mKeypad.setVisibility(Utils.isTvBox() ? View.GONE : View.VISIBLE);
 		mKeyDown.setChannels(items);
 		mAdapter.addAll(items);
+		setCustomSize();
+		setScaleType();
 		hideProgress();
+		setKeypad();
 		checkKeep();
 	}
 
@@ -213,10 +213,12 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void showUi() {
+		mHandler.removeCallbacks(mRunnable);
 		Utils.showViews(mRecyclerView, mGear, mKeypad);
 	}
 
 	private void hideUi() {
+		mHandler.removeCallbacks(mRunnable);
 		Utils.hideViews(mRecyclerView, mGear, mKeypad);
 	}
 
@@ -238,6 +240,10 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
+	public void setKeypad() {
+		mKeypad.setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
+	}
+
 	@OnTouch(R.id.videoView)
 	public boolean onTouch(MotionEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_UP) toggleUi();
@@ -247,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@OnClick(R.id.gear)
 	public void onGear() {
 		Notify.showDialog(this);
+		mHandler.removeCallbacks(mRunnable);
 	}
 
 	@OnClick(R.id.add)
@@ -288,13 +295,13 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@Override
 	public void onKeyVertical(boolean isNext) {
 		mRecyclerView.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
-		mHandler.removeCallbacks(mRunnable);
 		if (isGone()) showUi();
 	}
 
 	@Override
 	public void onKeyHorizontal(boolean isLeft) {
-		Notify.showDialog(this);
+		Notify.showDialog(this, View.VISIBLE);
+		mHandler.removeCallbacks(mRunnable);
 	}
 
 	@Override
