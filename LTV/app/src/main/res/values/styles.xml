@@ -10,7 +10,7 @@
     <style name="KeyStyle">
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:backgroundTint">#CCFFFFFF</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:onClick">onKeyDown"</item>
     </style>
