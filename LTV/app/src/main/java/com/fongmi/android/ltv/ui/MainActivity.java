@@ -214,12 +214,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void showUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.showViews(mRecyclerView, mGear, mKeypad);
+		Utils.showViews(mRecyclerView, mGear);
+		if (Prefers.isPad()) Utils.showView(mKeypad);
 	}
 
 	private void hideUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.hideViews(mRecyclerView, mGear, mKeypad);
+		Utils.hideViews(mRecyclerView, mGear);
+		if (Prefers.isPad()) Utils.hideView(mKeypad);
 	}
 
 	private void setCustomSize() {

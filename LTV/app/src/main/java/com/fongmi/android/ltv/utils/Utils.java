@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.fongmi.android.ltv.App;
-import com.fongmi.android.ltv.R;
 
 public class Utils {
 
@@ -82,20 +81,20 @@ public class Utils {
 		for (View view : views) hideView(view);
 	}
 
-	private static void showView(View view) {
+	public static void showView(View view) {
 		view.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				if (view.getId() != R.id.keypad) view.setVisibility(View.VISIBLE);
+				view.setVisibility(View.VISIBLE);
 			}
 		}).start();
 	}
 
-	private static void hideView(View view) {
+	public static void hideView(View view) {
 		view.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if (view.getId() != R.id.keypad) view.setVisibility(View.GONE);
+				view.setVisibility(View.GONE);
 			}
 		}).start();
 	}
