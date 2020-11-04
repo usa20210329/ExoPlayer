@@ -141,7 +141,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		}
 	}
 
-	void addCount() {
+	private void addCount() {
 		if (mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mHides);
 		notifyDataSetChanged();

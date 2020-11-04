@@ -3,6 +3,9 @@ package com.fongmi.android.ltv.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.UiModeManager;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
@@ -23,6 +26,11 @@ public class Utils {
 
 	public static int dp2px(int dpValue) {
 		return Math.round(dpValue * getDisplayMetrics().density);
+	}
+
+	public static boolean isTvBox() {
+		UiModeManager manager = (UiModeManager) App.get().getSystemService(Context.UI_MODE_SERVICE);
+		return manager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
 	}
 
 	public static boolean isDigitKey(int keyCode) {

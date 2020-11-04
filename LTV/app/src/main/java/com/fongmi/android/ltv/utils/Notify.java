@@ -1,7 +1,6 @@
 package com.fongmi.android.ltv.utils;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -41,21 +40,16 @@ public class Notify {
 	}
 
 	public static void showDialog(MainActivity context) {
-		showDialog(context, View.GONE);
-	}
-
-	public static void showDialog(MainActivity context, int visibility) {
 		AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
-		ViewGroup control = dialog.findViewById(R.id.control);
+		dialog.findViewById(R.id.control).setVisibility(Utils.isTvBox() ? View.VISIBLE : View.GONE);
 		SeekBar size = dialog.findViewById(R.id.size);
 		SeekBar delay = dialog.findViewById(R.id.delay);
 		CheckBox boot = dialog.findViewById(R.id.boot);
 		CheckBox full = dialog.findViewById(R.id.full);
 		CheckBox rev = dialog.findViewById(R.id.rev);
 		CheckBox ok = dialog.findViewById(R.id.ok);
-		control.setVisibility(visibility);
-		size.setProgress(Prefers.getSize());
 		delay.setProgress(Prefers.getDelay());
+		size.setProgress(Prefers.getSize());
 		boot.setChecked(Prefers.isBoot());
 		full.setChecked(Prefers.isFull());
 		rev.setChecked(Prefers.isRev());

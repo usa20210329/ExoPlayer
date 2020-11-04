@@ -1,5 +1,7 @@
 package com.fongmi.android.ltv.ui;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -47,11 +49,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
 	@BindView(R.id.progress) ProgressBar mProgress;
+	@BindView(R.id.keypad) ViewGroup mKeypad;
 	@BindView(R.id.number) TextView mNumber;
 	@BindView(R.id.info) ViewGroup mInfo;
 	@BindView(R.id.gear) ImageView mGear;
 	@BindView(R.id.name) TextView mName;
-	@BindView(R.id.hide) View mHide;
 
 	private VerifyReceiver mReceiver;
 	private MainAdapter mAdapter;
@@ -109,12 +111,17 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		ApiService.getInstance().getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
-				mKeyDown.setChannels(items);
-				mAdapter.addAll(items);
-				hideProgress();
-				checkKeep();
+				setConfig(items);
 			}
 		});
+	}
+
+	private void setConfig(List<Channel> items) {
+		mKeypad.setVisibility(Utils.isTvBox() ? View.GONE : View.VISIBLE);
+		mKeyDown.setChannels(items);
+		mAdapter.addAll(items);
+		hideProgress();
+		checkKeep();
 	}
 
 	private void getUrl(Channel item) {
@@ -141,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private void onPrepared() {
 		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 1500);
+		mHandler.postDelayed(mRunnable, 2000);
 		hideProgress();
 		retry = 0;
 	}
@@ -178,13 +185,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	private Runnable mRunnable = this::hideUi;
 
-	private Runnable mAddCount = new Runnable() {
-		@Override
-		public void run() {
-			mAdapter.addCount();
-		}
-	};
-
 	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -213,16 +213,16 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	private void showUi() {
-		Utils.showViews(mRecyclerView, mGear);
+		Utils.showViews(mRecyclerView, mGear, mKeypad);
 	}
 
 	private void hideUi() {
-		Utils.hideViews(mRecyclerView, mGear);
+		Utils.hideViews(mRecyclerView, mGear, mKeypad);
 	}
 
 	private void setCustomSize() {
-		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
-		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 40);
+		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
 		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
 		params.width = Utils.dp2px(250 + Prefers.getSize() * 20);
 		mRecyclerView.setLayoutParams(params);
@@ -249,10 +249,16 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		Notify.showDialog(this);
 	}
 
-	@OnClick(R.id.hide)
-	public void onHide() {
-		mHandler.removeCallbacks(mAddCount);
-		mHandler.postDelayed(mAddCount, 500);
+	@OnClick(R.id.add)
+	public void onAdd() {
+		AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+	}
+
+	@OnClick(R.id.sub)
+	public void onSub() {
+		AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
 	}
 
 	@Override
@@ -260,6 +266,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.scrollToPosition(mAdapter.getIndex(item));
 		mAdapter.setPosition(mAdapter.getIndex(item));
 		mAdapter.setChannel();
+	}
+
+	public void onKeyDown(View view) {
+		mHandler.removeCallbacks(mRunnable);
+		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
 	}
 
 	@Override
@@ -283,8 +294,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 
 	@Override
 	public void onKeyHorizontal(boolean isLeft) {
-		if (isLeft) mHide.performClick();
-		else Notify.showDialog(this, View.VISIBLE);
+		Notify.showDialog(this);
 	}
 
 	@Override
