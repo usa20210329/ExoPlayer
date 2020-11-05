@@ -57,9 +57,9 @@ public class KeyDown {
 		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isDownKey(event)) {
 			mKeyDown.onKeyVertical(!Prefers.isRev());
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isLeftKey(event)) {
-			mKeyDown.onKeyHorizontal(true);
+			mKeyDown.onKeyLeft();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isRightKey(event)) {
-			mKeyDown.onKeyHorizontal(false);
+			mKeyDown.onKeyRight();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isBackKey(event)) {
 			mKeyDown.onKeyBack();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isMenuKey(event)) {

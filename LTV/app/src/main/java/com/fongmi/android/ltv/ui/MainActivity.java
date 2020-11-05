@@ -301,9 +301,14 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	public void onKeyHorizontal(boolean isLeft) {
-		Notify.showDialog(this, View.VISIBLE);
+	public void onKeyLeft() {
+		mAdapter.addCount();
+	}
+
+	@Override
+	public void onKeyRight() {
 		mHandler.removeCallbacks(mRunnable);
+		Notify.showDialog(this, View.VISIBLE);
 	}
 
 	@Override

@@ -8,7 +8,9 @@ public interface KeyDownImpl {
 
 	void onKeyVertical(boolean isNext);
 
-	void onKeyHorizontal(boolean isLeft);
+	void onKeyLeft();
+
+	void onKeyRight();
 
 	void onKeyCenter();
 
