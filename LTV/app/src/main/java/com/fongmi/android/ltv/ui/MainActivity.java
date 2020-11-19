@@ -2,6 +2,7 @@ package com.fongmi.android.ltv.ui;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -35,6 +36,7 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.List;
 import java.util.Timer;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
-		Utils.setImmersiveMode(this);
 		initView();
 		initEvent();
 	}
@@ -277,11 +278,6 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.setChannel();
 	}
 
-	public void onKeyDown(View view) {
-		mHandler.removeCallbacks(mRunnable);
-		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
-	}
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (Utils.isDigitKey(keyCode)) return mKeyDown.onKeyDown(keyCode);
@@ -326,26 +322,41 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.onKeep();
 	}
 
+	private void initialize() {
+		mAdapter.setVisible(true);
+		mAdapter.setChannel();
+	}
+
+	private void release() {
+		mAdapter.setVisible(false);
+		mVideoView.stopPlayback();
+		TvBus.get().stop();
+		cancelTimer();
+	}
+
 	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) Utils.setImmersiveMode(this);
+	public void onStart() {
+		super.onStart();
+		if (Util.SDK_INT >= 24) initialize();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mAdapter.setVisible(true);
-		mAdapter.setChannel();
+		Utils.setImmersiveMode(this);
+		if (Util.SDK_INT < 24) initialize();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mAdapter.setVisible(false);
-		mVideoView.stopPlayback();
-		TvBus.get().stop();
-		cancelTimer();
+		if (Util.SDK_INT < 24) release();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (Util.SDK_INT >= 24) release();
 	}
 
 	@Override
