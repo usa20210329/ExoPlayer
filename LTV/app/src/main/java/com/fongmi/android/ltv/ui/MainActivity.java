@@ -322,41 +322,26 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.onKeep();
 	}
 
-	private void initialize() {
-		mAdapter.setVisible(true);
-		mAdapter.setChannel();
-	}
-
-	private void release() {
-		mAdapter.setVisible(false);
-		mVideoView.stopPlayback();
-		TvBus.get().stop();
-		cancelTimer();
-	}
-
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (Util.SDK_INT >= 24) initialize();
+		mAdapter.setVisible(true);
+		mAdapter.setChannel();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Utils.setImmersiveMode(this);
-		if (Util.SDK_INT < 24) initialize();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (Util.SDK_INT < 24) release();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (Util.SDK_INT >= 24) release();
+		mAdapter.setVisible(false);
+		mVideoView.stopPlayback();
+		TvBus.get().stop();
+		cancelTimer();
 	}
 
 	@Override
