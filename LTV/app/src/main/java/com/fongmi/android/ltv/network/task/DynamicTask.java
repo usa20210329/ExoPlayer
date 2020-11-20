@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
+import com.fongmi.android.ltv.utils.Token;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -23,8 +24,8 @@ public class DynamicTask extends AsyncTask<Channel, Integer, String> {
 	protected String doInBackground(Channel... items) {
 		try {
 			String url = items[0].getUrl();
-			HttpURLConnection conn = connect(url);
-			String location = conn.getHeaderField("Location");
+			if (items[0].isToken()) url = url.concat(Token.get());
+			String location = connect(url).getHeaderField("Location");
 			return TextUtils.isEmpty(location) ? url : location;
 		} catch (Exception e) {
 			return items[0].getUrl();
