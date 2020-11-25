@@ -16,16 +16,19 @@
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_1"
             android:text="@string/num_1" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_2"
             android:text="@string/num_2" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_3"
             android:text="@string/num_3" />
 
@@ -37,16 +40,19 @@
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_4"
             android:text="@string/num_4" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_5"
             android:text="@string/num_5" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_6"
             android:text="@string/num_6" />
 
@@ -58,16 +64,19 @@
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_7"
             android:text="@string/num_7" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_8"
             android:text="@string/num_8" />
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_9"
             android:text="@string/num_9" />
 
@@ -84,6 +93,7 @@
 
         <Button
             style="@style/KeyStyle"
+            android:onClick="onKeyDown"
             android:tag="@string/num_0"
             android:text="@string/num_0" />
 

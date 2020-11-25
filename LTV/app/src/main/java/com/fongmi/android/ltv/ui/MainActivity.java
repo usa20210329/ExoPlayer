@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements KeyDownImpl {
+public class MainActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
 	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.videoView) VideoView mVideoView;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		Utils.hideSystemUI(this);
 		ButterKnife.bind(this);
 		initView();
 		initEvent();
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
-		mReceiver = VerifyReceiver.create(getCallback()).register(this);
+		mReceiver = VerifyReceiver.create(this);
 		TvBus.get().init();
 		Force.get().init();
 		setRecyclerView();
@@ -91,16 +92,8 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	private AsyncCallback getCallback() {
-		return new AsyncCallback() {
-			@Override
-			public void onVerify() {
-				getConfig();
-			}
-		};
-	}
-
-	private void getConfig() {
+	@Override
+	public void onVerified() {
 		ApiService.getInstance().getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
@@ -260,6 +253,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 		mAdapter.setChannel();
 	}
 
+	public void onKeyDown(View view) {
+		mHandler.removeCallbacks(mRunnable);
+		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (Utils.isDigitKey(keyCode)) return mKeyDown.onKeyDown(keyCode);
@@ -305,6 +303,12 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) Utils.hideSystemUI(this);
+	}
+
+	@Override
 	public void onStart() {
 		super.onStart();
 		mAdapter.setVisible(true);
@@ -312,17 +316,11 @@ public class MainActivity extends AppCompatActivity implements KeyDownImpl {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		Utils.setImmersiveMode(this);
-	}
-
-	@Override
 	public void onStop() {
 		super.onStop();
+		TvBus.get().stop();
 		mAdapter.setVisible(false);
 		mVideoView.stopPlayback();
-		TvBus.get().stop();
 	}
 
 	@Override
