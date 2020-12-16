@@ -1,15 +1,11 @@
 package com.fongmi.android.ltv.network.task;
 
 import android.os.AsyncTask;
-import android.text.TextUtils;
 
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
+import com.fongmi.android.ltv.network.Connector;
 import com.fongmi.android.ltv.utils.Token;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class DynamicTask extends AsyncTask<Channel, Integer, String> {
 
@@ -25,23 +21,10 @@ public class DynamicTask extends AsyncTask<Channel, Integer, String> {
 		try {
 			String url = items[0].getUrl();
 			if (items[0].isToken()) url = url.concat(Token.get());
-			String location = connect(url).getHeaderField("Location");
-			return TextUtils.isEmpty(location) ? url : location;
+			return Connector.link(url).getPath();
 		} catch (Exception e) {
 			return items[0].getUrl();
 		}
-	}
-
-	private HttpURLConnection connect(String url) throws IOException {
-		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-		conn.setInstanceFollowRedirects(false);
-		conn.setConnectTimeout(5000);
-		conn.setReadTimeout(5000);
-		conn.setUseCaches(false);
-		conn.setDoInput(false);
-		conn.setDoInput(true);
-		conn.connect();
-		return conn;
 	}
 
 	@Override
