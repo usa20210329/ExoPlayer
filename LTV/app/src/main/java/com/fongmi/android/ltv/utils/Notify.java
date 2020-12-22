@@ -1,7 +1,7 @@
 package com.fongmi.android.ltv.utils;
 
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -9,9 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.fongmi.android.ltv.App;
-import com.fongmi.android.ltv.R;
+import com.fongmi.android.ltv.databinding.DialogSettingBinding;
 import com.fongmi.android.ltv.impl.SeekBarListener;
-import com.fongmi.android.ltv.ui.MainActivity;
+import com.fongmi.android.ltv.ui.PlayerActivity;
 
 public class Notify {
 
@@ -39,45 +39,39 @@ public class Notify {
 		mToast.show();
 	}
 
-	public static void showDialog(MainActivity context) {
+	public static void showDialog(PlayerActivity context) {
 		showDialog(context, View.GONE);
 	}
 
-	public static void showDialog(MainActivity context, int visible) {
-		AlertDialog dialog = new AlertDialog.Builder(context).setView(R.layout.view_setting).show();
-		dialog.findViewById(R.id.control).setVisibility(visible);
-		SeekBar size = dialog.findViewById(R.id.size);
-		SeekBar delay = dialog.findViewById(R.id.delay);
-		CheckBox boot = dialog.findViewById(R.id.boot);
-		CheckBox full = dialog.findViewById(R.id.full);
-		CheckBox pad = dialog.findViewById(R.id.pad);
-		CheckBox rev = dialog.findViewById(R.id.rev);
-		CheckBox ok = dialog.findViewById(R.id.ok);
-		delay.setProgress(Prefers.getDelay());
-		size.setProgress(Prefers.getSize());
-		boot.setChecked(Prefers.isBoot());
-		full.setChecked(Prefers.isFull());
-		pad.setChecked(Prefers.isPad());
-		rev.setChecked(Prefers.isRev());
-		ok.setChecked(Prefers.isOk());
-		boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
-		rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
-		ok.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putOk(isChecked));
-		full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+	public static void showDialog(PlayerActivity context, int visible) {
+		DialogSettingBinding binding = DialogSettingBinding.inflate(LayoutInflater.from(context));
+		new AlertDialog.Builder(context).setView(binding.getRoot()).show();
+		binding.control.setVisibility(visible);
+		binding.delay.setProgress(Prefers.getDelay());
+		binding.size.setProgress(Prefers.getSize());
+		binding.boot.setChecked(Prefers.isBoot());
+		binding.full.setChecked(Prefers.isFull());
+		binding.pad.setChecked(Prefers.isPad());
+		binding.rev.setChecked(Prefers.isRev());
+		binding.ok.setChecked(Prefers.isOk());
+		binding.boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
+		binding.rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
+		binding.ok.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putOk(isChecked));
+		binding.full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putFull(isChecked);
 			context.setScaleType();
 		});
-		pad.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+		binding.pad.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putPad(isChecked);
 			context.setKeypad();
 		});
-		size.setOnSeekBarChangeListener(new SeekBarListener() {
+		binding.size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				context.onSizeChange(progress);
 			}
 		});
-		delay.setOnSeekBarChangeListener(new SeekBarListener() {
+		binding.delay.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				Prefers.putDelay(progress);

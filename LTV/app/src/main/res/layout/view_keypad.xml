@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/keypad"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
@@ -89,6 +88,7 @@
         <Button
             android:id="@+id/add"
             style="@style/KeyStyle"
+            android:onClick="onAdd"
             android:text="@string/add" />
 
         <Button
@@ -100,6 +100,7 @@
         <Button
             android:id="@+id/sub"
             style="@style/KeyStyle"
+            android:onClick="onSub"
             android:text="@string/sub" />
 
     </TableRow>

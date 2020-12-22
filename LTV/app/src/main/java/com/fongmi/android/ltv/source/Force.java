@@ -18,12 +18,18 @@ import java.net.URL;
 
 public class Force {
 
+	private final ServiceConnection mConnection;
+
 	private static class Loader {
 		static volatile Force INSTANCE = new Force();
 	}
 
 	public static Force get() {
 		return Loader.INSTANCE;
+	}
+
+	public Force() {
+		mConnection = createConn();
 	}
 
 	public void init() {
@@ -34,16 +40,17 @@ public class Force {
 		App.get().unbindService(mConnection);
 	}
 
-	ServiceConnection mConnection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-		}
+	private ServiceConnection createConn() {
+		return new ServiceConnection() {
+			@Override
+			public void onServiceConnected(ComponentName name, IBinder service) {
+			}
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-
-		}
-	};
+			@Override
+			public void onServiceDisconnected(ComponentName name) {
+			}
+		};
+	}
 
 	public void start(AsyncCallback callback, String source) {
 		Uri uri = Uri.parse(source);

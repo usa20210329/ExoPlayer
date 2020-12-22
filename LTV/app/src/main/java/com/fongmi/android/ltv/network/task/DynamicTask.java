@@ -9,7 +9,7 @@ import com.fongmi.android.ltv.utils.Token;
 
 public class DynamicTask extends AsyncTask<Channel, Integer, String> {
 
-	private AsyncCallback callback;
+	private final AsyncCallback callback;
 
 	public DynamicTask(AsyncCallback callback, Channel item) {
 		this.callback = callback;

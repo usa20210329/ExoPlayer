@@ -6,12 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
-import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
@@ -39,24 +35,11 @@ import com.fongmi.android.ltv.utils.Utils;
 import java.util.List;
 import java.util.Timer;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTouch;
+public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
-public class MainActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
-
-	@BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-	@BindView(R.id.videoView) VideoView mVideoView;
-	@BindView(R.id.progress) ProgressBar mProgress;
-	@BindView(R.id.keypad) ViewGroup mKeypad;
-	@BindView(R.id.number) TextView mNumber;
-	@BindView(R.id.info) ViewGroup mInfo;
-	@BindView(R.id.gear) ImageView mGear;
-	@BindView(R.id.name) TextView mName;
-
+	private ActivityPlayerBinding binding;
 	private VerifyReceiver mReceiver;
-	private MainAdapter mAdapter;
+	private PlayerAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private Timer mTimer;
@@ -65,16 +48,16 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		binding = ActivityPlayerBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 		Utils.hideSystemUI(this);
-		ButterKnife.bind(this);
 		initView();
 		initEvent();
 	}
 
 	private void initView() {
 		mHandler = new Handler();
-		mKeyDown = new KeyDown(this, mInfo, mNumber, mName);
+		mKeyDown = new KeyDown(this, binding.widget);
 		mReceiver = VerifyReceiver.create(this);
 		TvBus.get().init();
 		Force.get().init();
@@ -85,15 +68,15 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
-		mVideoView.setOnErrorListener(this::onRetry);
-		mVideoView.setOnPreparedListener(this::onPrepared);
-		mRecyclerView.addOnScrollListener(mScrollListener);
+		binding.video.setOnErrorListener(this::onRetry);
+		binding.video.setOnPreparedListener(this::onPrepared);
+		binding.recycler.addOnScrollListener(mScrollListener);
 	}
 
 	private void setRecyclerView() {
-		mAdapter = new MainAdapter();
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-		mRecyclerView.setAdapter(mAdapter);
+		mAdapter = new PlayerAdapter();
+		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
+		binding.recycler.setAdapter(mAdapter);
 	}
 
 	@Override
@@ -154,14 +137,14 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 	private void onError(Exception e) {
 		Notify.show(R.string.channel_error);
 		e.printStackTrace();
-		mVideoView.reset();
+		binding.video.reset();
 		hideProgress();
 	}
 
 	private void playVideo(String url) {
 		runOnUiThread(() -> {
-			mVideoView.setVideoPath(url);
-			mVideoView.start();
+			binding.video.setVideoPath(url);
+			binding.video.start();
 		});
 	}
 
@@ -175,9 +158,9 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 		mTimer.schedule(new DownloadTask(item.getUrl()), 0, 1000);
 	}
 
-	private Runnable mRunnable = this::hideUi;
+	private final Runnable mRunnable = this::hideUi;
 
-	private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+	private final RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 			if (newState == RecyclerView.SCROLL_STATE_DRAGGING) mHandler.removeCallbacks(mRunnable);
@@ -185,19 +168,19 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 	};
 
 	private void showProgress() {
-		if (mProgress.getVisibility() == View.GONE) mProgress.setVisibility(View.VISIBLE);
+		if (binding.widget.progress.getVisibility() == View.GONE) binding.widget.progress.setVisibility(View.VISIBLE);
 	}
 
 	private void hideProgress() {
-		if (mProgress.getVisibility() == View.VISIBLE) mProgress.setVisibility(View.GONE);
+		if (binding.widget.progress.getVisibility() == View.VISIBLE) binding.widget.progress.setVisibility(View.GONE);
 	}
 
 	private boolean isVisible() {
-		return mRecyclerView.getAlpha() == 1;
+		return binding.recycler.getAlpha() == 1;
 	}
 
 	private boolean isGone() {
-		return mRecyclerView.getAlpha() == 0;
+		return binding.recycler.getAlpha() == 0;
 	}
 
 	private void toggleUi() {
@@ -206,22 +189,22 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 
 	private void showUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.showViews(mRecyclerView, mGear);
-		if (Prefers.isPad()) Utils.showView(mKeypad);
+		Utils.showViews(binding.recycler, binding.widget.gear);
+		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
 	}
 
 	private void hideUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.hideViews(mRecyclerView, mGear);
-		if (Prefers.isPad()) Utils.hideView(mKeypad);
+		Utils.hideViews(binding.recycler, binding.widget.gear);
+		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
 	private void setCustomSize() {
-		mNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
-		mName.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
-		ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
+		binding.widget.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.widget.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
 		params.width = Utils.dp2px(250 + Prefers.getSize() * 20);
-		mRecyclerView.setLayoutParams(params);
+		binding.recycler.setLayoutParams(params);
 	}
 
 	public void onSizeChange(int progress) {
@@ -231,47 +214,42 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 	}
 
 	public void setScaleType() {
-		mVideoView.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
+		binding.video.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
 	public void setKeypad() {
-		mKeypad.setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
+		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
 	}
 
-	@OnTouch(R.id.videoView)
-	public boolean onTouch(MotionEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) toggleUi();
-		return true;
+	public void onTouch(View view) {
+		toggleUi();
 	}
 
-	@OnClick(R.id.gear)
-	public void onGear() {
+	public void onGear(View view) {
 		Notify.showDialog(this);
 		mHandler.removeCallbacks(mRunnable);
 	}
 
-	@OnClick(R.id.add)
-	public void onAdd() {
+	public void onAdd(View view) {
 		AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
 	}
 
-	@OnClick(R.id.sub)
-	public void onSub() {
+	public void onSub(View view) {
 		AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-	}
-
-	@Override
-	public void onFind(Channel item) {
-		mRecyclerView.scrollToPosition(mAdapter.getIndex(item));
-		mAdapter.setPosition(mAdapter.getIndex(item));
-		mAdapter.setChannel();
 	}
 
 	public void onKeyDown(View view) {
 		mHandler.removeCallbacks(mRunnable);
 		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
+	}
+
+	@Override
+	public void onFind(Channel item) {
+		binding.recycler.scrollToPosition(mAdapter.getIndex(item));
+		mAdapter.setPosition(mAdapter.getIndex(item));
+		mAdapter.setChannel();
 	}
 
 	@Override
@@ -288,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		mRecyclerView.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
+		binding.recycler.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
 		if (isGone()) showUi();
 	}
 
@@ -337,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements VerifyReceiver.Ca
 		cancelTimer();
 		TvBus.get().stop();
 		mAdapter.setVisible(false);
-		mVideoView.stopPlayback();
+		binding.video.stopPlayback();
 	}
 
 	@Override

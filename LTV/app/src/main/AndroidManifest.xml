@@ -43,21 +43,23 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".receiver.BootReceiver">
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:priority="999">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>

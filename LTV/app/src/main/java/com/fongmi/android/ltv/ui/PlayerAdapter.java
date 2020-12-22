@@ -4,8 +4,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,26 +16,25 @@ import com.fongmi.android.ltv.bean.Bean;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Type;
 import com.fongmi.android.ltv.dao.ChannelDao;
+import com.fongmi.android.ltv.databinding.AdapterChannelBinding;
+import com.fongmi.android.ltv.databinding.AdapterTypeBinding;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private OnItemClickListener mItemClickListener;
-	private List<Channel> mHides;
-	private List<Object> mItems;
-	private ChannelDao mDao;
+	private final List<Channel> mHides;
+	private final List<Object> mItems;
+	private final ChannelDao mDao;
 	private boolean visible;
 	private int position;
 	private int count;
 
-	MainAdapter() {
+	PlayerAdapter() {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
 		this.mDao = AppDatabase.getInstance().getDao();
@@ -82,12 +79,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	class TypeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		@BindView(R.id.name) TextView name;
+		private final AdapterTypeBinding binding;
 
-		TypeHolder(View view) {
-			super(view);
-			ButterKnife.bind(this, view);
-			view.setOnClickListener(this);
+		TypeHolder(AdapterTypeBinding binding) {
+			super(binding.getRoot());
+			this.binding = binding;
+			itemView.setOnClickListener(this);
 		}
 
 		@Override
@@ -100,15 +97,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-		@BindView(R.id.number) TextView number;
-		@BindView(R.id.logo) ImageView logo;
-		@BindView(R.id.name) TextView name;
+		private final AdapterChannelBinding binding;
 
-		ChannelHolder(View view) {
-			super(view);
-			ButterKnife.bind(this, view);
-			view.setOnLongClickListener(this);
-			view.setOnClickListener(this);
+		ChannelHolder(AdapterChannelBinding binding) {
+			super(binding.getRoot());
+			this.binding = binding;
+			itemView.setOnLongClickListener(this);
+			itemView.setOnClickListener(this);
 		}
 
 		@Override
@@ -225,9 +220,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		if (viewType == 1) {
-			return new TypeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_type, parent, false));
+			return new TypeHolder(AdapterTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 		} else {
-			return new ChannelHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_channel, parent, false));
+			return new ChannelHolder(AdapterChannelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 		}
 	}
 
@@ -236,18 +231,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		if (getItemViewType(position) == 1) {
 			TypeHolder type = (TypeHolder) viewHolder;
 			Type item = getType(position);
-			type.name.setText(item.getName());
 			type.itemView.setSelected(item.isSelect());
-			type.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			type.binding.name.setText(item.getName());
+			type.binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 		} else {
 			ChannelHolder holder = (ChannelHolder) viewHolder;
 			Channel item = getChannel(position);
-			holder.name.setText(item.getName());
-			holder.number.setText(item.getNumber());
 			holder.itemView.setSelected(item.isSelect());
-			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			holder.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			Glide.with(App.get()).load(item.getLogoUrl()).into(holder.logo);
+			holder.binding.name.setText(item.getName());
+			holder.binding.number.setText(item.getNumber());
+			holder.binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			holder.binding.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			Glide.with(App.get()).load(item.getLogoUrl()).into(holder.binding.logo);
 		}
 	}
 }

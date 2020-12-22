@@ -3,10 +3,9 @@ package com.fongmi.android.ltv.utils;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.databinding.ViewWidgetBinding;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 
 import java.util.ArrayList;
@@ -14,20 +13,16 @@ import java.util.List;
 
 public class KeyDown {
 
+	private final ViewWidgetBinding mWidget;
+	private final KeyDownImpl mKeyDown;
 	private List<Channel> mChannels;
-	private KeyDownImpl mKeyDown;
 	private StringBuilder mText;
 	private Handler mHandler;
-	private ViewGroup mInfo;
-	private TextView mNumber;
-	private TextView mName;
 	private boolean mPress;
 
-	public KeyDown(KeyDownImpl keyDown, ViewGroup info, TextView number, TextView name) {
+	public KeyDown(KeyDownImpl keyDown, ViewWidgetBinding widget) {
 		this.mKeyDown = keyDown;
-		this.mNumber = number;
-		this.mName = name;
-		this.mInfo = info;
+		this.mWidget = widget;
 		this.init();
 	}
 
@@ -89,21 +84,21 @@ public class KeyDown {
 	}
 
 	private void showInfo() {
-		mInfo.setVisibility(View.VISIBLE);
-		mNumber.setText(mText.toString());
+		mWidget.info.setVisibility(View.VISIBLE);
+		mWidget.number.setText(mText.toString());
 		int index = mChannels.indexOf(Channel.create(mText.toString()));
 		boolean exist = index != -1 && !mChannels.get(index).isHidden();
-		mName.setVisibility(exist ? View.VISIBLE : View.GONE);
-		if (exist) mName.setText(mChannels.get(index).getName());
+		mWidget.name.setVisibility(exist ? View.VISIBLE : View.GONE);
+		if (exist) mWidget.name.setText(mChannels.get(index).getName());
 	}
 
-	private Runnable mRunnable = new Runnable() {
+	private final Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
 			mKeyDown.onFind(Channel.create(mText.toString()));
-			mInfo.setVisibility(View.GONE);
-			mName.setVisibility(View.GONE);
-			mName.setText("");
+			mWidget.info.setVisibility(View.GONE);
+			mWidget.name.setVisibility(View.GONE);
+			mWidget.name.setText("");
 			mText.setLength(0);
 		}
 	};

@@ -7,20 +7,23 @@
     android:keepScreenOn="true">
 
     <com.devbrackets.android.exomedia.ui.widget.VideoView
-        android:id="@+id/videoView"
+        android:id="@+id/video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="onTouch"
         app:measureBasedOnAspectRatio="false"
         app:useTextureViewBacking="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shadow"
         android:minWidth="250dp"
         tools:listitem="@layout/adapter_channel" />
 
-    <include layout="@layout/view_widget" />
+    <include
+        android:id="@+id/widget"
+        layout="@layout/view_widget" />
 
 </FrameLayout>
