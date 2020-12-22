@@ -29,7 +29,7 @@ public class Force {
 	}
 
 	public Force() {
-		mConnection = createConn();
+		mConnection = create();
 	}
 
 	public void init() {
@@ -37,10 +37,14 @@ public class Force {
 	}
 
 	public void destroy() {
-		App.get().unbindService(mConnection);
+		try {
+			App.get().unbindService(mConnection);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	private ServiceConnection createConn() {
+	private ServiceConnection create() {
 		return new ServiceConnection() {
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
