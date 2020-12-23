@@ -15,6 +15,7 @@ public class VerifyReceiver extends BroadcastReceiver {
 	public static final String VERIFY = BuildConfig.APPLICATION_ID + ".action.VERIFY";
 
 	private final Callback callback;
+	private final Activity activity;
 
 	public static VerifyReceiver create(Activity activity) {
 		return new VerifyReceiver(activity);
@@ -27,9 +28,10 @@ public class VerifyReceiver extends BroadcastReceiver {
 	public VerifyReceiver(Activity activity) {
 		activity.registerReceiver(this, new IntentFilter(VERIFY));
 		this.callback = (Callback) activity;
+		this.activity = activity;
 	}
 
-	public void cancel(Activity activity) {
+	public void cancel() {
 		activity.unregisterReceiver(this);
 	}
 

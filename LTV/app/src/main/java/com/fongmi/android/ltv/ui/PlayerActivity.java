@@ -309,11 +309,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onStop() {
+		binding.video.stopPlayback();
+		mAdapter.setVisible(false);
+		TvBus.get().stop();
 		super.onStop();
 		cancelTimer();
-		TvBus.get().stop();
-		mAdapter.setVisible(false);
-		binding.video.stopPlayback();
 	}
 
 	@Override
@@ -324,8 +324,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-		mReceiver.cancel(this);
 		TvBus.get().destroy();
+		mReceiver.cancel();
+		super.onDestroy();
+		System.exit(0);
 	}
 }
