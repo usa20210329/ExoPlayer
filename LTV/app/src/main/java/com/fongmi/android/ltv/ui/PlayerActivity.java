@@ -23,7 +23,6 @@ import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.task.DownloadTask;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
-import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
@@ -60,7 +59,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mKeyDown = new KeyDown(this, binding.widget);
 		mReceiver = VerifyReceiver.create(this);
 		TvBus.get().init();
-		Force.get().init();
 		setRecyclerView();
 		showProgress();
 		Token.check();
@@ -329,6 +327,5 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		super.onDestroy();
 		mReceiver.cancel(this);
 		TvBus.get().destroy();
-		Force.get().destroy();
 	}
 }
