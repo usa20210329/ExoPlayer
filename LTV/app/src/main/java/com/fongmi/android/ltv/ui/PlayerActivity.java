@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
@@ -30,6 +30,8 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
+import com.king.player.exoplayer.ExoPlayer;
+import com.king.player.kingplayer.source.DataSource;
 
 import java.util.List;
 import java.util.Timer;
@@ -59,22 +61,21 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mKeyDown = new KeyDown(this);
 		mReceiver = VerifyReceiver.create(this);
 		TvBus.get().init();
-		setRecyclerView();
+		setBindingView();
 		showProgress();
 		Token.check();
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemListener(this::onClick);
+		mAdapter.setOnItemListener(this::getUrl);
 		binding.video.setOnErrorListener(this::onRetry);
-		binding.video.setOnPreparedListener(this::onPrepared);
 		binding.recycler.addOnScrollListener(mScrollListener);
 	}
 
-	private void setRecyclerView() {
-		mAdapter = new PlayerAdapter();
+	private void setBindingView() {
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
-		binding.recycler.setAdapter(mAdapter);
+		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
+		binding.video.setPlayer(new ExoPlayer(this));
 	}
 
 	@Override
@@ -90,7 +91,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void setConfig(List<Channel> items) {
 		mAdapter.addAll(items);
 		setCustomSize();
-		setScaleType();
 		hideProgress();
 		setKeypad();
 		checkKeep();
@@ -100,9 +100,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				if (FileUtil.isFile(url)) setTimer(item);
-				else cancelTimer();
-				playVideo(url);
+				playVideo(item, url);
 			}
 		});
 	}
@@ -112,47 +110,35 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		onFind(Prefers.getKeep());
 	}
 
-	private void onClick(Channel item) {
-		Token.setProvider(item);
-		showProgress();
-		getUrl(item);
+	private void onRetry(int event, @Nullable Bundle bundle) {
+		if (++retry > 3) onError();
+		else mAdapter.setChannel();
 	}
 
-	private void onPrepared() {
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 2000);
+	private void onError() {
+		Notify.show(R.string.channel_error);
+		binding.video.reset();
 		hideProgress();
 		retry = 0;
 	}
 
-	private boolean onRetry(Exception e) {
-		if (++retry > 3) onError(e);
-		else mAdapter.setChannel();
-		return true;
-	}
-
-	private void onError(Exception e) {
-		Notify.show(R.string.channel_error);
-		e.printStackTrace();
-		binding.video.reset();
-		hideProgress();
-	}
-
-	private void playVideo(String url) {
-		runOnUiThread(() -> {
-			binding.video.setVideoPath(url);
-			binding.video.start();
-		});
+	private void playVideo(Channel item, String url) {
+		mHandler.removeCallbacks(mRunnable); mHandler.postDelayed(mRunnable, 2000);
+		if (FileUtil.isFile(url)) setTimer(item.getUrl()); else cancelTimer();
+		DataSource dataSource = new DataSource(url);
+		dataSource.getHeaders().put("User-Agent", item.getProvider());
+		binding.video.setDataSource(dataSource);
+		binding.video.start();
 	}
 
 	private void cancelTimer() {
 		if (mTimer != null) mTimer.cancel();
 	}
 
-	private void setTimer(Channel item) {
+	private void setTimer(String url) {
 		cancelTimer();
 		mTimer = new Timer();
-		mTimer.schedule(new DownloadTask(item.getUrl()), 0, 1000);
+		mTimer.schedule(new DownloadTask(url), 0, 1000);
 	}
 
 	private final Runnable mRunnable = this::hideUi;
@@ -208,10 +194,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		Prefers.putSize(progress);
 		mAdapter.notifyDataSetChanged();
 		setCustomSize();
-	}
-
-	public void setScaleType() {
-		binding.video.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
 	public void setKeypad() {
@@ -310,19 +292,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 		mAdapter.setVisible(true);
-		mAdapter.setChannel();
+		binding.video.start();
 	}
 
 	@Override
-	public void onStop() {
-		binding.video.stopPlayback();
+	protected void onPause() {
 		mAdapter.setVisible(false);
-		TvBus.get().stop();
-		super.onStop();
-		cancelTimer();
+		binding.video.pause();
+		super.onPause();
 	}
 
 	@Override
@@ -333,6 +313,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	protected void onDestroy() {
+		binding.video.release();
 		TvBus.get().destroy();
 		mReceiver.cancel();
 		super.onDestroy();

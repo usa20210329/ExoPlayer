@@ -33,7 +33,7 @@ public class ApiService {
 	}
 
 	public void getUrl(Channel item, AsyncCallback callback) {
-		TvBus.get().stop(); if (mTask != null) mTask.cancel(true);
+		if (mTask != null) mTask.cancel(true);
 		if (item.isTvBus()) TvBus.get().start(callback, item.getUrl());
 		else if (item.isDynamic()) mTask = new DynamicTask(callback, item);
 		else callback.onResponse(item.getUrl());

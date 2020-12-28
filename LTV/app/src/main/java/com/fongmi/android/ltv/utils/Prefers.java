@@ -10,7 +10,6 @@ public class Prefers {
 
 	private static final String DELAY = "delay";
 	private static final String BOOT = "boot";
-	private static final String FULL = "full";
 	private static final String KEEP = "keep";
 	private static final String SIZE = "size";
 	private static final String PAD = "pad";
@@ -79,14 +78,6 @@ public class Prefers {
 
 	static void putBoot(boolean value) {
 		putBoolean(BOOT, value);
-	}
-
-	public static boolean isFull() {
-		return getBoolean(FULL, true);
-	}
-
-	static void putFull(boolean value) {
-		putBoolean(FULL, value);
 	}
 
 	public static boolean isPad() {
