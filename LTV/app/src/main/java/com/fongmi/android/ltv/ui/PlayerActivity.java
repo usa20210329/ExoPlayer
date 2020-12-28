@@ -125,9 +125,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void playVideo(Channel item, String url) {
 		mHandler.removeCallbacks(mRunnable); mHandler.postDelayed(mRunnable, 2000);
 		if (FileUtil.isFile(url)) setTimer(item.getUrl()); else cancelTimer();
-		DataSource dataSource = new DataSource(url);
-		dataSource.getHeaders().put("User-Agent", item.getProvider());
-		binding.video.setDataSource(dataSource);
+		DataSource source = new DataSource(url);
+		source.getHeaders().put("User-Agent", item.getProvider());
+		binding.video.setDataSource(source);
 		binding.video.start();
 	}
 
