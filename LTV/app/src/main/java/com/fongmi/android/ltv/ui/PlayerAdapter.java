@@ -172,8 +172,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		notifyDataSetChanged();
 	}
 
-	int getIndex(Channel item) {
-		return mItems.indexOf(item);
+	int getIndex(String number) {
+		return mItems.indexOf(Channel.create(number));
+	}
+
+	String getName(String number) {
+		int index = getIndex(number);
+		return index == -1 ? "" : getChannel(index).getName();
 	}
 
 	boolean onKeep() {

@@ -1,10 +1,10 @@
 package com.fongmi.android.ltv.impl;
 
-import com.fongmi.android.ltv.bean.Channel;
-
 public interface KeyDownImpl {
 
-	void onFind(Channel item);
+	void onShow(String number);
+
+	void onFind(String number);
 
 	void onKeyVertical(boolean isNext);
 

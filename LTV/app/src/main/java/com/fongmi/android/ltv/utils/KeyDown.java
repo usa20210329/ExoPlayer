@@ -2,47 +2,28 @@ package com.fongmi.android.ltv.utils;
 
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.View;
 
-import com.fongmi.android.ltv.bean.Channel;
-import com.fongmi.android.ltv.databinding.ViewWidgetBinding;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class KeyDown {
 
-	private final ViewWidgetBinding mWidget;
 	private final KeyDownImpl mKeyDown;
-	private List<Channel> mChannels;
-	private StringBuilder mText;
-	private Handler mHandler;
+	private final StringBuilder mText;
+	private final Handler mHandler;
 	private boolean mPress;
 
-	public KeyDown(KeyDownImpl keyDown, ViewWidgetBinding widget) {
+	public KeyDown(KeyDownImpl keyDown) {
 		this.mKeyDown = keyDown;
-		this.mWidget = widget;
-		this.init();
-	}
-
-	private void init() {
-		if (mChannels == null) mChannels = new ArrayList<>();
-		if (mHandler == null) mHandler = new Handler();
-		if (mText == null) mText = new StringBuilder();
-	}
-
-	public void setChannels(List<Channel> items) {
-		mChannels.clear();
-		mChannels.addAll(items);
+		this.mHandler = new Handler();
+		this.mText = new StringBuilder();
 	}
 
 	public boolean onKeyDown(int keyCode) {
-		if (mText.length() >= 3) return false;
+		if (mText.length() >= 4) return false;
 		mText.append(getNumber(keyCode));
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
-		showInfo();
+		mKeyDown.onShow(mText.toString());
 		return true;
 	}
 
@@ -83,22 +64,10 @@ public class KeyDown {
 		return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
 	}
 
-	private void showInfo() {
-		mWidget.info.setVisibility(View.VISIBLE);
-		mWidget.number.setText(mText.toString());
-		int index = mChannels.indexOf(Channel.create(mText.toString()));
-		boolean exist = index != -1 && !mChannels.get(index).isHidden();
-		mWidget.name.setVisibility(exist ? View.VISIBLE : View.GONE);
-		if (exist) mWidget.name.setText(mChannels.get(index).getName());
-	}
-
 	private final Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
-			mKeyDown.onFind(Channel.create(mText.toString()));
-			mWidget.info.setVisibility(View.GONE);
-			mWidget.name.setVisibility(View.GONE);
-			mWidget.name.setText("");
+			mKeyDown.onFind(mText.toString());
 			mText.setLength(0);
 		}
 	};

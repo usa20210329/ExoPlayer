@@ -56,7 +56,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void initView() {
 		mHandler = new Handler();
-		mKeyDown = new KeyDown(this, binding.widget);
+		mKeyDown = new KeyDown(this);
 		mReceiver = VerifyReceiver.create(this);
 		TvBus.get().init();
 		setRecyclerView();
@@ -88,7 +88,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setConfig(List<Channel> items) {
-		mKeyDown.setChannels(items);
 		mAdapter.addAll(items);
 		setCustomSize();
 		setScaleType();
@@ -110,7 +109,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void checkKeep() {
 		if (Prefers.getKeep().isEmpty()) return;
-		onFind(Channel.create(Prefers.getKeep()));
+		onFind(Prefers.getKeep());
 	}
 
 	private void onClick(Channel item) {
@@ -244,9 +243,19 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@Override
-	public void onFind(Channel item) {
-		binding.recycler.scrollToPosition(mAdapter.getIndex(item));
-		mAdapter.setPosition(mAdapter.getIndex(item));
+	public void onShow(String number) {
+		binding.widget.number.setText(number);
+		binding.widget.name.setText(mAdapter.getName(number));
+		binding.widget.info.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onFind(String number) {
+		int index = mAdapter.getIndex(number);
+		binding.widget.name.setText("");
+		binding.widget.info.setVisibility(View.GONE);
+		binding.recycler.scrollToPosition(index);
+		mAdapter.setPosition(index);
 		mAdapter.setChannel();
 	}
 
