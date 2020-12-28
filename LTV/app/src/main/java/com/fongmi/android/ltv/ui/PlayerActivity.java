@@ -100,7 +100,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		ApiService.getInstance().getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				playVideo(item, url);
+				runOnUiThread(() -> playVideo(item, url));
 			}
 		});
 	}
