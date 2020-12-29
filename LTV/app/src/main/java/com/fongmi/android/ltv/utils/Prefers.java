@@ -49,7 +49,7 @@ public class Prefers {
 	}
 
 	public static String getKeep() {
-		return getString(KEEP, "");
+		return getString(KEEP, "0");
 	}
 
 	public static void putKeep(String value) {

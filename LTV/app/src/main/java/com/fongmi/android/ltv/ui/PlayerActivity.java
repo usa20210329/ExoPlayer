@@ -30,7 +30,9 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
+import com.google.android.exoplayer2.Player;
 import com.king.player.exoplayer.ExoPlayer;
+import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 
 import java.util.List;
@@ -39,7 +41,6 @@ import java.util.Timer;
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
 	private ActivityPlayerBinding binding;
-	private VerifyReceiver mReceiver;
 	private PlayerAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
@@ -59,20 +60,21 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this);
-		mReceiver = VerifyReceiver.create(this);
+		VerifyReceiver.create(this);
 		TvBus.get().init();
-		setBindingView();
 		showProgress();
 		Token.check();
+		setView();
 	}
 
 	private void initEvent() {
-		mAdapter.setOnItemListener(this::getUrl);
+		mAdapter.setOnItemListener(this::onClick);
 		binding.video.setOnErrorListener(this::onRetry);
+		binding.video.setOnPlayerEventListener(this::onPrepared);
 		binding.recycler.addOnScrollListener(mScrollListener);
 	}
 
-	private void setBindingView() {
+	private void setView() {
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
 		binding.video.setPlayer(new ExoPlayer(this));
@@ -90,10 +92,15 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void setConfig(List<Channel> items) {
 		mAdapter.addAll(items);
+		onFind(Prefers.getKeep());
 		setCustomSize();
 		hideProgress();
 		setKeypad();
-		checkKeep();
+	}
+
+	private void onClick(Channel item) {
+		showProgress();
+		getUrl(item);
 	}
 
 	private void getUrl(Channel item) {
@@ -103,11 +110,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 				runOnUiThread(() -> playVideo(item, url));
 			}
 		});
-	}
-
-	private void checkKeep() {
-		if (Prefers.getKeep().isEmpty()) return;
-		onFind(Prefers.getKeep());
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
@@ -122,8 +124,15 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		retry = 0;
 	}
 
+	private void onPrepared(int event, @Nullable Bundle bundle) {
+		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE) return;
+		if (bundle == null || bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT) != Player.STATE_READY) return;
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, 2000);
+		hideProgress();
+	}
+
 	private void playVideo(Channel item, String url) {
-		mHandler.removeCallbacks(mRunnable); mHandler.postDelayed(mRunnable, 2000);
 		if (FileUtil.isFile(url)) setTimer(item.getUrl()); else cancelTimer();
 		DataSource source = new DataSource(url);
 		source.getHeaders().put("User-Agent", item.getProvider());
@@ -315,7 +324,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	protected void onDestroy() {
 		binding.video.release();
 		TvBus.get().destroy();
-		mReceiver.cancel();
 		super.onDestroy();
 		System.exit(0);
 	}

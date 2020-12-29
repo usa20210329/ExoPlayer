@@ -17,8 +17,8 @@ public class VerifyReceiver extends BroadcastReceiver {
 	private final Callback callback;
 	private final Activity activity;
 
-	public static VerifyReceiver create(Activity activity) {
-		return new VerifyReceiver(activity);
+	public static void create(Activity activity) {
+		new VerifyReceiver(activity).register();
 	}
 
 	public static void send() {
@@ -26,17 +26,17 @@ public class VerifyReceiver extends BroadcastReceiver {
 	}
 
 	public VerifyReceiver(Activity activity) {
-		activity.registerReceiver(this, new IntentFilter(VERIFY));
 		this.callback = (Callback) activity;
 		this.activity = activity;
 	}
 
-	public void cancel() {
-		activity.unregisterReceiver(this);
+	private void register() {
+		activity.registerReceiver(this, new IntentFilter(VERIFY));
 	}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		activity.unregisterReceiver(this);
 		callback.onVerified();
 	}
 
