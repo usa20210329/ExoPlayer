@@ -32,6 +32,7 @@ import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.Player;
 import com.king.player.exoplayer.ExoPlayer;
+import com.king.player.kingplayer.AspectRatio;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 
@@ -77,6 +78,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void setView() {
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
+		binding.video.setAspectRatio(AspectRatio.AR_MATCH_PARENT);
 		binding.video.setPlayer(new ExoPlayer(this));
 	}
 
