@@ -35,6 +35,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    copy {
+        from "../token" include "ltv.json" into '.'
+        rename('ltv.json', 'google-services.json')
+    }
+
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "ltv.apk"
