@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.AppDatabase;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Bean;
@@ -241,12 +239,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		} else {
 			ChannelHolder holder = (ChannelHolder) viewHolder;
 			Channel item = getChannel(position);
+			item.loadImage(holder.binding.logo);
 			holder.itemView.setSelected(item.isSelect());
 			holder.binding.name.setText(item.getName());
 			holder.binding.number.setText(item.getNumber());
 			holder.binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
 			holder.binding.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			Glide.with(App.get()).load(item.getLogoUrl()).into(holder.binding.logo);
 		}
 	}
 }

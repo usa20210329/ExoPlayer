@@ -91,11 +91,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setConfig(List<Channel> items) {
+		setKeypad();
+		hideProgress();
+		setCustomSize();
 		mAdapter.addAll(items);
 		onFind(Prefers.getKeep());
-		setCustomSize();
-		hideProgress();
-		setKeypad();
 	}
 
 	private void onClick(Channel item) {
@@ -240,11 +240,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onFind(String number) {
-		int index = mAdapter.getIndex(number);
-		binding.widget.info.setText("");
+		int position = mAdapter.getIndex(number);
+		binding.recycler.scrollToPosition(position);
 		binding.widget.info.setVisibility(View.GONE);
-		binding.recycler.scrollToPosition(index);
-		mAdapter.setPosition(index);
+		binding.widget.info.setText("");
+		mAdapter.setPosition(position);
 		mAdapter.setChannel();
 	}
 

@@ -38,10 +38,6 @@ public class TvBus implements TVListener {
 		setUrl(url);
 	}
 
-	public void stop() {
-		tvcore.stop();
-	}
-
 	public void destroy() {
 		TVService.stop(App.get());
 	}
