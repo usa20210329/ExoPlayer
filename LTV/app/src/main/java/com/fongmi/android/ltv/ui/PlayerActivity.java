@@ -192,8 +192,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setCustomSize() {
-		binding.widget.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
-		binding.widget.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
 		params.width = Utils.dp2px(250 + Prefers.getSize() * 20);
 		binding.recycler.setLayoutParams(params);
@@ -235,15 +234,14 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onShow(String number) {
-		binding.widget.number.setText(number);
-		binding.widget.name.setText(mAdapter.getName(number));
 		binding.widget.info.setVisibility(View.VISIBLE);
+		binding.widget.info.setText(mAdapter.getInfo(number));
 	}
 
 	@Override
 	public void onFind(String number) {
 		int index = mAdapter.getIndex(number);
-		binding.widget.name.setText("");
+		binding.widget.info.setText("");
 		binding.widget.info.setVisibility(View.GONE);
 		binding.recycler.scrollToPosition(index);
 		mAdapter.setPosition(index);

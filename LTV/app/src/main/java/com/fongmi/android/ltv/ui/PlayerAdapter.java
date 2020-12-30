@@ -73,6 +73,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		this.visible = visible;
 	}
 
+	void setPosition(int position) {
+		this.position = position;
+	}
+
 	private void setCount() {
 		this.count = 0;
 	}
@@ -172,15 +176,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		notifyDataSetChanged();
 	}
 
-	int getIndex(String number) {
-		return mItems.indexOf(Channel.create(number));
-	}
-
-	String getName(String number) {
-		int index = getIndex(number);
-		return index == -1 ? "" : getChannel(index).getName();
-	}
-
 	boolean onKeep() {
 		if (mItems.isEmpty() || position < 0 || isType(position)) return false;
 		Channel item = getChannel(position);
@@ -207,8 +202,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		++position;
 	}
 
-	void setPosition(int position) {
-		this.position = position;
+	int getIndex(String number) {
+		return mItems.indexOf(Channel.create(number));
+	}
+
+	String getInfo(String number) {
+		return getIndex(number) == -1 ? number : number.concat("  ").concat(getChannel(getIndex(number)).getName());
 	}
 
 	@Override
