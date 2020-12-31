@@ -85,7 +85,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onVerified() {
-		ApiService.getInstance().getConfig(new AsyncCallback() {
+		ApiService.getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(List<Channel> items) {
 				setConfig(items);
@@ -102,12 +102,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
+		mHandler.removeCallbacks(mRunnable);
 		showProgress();
 		getUrl(item);
 	}
 
 	private void getUrl(Channel item) {
-		ApiService.getInstance().getUrl(item, new AsyncCallback() {
+		ApiService.getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
 				runOnUiThread(() -> playVideo(item, url));
@@ -130,8 +131,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void onPrepared(int event, @Nullable Bundle bundle) {
 		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE) return;
 		if (bundle == null || bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT) != Player.STATE_READY) return;
-		mHandler.removeCallbacks(mRunnable);
-		mHandler.postDelayed(mRunnable, 2000);
+		mHandler.removeCallbacks(mRunnable); mHandler.postDelayed(mRunnable, 2000);
 		hideProgress();
 	}
 

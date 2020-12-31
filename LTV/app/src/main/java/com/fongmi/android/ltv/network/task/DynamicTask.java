@@ -1,34 +1,47 @@
 package com.fongmi.android.ltv.network.task;
 
-import android.os.AsyncTask;
-
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.network.Connector;
+import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.utils.Token;
 
-public class DynamicTask extends AsyncTask<Channel, Integer, String> {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-	private final AsyncCallback callback;
+public class DynamicTask {
 
-	public DynamicTask(AsyncCallback callback, Channel item) {
+	private ExecutorService executor;
+	private AsyncCallback callback;
+
+	public DynamicTask(AsyncCallback callback) {
+		this.executor = Executors.newSingleThreadExecutor();
 		this.callback = callback;
-		this.execute(item);
 	}
 
-	@Override
-	protected String doInBackground(Channel... items) {
+	public DynamicTask run(Channel item) {
+		executor.submit(() -> doInBackground(item));
+		return this;
+	}
+
+	private void doInBackground(Channel item) {
 		try {
-			String url = items[0].getUrl();
-			if (items[0].isToken()) url = url.concat(Token.get());
-			return Connector.link(url).getPath();
+			String url = item.getUrl();
+			if (item.isToken()) url = url.concat(Token.get());
+			if (item.isTvBus()) TvBus.get().start(callback, item.getUrl());
+			else onPostExecute(Connector.link(url).getPath());
 		} catch (Exception e) {
-			return items[0].getUrl();
+			onPostExecute(item.getUrl());
 		}
 	}
 
-	@Override
-	protected void onPostExecute(String url) {
-		callback.onResponse(url);
+	private void onPostExecute(String url) {
+		if (callback != null) callback.onResponse(url);
+	}
+
+	public void cancel() {
+		if (executor != null) executor.shutdownNow();
+		executor = null;
+		callback = null;
 	}
 }

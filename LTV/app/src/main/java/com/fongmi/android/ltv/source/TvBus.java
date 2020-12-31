@@ -38,6 +38,10 @@ public class TvBus implements TVListener {
 		setUrl(url);
 	}
 
+	public void stop() {
+		tvcore.stop();
+	}
+
 	public void destroy() {
 		TVService.stop(App.get());
 	}
@@ -53,7 +57,8 @@ public class TvBus implements TVListener {
 	@Override
 	public void onPrepared(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
-		if (json.get("hls") != null) callback.onResponse(json.get("hls").getAsString());
+		if (json.get("hls") == null || callback == null) return;
+		callback.onResponse(json.get("hls").getAsString());
 	}
 
 	@Override
