@@ -40,7 +40,7 @@ import com.king.player.kingplayer.source.DataSource;
 import java.util.List;
 import java.util.Timer;
 
-public class PlayerActivity extends AppCompatActivity implements View.OnLongClickListener, VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
 	private ActivityPlayerBinding binding;
 	private PlayerAdapter mAdapter;
@@ -71,7 +71,6 @@ public class PlayerActivity extends AppCompatActivity implements View.OnLongClic
 
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
-		binding.video.setOnLongClickListener(this);
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
 		binding.recycler.addOnScrollListener(mScrollListener);
@@ -246,12 +245,6 @@ public class PlayerActivity extends AppCompatActivity implements View.OnLongClic
 		binding.widget.info.setText("");
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
-	}
-
-	@Override
-	public boolean onLongClick(View view) {
-		Utils.enterPIP(this);
-		return true;
 	}
 
 	@Override
