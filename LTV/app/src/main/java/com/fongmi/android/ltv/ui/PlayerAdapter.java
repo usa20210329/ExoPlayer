@@ -63,7 +63,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		return mItems.get(position) instanceof Type;
 	}
 
-	private boolean isVisible() {
+	boolean isVisible() {
 		return visible;
 	}
 

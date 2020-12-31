@@ -1,6 +1,7 @@
 package com.fongmi.android.ltv.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,7 +40,7 @@ import com.king.player.kingplayer.source.DataSource;
 import java.util.List;
 import java.util.Timer;
 
-public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements View.OnLongClickListener, VerifyReceiver.Callback, KeyDownImpl {
 
 	private ActivityPlayerBinding binding;
 	private PlayerAdapter mAdapter;
@@ -70,6 +71,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
+		binding.video.setOnLongClickListener(this);
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
 		binding.recycler.addOnScrollListener(mScrollListener);
@@ -177,10 +179,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		return binding.recycler.getAlpha() == 0;
 	}
 
-	private void toggleUi() {
-		if (isVisible()) hideUi(); else showUi();
-	}
-
 	private void showUi() {
 		mHandler.removeCallbacks(mRunnable);
 		Utils.showViews(binding.recycler, binding.widget.gear);
@@ -210,8 +208,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
 	}
 
-	public void onTouch(View view) {
-		toggleUi();
+	public void onToggle(View view) {
+		if (isVisible()) hideUi(); else showUi();
 	}
 
 	public void onGear(View view) {
@@ -248,6 +246,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.widget.info.setText("");
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
+	}
+
+	@Override
+	public boolean onLongClick(View view) {
+		Utils.enterPIP(this);
+		return true;
 	}
 
 	@Override
@@ -295,23 +299,34 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@Override
+	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		Utils.hideSystemUI(this);
+	}
+
+	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) Utils.hideSystemUI(this);
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
+		if (isInPictureInPictureMode) hideUi(); else if (!mAdapter.isVisible()) finish();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		mAdapter.setVisible(true);
 		binding.video.start();
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onStop() {
 		mAdapter.setVisible(false);
 		binding.video.pause();
-		super.onPause();
+		super.onStop();
 	}
 
 	@Override
