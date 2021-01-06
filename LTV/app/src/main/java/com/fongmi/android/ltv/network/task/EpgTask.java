@@ -34,8 +34,7 @@ public class EpgTask {
 
 	private void doInBackground(Channel item) {
 		try {
-			String url = Token.getUrl(item.getEpg());
-			onPostExecute(Connector.link(url).getResult());
+			onPostExecute(Connector.link(Token.getEpg(item.getEpg())).getResult());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
