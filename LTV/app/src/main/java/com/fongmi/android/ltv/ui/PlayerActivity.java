@@ -105,13 +105,23 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mHandler.removeCallbacks(mRunnable);
 		showProgress();
 		getUrl(item);
+		getEpg(item);
 	}
 
 	private void getUrl(Channel item) {
 		ApiService.getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				runOnUiThread(() -> playVideo(item, url));
+				playVideo(item, url);
+			}
+		});
+	}
+
+	private void getEpg(Channel item) {
+		ApiService.getEpg(item, new AsyncCallback() {
+			@Override
+			public void onResponse(String epg) {
+				showEpg(epg);
 			}
 		});
 	}
@@ -180,18 +190,23 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void showUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.showViews(binding.recycler, binding.widget.gear);
 		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
+		Utils.showViews(binding.recycler, binding.widget.gear, binding.widget.info);
 	}
 
 	private void hideUi() {
 		mHandler.removeCallbacks(mRunnable);
-		Utils.hideViews(binding.recycler, binding.widget.gear);
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
+		Utils.hideViews(binding.recycler, binding.widget.gear, binding.widget.info);
+	}
+
+	private void showEpg(String epg) {
+		binding.widget.info.setText(epg);
+		binding.widget.info.setSelected(true);
 	}
 
 	private void setCustomSize() {
-		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 18);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
 		params.width = Utils.dp2px(260 + Prefers.getSize() * 20);
 		binding.recycler.setLayoutParams(params);
@@ -233,16 +248,14 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onShow(String number) {
-		binding.widget.info.setVisibility(View.VISIBLE);
 		binding.widget.info.setText(mAdapter.getInfo(number));
 	}
 
 	@Override
 	public void onFind(String number) {
 		int position = mAdapter.getIndex(number);
+		if (position == -1) binding.widget.info.setText(R.string.channel_epg);
 		binding.recycler.scrollToPosition(position);
-		binding.widget.info.setVisibility(View.GONE);
-		binding.widget.info.setText("");
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
 	}

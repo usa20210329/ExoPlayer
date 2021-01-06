@@ -24,6 +24,7 @@ public class Channel extends Bean {
 	private String number;
 	private String name;
 	private String logo;
+	private String epg;
 	private String url;
 	private String provider;
 	private boolean token;
@@ -66,6 +67,14 @@ public class Channel extends Bean {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+
+	public String getEpg() {
+		return epg;
+	}
+
+	public void setEpg(String epg) {
+		this.epg = epg;
 	}
 
 	public String getUrl() {
@@ -125,6 +134,7 @@ public class Channel extends Bean {
 		item.setNumber(getNumber());
 		item.setName(getName());
 		item.setLogo(getLogo());
+		item.setEpg(getEpg());
 		item.setUrl(getUrl());
 		item.setToken(isToken());
 		item.setHidden(isHidden());

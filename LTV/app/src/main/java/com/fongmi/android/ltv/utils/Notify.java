@@ -29,7 +29,7 @@ public class Notify {
 		show(Utils.getString(resId));
 	}
 
-	static void show(String text) {
+	public static void show(String text) {
 		getInstance().makeText(text);
 	}
 

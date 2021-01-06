@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class AsyncCallback implements ValueEventListener {
 
-	public void onResponse(String url) {
+	public void onResponse(String result) {
 	}
 
 	public void onResponse(List<Channel> items) {

@@ -2,12 +2,16 @@ package com.fongmi.android.ltv.network;
 
 import com.fongmi.android.ltv.utils.FileUtil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class Connector {
 
@@ -34,6 +38,16 @@ public class Connector {
 		conn.setDoInput(true);
 		conn.connect();
 		return this;
+	}
+
+	public String getResult()  throws IOException {
+		String line;
+		StringBuilder result = new StringBuilder();
+		InputStream in = new BufferedInputStream(conn.getInputStream());
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+		while ((line = bufferedReader.readLine()) != null) result.append(line);
+		in.close();
+		return result.toString();
 	}
 
 	public String getPath() throws IOException {

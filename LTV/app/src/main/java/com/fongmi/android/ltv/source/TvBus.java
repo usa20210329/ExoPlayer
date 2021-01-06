@@ -1,5 +1,8 @@
 package com.fongmi.android.ltv.source;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.utils.Token;
@@ -11,6 +14,7 @@ import com.tvbus.engine.TVService;
 
 public class TvBus implements TVListener {
 
+	private final Handler handler;
 	private AsyncCallback callback;
 	private TVCore tvcore;
 	private String url;
@@ -21,6 +25,10 @@ public class TvBus implements TVListener {
 
 	public static TvBus get() {
 		return Loader.INSTANCE;
+	}
+
+	public TvBus() {
+		this.handler = new Handler(Looper.getMainLooper());
 	}
 
 	public void init() {
@@ -58,7 +66,7 @@ public class TvBus implements TVListener {
 	public void onPrepared(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		if (json.get("hls") == null || callback == null) return;
-		callback.onResponse(json.get("hls").getAsString());
+		handler.post(() -> callback.onResponse(json.get("hls").getAsString()));
 	}
 
 	@Override
