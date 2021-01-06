@@ -208,7 +208,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void setCustomSize() {
 		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 18);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
-		params.width = Utils.dp2px(260 + Prefers.getSize() * 20);
+		params.width = Utils.dp2px(240 + Prefers.getSize() * 20);
 		binding.recycler.setLayoutParams(params);
 	}
 

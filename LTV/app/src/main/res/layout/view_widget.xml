@@ -36,7 +36,7 @@
         android:ellipsize="marquee"
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
-        android:maxEms="12"
+        android:maxEms="8"
         android:paddingStart="20dp"
         android:paddingTop="20dp"
         android:paddingEnd="20dp"
