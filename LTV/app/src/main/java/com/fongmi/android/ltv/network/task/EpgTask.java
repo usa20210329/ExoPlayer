@@ -27,9 +27,8 @@ public class EpgTask {
 		this.callback = callback;
 	}
 
-	public EpgTask run(Channel item) {
+	public void run(Channel item) {
 		executor.submit(() -> doInBackground(item));
-		return this;
 	}
 
 	private void doInBackground(Channel item) {
