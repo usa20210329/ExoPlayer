@@ -16,8 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shadow"
-        android:minWidth="240dp"
+        android:minWidth="260dp"
         tools:listitem="@layout/adapter_channel" />
+
+    <include
+        android:id="@+id/epg"
+        layout="@layout/view_epg" />
 
     <include
         android:id="@+id/widget"

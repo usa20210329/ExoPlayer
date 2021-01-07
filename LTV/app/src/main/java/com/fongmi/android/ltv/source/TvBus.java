@@ -50,7 +50,7 @@ public class TvBus implements TVListener {
 		tvcore.stop();
 	}
 
-	public void destroy() {
+	public static void destroy() {
 		TVService.stop(App.get());
 	}
 

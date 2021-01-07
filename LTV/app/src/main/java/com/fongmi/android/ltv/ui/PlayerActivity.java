@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
@@ -22,9 +21,10 @@ import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
-import com.fongmi.android.ltv.network.task.DownloadTask;
+import com.fongmi.android.ltv.network.task.FileTask;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.TvBus;
+import com.fongmi.android.ltv.utils.Clock;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
 import com.fongmi.android.ltv.utils.Notify;
@@ -38,7 +38,6 @@ import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 
 import java.util.List;
-import java.util.Timer;
 
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
@@ -46,7 +45,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private PlayerAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
-	private Timer mTimer;
 	private int retry;
 
 	@Override
@@ -73,7 +71,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mAdapter.setOnItemListener(this::onClick);
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
-		binding.recycler.addOnScrollListener(mScrollListener);
 	}
 
 	private void setView() {
@@ -81,6 +78,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
 		binding.video.setAspectRatio(AspectRatio.AR_MATCH_PARENT);
 		binding.video.setPlayer(new ExoPlayer(this));
+		Clock.start(binding.epg.time);
 	}
 
 	@Override
@@ -102,10 +100,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
-		mHandler.removeCallbacks(mRunnable);
 		showProgress();
+		showEpg(item);
 		getUrl(item);
 		getEpg(item);
+		hideUI();
 	}
 
 	private void getUrl(Channel item) {
@@ -121,7 +120,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		ApiService.getEpg(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String epg) {
-				showEpg(epg);
+				setEpg(epg);
 			}
 		});
 	}
@@ -141,36 +140,18 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void onPrepared(int event, @Nullable Bundle bundle) {
 		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE) return;
 		if (bundle == null || bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT) != Player.STATE_READY) return;
-		mHandler.removeCallbacks(mRunnable); mHandler.postDelayed(mRunnable, 2000);
 		hideProgress();
 	}
 
 	private void playVideo(Channel item, String url) {
-		if (FileUtil.isFile(url)) setTimer(item.getUrl()); else cancelTimer();
+		if (FileUtil.isFile(url)) FileTask.start(item.getUrl()); else FileTask.destroy();
 		DataSource source = new DataSource(url);
 		source.getHeaders().put("User-Agent", item.getProvider());
 		binding.video.setDataSource(source);
 		binding.video.start();
 	}
 
-	private void cancelTimer() {
-		if (mTimer != null) mTimer.cancel();
-	}
-
-	private void setTimer(String url) {
-		cancelTimer();
-		mTimer = new Timer();
-		mTimer.schedule(new DownloadTask(url), 0, 1000);
-	}
-
-	private final Runnable mRunnable = this::hideUi;
-
-	private final RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-		@Override
-		public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-			if (newState == RecyclerView.SCROLL_STATE_DRAGGING) mHandler.removeCallbacks(mRunnable);
-		}
-	};
+	private final Runnable mRunnable = this::hideEpg;
 
 	private void showProgress() {
 		if (binding.widget.progress.getVisibility() == View.GONE) binding.widget.progress.setVisibility(View.VISIBLE);
@@ -180,35 +161,49 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		if (binding.widget.progress.getVisibility() == View.VISIBLE) binding.widget.progress.setVisibility(View.GONE);
 	}
 
-	private boolean isVisible() {
+	private boolean isUIVisible() {
 		return binding.recycler.getAlpha() == 1;
 	}
 
-	private boolean isGone() {
-		return binding.recycler.getAlpha() == 0;
+	private boolean isEpgVisible() {
+		return binding.epg.getRoot().getAlpha() == 1;
 	}
 
-	private void showUi() {
-		mHandler.removeCallbacks(mRunnable);
+	private void showUI() {
 		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
-		Utils.showViews(binding.recycler, binding.widget.gear, binding.widget.info);
+		Utils.showViews(binding.recycler, binding.widget.gear);
 	}
 
-	private void hideUi() {
-		mHandler.removeCallbacks(mRunnable);
+	private void hideUI() {
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
-		Utils.hideViews(binding.recycler, binding.widget.gear, binding.widget.info);
+		Utils.hideViews(binding.recycler, binding.widget.gear);
 	}
 
-	private void showEpg(String epg) {
-		binding.widget.info.setText(epg);
-		binding.widget.info.setSelected(true);
+	private void hideEpg() {
+		Utils.hideView(binding.epg.getRoot());
+	}
+
+	private void showEpg(Channel item) {
+		item.loadImage(binding.epg.logo);
+		binding.epg.name.setSelected(true);
+		binding.epg.name.setText(item.getName());
+		Utils.showView(binding.epg.getRoot());
+	}
+
+	private void setEpg(String epg) {
+		binding.epg.play.setText(epg);
+		binding.epg.play.setSelected(true);
+		mHandler.removeCallbacks(mRunnable);
+		mHandler.postDelayed(mRunnable, 5000);
 	}
 
 	private void setCustomSize() {
-		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 18);
+		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
+		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
+		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
-		params.width = Utils.dp2px(240 + Prefers.getSize() * 20);
+		params.width = Utils.dp2px(260 + Prefers.getSize() * 20);
 		binding.recycler.setLayoutParams(params);
 	}
 
@@ -223,12 +218,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onToggle(View view) {
-		if (isVisible()) hideUi(); else showUi();
+		if (isEpgVisible()) hideEpg();
+		if (isUIVisible()) hideUI(); else showUI();
 	}
 
 	public void onGear(View view) {
 		Notify.showDialog(this);
-		mHandler.removeCallbacks(mRunnable);
 	}
 
 	public void onAdd(View view) {
@@ -242,20 +237,21 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onKeyDown(View view) {
-		mHandler.removeCallbacks(mRunnable);
 		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
 	}
 
 	@Override
 	public void onShow(String number) {
+		binding.widget.info.setVisibility(View.VISIBLE);
 		binding.widget.info.setText(mAdapter.getInfo(number));
 	}
 
 	@Override
 	public void onFind(String number) {
 		int position = mAdapter.getIndex(number);
-		if (position == -1) binding.widget.info.setText(R.string.channel_epg);
 		binding.recycler.scrollToPosition(position);
+		binding.widget.info.setVisibility(View.GONE);
+		binding.widget.info.setText("");
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
 	}
@@ -275,7 +271,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onKeyVertical(boolean isNext) {
 		binding.recycler.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
-		if (isGone()) showUi();
+		if (Prefers.isOk()) hideEpg();
+		if (Prefers.isOk()) showUI();
 	}
 
 	@Override
@@ -285,13 +282,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyRight() {
-		mHandler.removeCallbacks(mRunnable);
 		Notify.showDialog(this, View.VISIBLE);
 	}
 
 	@Override
 	public void onKeyCenter() {
-		if (isVisible()) mAdapter.setChannel(); else showUi();
+		if (isEpgVisible()) hideEpg();
+		if (isUIVisible()) mAdapter.setChannel(); else showUI();
 	}
 
 	@Override
@@ -324,7 +321,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
-		if (isInPictureInPictureMode) hideUi(); else if (!mAdapter.isVisible()) finish();
+		if (isInPictureInPictureMode) {
+			hideEpg(); hideUI();
+		} else if (!mAdapter.isVisible()) {
+			finish();
+		}
 	}
 
 	@Override
@@ -343,14 +344,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onBackPressed() {
-		if (isVisible()) hideUi();
+		if (isEpgVisible()) hideEpg();
+		else if (isUIVisible()) hideUI();
 		else super.onBackPressed();
 	}
 
 	@Override
 	protected void onDestroy() {
 		binding.video.release();
-		TvBus.get().destroy();
+		FileTask.destroy();
+		Clock.destroy();
+		TvBus.destroy();
 		super.onDestroy();
 		System.exit(0);
 	}

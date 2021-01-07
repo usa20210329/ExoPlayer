@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="@color/white">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/gear"
@@ -13,10 +12,6 @@
         android:layout_margin="16dp"
         android:onClick="onGear"
         android:src="@drawable/ic_setting" />
-
-    <include
-        android:id="@+id/keypad"
-        layout="@layout/view_keypad" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -31,25 +26,18 @@
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
+        android:layout_gravity="center"
         android:background="@drawable/shape_info"
-        android:ellipsize="marquee"
         android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:maxEms="12"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="12dp"
-        android:scrollHorizontally="true"
-        android:shadowColor="@color/black"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="2"
-        android:singleLine="true"
-        android:text="@string/channel_epg"
+        android:padding="16dp"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="30sp"
+        android:visibility="gone"
+        tools:text="05 民視"
+        tools:visibility="visible" />
+
+    <include
+        android:id="@+id/keypad"
+        layout="@layout/view_keypad" />
 
 </FrameLayout>
