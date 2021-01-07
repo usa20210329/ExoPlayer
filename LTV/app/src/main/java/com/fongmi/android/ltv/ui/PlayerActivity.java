@@ -92,11 +92,10 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setConfig(List<Channel> items) {
-		setKeypad();
-		hideProgress();
-		setCustomSize();
 		mAdapter.addAll(items);
-		onFind(Prefers.getKeep());
+		setCustomSize();
+		hideProgress();
+		checkKeep();
 	}
 
 	private void onClick(Channel item) {
@@ -123,6 +122,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 				setEpg(epg);
 			}
 		});
+	}
+
+	private void checkKeep() {
+		if (Prefers.getKeep().isEmpty()) showUI();
+		else onFind(Prefers.getKeep());
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {

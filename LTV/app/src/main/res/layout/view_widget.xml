@@ -11,7 +11,9 @@
         android:layout_gravity="top|end"
         android:layout_margin="16dp"
         android:onClick="onGear"
-        android:src="@drawable/ic_setting" />
+        android:src="@drawable/ic_setting"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progress"

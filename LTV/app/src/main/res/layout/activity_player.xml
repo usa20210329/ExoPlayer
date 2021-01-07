@@ -17,7 +17,9 @@
         android:layout_height="match_parent"
         android:background="@drawable/shadow"
         android:minWidth="260dp"
-        tools:listitem="@layout/adapter_channel" />
+        android:visibility="gone"
+        tools:listitem="@layout/adapter_channel"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/epg"
