@@ -12,7 +12,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ApiService {
 
-	private DynamicTask task;
+	private DynamicTask dTask;
+	private EpgTask eTask;
 
 	private static class Loader {
 		static volatile ApiService INSTANCE = new ApiService();
@@ -34,12 +35,13 @@ public class ApiService {
 	}
 
 	public static void getUrl(Channel item, AsyncCallback callback) {
-		TvBus.get().stop(); if (get().task != null) get().task.cancel();
-		if (item.isDynamic()) get().task = DynamicTask.create(callback).run(item);
+		TvBus.get().stop(); if (get().dTask != null) get().dTask.cancel();
+		if (item.isDynamic()) get().dTask = DynamicTask.create(callback).run(item);
 		else callback.onResponse(item.getUrl());
 	}
 
 	public static void getEpg(Channel item, AsyncCallback callback) {
-		EpgTask.create(callback).run(item);
+		if (get().eTask != null) get().eTask.cancel();
+		get().eTask = EpgTask.create(callback).run(item);
 	}
 }

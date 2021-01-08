@@ -13,8 +13,8 @@ import java.util.concurrent.Executors;
 
 public class EpgTask {
 
-	private final ExecutorService executor;
-	private final AsyncCallback callback;
+	private ExecutorService executor;
+	private AsyncCallback callback;
 	private final Handler handler;
 
 	public static EpgTask create(AsyncCallback callback) {
@@ -27,8 +27,9 @@ public class EpgTask {
 		this.callback = callback;
 	}
 
-	public void run(Channel item) {
+	public EpgTask run(Channel item) {
 		executor.submit(() -> doInBackground(item));
+		return this;
 	}
 
 	private void doInBackground(Channel item) {
@@ -40,6 +41,12 @@ public class EpgTask {
 	}
 
 	private void onPostExecute(String result) {
-		handler.post(() -> callback.onResponse(result));
+		if (callback != null) handler.post(() -> callback.onResponse(result));
+	}
+
+	public void cancel() {
+		if (executor != null) executor.shutdownNow();
+		executor = null;
+		callback = null;
 	}
 }

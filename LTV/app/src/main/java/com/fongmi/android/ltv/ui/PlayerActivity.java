@@ -192,12 +192,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.epg.name.setSelected(true);
 		binding.epg.name.setText(item.getName());
 		Utils.showView(binding.epg.getRoot());
+		mHandler.removeCallbacks(mRunnable);
 	}
 
 	private void setEpg(String epg) {
 		binding.epg.play.setText(epg);
 		binding.epg.play.setSelected(true);
-		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, 5000);
 	}
 
