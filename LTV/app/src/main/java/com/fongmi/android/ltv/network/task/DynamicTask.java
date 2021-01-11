@@ -45,7 +45,9 @@ public class DynamicTask {
 	}
 
 	private void onPostExecute(String url) {
-		if (callback != null) handler.post(() -> callback.onResponse(url));
+		handler.post(() -> {
+			if (callback != null) callback.onResponse(url);
+		});
 	}
 
 	public void cancel() {

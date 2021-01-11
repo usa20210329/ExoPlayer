@@ -41,7 +41,9 @@ public class EpgTask {
 	}
 
 	private void onPostExecute(String result) {
-		if (callback != null) handler.post(() -> callback.onResponse(result));
+		handler.post(() -> {
+			if (callback != null) callback.onResponse(result);
+		});
 	}
 
 	public void cancel() {

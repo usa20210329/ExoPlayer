@@ -92,7 +92,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		@Override
 		public void onClick(View view) {
 			setPosition(getLayoutPosition());
-			onSelect();
+			setSelected();
 			addCount();
 		}
 	}
@@ -150,28 +150,27 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 	int onMoveUp() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (Prefers.isOk() || isType(position)) onSelect(); else setChannel();
+		if (Prefers.isOk() || isType(position)) setSelected(); else setChannel();
 		return position;
 	}
 
 	int onMoveDown() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (Prefers.isOk() || isType(position)) onSelect(); else setChannel();
+		if (Prefers.isOk() || isType(position)) setSelected(); else setChannel();
 		return position;
 	}
 
-	private void onSelect() {
+	private void setSelected() {
 		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
 		notifyDataSetChanged();
 	}
 
 	void setChannel() {
 		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
-		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
 		if (isVisible()) mItemClickListener.onItemClick(getChannel(position));
-		Prefers.putKeep(getChannel(position).getNumber());
-		notifyDataSetChanged();
+		getChannel(position).putKeep();
+		setSelected();
 	}
 
 	boolean onKeep() {

@@ -129,6 +129,11 @@ public class Channel extends Bean {
 		Glide.with(App.get()).load(Token.getUrl().concat(getLogo())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
+	public void putKeep() {
+		if (isHidden()) return;
+		Prefers.putKeep(getNumber());
+	}
+
 	public Channel get() {
 		Channel item = new Channel();
 		item.setNumber(getNumber());
