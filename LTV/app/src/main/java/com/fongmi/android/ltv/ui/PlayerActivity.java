@@ -190,7 +190,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		item.loadImage(binding.epg.logo);
 		binding.epg.name.setSelected(true);
 		binding.epg.name.setText(item.getName());
-		binding.epg.number.setText(item.getNumber());
 		Utils.showView(binding.epg.getRoot());
 		mHandler.removeCallbacks(mRunnable);
 	}
@@ -203,7 +202,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void setCustomSize() {
 		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
-		binding.epg.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 20);
 		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
