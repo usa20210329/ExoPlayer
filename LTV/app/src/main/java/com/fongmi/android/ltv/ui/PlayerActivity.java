@@ -183,14 +183,15 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void hideEpg() {
-		Utils.hideView(binding.epg.getRoot());
+		Utils.hideViews(binding.epg.getRoot(), binding.widget.number);
 	}
 
 	private void showEpg(Channel item) {
 		item.loadImage(binding.epg.logo);
 		binding.epg.name.setSelected(true);
 		binding.epg.name.setText(item.getName());
-		Utils.showView(binding.epg.getRoot());
+		binding.widget.number.setText(item.getDigital());
+		Utils.showViews(binding.epg.getRoot(), binding.widget.number);
 		mHandler.removeCallbacks(mRunnable);
 	}
 

@@ -130,8 +130,11 @@ public class Channel extends Bean {
 	}
 
 	public void putKeep() {
-		if (isHidden()) return;
-		Prefers.putKeep(getNumber());
+		if (!isHidden()) Prefers.putKeep(getNumber());
+	}
+
+	public String getDigital() {
+		return Integer.valueOf(getNumber()).toString();
 	}
 
 	public Channel get() {
