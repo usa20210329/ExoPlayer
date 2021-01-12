@@ -9,28 +9,24 @@
     android:visibility="gone"
     tools:visibility="visible">
 
-    <FrameLayout
-        android:id="@+id/frame"
+    <TextView
+        android:id="@+id/number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/name"
-        android:layout_alignEnd="@+id/name">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="48dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter" />
-
-    </FrameLayout>
+        android:layout_alignEnd="@+id/name"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="005" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/frame"
-        android:layout_marginTop="6dp"
+        android:layout_below="@+id/number"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:ellipsize="marquee"
         android:ems="7"
@@ -59,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/name"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/name"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
