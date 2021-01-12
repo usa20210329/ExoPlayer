@@ -130,8 +130,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
-		if (++retry > 3) onError();
-		else mAdapter.setChannel();
+		if (++retry > 5) onError(); else getUrl(mAdapter.getCurrent());
 	}
 
 	private void onError() {

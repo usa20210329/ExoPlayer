@@ -203,6 +203,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		return mItems.indexOf(Channel.create(number));
 	}
 
+	Channel getCurrent() {
+		return getChannel(position);
+	}
+
 	String getInfo(String number) {
 		return getIndex(number) == -1 ? number : number.concat("  ").concat(getChannel(getIndex(number)).getName());
 	}
