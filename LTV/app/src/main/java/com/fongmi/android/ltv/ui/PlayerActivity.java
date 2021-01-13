@@ -101,6 +101,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
+		TvBus.get().stop();
 		showProgress();
 		showEpg(item);
 		getUrl(item);
