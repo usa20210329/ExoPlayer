@@ -24,6 +24,7 @@ import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.task.FileTask;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.TvBus;
+import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
 import com.fongmi.android.ltv.utils.Clock;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
@@ -208,7 +209,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
-		params.width = Utils.dp2px(260 + Prefers.getSize() * 20);
+		params.width = Utils.dp2px(Prefers.getSize() * 20 + 260);
 		binding.recycler.setLayoutParams(params);
 	}
 

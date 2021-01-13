@@ -1,8 +1,6 @@
-package com.fongmi.android.ltv.ui;
+package com.fongmi.android.ltv.ui.adapter;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,23 +14,25 @@ import com.fongmi.android.ltv.bean.Type;
 import com.fongmi.android.ltv.dao.ChannelDao;
 import com.fongmi.android.ltv.databinding.AdapterChannelBinding;
 import com.fongmi.android.ltv.databinding.AdapterTypeBinding;
+import com.fongmi.android.ltv.ui.adapter.holder.BaseHolder;
+import com.fongmi.android.ltv.ui.adapter.holder.ChannelHolder;
+import com.fongmi.android.ltv.ui.adapter.holder.TypeHolder;
 import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 
 	private OnItemClickListener mItemClickListener;
 	private final List<Channel> mHides;
 	private final List<Object> mItems;
 	private final ChannelDao mDao;
-	private boolean visible;
 	private int position;
 	private int count;
 
-	PlayerAdapter() {
+	public PlayerAdapter() {
 		this.mItems = new ArrayList<>();
 		this.mHides = new ArrayList<>();
 		this.mDao = AppDatabase.getInstance().getDao();
@@ -43,7 +43,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		void onItemClick(Channel item);
 	}
 
-	void setOnItemListener(OnItemClickListener itemClickListener) {
+	public void setOnItemListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
 	}
 
@@ -63,7 +63,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		return mItems.get(position) instanceof Type;
 	}
 
-	void setPosition(int position) {
+	public void setPosition(int position) {
 		this.position = position;
 	}
 
@@ -71,49 +71,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		this.count = 0;
 	}
 
-	class TypeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-		private final AdapterTypeBinding binding;
-
-		TypeHolder(AdapterTypeBinding binding) {
-			super(binding.getRoot());
-			this.binding = binding;
-			itemView.setOnClickListener(this);
-		}
-
-		@Override
-		public void onClick(View view) {
-			setPosition(getLayoutPosition());
-			setSelected();
-			addCount();
-		}
-	}
-
-	class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-
-		private final AdapterChannelBinding binding;
-
-		ChannelHolder(AdapterChannelBinding binding) {
-			super(binding.getRoot());
-			this.binding = binding;
-			itemView.setOnLongClickListener(this);
-			itemView.setOnClickListener(this);
-		}
-
-		@Override
-		public void onClick(View view) {
-			setPosition(getLayoutPosition());
-			setChannel();
-		}
-
-		@Override
-		public boolean onLongClick(View view) {
-			setPosition(getLayoutPosition());
-			return onKeep();
-		}
-	}
-
-	void addAll(List<Channel> items) {
+	public void addAll(List<Channel> items) {
 		mHides.clear();
 		mItems.clear();
 		addChannel(items);
@@ -130,7 +88,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		}
 	}
 
-	void addCount() {
+	public void addCount() {
 		if (mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mHides);
 		notifyDataSetChanged();
@@ -139,33 +97,33 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		setCount();
 	}
 
-	int onMoveUp() {
+	public int onMoveUp() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
 		if (Prefers.isOk() || isType(position)) setSelected(); else setChannel();
 		return position;
 	}
 
-	int onMoveDown() {
+	public int onMoveDown() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
 		if (Prefers.isOk() || isType(position)) setSelected(); else setChannel();
 		return position;
 	}
 
-	private void setSelected() {
+	public void setSelected() {
 		for (int i = 0; i < mItems.size(); i++) getBean(i).setSelect(i == position);
 		notifyDataSetChanged();
 	}
 
-	void setChannel() {
+	public void setChannel() {
 		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
 		mItemClickListener.onItemClick(getChannel(position));
 		getChannel(position).putKeep();
 		setSelected();
 	}
 
-	boolean onKeep() {
+	public boolean onKeep() {
 		if (mItems.isEmpty() || position < 0 || isType(position)) return false;
 		Channel item = getChannel(position);
 		boolean exist = mDao.getCount(item.getNumber()) > 0;
@@ -191,15 +149,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		++position;
 	}
 
-	int getIndex(String number) {
+	public int getIndex(String number) {
 		return mItems.indexOf(Channel.create(number));
 	}
 
-	Channel getCurrent() {
+	public Channel getCurrent() {
 		return getChannel(position);
 	}
 
-	String getInfo(String number) {
+	public String getInfo(String number) {
 		return getIndex(number) == -1 ? number : number.concat("  ").concat(getChannel(getIndex(number)).getName());
 	}
 
@@ -215,31 +173,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 	@NonNull
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+	public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		if (viewType == 1) {
-			return new TypeHolder(AdapterTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+			return new TypeHolder(this, AdapterTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 		} else {
-			return new ChannelHolder(AdapterChannelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+			return new ChannelHolder(this, AdapterChannelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 		}
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+	public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
 		if (getItemViewType(position) == 1) {
-			TypeHolder type = (TypeHolder) viewHolder;
-			Type item = getType(position);
-			type.itemView.setSelected(item.isSelect());
-			type.binding.name.setText(item.getName());
-			type.binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			TypeHolder type = (TypeHolder) holder;
+			type.setView(getType(position));
 		} else {
-			ChannelHolder holder = (ChannelHolder) viewHolder;
-			Channel item = getChannel(position);
-			item.loadImage(holder.binding.logo);
-			holder.itemView.setSelected(item.isSelect());
-			holder.binding.name.setText(item.getName());
-			holder.binding.number.setText(item.getNumber());
-			holder.binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
-			holder.binding.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.getTextSize());
+			ChannelHolder channel = (ChannelHolder) holder;
+			channel.setView(getChannel(position));
 		}
 	}
 }

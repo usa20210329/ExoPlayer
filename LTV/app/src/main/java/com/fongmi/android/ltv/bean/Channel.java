@@ -31,6 +31,9 @@ public class Channel extends Bean {
 	private boolean hidden;
 	private boolean dynamic;
 
+	@Ignore
+	private int size;
+
 	public static Channel create(String number) {
 		return new Channel(String.format(Locale.getDefault(), "%03d", Integer.valueOf(number)));
 	}
@@ -117,12 +120,16 @@ public class Channel extends Bean {
 		this.dynamic = dynamic;
 	}
 
-	public boolean isTvBus() {
-		return getUrl().startsWith("tvbus://");
+	public int getSize() {
+		return size;
 	}
 
-	public int getTextSize() {
-		return Prefers.getSize() * 2 + 14;
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public boolean isTvBus() {
+		return getUrl().startsWith("tvbus://");
 	}
 
 	public void loadImage(ImageView view) {
