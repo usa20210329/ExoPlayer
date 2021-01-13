@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.PictureInPictureParams;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
@@ -106,9 +107,13 @@ public class Utils {
 		activity.getWindow().getDecorView().setSystemUiVisibility(flags);
 	}
 
+	public static boolean hasPIP() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && App.get().getPackageManager().hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE);
+	}
+
 	public static void enterPIP(Activity activity) {
 		try {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || activity.isInPictureInPictureMode()) return;
+			if (!hasPIP() || activity.isInPictureInPictureMode()) return;
 			PictureInPictureParams.Builder builder = new PictureInPictureParams.Builder();
 			builder.setAspectRatio(new Rational(16, 9)).build();
 			activity.enterPictureInPictureMode(builder.build());

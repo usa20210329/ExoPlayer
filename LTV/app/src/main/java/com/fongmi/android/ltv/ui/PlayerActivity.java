@@ -34,6 +34,7 @@ import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.Player;
 import com.king.player.exoplayer.ExoPlayer;
 import com.king.player.kingplayer.AspectRatio;
+import com.king.player.kingplayer.IPlayer;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 
@@ -327,7 +328,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
 		if (isInPictureInPictureMode) {
 			hideEpg(); hideUI();
-		} else if (!mAdapter.isVisible()) {
+		} else if (binding.video.getPlayerState() == IPlayer.STATE_PAUSED) {
 			finish();
 		}
 	}
@@ -335,14 +336,24 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	protected void onStart() {
 		super.onStart();
-		mAdapter.setVisible(true);
-		binding.video.start();
+		if (Utils.hasPIP()) binding.video.start();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (!Utils.hasPIP()) binding.video.start();
+	}
+
+	@Override
+	protected void onPause() {
+		if (!Utils.hasPIP()) binding.video.pause();
+		super.onPause();
 	}
 
 	@Override
 	protected void onStop() {
-		mAdapter.setVisible(false);
-		binding.video.pause();
+		if (Utils.hasPIP()) binding.video.pause();
 		super.onStop();
 	}
 

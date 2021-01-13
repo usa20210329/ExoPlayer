@@ -63,14 +63,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		return mItems.get(position) instanceof Type;
 	}
 
-	boolean isVisible() {
-		return visible;
-	}
-
-	void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
 	void setPosition(int position) {
 		this.position = position;
 	}
@@ -168,7 +160,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 	void setChannel() {
 		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
-		if (isVisible()) mItemClickListener.onItemClick(getChannel(position));
+		mItemClickListener.onItemClick(getChannel(position));
 		getChannel(position).putKeep();
 		setSelected();
 	}
