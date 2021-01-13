@@ -31,9 +31,6 @@ public class Channel extends Bean {
 	private boolean hidden;
 	private boolean dynamic;
 
-	@Ignore
-	private int size;
-
 	public static Channel create(String number) {
 		return new Channel(String.format(Locale.getDefault(), "%03d", Integer.valueOf(number)));
 	}
@@ -118,14 +115,6 @@ public class Channel extends Bean {
 
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
 	}
 
 	public boolean isTvBus() {

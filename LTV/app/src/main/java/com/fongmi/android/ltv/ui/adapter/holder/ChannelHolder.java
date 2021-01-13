@@ -36,18 +36,16 @@ public class ChannelHolder extends BaseHolder implements View.OnLongClickListene
 		itemView.setSelected(item.isSelect());
 		binding.number.setText(item.getNumber());
 		binding.name.setText(item.getName());
-		setSize(item, Prefers.getSize());
 		item.loadImage(binding.logo);
+		setSize(Prefers.getSize());
 	}
 
-	private void setSize(Channel item, int size) {
-		if (item.getSize() == size) return;
+	private void setSize(int size) {
 		binding.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, size * 2 + 14);
 		binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, size * 2 + 14);
 		ViewGroup.LayoutParams params = binding.logo.getLayoutParams();
 		params.height = Utils.dp2px(size * 3 + 36);
 		params.width = Utils.dp2px(size * 4 + 48);
 		binding.logo.setLayoutParams(params);
-		item.setSize(size);
 	}
 }
