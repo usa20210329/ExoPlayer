@@ -116,6 +116,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 		notifyDataSetChanged();
 	}
 
+	public void setChannel(int position) {
+		if (position < 0) return;
+		setPosition(position);
+		setChannel();
+	}
+
 	public void setChannel() {
 		if (position < 0 || position > mItems.size() - 1 || isType(position)) return;
 		mItemClickListener.onItemClick(getChannel(position));

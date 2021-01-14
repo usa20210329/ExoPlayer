@@ -257,14 +257,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onFind(String number) {
 		int position = mAdapter.getIndex(number);
-		if (position < 0) {
-			Utils.hideView(binding.widget.digital);
-			binding.widget.digital.setText("");
-		} else {
-			binding.recycler.scrollToPosition(position);
-			mAdapter.setPosition(position);
-			mAdapter.setChannel();
-		}
+		if (position < 0) Utils.hideView(binding.widget.digital);
+		binding.recycler.scrollToPosition(position);
+		mAdapter.setChannel(position);
 	}
 
 	@Override
