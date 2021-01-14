@@ -186,15 +186,16 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void hideEpg() {
-		Utils.hideViews(binding.epg.getRoot());
+		Utils.hideViews(binding.epg.getRoot(), binding.widget.digital);
 	}
 
 	private void showEpg(Channel item) {
+		mHandler.removeCallbacks(mRunnable);
 		binding.epg.name.setSelected(true);
 		binding.epg.name.setText(item.getName());
 		binding.epg.number.setText(item.getNumber());
-		Utils.showViews(binding.epg.getRoot());
-		mHandler.removeCallbacks(mRunnable);
+		binding.widget.digital.setText(item.getDigital());
+		Utils.showViews(binding.epg.getRoot(), binding.widget.digital);
 	}
 
 	private void setEpg(String epg) {
@@ -204,7 +205,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setCustomSize() {
-		binding.widget.info.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.widget.digital.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
 		binding.epg.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
@@ -249,16 +250,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onShow(String number) {
-		binding.widget.info.setVisibility(View.VISIBLE);
-		binding.widget.info.setText(mAdapter.getInfo(number));
+		binding.widget.digital.setVisibility(View.VISIBLE);
+		binding.widget.digital.setText(number);
+		binding.widget.digital.setAlpha(1);
 	}
 
 	@Override
 	public void onFind(String number) {
 		int position = mAdapter.getIndex(number);
 		binding.recycler.scrollToPosition(position);
-		binding.widget.info.setVisibility(View.GONE);
-		binding.widget.info.setText("");
+		binding.widget.digital.setVisibility(View.GONE);
+		binding.widget.digital.setText("");
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
 	}
@@ -338,24 +340,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (Utils.hasPIP()) binding.video.start();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!Utils.hasPIP()) binding.video.start();
-	}
-
-	@Override
-	protected void onPause() {
-		if (!Utils.hasPIP()) binding.video.pause();
-		super.onPause();
+		binding.video.start();
 	}
 
 	@Override
 	protected void onStop() {
-		if (Utils.hasPIP()) binding.video.pause();
+		binding.video.pause();
 		super.onStop();
 	}
 

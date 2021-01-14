@@ -157,10 +157,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 		return getChannel(position);
 	}
 
-	public String getInfo(String number) {
-		return getIndex(number) == -1 ? number : number.concat("  ").concat(getChannel(getIndex(number)).getName());
-	}
-
 	@Override
 	public int getItemCount() {
 		return mItems.size();
