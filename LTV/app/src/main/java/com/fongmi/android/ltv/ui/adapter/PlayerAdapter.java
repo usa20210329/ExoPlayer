@@ -156,7 +156,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 	}
 
 	public int getIndex(String number) {
-		return mItems.indexOf(Channel.create(number));
+		return mItems.lastIndexOf(Channel.create(number));
 	}
 
 	public Channel getCurrent() {

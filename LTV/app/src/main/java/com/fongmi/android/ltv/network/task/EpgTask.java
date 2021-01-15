@@ -3,10 +3,12 @@ package com.fongmi.android.ltv.network.task;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.network.Connector;
 import com.fongmi.android.ltv.utils.Token;
+import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,7 +38,7 @@ public class EpgTask {
 		try {
 			onPostExecute(Connector.link(Token.getEpg(item.getEpg())).getResult());
 		} catch (Exception e) {
-			e.printStackTrace();
+			onPostExecute(Utils.getString(R.string.channel_epg));
 		}
 	}
 
