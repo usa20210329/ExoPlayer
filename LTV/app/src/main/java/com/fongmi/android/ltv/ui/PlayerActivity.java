@@ -159,30 +159,25 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private final Runnable mRunnable = this::hideEpg;
 
+	private boolean isVisible(View view) {
+		return view.getAlpha() == 1;
+	}
+
 	private void showProgress() {
-		if (binding.widget.progress.getVisibility() == View.GONE) binding.widget.progress.setVisibility(View.VISIBLE);
+		Utils.showView(binding.widget.progress);
 	}
 
 	private void hideProgress() {
-		if (binding.widget.progress.getVisibility() == View.VISIBLE) binding.widget.progress.setVisibility(View.GONE);
-	}
-
-	private boolean isUIVisible() {
-		return binding.recycler.getAlpha() == 1;
-	}
-
-	private boolean isEpgVisible() {
-		return binding.epg.getRoot().getAlpha() == 1;
+		Utils.hideView(binding.widget.progress);
 	}
 
 	private void showUI() {
-		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
 		Utils.showViews(binding.recycler, binding.widget.gear);
+		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
 	}
 
 	private void hideUI() {
-		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
-		Utils.hideViews(binding.recycler, binding.widget.gear);
+		Utils.hideViews(binding.recycler, binding.widget.gear, binding.widget.keypad.getRoot());
 	}
 
 	private void hideEpg() {
@@ -226,8 +221,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onToggle(View view) {
-		if (isEpgVisible()) hideEpg();
-		if (isUIVisible()) hideUI(); else showUI();
+		if (isVisible(binding.recycler)) hideUI();
+		else showUI();
+		hideEpg();
 	}
 
 	public void onGear(View view) {
@@ -293,8 +289,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyCenter() {
-		if (isEpgVisible()) hideEpg();
-		if (isUIVisible()) mAdapter.setChannel(); else showUI();
+		if (isVisible(binding.recycler)) mAdapter.setChannel();
+		else showUI();
+		hideEpg();
 	}
 
 	@Override
@@ -348,8 +345,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onBackPressed() {
-		if (isEpgVisible()) hideEpg();
-		else if (isUIVisible()) hideUI();
+		if (isVisible(binding.epg.getRoot())) hideEpg();
+		else if (isVisible(binding.recycler)) hideUI();
 		else super.onBackPressed();
 	}
 
