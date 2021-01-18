@@ -133,7 +133,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
-		if (++retry > 5) onError(); else getUrl(mAdapter.getCurrent());
+		if (++retry > 5 || mAdapter.getCurrent() == null) onError();
+		else getUrl(mAdapter.getCurrent());
 	}
 
 	private void onError() {
@@ -255,7 +256,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		int position = mAdapter.getIndex(number);
 		if (position < 0) Utils.hideView(binding.widget.digital);
 		binding.recycler.scrollToPosition(position);
-		mAdapter.setChannel(position);
+		mAdapter.setPosition(position);
+		mAdapter.setChannel();
 	}
 
 	@Override
