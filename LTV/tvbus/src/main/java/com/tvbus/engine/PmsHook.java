@@ -18,8 +18,8 @@ public class PmsHook implements InvocationHandler {
 
 	private static final int GET_SIGNATURES = 0x00000040;
 
-	private String appPkgName;
 	private byte[][] sign;
+	private String name;
 	private Object base;
 
 	public static void inject(Context context) {
@@ -35,8 +35,8 @@ public class PmsHook implements InvocationHandler {
 			Field sPackageManagerField = activityThreadClass.getDeclaredField("sPackageManager");
 			sPackageManagerField.setAccessible(true);
 			this.sign = getSign(context);
+			this.name = context.getPackageName();
 			this.base = sPackageManagerField.get(currentActivityThread);
-			this.appPkgName = context.getPackageName();
 			Object proxy = Proxy.newProxyInstance(iPackageManagerInterface.getClassLoader(), new Class<?>[]{iPackageManagerInterface}, this);
 			sPackageManagerField.set(currentActivityThread, proxy);
 			PackageManager pm = context.getPackageManager();
@@ -63,7 +63,7 @@ public class PmsHook implements InvocationHandler {
 		if (method.getName().equals("getPackageInfo")) {
 			String pkgName = (String) args[0];
 			Integer flag = (Integer) args[1];
-			if ((flag & GET_SIGNATURES) != 0 && appPkgName.equals(pkgName)) {
+			if ((flag & GET_SIGNATURES) != 0 && this.name.equals(pkgName)) {
 				PackageInfo info = (PackageInfo) method.invoke(base, args);
 				info.signatures = new Signature[this.sign.length];
 				for (int i = 0; i < info.signatures.length; i++) {
