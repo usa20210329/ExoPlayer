@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
+import com.fongmi.android.ltv.bean.Config;
 import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
@@ -38,8 +39,6 @@ import com.king.player.kingplayer.AspectRatio;
 import com.king.player.kingplayer.IPlayer;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
-
-import java.util.List;
 
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
@@ -63,7 +62,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this);
 		VerifyReceiver.create(this);
-		TvBus.get().init();
 		showProgress();
 		Token.check();
 		setView();
@@ -87,14 +85,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onVerified() {
 		ApiService.getConfig(new AsyncCallback() {
 			@Override
-			public void onResponse(List<Channel> items) {
-				setConfig(items);
+			public void onResponse(Config config) {
+				setConfig(config);
 			}
 		});
 	}
 
-	private void setConfig(List<Channel> items) {
-		mAdapter.addAll(items);
+	private void setConfig(Config config) {
+		FileUtil.checkUpdate(config.getVersion());
+		mAdapter.addAll(config.getChannel());
+		Token.setConfig(config);
+		TvBus.get().init();
 		setCustomSize();
 		hideProgress();
 		checkKeep();

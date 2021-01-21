@@ -33,9 +33,9 @@ public class TvBus implements TVListener {
 
 	public void init() {
 		tvcore = TVCore.getInstance();
-		tvcore.setAuthUrl(Token.AUTH_URL);
-		tvcore.setUsername(Token.USERNAME);
-		tvcore.setPassword(Token.PASSWORD);
+		tvcore.setAuthUrl(Token.getAuth());
+		tvcore.setUsername(Token.getName());
+		tvcore.setPassword(Token.getPass());
 		tvcore.setTVListener(this);
 		TVService.start(App.get());
 	}
