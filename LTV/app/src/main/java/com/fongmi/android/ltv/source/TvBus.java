@@ -17,7 +17,6 @@ public class TvBus implements TVListener {
 	private final Handler handler;
 	private AsyncCallback callback;
 	private TVCore tvcore;
-	private String url;
 
 	private static class Loader {
 		static volatile TvBus INSTANCE = new TvBus();
@@ -43,7 +42,6 @@ public class TvBus implements TVListener {
 	public void start(AsyncCallback callback, String url) {
 		setCallback(callback);
 		tvcore.start(url);
-		setUrl(url);
 	}
 
 	public void stop() {
@@ -58,10 +56,6 @@ public class TvBus implements TVListener {
 		this.callback = callback;
 	}
 
-	private void setUrl(String url) {
-		this.url = url;
-	}
-
 	@Override
 	public void onPrepared(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
@@ -73,7 +67,7 @@ public class TvBus implements TVListener {
 	public void onStop(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		int errno = json.get("errno").getAsInt();
-		if (errno < 0) tvcore.start(url);
+		if (errno < 0 && callback != null) handler.post(() -> callback.onFail());
 	}
 
 	@Override

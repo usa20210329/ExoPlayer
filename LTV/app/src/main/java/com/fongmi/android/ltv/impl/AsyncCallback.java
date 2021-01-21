@@ -15,6 +15,9 @@ public abstract class AsyncCallback implements ValueEventListener {
 	public void onResponse(Config config) {
 	}
 
+	public void onFail() {
+	}
+
 	@Override
 	public void onDataChange(@NonNull DataSnapshot data) {
 		onResponse(Config.get(data));

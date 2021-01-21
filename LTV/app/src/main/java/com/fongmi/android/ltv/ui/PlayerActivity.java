@@ -116,6 +116,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 			public void onResponse(String url) {
 				playVideo(item, url);
 			}
+
+			@Override
+			public void onFail() {
+				onRetry(0, null);
+			}
 		});
 	}
 
@@ -134,13 +139,14 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
-		if (++retry > 5 || mAdapter.getCurrent() == null) onError();
+		if (++retry > 3 || mAdapter.getCurrent() == null) onError();
 		else getUrl(mAdapter.getCurrent());
 	}
 
 	private void onError() {
 		Notify.show(R.string.channel_error);
 		binding.video.reset();
+		TvBus.get().stop();
 		hideProgress();
 		retry = 0;
 	}
