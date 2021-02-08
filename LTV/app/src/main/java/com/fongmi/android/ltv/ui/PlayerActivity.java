@@ -185,7 +185,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void hideUI() {
-		Utils.hideViews(binding.recycler, binding.widget.gear, binding.widget.keypad.getRoot());
+		Utils.hideViews(binding.recycler, binding.widget.gear);
+		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
 	private void hideEpg() {
