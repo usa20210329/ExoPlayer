@@ -235,7 +235,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onKeyDown(View view) {
-		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
+		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()));
 	}
 
 	@Override
@@ -251,12 +251,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.recycler.scrollToPosition(position);
 		mAdapter.setPosition(position);
 		mAdapter.setChannel();
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (Utils.isDigitKey(keyCode)) return mKeyDown.onKeyDown(keyCode);
-		else return super.onKeyDown(keyCode, event);
 	}
 
 	@Override

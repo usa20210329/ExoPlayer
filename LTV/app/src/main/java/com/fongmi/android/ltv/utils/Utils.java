@@ -28,24 +28,12 @@ public class Utils {
 		return Math.round(dpValue * getDisplayMetrics().density);
 	}
 
-	public static boolean isDigitKey(int keyCode) {
-		return isNumber(keyCode) || isNumberPad(keyCode);
-	}
-
 	public static boolean hasEvent(KeyEvent event) {
-		return isArrowKey(event) || isBackKey(event) || isMenuKey(event) || event.isLongPress();
+		return isArrowKey(event) || isBackKey(event) || isMenuKey(event) || isDigitKey(event) || event.isLongPress();
 	}
 
 	private static boolean isArrowKey(KeyEvent event) {
 		return isEnterKey(event) || isUpKey(event) || isDownKey(event) || isLeftKey(event) || isRightKey(event);
-	}
-
-	private static boolean isNumber(int keyCode) {
-		return keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9;
-	}
-
-	static boolean isNumberPad(int keyCode) {
-		return keyCode >= KeyEvent.KEYCODE_NUMPAD_0 && keyCode <= KeyEvent.KEYCODE_NUMPAD_9;
 	}
 
 	static boolean isBackKey(KeyEvent event) {
@@ -54,6 +42,10 @@ public class Utils {
 
 	static boolean isMenuKey(KeyEvent event) {
 		return event.getKeyCode() == KeyEvent.KEYCODE_MENU;
+	}
+
+	public static boolean isDigitKey(KeyEvent event) {
+		return event.getKeyCode() >= KeyEvent.KEYCODE_0 && event.getKeyCode() <= KeyEvent.KEYCODE_9 || event.getKeyCode() >= KeyEvent.KEYCODE_NUMPAD_0 && event.getKeyCode() <= KeyEvent.KEYCODE_NUMPAD_9;
 	}
 
 	static boolean isEnterKey(KeyEvent event) {

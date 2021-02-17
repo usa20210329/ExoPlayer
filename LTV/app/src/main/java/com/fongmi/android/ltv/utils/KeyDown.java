@@ -18,13 +18,12 @@ public class KeyDown {
 		this.mText = new StringBuilder();
 	}
 
-	public boolean onKeyDown(int keyCode) {
-		if (mText.length() >= 4) return false;
+	public void onKeyDown(int keyCode) {
+		if (mText.length() >= 4) return;
 		mText.append(getNumber(keyCode));
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.postDelayed(mRunnable, getDelay());
 		mKeyDown.onShow(mText.toString());
-		return true;
 	}
 
 	public boolean onKeyDown(KeyEvent event) {
@@ -40,6 +39,8 @@ public class KeyDown {
 			mKeyDown.onKeyBack();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isMenuKey(event)) {
 			mKeyDown.onLongPress();
+		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isDigitKey(event)) {
+			onKeyDown(event.getKeyCode());
 		} else if (Utils.isEnterKey(event)) {
 			checkPress(event);
 		}
@@ -61,7 +62,7 @@ public class KeyDown {
 	}
 
 	private int getNumber(int keyCode) {
-		return Utils.isNumberPad(keyCode) ? keyCode - 144 : keyCode - 7;
+		return keyCode >= 144 ? keyCode - 144 : keyCode - 7;
 	}
 
 	private final Runnable mRunnable = new Runnable() {
