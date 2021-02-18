@@ -105,6 +105,7 @@ public class Utils {
 
 	public static void enterPIP(Activity activity) {
 		try {
+			if (!Prefers.isPip()) return;
 			if (!hasPIP() || activity.isInPictureInPictureMode()) return;
 			PictureInPictureParams.Builder builder = new PictureInPictureParams.Builder();
 			builder.setAspectRatio(new Rational(16, 9)).build();

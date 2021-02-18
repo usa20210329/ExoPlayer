@@ -51,10 +51,12 @@ public class Notify {
 		binding.size.setProgress(Prefers.getSize());
 		binding.boot.setChecked(Prefers.isBoot());
 		binding.pad.setChecked(Prefers.isPad());
+		binding.pip.setChecked(Prefers.isPip());
 		binding.rev.setChecked(Prefers.isRev());
 		binding.ok.setChecked(Prefers.isOk());
 		binding.boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		binding.rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
+		binding.pip.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putPip(isChecked));
 		binding.ok.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putOk(isChecked));
 		binding.pad.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putPad(isChecked);

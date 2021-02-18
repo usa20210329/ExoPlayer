@@ -78,6 +78,28 @@
                 android:layout_height="wrap_content" />
 
         </TableRow>
+
+        <TableRow
+            android:id="@+id/pip_row"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="6"
+                android:text="@string/setting_common_pip"
+                android:textColor="@color/grey_900" />
+
+            <CheckBox
+                android:id="@+id/pip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
     </LinearLayout>
 
     <LinearLayout

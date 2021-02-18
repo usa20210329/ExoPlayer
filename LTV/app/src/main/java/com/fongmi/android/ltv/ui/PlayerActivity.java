@@ -235,7 +235,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onKeyDown(View view) {
-		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()));
+		mKeyDown.onKeyDown(Integer.parseInt(view.getTag().toString()) + KeyEvent.KEYCODE_0);
 	}
 
 	@Override
