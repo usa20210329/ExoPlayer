@@ -36,7 +36,7 @@ public class ChannelHolder extends BaseHolder implements View.OnLongClickListene
 		itemView.setSelected(item.isSelect());
 		binding.number.setText(item.getNumber());
 		binding.name.setText(item.getName());
-		item.loadImage(binding.logo);
+		item.loadLogo(binding.logo);
 		setSize(Prefers.getSize());
 	}
 

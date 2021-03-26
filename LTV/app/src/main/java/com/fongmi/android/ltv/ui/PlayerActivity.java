@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -97,6 +98,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		TvBus.get().stop();
 		showProgress();
 		showEpg(item);
+		showBg(item);
 		getUrl(item);
 		getEpg(item);
 		hideUI();
@@ -191,6 +193,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.epg.play.setText(epg);
 		binding.epg.play.setSelected(true);
 		mHandler.postDelayed(mRunnable, 5000);
+	}
+
+	private void showBg(Channel item) {
+		boolean hasBg = !TextUtils.isEmpty(item.getBg());
+		binding.bg.setVisibility(hasBg ? View.VISIBLE : View.GONE);
+		if (hasBg) item.loadBg(binding.bg);
 	}
 
 	private void setCustomSize() {

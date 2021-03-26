@@ -26,6 +26,7 @@ public class Channel extends Bean {
 	private String logo;
 	private String epg;
 	private String url;
+	private String bg;
 	private String provider;
 	private boolean token;
 	private boolean hidden;
@@ -85,6 +86,14 @@ public class Channel extends Bean {
 		this.url = url;
 	}
 
+	public String getBg() {
+		return bg;
+	}
+
+	public void setBg(String bg) {
+		this.bg = bg;
+	}
+
 	public String getProvider() {
 		return TextUtils.isEmpty(provider) ? Token.getProvider() : provider;
 	}
@@ -121,7 +130,11 @@ public class Channel extends Bean {
 		return getUrl().startsWith("tvbus://");
 	}
 
-	public void loadImage(ImageView view) {
+	public void loadBg(ImageView view) {
+		Glide.with(App.get()).load(Token.getUrl().concat(getBg())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
+	}
+
+	public void loadLogo(ImageView view) {
 		Glide.with(App.get()).load(Token.getUrl().concat(getLogo())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
