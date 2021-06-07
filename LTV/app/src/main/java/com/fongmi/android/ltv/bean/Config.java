@@ -10,7 +10,6 @@ public class Config {
 	private String provider;
 	private String key;
 	private String url;
-	private Core core;
 	private int version;
 
 	public static Config get(DataSnapshot data) {
@@ -33,42 +32,7 @@ public class Config {
 		return url;
 	}
 
-	public Core getCore() {
-		return core;
-	}
-
 	public int getVersion() {
 		return version;
-	}
-
-	public String getAuth() {
-		return getCore().getAuth();
-	}
-
-	public String getName() {
-		return getCore().getName();
-	}
-
-	public String getPass() {
-		return getCore().getPass();
-	}
-
-	private static class Core {
-
-		private String auth;
-		private String name;
-		private String pass;
-
-		public String getAuth() {
-			return auth;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getPass() {
-			return pass;
-		}
 	}
 }
