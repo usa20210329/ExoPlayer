@@ -6,6 +6,7 @@ import android.content.Context;
 import com.fongmi.android.ltv.utils.Utils;
 import com.tvbus.engine.PmsHook;
 
+import java.net.Proxy;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +49,7 @@ public class App extends Application {
 		try {
 			SSLContext context = SSLContext.getInstance("SSL");
 			context.init(null, trustAllCerts, new SecureRandom());
-			client = new OkHttpClient().newBuilder().sslSocketFactory(context.getSocketFactory(), (X509TrustManager) trustAllCerts[0]).hostnameVerifier((hostname, session) -> true).connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS).build();
+			client = new OkHttpClient().newBuilder().proxy(Proxy.NO_PROXY).sslSocketFactory(context.getSocketFactory(), (X509TrustManager) trustAllCerts[0]).hostnameVerifier((hostname, session) -> true).connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,14 +58,10 @@ public class App extends Application {
 	final TrustManager[] trustAllCerts = new TrustManager[]{
 			new X509TrustManager() {
 				@Override
-				public void checkClientTrusted(X509Certificate[] chain, String authType) {
-
-				}
+				public void checkClientTrusted(X509Certificate[] chain, String authType) { }
 
 				@Override
-				public void checkServerTrusted(X509Certificate[] chain, String authType) {
-
-				}
+				public void checkServerTrusted(X509Certificate[] chain, String authType) { }
 
 				@Override
 				public X509Certificate[] getAcceptedIssuers() {
