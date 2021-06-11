@@ -17,6 +17,7 @@
     <string name="setting_common">一般設定</string>
     <string name="setting_common_size">字體大小</string>
     <string name="setting_common_boot">開機啟動</string>
+    <string name="setting_common_full">全螢幕</string>
     <string name="setting_common_pad">小鍵盤</string>
     <string name="setting_common_pip">畫中畫</string>
     <string name="setting_control">控制設定</string>

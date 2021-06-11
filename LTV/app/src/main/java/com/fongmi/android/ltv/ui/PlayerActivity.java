@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Config;
@@ -71,6 +72,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
 		Clock.start(binding.epg.time);
+		setScaleType();
 	}
 
 	@Override
@@ -216,6 +218,10 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		Prefers.putSize(progress);
 		mAdapter.notifyDataSetChanged();
 		setCustomSize();
+	}
+
+	public void setScaleType() {
+		binding.video.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
 	}
 
 	public void setKeypad() {
