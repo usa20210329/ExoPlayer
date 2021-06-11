@@ -31,7 +31,7 @@ public class App extends Application {
 	}
 
 	public static String getName() {
-		return Utils.getString(R.string.app_name).toLowerCase();
+		return Utils.getString(R.string.app_id).toLowerCase();
 	}
 
 	public OkHttpClient getClient() {

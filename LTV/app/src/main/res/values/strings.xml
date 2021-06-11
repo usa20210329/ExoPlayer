@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
 
     <!-- App -->
+    <string name="app_id">ltv</string>
     <string name="app_name">熊愛電視</string>
     <string name="app_unlock">已解鎖</string>
     <string name="app_update">發現新版本</string>
@@ -27,6 +28,7 @@
 
     <!-- Column -->
     <string name="column_user">使用者</string>
+    <string name="column_version">版本</string>
     <string name="column_device">裝置</string>
     <string name="column_enable">啟用</string>
     <string name="column_date">登入日期</string>

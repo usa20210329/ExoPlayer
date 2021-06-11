@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.BuildConfig;
 
 public class Utils {
 
@@ -124,5 +125,9 @@ public class Utils {
 		String manufacturer = Build.MANUFACTURER;
 		if (model.startsWith(manufacturer)) return model;
 		else return manufacturer + " " + model;
+	}
+
+	static String getVersion() {
+		return BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
 	}
 }
