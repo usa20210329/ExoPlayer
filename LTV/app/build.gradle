@@ -53,7 +53,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.room:room-runtime:2.3.0'
-    implementation 'com.google.android.exoplayer:extension-okhttp:2.9.1'
+    implementation 'com.google.android.exoplayer:extension-okhttp:2.14.1'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.firebase:firebase-crashlytics:18.0.1'
     implementation 'com.google.firebase:firebase-database:20.0.0'
