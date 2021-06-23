@@ -58,7 +58,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mKeyDown = new KeyDown(this);
 		VerifyReceiver.create(this);
 		showProgress();
-		Token.check();
+		onVerified();
 		setView();
 	}
 

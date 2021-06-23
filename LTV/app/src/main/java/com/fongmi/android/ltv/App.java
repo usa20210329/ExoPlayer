@@ -40,8 +40,13 @@ public class App extends Application {
 
 	@Override
 	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(base);
 		PmsHook.inject(base);
+		super.attachBaseContext(base);
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
 		initOkHttp();
 	}
 

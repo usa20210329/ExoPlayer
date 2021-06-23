@@ -50,6 +50,14 @@ public class TVCore {
 		}
 	}
 
+	public void setRunningMode(int mode) {
+		try {
+			setRunningMode(nativeHandle, mode);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void setAuthUrl(String str) {
 		try {
 			setAuthUrl(nativeHandle, str);
@@ -127,6 +135,8 @@ public class TVCore {
 	private native void setServPort(long handle, int iPort);
 
 	private native void setPlayPort(long handle, int iPort);
+
+	private native void setRunningMode(long handle, int mode);
 
 	private native void setAuthUrl(long handle, String str);
 
