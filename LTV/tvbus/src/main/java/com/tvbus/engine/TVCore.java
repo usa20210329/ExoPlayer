@@ -50,6 +50,30 @@ public class TVCore {
 		}
 	}
 
+	public void setAuthUrl(String str) {
+		try {
+			setAuthUrl(nativeHandle, str);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setPassword(String str) {
+		try {
+			setPassword(nativeHandle, str);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setUsername(String str) {
+		try {
+			setUsername(nativeHandle, str);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void start(String url) {
 		try {
 			start(nativeHandle, url);
@@ -103,6 +127,12 @@ public class TVCore {
 	private native void setServPort(long handle, int iPort);
 
 	private native void setPlayPort(long handle, int iPort);
+
+	private native void setAuthUrl(long handle, String str);
+
+	private native void setPassword(long handle, String str);
+
+	private native void setUsername(long handle, String str);
 
 	private native void setListener(long handle, TVListener listener);
 
