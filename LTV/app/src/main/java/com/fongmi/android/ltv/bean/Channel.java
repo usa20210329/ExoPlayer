@@ -130,6 +130,10 @@ public class Channel extends Bean {
 		return getUrl().startsWith("tvbus://");
 	}
 
+	public boolean isForce() {
+		return getUrl().startsWith("p5p://");
+	}
+
 	public void loadBg(ImageView view) {
 		Glide.with(App.get()).load(Token.getUrl().concat(getBg())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}

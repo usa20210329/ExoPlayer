@@ -25,6 +25,7 @@ import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.network.task.FileTask;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
+import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
 import com.fongmi.android.ltv.utils.Clock;
@@ -90,6 +91,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mAdapter.addAll(config.getChannel());
 		Token.setConfig(config);
 		TvBus.get().init();
+		Force.get().init();
 		setCustomSize();
 		hideProgress();
 		checkKeep();
@@ -98,6 +100,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void onClick(Channel item) {
 		Token.setProvider(item);
 		TvBus.get().stop();
+		Force.get().stop();
 		showProgress();
 		showEpg(item);
 		showBg(item);
@@ -359,6 +362,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		FileTask.destroy();
 		Clock.destroy();
 		TvBus.destroy();
+		Force.destroy();
 		super.onDestroy();
 		System.exit(0);
 	}
