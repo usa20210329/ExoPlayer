@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Force {
+public class Force implements ServiceConnection {
 
 	private HttpURLConnection conn;
 	private final Handler handler;
@@ -36,23 +36,8 @@ public class Force {
 	}
 
 	public void init() {
-		App.get().bindService(new Intent(App.get(), P5PService.class), connection, Context.BIND_AUTO_CREATE);
+		App.get().bindService(new Intent(App.get(), P5PService.class), this, Context.BIND_AUTO_CREATE);
 	}
-
-	public static void destroy() {
-		App.get().unbindService(get().connection);
-	}
-
-	private final ServiceConnection connection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-
-		}
-	};
 
 	public void start(AsyncCallback callback, String source) {
 		Uri uri = Uri.parse(source);
@@ -70,6 +55,10 @@ public class Force {
 		if (conn != null) conn.disconnect();
 	}
 
+	public void destroy() {
+		App.get().unbindService(this);
+	}
+
 	private void connect(String url) {
 		try {
 			conn = (HttpURLConnection) new URL(url).openConnection();
@@ -81,5 +70,13 @@ public class Force {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+	}
+
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
 	}
 }

@@ -359,10 +359,10 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	protected void onDestroy() {
 		binding.video.release();
+		TvBus.get().destroy();
+		Force.get().destroy();
 		FileTask.destroy();
 		Clock.destroy();
-		TvBus.destroy();
-		Force.destroy();
 		super.onDestroy();
 		System.exit(0);
 	}
