@@ -12,8 +12,8 @@ android {
         applicationId "com.fongmi.android.ltv"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 91
-        versionName "1.9.1"
+        versionCode 92
+        versionName "1.9.2"
         ndk { abiFilters "armeabi-v7a" }
     }
 
@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.github.bassaer:materialdesigncolors:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.devbrackets.android:exomedia:4.3.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'io.grpc:grpc-okhttp:1.38.1'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

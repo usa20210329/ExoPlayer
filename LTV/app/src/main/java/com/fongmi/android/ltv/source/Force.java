@@ -14,7 +14,6 @@ import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.forcetech.service.P5PService;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -66,7 +65,7 @@ public class Force implements ServiceConnection {
 			conn.setRequestProperty("user-agent", "MTV");
 			conn.setRequestProperty("accept", "*/*");
 			conn.connect();
-			new InputStreamReader(conn.getInputStream());
+			conn.getInputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
