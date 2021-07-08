@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class Connector {
 
 	private static final String VND_APPLE_URL = "vnd.apple.mpegurl";
+	private static final String FORCE_DOWN = "force-download";
 
 	private HttpURLConnection conn;
 	private final String url;
@@ -40,7 +41,7 @@ public class Connector {
 		return this;
 	}
 
-	public String getResult()  throws IOException {
+	public String getResult() throws IOException {
 		String line;
 		StringBuilder result = new StringBuilder();
 		InputStream in = new BufferedInputStream(conn.getInputStream());
@@ -73,6 +74,6 @@ public class Connector {
 	}
 
 	public boolean isFile() {
-		return conn.getContentType().contains(VND_APPLE_URL);
+		return conn.getContentType().contains(VND_APPLE_URL) || conn.getContentType().contains(FORCE_DOWN);
 	}
 }
