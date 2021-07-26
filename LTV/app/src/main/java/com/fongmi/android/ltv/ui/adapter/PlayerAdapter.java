@@ -99,7 +99,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 	public int onMoveUp(boolean play) {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (isType(position)) onMoveUp(play);
+		if (isType(position) && play) onMoveUp(true);
 		if (play) setChannel();
 		else setSelected();
 		return position;
@@ -108,7 +108,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 	public int onMoveDown(boolean play) {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (isType(position)) onMoveDown(play);
+		if (isType(position) && play) onMoveDown(true);
 		if (play) setChannel();
 		else setSelected();
 		return position;

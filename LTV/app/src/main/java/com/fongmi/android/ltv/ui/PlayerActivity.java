@@ -38,6 +38,7 @@ import com.fongmi.android.ltv.utils.Utils;
 
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
+	private final Runnable mHideEpg = this::hideEpg;
 	private ActivityPlayerBinding binding;
 	private PlayerAdapter mAdapter;
 	private KeyDown mKeyDown;
@@ -157,8 +158,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.video.start();
 	}
 
-	private final Runnable mRunnable = this::hideEpg;
-
 	private boolean isVisible(View view) {
 		return view.getAlpha() == 1;
 	}
@@ -186,7 +185,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void showEpg(Channel item) {
-		mHandler.removeCallbacks(mRunnable);
+		mHandler.removeCallbacks(mHideEpg);
 		binding.epg.name.setSelected(true);
 		binding.epg.name.setText(item.getName());
 		binding.epg.number.setText(item.getNumber());
@@ -197,7 +196,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void setEpg(String epg) {
 		binding.epg.play.setText(epg);
 		binding.epg.play.setSelected(true);
-		mHandler.postDelayed(mRunnable, 5000);
+		mHandler.postDelayed(mHideEpg, 5000);
 	}
 
 	private void showBg(Channel item) {
