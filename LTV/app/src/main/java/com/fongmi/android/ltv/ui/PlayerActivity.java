@@ -89,8 +89,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
 		mAdapter.addAll(config.getChannel());
+		TvBus.get().init(config.getCore());
 		Token.setConfig(config);
-		TvBus.get().init();
 		Force.get().init();
 		setCustomSize();
 		hideProgress();
@@ -278,9 +278,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyVertical(boolean isNext) {
-		binding.recycler.scrollToPosition(isNext ? mAdapter.onMoveDown() : mAdapter.onMoveUp());
-		if (Prefers.isOk()) hideEpg();
-		if (Prefers.isOk()) showUI();
+		boolean play = !isVisible(binding.recycler);
+		binding.recycler.scrollToPosition(isNext ? mAdapter.onMoveDown(play) : mAdapter.onMoveUp(play));
 	}
 
 	@Override
@@ -295,9 +294,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyCenter() {
-		if (isVisible(binding.recycler)) mAdapter.setChannel();
-		else showUI();
-		hideEpg();
+		if (isVisible(binding.recycler)) {
+			mAdapter.setChannel();
+		} else {
+			showUI(); hideEpg();
+		}
 	}
 
 	@Override

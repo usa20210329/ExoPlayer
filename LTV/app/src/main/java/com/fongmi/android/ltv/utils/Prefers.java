@@ -16,7 +16,6 @@ public class Prefers {
 	private static final String PAD = "pad";
 	private static final String PIP = "pip";
 	private static final String REV = "rev";
-	private static final String OK = "ok";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
@@ -112,13 +111,5 @@ public class Prefers {
 
 	static void putRev(boolean value) {
 		putBoolean(REV, value);
-	}
-
-	public static boolean isOk() {
-		return getBoolean(OK);
-	}
-
-	static void putOk(boolean value) {
-		putBoolean(OK, value);
 	}
 }

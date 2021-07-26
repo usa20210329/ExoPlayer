@@ -18,7 +18,6 @@ import com.fongmi.android.ltv.ui.adapter.holder.BaseHolder;
 import com.fongmi.android.ltv.ui.adapter.holder.ChannelHolder;
 import com.fongmi.android.ltv.ui.adapter.holder.TypeHolder;
 import com.fongmi.android.ltv.utils.Notify;
-import com.fongmi.android.ltv.utils.Prefers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,21 +96,21 @@ public class PlayerAdapter extends RecyclerView.Adapter<BaseHolder> {
 		setCount();
 	}
 
-	public int onMoveUp() {
+	public int onMoveUp(boolean play) {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (isType(position)) onMoveUp();
-		if (Prefers.isOk()) setSelected();
-		else setChannel();
+		if (isType(position)) onMoveUp(play);
+		if (play) setChannel();
+		else setSelected();
 		return position;
 	}
 
-	public int onMoveDown() {
+	public int onMoveDown(boolean play) {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (isType(position)) onMoveDown();
-		if (Prefers.isOk()) setSelected();
-		else setChannel();
+		if (isType(position)) onMoveDown(play);
+		if (play) setChannel();
+		else setSelected();
 		return position;
 	}
 
