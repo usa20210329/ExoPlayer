@@ -4,8 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.bean.Config.Core;
 import com.fongmi.android.ltv.impl.AsyncCallback;
-import com.fongmi.android.ltv.utils.Token;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tvbus.engine.TVCore;
@@ -30,11 +30,12 @@ public class TvBus implements TVListener {
 		this.handler = new Handler(Looper.getMainLooper());
 	}
 
-	public void init() {
+	public void init(Core core) {
 		tvcore = TVCore.getInstance();
-		tvcore.setAuthUrl(Token.getAuth());
-		tvcore.setUsername(Token.getName());
-		tvcore.setPassword(Token.getPass());
+		tvcore.setAuthUrl(core.getAuth());
+		tvcore.setUsername(core.getName());
+		tvcore.setPassword(core.getPass());
+		tvcore.setMKBroker(core.getBroker());
 		tvcore.setTVListener(this);
 		TVService.start(App.get());
 	}
@@ -45,7 +46,7 @@ public class TvBus implements TVListener {
 	}
 
 	public void stop() {
-		tvcore.stop();
+		if (tvcore != null) tvcore.stop();
 	}
 
 	public void destroy() {

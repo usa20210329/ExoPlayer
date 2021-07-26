@@ -66,6 +66,14 @@ public class TVCore {
 		}
 	}
 
+	public void setMKBroker(String str) {
+		try {
+			setMKBroker(nativeHandle, str);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void setPassword(String str) {
 		try {
 			setPassword(nativeHandle, str);
@@ -139,6 +147,8 @@ public class TVCore {
 	private native void setRunningMode(long handle, int mode);
 
 	private native void setAuthUrl(long handle, String str);
+
+	private native void setMKBroker(long handle, String str);
 
 	private native void setPassword(long handle, String str);
 

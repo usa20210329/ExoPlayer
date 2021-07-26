@@ -41,23 +41,16 @@ public class Config {
 		return version;
 	}
 
-	public String getAuth() {
-		return getCore().getAuth();
-	}
+	public static class Core {
 
-	public String getName() {
-		return getCore().getName();
-	}
-
-	public String getPass() {
-		return getCore().getPass();
-	}
-
-	private static class Core {
-
+		private String broker;
 		private String auth;
 		private String name;
 		private String pass;
+
+		public String getBroker() {
+			return broker;
+		}
 
 		public String getAuth() {
 			return auth;
