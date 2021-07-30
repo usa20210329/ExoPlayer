@@ -3,6 +3,8 @@ package com.fongmi.android.ltv;
 import android.app.Application;
 import android.content.Context;
 
+import com.devbrackets.android.exomedia.ExoMedia;
+import com.fongmi.android.ltv.source.Rtmp;
 import com.fongmi.android.ltv.utils.Utils;
 import com.tvbus.engine.PmsHook;
 
@@ -47,6 +49,7 @@ public class App extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		ExoMedia.registerMediaSourceBuilder(Rtmp.builder());
 		initOkHttp();
 	}
 
