@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Force implements ServiceConnection {
+public class Force {
 
 	private HttpURLConnection conn;
 	private final Handler handler;
@@ -35,7 +35,7 @@ public class Force implements ServiceConnection {
 	}
 
 	public void init() {
-		App.get().bindService(new Intent(App.get(), P5PService.class), this, Context.BIND_AUTO_CREATE);
+		App.get().bindService(new Intent(App.get(), P5PService.class), mConn, Context.BIND_AUTO_CREATE);
 	}
 
 	public void start(AsyncCallback callback, String source) {
@@ -55,7 +55,11 @@ public class Force implements ServiceConnection {
 	}
 
 	public void destroy() {
-		App.get().unbindService(this);
+		try {
+			App.get().unbindService(mConn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void connect(String url) {
@@ -71,11 +75,15 @@ public class Force implements ServiceConnection {
 		}
 	}
 
-	@Override
-	public void onServiceConnected(ComponentName name, IBinder service) {
-	}
+	private final ServiceConnection mConn = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
 
-	@Override
-	public void onServiceDisconnected(ComponentName name) {
-	}
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+
+		}
+	};
 }

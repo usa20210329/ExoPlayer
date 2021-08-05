@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Config;
@@ -35,6 +35,11 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
+import com.google.android.exoplayer2.Player;
+import com.king.player.exoplayer.ExoPlayer;
+import com.king.player.kingplayer.IPlayer;
+import com.king.player.kingplayer.KingPlayer;
+import com.king.player.kingplayer.source.DataSource;
 
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
@@ -67,12 +72,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
 		binding.video.setOnErrorListener(this::onRetry);
-		binding.video.setOnPreparedListener(this::hideProgress);
+		binding.video.setOnPlayerEventListener(this::onPrepared);
 	}
 
 	private void setView() {
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
+		binding.video.setPlayer(new ExoPlayer(this));
 		Clock.start(binding.epg.time);
 		setScaleType();
 	}
@@ -99,7 +105,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
-		Token.setProvider(item);
 		TvBus.get().stop();
 		Force.get().stop();
 		showProgress();
@@ -119,7 +124,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 			@Override
 			public void onFail() {
-				onRetry(null);
+				onRetry(0, null);
 			}
 		});
 	}
@@ -138,10 +143,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		else onFind(Prefers.getKeep());
 	}
 
-	private boolean onRetry(Exception e) {
+	private void onRetry(int event, @Nullable Bundle bundle) {
 		if (++retry > 3 || mAdapter.getCurrent() == null) onError();
 		else getUrl(mAdapter.getCurrent());
-		return true;
 	}
 
 	private void onError() {
@@ -152,9 +156,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		retry = 0;
 	}
 
+	private void onPrepared(int event, @Nullable Bundle bundle) {
+		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE) return;
+		if (bundle == null || bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT) != Player.STATE_READY) return;
+		hideProgress();
+	}
+
 	private void playVideo(Channel item, String url) {
 		if (FileUtil.isFile(url)) FileTask.start(item.getUrl()); else FileTask.destroy();
-		binding.video.setVideoPath(url);
+		DataSource source = new DataSource(url);
+		source.getHeaders().put("User-Agent", item.getProvider());
+		binding.video.setDataSource(source);
 		binding.video.start();
 	}
 
@@ -223,7 +235,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void setScaleType() {
-		binding.video.setScaleType(Prefers.isFull() ? ScaleType.FIT_XY : ScaleType.FIT_CENTER);
+		binding.video.setAspectRatio(Prefers.getRatio());
 	}
 
 	public void setKeypad() {
@@ -332,7 +344,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
 		if (isInPictureInPictureMode) {
 			hideEpg(); hideUI();
-		} else if (!binding.video.isPlaying()) {
+		} else if (binding.video.getPlayerState() == IPlayer.STATE_PAUSED) {
 			finish();
 		}
 	}

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.fongmi.android.ltv.App;
+import com.king.player.kingplayer.AspectRatio;
 
 public class Prefers {
 
@@ -111,5 +112,9 @@ public class Prefers {
 
 	static void putRev(boolean value) {
 		putBoolean(REV, value);
+	}
+
+	public static int getRatio() {
+		return Prefers.isFull() ? AspectRatio.AR_MATCH_PARENT : AspectRatio.AR_16_9_FIT_PARENT;
 	}
 }
