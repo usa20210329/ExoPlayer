@@ -66,14 +66,12 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
     }
 
     @Override
-    public void setDataSource(@NonNull DataSource dataSource) {
+    public void setDataSource(@NonNull DataSource source) {
         try {
-            MediaSource mediaSource = obtainMediaSource(dataSource);
-            mDataSource = dataSource;
-            mMediaPlayer.setMediaSource(mediaSource);
+            mDataSource = source;
+            mMediaPlayer.setMediaSource(getMedia(source));
             mMediaPlayer.prepare();
             mCurrentState = STATE_PREPARED;
-            mTargetState = STATE_PREPARING;
             sendPlayerEvent(Event.EVENT_ON_DATA_SOURCE_SET);
         } catch (Exception e) {
             handleException(e, false);
@@ -82,7 +80,7 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
         }
     }
 
-    private MediaSource obtainMediaSource(@NonNull DataSource dataSource) {
+    private MediaSource getMedia(@NonNull DataSource dataSource) {
         Uri videoUri = Uri.parse(dataSource.getPath());
         Map<String, String> extra = dataSource.getHeaders();
         String settingUserAgent = extra != null ? extra.get("User-Agent") : "";
@@ -105,15 +103,11 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
     }
 
     private void addListener() {
-        if (available()) {
-            mMediaPlayer.addListener(mEventListener);
-        }
+        if (available()) mMediaPlayer.addListener(mEventListener);
     }
 
     private void resetListener() {
-        if (available()) {
-            mMediaPlayer.removeListener(mEventListener);
-        }
+        if (available()) mMediaPlayer.removeListener(mEventListener);
     }
 
     private void recycleBundle() {
@@ -201,44 +195,29 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 
     @Override
     public void start() {
-        try {
-            if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
-                mMediaPlayer.play();
-                mCurrentState = STATE_PLAYING;
-                sendPlayerEvent(Event.EVENT_ON_START);
-            }
-        } catch (Exception e) {
-            handleException(e, true);
+        if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
+            mMediaPlayer.play();
+            mCurrentState = STATE_PLAYING;
+            sendPlayerEvent(Event.EVENT_ON_START);
         }
-        mTargetState = STATE_PLAYING;
     }
 
     @Override
     public void pause() {
-        try {
-            if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PLAYING || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
-                mMediaPlayer.pause();
-                mCurrentState = STATE_PAUSED;
-                sendPlayerEvent(Event.EVENT_ON_PAUSE);
-            }
-        } catch (Exception e) {
-            handleException(e, true);
+        if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PLAYING || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
+            mMediaPlayer.pause();
+            mCurrentState = STATE_PAUSED;
+            sendPlayerEvent(Event.EVENT_ON_PAUSE);
         }
-        mTargetState = STATE_PAUSED;
     }
 
     @Override
     public void stop() {
-        try {
-            if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PLAYING || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
-                mMediaPlayer.stop();
-                mCurrentState = STATE_STOPPED;
-                sendPlayerEvent(Event.EVENT_ON_STOP);
-            }
-        } catch (Exception e) {
-            handleException(e, true);
+        if (hasDataSource() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PLAYING || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
+            mMediaPlayer.stop();
+            mCurrentState = STATE_STOPPED;
+            sendPlayerEvent(Event.EVENT_ON_STOP);
         }
-        mTargetState = STATE_STOPPED;
     }
 
     @Override
@@ -247,10 +226,8 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
             mMediaPlayer.release();
             mCurrentState = STATE_IDLE;
             sendPlayerEvent(Event.EVENT_ON_RELEASE);
-            LogUtils.d("release");
+            resetListener();
         }
-        resetListener();
-        mTargetState = STATE_IDLE;
     }
 
     @Override
@@ -259,39 +236,27 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
             mMediaPlayer.stop();
             mCurrentState = STATE_IDLE;
             sendPlayerEvent(Event.EVENT_ON_RESET);
-            LogUtils.d("reset");
         }
-        mTargetState = STATE_IDLE;
     }
 
     @Override
     public boolean isPlaying() {
-        try {
-            if (available()) return mMediaPlayer.isPlaying();
-        } catch (Exception e) {
-            handleException(e, false);
-        }
+        if (available()) return mMediaPlayer.isPlaying();
         return false;
     }
 
     @Override
     public void setVolume(float volume) {
-        if (available()) {
-            mMediaPlayer.setVolume(volume);
-        }
+        if (available()) mMediaPlayer.setVolume(volume);
     }
 
     @Override
     public void seekTo(int position) {
-        try {
-            if (available() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
-                mMediaPlayer.seekTo(position);
-                Bundle bundle = obtainBundle();
-                bundle.putInt(EventBundleKey.KEY_TIME, position);
-                sendPlayerEvent(Event.EVENT_ON_SEEK_TO, bundle);
-            }
-        } catch (Exception e) {
-            handleException(e, true);
+        if (available() && (mCurrentState == STATE_PREPARED || mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYBACK_COMPLETED)) {
+            mMediaPlayer.seekTo(position);
+            Bundle bundle = obtainBundle();
+            bundle.putInt(EventBundleKey.KEY_TIME, position);
+            sendPlayerEvent(Event.EVENT_ON_SEEK_TO, bundle);
         }
     }
 
@@ -315,31 +280,21 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 
     @Override
     public void setSpeed(float speed) {
-        try {
-            if (available() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PlaybackParameters parameters = new PlaybackParameters(speed, 1f);
-                mMediaPlayer.setPlaybackParameters(parameters);
-            }
-        } catch (Exception e) {
-            handleException(e, false);
+        if (available() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PlaybackParameters parameters = new PlaybackParameters(speed, 1f);
+            mMediaPlayer.setPlaybackParameters(parameters);
         }
     }
 
     @Override
     public float getSpeed() {
-        try {
-            if (available()) return mMediaPlayer.getPlaybackParameters().speed;
-        } catch (Exception e) {
-            handleException(e, false);
-        }
+        if (available()) return mMediaPlayer.getPlaybackParameters().speed;
         return 1.0f;
     }
 
     @Override
     public void setLooping(boolean looping) {
-        if (available()) {
-            mMediaPlayer.setRepeatMode(looping ? Player.REPEAT_MODE_ALL : Player.REPEAT_MODE_OFF);
-        }
+        if (available()) mMediaPlayer.setRepeatMode(looping ? Player.REPEAT_MODE_ALL : Player.REPEAT_MODE_OFF);
     }
 
     @Override
