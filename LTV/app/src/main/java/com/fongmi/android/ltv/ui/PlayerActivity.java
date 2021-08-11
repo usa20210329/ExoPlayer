@@ -36,7 +36,6 @@ import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.Player;
-import com.king.player.exoplayer.ExoPlayer;
 import com.king.player.kingplayer.IPlayer;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
