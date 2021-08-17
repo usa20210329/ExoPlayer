@@ -14,12 +14,13 @@ import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.ext.rtmp.RtmpDataSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
@@ -35,8 +36,6 @@ import com.google.android.exoplayer2.video.VideoSize;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 import com.king.player.kingplayer.util.LogUtils;
-
-import java.util.Map;
 
 public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 
@@ -80,26 +79,29 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
         }
     }
 
-    private MediaSource getMedia(@NonNull DataSource dataSource) {
-        Uri videoUri = Uri.parse(dataSource.getPath());
-        Map<String, String> extra = dataSource.getHeaders();
-        String settingUserAgent = extra != null ? extra.get("User-Agent") : "";
-        String userAgent = !TextUtils.isEmpty(settingUserAgent) ? settingUserAgent : Util.getUserAgent(mContext, mContext.getPackageName());
-        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(mContext, userAgent, new DefaultBandwidthMeter.Builder(mContext).build());
+    private MediaSource getMedia(@NonNull DataSource source) {
+        Uri videoUri = Uri.parse(source.getPath());
+        com.google.android.exoplayer2.upstream.DataSource.Factory factory = getFactory(source);
         MediaItem mediaItem = new MediaItem.Builder().setUri(videoUri).setMimeType(MimeTypes.APPLICATION_MPD).build();
         switch (Util.inferContentType(videoUri)) {
             case C.TYPE_DASH:
-                return new DashMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
+                return new DashMediaSource.Factory(factory).createMediaSource(mediaItem);
             case C.TYPE_HLS:
-                return new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
+                return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
             case C.TYPE_SS:
-                return new SsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
+                return new SsMediaSource.Factory(factory).createMediaSource(mediaItem);
             case C.TYPE_RTSP:
                 return new RtspMediaSource.Factory().createMediaSource(mediaItem);
             case C.TYPE_OTHER:
             default:
-                return new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
+                return new ProgressiveMediaSource.Factory(factory).createMediaSource(mediaItem);
         }
+    }
+
+    private com.google.android.exoplayer2.upstream.DataSource.Factory getFactory(DataSource source) {
+        String userAgent = source.getHeaders().get("User-Agent");
+        userAgent = TextUtils.isEmpty(userAgent) ? Util.getUserAgent(mContext, mContext.getPackageName()) : userAgent;
+        return source.getPath().startsWith("rtmp") ? new RtmpDataSource.Factory() : new DefaultDataSourceFactory(mContext, userAgent, new DefaultBandwidthMeter.Builder(mContext).build());
     }
 
     private void addListener() {
@@ -160,27 +162,10 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
         }
 
         @Override
-        public void onPlayerError(@NonNull ExoPlaybackException error) {
+        public void onPlayerError(@NonNull PlaybackException error) {
             handleException(error, false);
-            int event = ErrorEvent.ERROR_EVENT_COMMON;
-            switch (error.type) {
-                case ExoPlaybackException.TYPE_REMOTE:
-                    LogUtils.w("ExoPlaybackException.TYPE_REMOTE");
-                    break;
-                case ExoPlaybackException.TYPE_RENDERER:
-                    LogUtils.w("ExoPlaybackException.TYPE_RENDERER");
-                    break;
-                case ExoPlaybackException.TYPE_SOURCE:
-                    LogUtils.w("ExoPlaybackException.TYPE_SOURCE");
-                    event = ErrorEvent.ERROR_EVENT_IO;
-                    break;
-                case ExoPlaybackException.TYPE_UNEXPECTED:
-                    LogUtils.w("ExoPlaybackException.TYPE_UNEXPECTED");
-                    event = ErrorEvent.ERROR_EVENT_UNKNOWN;
-                    break;
-            }
-            mBundle.putInt(EventBundleKey.KEY_ORIGINAL_EVENT, error.type);
-            sendErrorEvent(event, mBundle);
+            mBundle.putInt(EventBundleKey.KEY_ORIGINAL_EVENT, error.errorCode);
+            sendErrorEvent(ErrorEvent.ERROR_EVENT_COMMON, mBundle);
             recycleBundle();
         }
     };

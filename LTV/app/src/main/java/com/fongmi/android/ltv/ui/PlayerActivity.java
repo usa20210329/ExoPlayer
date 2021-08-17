@@ -151,6 +151,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		Notify.show(R.string.channel_error);
 		binding.video.reset();
 		TvBus.get().stop();
+		Force.get().stop();
 		hideProgress();
 		retry = 0;
 	}
