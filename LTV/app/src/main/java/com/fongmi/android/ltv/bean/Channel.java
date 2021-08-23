@@ -28,7 +28,6 @@ public class Channel extends Bean {
 	private String url;
 	private String bg;
 	private String provider;
-	private boolean token;
 	private boolean hidden;
 	private boolean dynamic;
 
@@ -95,19 +94,11 @@ public class Channel extends Bean {
 	}
 
 	public String getProvider() {
-		return TextUtils.isEmpty(provider) ? Token.getProvider() : provider;
+		return TextUtils.isEmpty(provider) ? "" : provider;
 	}
 
 	public void setProvider(String provider) {
 		this.provider = provider;
-	}
-
-	public boolean isToken() {
-		return token;
-	}
-
-	public void setToken(boolean token) {
-		this.token = token;
 	}
 
 	public boolean isHidden() {
@@ -157,7 +148,6 @@ public class Channel extends Bean {
 		item.setLogo(getLogo());
 		item.setEpg(getEpg());
 		item.setUrl(getUrl());
-		item.setToken(isToken());
 		item.setHidden(isHidden());
 		item.setDynamic(isDynamic());
 		item.setProvider(getProvider());

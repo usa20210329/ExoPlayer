@@ -105,6 +105,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
+		TvBus.get().stop();
+		Force.get().stop();
 		showProgress();
 		showEpg(item);
 		showBg(item);
@@ -162,8 +164,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void playVideo(Channel item, String url) {
-		if (!item.isTvBus()) TvBus.get().stop();
-		if (!item.isForce()) Force.get().stop();
 		DataSource source = new DataSource(url);
 		source.getHeaders().put(HttpHeaders.USER_AGENT, item.getProvider());
 		binding.video.setDataSource(source);

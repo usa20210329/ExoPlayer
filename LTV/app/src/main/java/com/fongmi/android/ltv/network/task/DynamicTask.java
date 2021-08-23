@@ -8,7 +8,6 @@ import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.network.Connector;
 import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
-import com.fongmi.android.ltv.utils.Token;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,7 +36,6 @@ public class DynamicTask {
 	private void doInBackground(Channel item) {
 		try {
 			String url = item.getUrl();
-			if (item.isToken()) url = url.concat(Token.get());
 			if (item.isTvBus()) TvBus.get().start(callback, item.getUrl());
 			else if (item.isForce()) Force.get().start(callback, item.getUrl());
 			else onPostExecute(Connector.link(url).getPath());
