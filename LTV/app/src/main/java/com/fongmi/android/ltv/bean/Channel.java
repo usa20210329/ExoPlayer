@@ -26,8 +26,8 @@ public class Channel extends Bean {
 	private String logo;
 	private String epg;
 	private String url;
+	private String ua;
 	private String bg;
-	private String provider;
 	private boolean hidden;
 	private boolean dynamic;
 
@@ -93,12 +93,12 @@ public class Channel extends Bean {
 		this.bg = bg;
 	}
 
-	public String getProvider() {
-		return TextUtils.isEmpty(provider) ? "" : provider;
+	public String getUa() {
+		return TextUtils.isEmpty(ua) ? "" : ua;
 	}
 
-	public void setProvider(String provider) {
-		this.provider = provider;
+	public void setUa(String ua) {
+		this.ua = ua;
 	}
 
 	public boolean isHidden() {
@@ -143,14 +143,14 @@ public class Channel extends Bean {
 
 	public Channel get() {
 		Channel item = new Channel();
+		item.setDynamic(isDynamic());
 		item.setNumber(getNumber());
+		item.setHidden(isHidden());
 		item.setName(getName());
 		item.setLogo(getLogo());
 		item.setEpg(getEpg());
 		item.setUrl(getUrl());
-		item.setHidden(isHidden());
-		item.setDynamic(isDynamic());
-		item.setProvider(getProvider());
+		item.setUa(getUa());
 		return item;
 	}
 
