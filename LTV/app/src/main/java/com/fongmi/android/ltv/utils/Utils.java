@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.BuildConfig;
+import com.google.android.exoplayer2.util.Util;
 
 public class Utils {
 
@@ -129,5 +130,9 @@ public class Utils {
 
 	static String getVersion() {
 		return BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
+	}
+
+	public static String getUserAgent() {
+		return Util.getUserAgent(App.get(), App.get().getPackageName());
 	}
 }

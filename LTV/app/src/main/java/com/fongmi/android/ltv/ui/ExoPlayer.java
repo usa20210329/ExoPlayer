@@ -12,6 +12,7 @@ import android.view.SurfaceHolder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.MediaItem;
@@ -33,6 +34,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
+import com.google.common.net.HttpHeaders;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 import com.king.player.kingplayer.util.LogUtils;
@@ -99,8 +101,8 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
     }
 
     private com.google.android.exoplayer2.upstream.DataSource.Factory getFactory(DataSource source) {
-        String userAgent = source.getHeaders().get("User-Agent");
-        userAgent = TextUtils.isEmpty(userAgent) ? Util.getUserAgent(mContext, mContext.getPackageName()) : userAgent;
+        String userAgent = source.getHeaders().get(HttpHeaders.USER_AGENT);
+        userAgent = TextUtils.isEmpty(userAgent) ? Utils.getUserAgent() : userAgent;
         return source.getPath().startsWith("rtmp") ? new RtmpDataSource.Factory() : new DefaultDataSourceFactory(mContext, userAgent, new DefaultBandwidthMeter.Builder(mContext).build());
     }
 

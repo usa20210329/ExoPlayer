@@ -36,6 +36,7 @@ import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.Player;
+import com.google.common.net.HttpHeaders;
 import com.king.player.kingplayer.IPlayer;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
@@ -164,7 +165,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		if (!item.isTvBus()) TvBus.get().stop();
 		if (!item.isForce()) Force.get().stop();
 		DataSource source = new DataSource(url);
-		source.getHeaders().put("User-Agent", item.getProvider());
+		source.getHeaders().put(HttpHeaders.USER_AGENT, item.getProvider());
 		binding.video.setDataSource(source);
 		FileTask.start(item, url);
 		binding.video.start();

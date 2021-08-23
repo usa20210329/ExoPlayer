@@ -1,6 +1,8 @@
 package com.fongmi.android.ltv.network;
 
 import com.fongmi.android.ltv.utils.FileUtil;
+import com.fongmi.android.ltv.utils.Utils;
+import com.google.common.net.HttpHeaders;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,6 +33,7 @@ public class Connector {
 
 	public Connector connect() throws IOException {
 		conn = (HttpURLConnection) new URL(url).openConnection();
+		conn.setRequestProperty(HttpHeaders.USER_AGENT, Utils.getUserAgent());
 		conn.setInstanceFollowRedirects(false);
 		conn.setConnectTimeout(5000);
 		conn.setReadTimeout(5000);
