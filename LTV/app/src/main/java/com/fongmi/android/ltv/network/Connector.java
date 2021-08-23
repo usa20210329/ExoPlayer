@@ -61,7 +61,7 @@ public class Connector {
 		File cacheFile = FileUtil.getCacheFile("index.m3u8");
 		InputStream is = conn.getInputStream();
 		int bytesRead;
-		byte[] buffer = new byte[1024];
+		byte[] buffer = new byte[4096];
 		FileOutputStream os = new FileOutputStream(cacheFile);
 		while (((bytesRead = is.read(buffer)) != -1)) os.write(buffer, 0, bytesRead);
 		os.close();

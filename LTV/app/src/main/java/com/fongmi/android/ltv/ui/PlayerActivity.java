@@ -104,13 +104,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onClick(Channel item) {
-		TvBus.get().stop();
-		Force.get().stop();
 		showProgress();
 		showEpg(item);
 		showBg(item);
-		getUrl(item);
 		getEpg(item);
+		getUrl(item);
 		hideUI();
 	}
 
@@ -163,10 +161,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void playVideo(Channel item, String url) {
-		if (FileUtil.isFile(url)) FileTask.start(item.getUrl()); else FileTask.destroy();
+		if (!item.isTvBus()) TvBus.get().stop();
+		if (!item.isForce()) Force.get().stop();
 		DataSource source = new DataSource(url);
 		source.getHeaders().put("User-Agent", item.getProvider());
 		binding.video.setDataSource(source);
+		FileTask.start(item, url);
 		binding.video.start();
 	}
 

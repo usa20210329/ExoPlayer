@@ -1,6 +1,8 @@
 package com.fongmi.android.ltv.network.task;
 
+import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.network.Connector;
+import com.fongmi.android.ltv.utils.FileUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,17 +15,16 @@ public class FileTask {
 		static volatile FileTask INSTANCE = new FileTask();
 	}
 
-	private static FileTask getInstance() {
+	private static FileTask get() {
 		return Loader.INSTANCE;
 	}
 
-	public static void start(String url) {
-		getInstance().cancel();
-		getInstance().run(url);
+	public static void start(Channel item, String url) {
+		destroy(); if (FileUtil.isFile(url)) get().run(item.getUrl());
 	}
 
 	public static void destroy() {
-		getInstance().cancel();
+		get().stop();
 	}
 
 	private void run(String url) {
@@ -33,7 +34,7 @@ public class FileTask {
 			public void run() {
 				download(url);
 			}
-		}, 0, 1000);
+		}, 1000, 1000);
 	}
 
 	private void download(String url) {
@@ -44,7 +45,7 @@ public class FileTask {
 		}
 	}
 
-	private void cancel() {
+	private void stop() {
 		if (timer != null) timer.cancel();
 	}
 }
