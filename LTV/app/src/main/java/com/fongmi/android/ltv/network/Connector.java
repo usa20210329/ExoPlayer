@@ -1,13 +1,10 @@
 package com.fongmi.android.ltv.network;
 
-import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.Utils;
 import com.google.common.net.HttpHeaders;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,9 +13,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class Connector {
-
-	private static final String VND_APPLE_URL = "vnd.apple.mpegurl";
-	private static final String FORCE_DOWN = "force-download";
 
 	private HttpURLConnection conn;
 	private final String url;
@@ -56,27 +50,10 @@ public class Connector {
 
 	public String getPath() throws IOException {
 		if (isRedirect()) return conn.getHeaderField("Location");
-		if (isFile()) return download();
 		return url;
-	}
-
-	public String download() throws IOException {
-		File cacheFile = FileUtil.getCacheFile("index.m3u8");
-		InputStream is = conn.getInputStream();
-		int bytesRead;
-		byte[] buffer = new byte[4096];
-		FileOutputStream os = new FileOutputStream(cacheFile);
-		while (((bytesRead = is.read(buffer)) != -1)) os.write(buffer, 0, bytesRead);
-		os.close();
-		is.close();
-		return cacheFile.getPath();
 	}
 
 	public boolean isRedirect() throws IOException {
 		return conn.getResponseCode() / 100 == 3;
-	}
-
-	public boolean isFile() {
-		return conn.getContentType().contains(VND_APPLE_URL) || conn.getContentType().contains(FORCE_DOWN);
 	}
 }

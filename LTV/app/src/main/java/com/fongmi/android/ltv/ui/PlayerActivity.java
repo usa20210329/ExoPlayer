@@ -23,7 +23,6 @@ import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
 import com.fongmi.android.ltv.network.ApiService;
-import com.fongmi.android.ltv.network.task.FileTask;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
@@ -165,9 +164,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void playVideo(Channel item, String url) {
 		DataSource source = new DataSource(url);
-		source.getHeaders().put(HttpHeaders.USER_AGENT, item.getProvider());
+		source.getHeaders().put(HttpHeaders.USER_AGENT, item.getUa());
 		binding.video.setDataSource(source);
-		FileTask.start(item, url);
 		binding.video.start();
 	}
 
@@ -374,7 +372,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.video.release();
 		TvBus.get().destroy();
 		Force.get().destroy();
-		FileTask.destroy();
 		Clock.destroy();
 		super.onDestroy();
 		System.exit(0);

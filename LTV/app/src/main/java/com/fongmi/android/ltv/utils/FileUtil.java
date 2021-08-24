@@ -37,10 +37,6 @@ public class FileUtil {
 		return new File(getCachePath(), fileName);
 	}
 
-	public static boolean isFile(String path) {
-		return path.contains(App.get().getPackageName());
-	}
-
 	private static void clearFile(File file) {
 		if (file.delete() && BuildConfig.DEBUG) {
 			Log.d(TAG, file.getPath() + " File Deleted");
