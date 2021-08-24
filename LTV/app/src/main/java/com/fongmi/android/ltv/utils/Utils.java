@@ -12,9 +12,12 @@ import android.util.Rational;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.BuildConfig;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.net.HttpHeaders;
 
 public class Utils {
 
@@ -115,6 +118,10 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static GlideUrl getImageUrl(String url) {
+		return new GlideUrl(url, new LazyHeaders.Builder().addHeader(HttpHeaders.USER_AGENT, getUserAgent()).build());
 	}
 
 	static String getAndroidId() {

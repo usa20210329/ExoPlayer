@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
+import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.Locale;
 
@@ -126,11 +127,11 @@ public class Channel extends Bean {
 	}
 
 	public void loadBg(ImageView view) {
-		Glide.with(App.get()).load(Token.getUrl().concat(getBg())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
+		Glide.with(App.get()).load(Utils.getImageUrl(Token.getImg(getBg()))).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
 	public void loadLogo(ImageView view) {
-		Glide.with(App.get()).load(Token.getUrl().concat(getLogo())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
+		Glide.with(App.get()).load(Utils.getImageUrl(Token.getImg(getLogo()))).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
 	public void putKeep() {
