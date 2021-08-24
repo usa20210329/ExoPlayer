@@ -96,7 +96,7 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 			case C.TYPE_HLS:
 			case C.TYPE_OTHER:
 			default:
-				if (source.getPath().startsWith("rtmp://")) {
+				if (source.getPath().startsWith("rtmp://") || source.getPath().endsWith(".ts")) {
 					return new ProgressiveMediaSource.Factory(factory).createMediaSource(mediaItem);
 				} else {
 					return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
