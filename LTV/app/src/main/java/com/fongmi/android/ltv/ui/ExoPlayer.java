@@ -32,7 +32,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
-import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
 import com.google.common.net.HttpHeaders;
@@ -85,7 +84,7 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 	private MediaSource getMedia(@NonNull DataSource source) {
 		Uri videoUri = Uri.parse(source.getPath());
 		com.google.android.exoplayer2.upstream.DataSource.Factory factory = getFactory(source);
-		MediaItem mediaItem = new MediaItem.Builder().setUri(videoUri).setMimeType(MimeTypes.APPLICATION_MPD).build();
+		MediaItem mediaItem = new MediaItem.Builder().setUri(videoUri).build();
 		int type = Util.inferContentType(videoUri);
 		if (type == C.TYPE_HLS || source.getPath().contains(".php")) {
 			return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
