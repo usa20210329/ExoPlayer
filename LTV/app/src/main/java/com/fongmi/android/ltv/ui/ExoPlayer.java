@@ -86,21 +86,17 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 		Uri videoUri = Uri.parse(source.getPath());
 		com.google.android.exoplayer2.upstream.DataSource.Factory factory = getFactory(source);
 		MediaItem mediaItem = new MediaItem.Builder().setUri(videoUri).setMimeType(MimeTypes.APPLICATION_MPD).build();
-		switch (Util.inferContentType(videoUri)) {
-			case C.TYPE_DASH:
-				return new DashMediaSource.Factory(factory).createMediaSource(mediaItem);
-			case C.TYPE_SS:
-				return new SsMediaSource.Factory(factory).createMediaSource(mediaItem);
-			case C.TYPE_RTSP:
-				return new RtspMediaSource.Factory().createMediaSource(mediaItem);
-			case C.TYPE_HLS:
-			case C.TYPE_OTHER:
-			default:
-				if (source.getPath().startsWith("rtmp://") || source.getPath().endsWith(".ts")) {
-					return new ProgressiveMediaSource.Factory(factory).createMediaSource(mediaItem);
-				} else {
-					return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
-				}
+		int type = Util.inferContentType(videoUri);
+		if (type == C.TYPE_HLS || source.getPath().contains(".php")) {
+			return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
+		} else if (type == C.TYPE_DASH) {
+			return new DashMediaSource.Factory(factory).createMediaSource(mediaItem);
+		} else if (type == C.TYPE_SS) {
+			return new SsMediaSource.Factory(factory).createMediaSource(mediaItem);
+		} else if (type == C.TYPE_RTSP) {
+			return new RtspMediaSource.Factory().createMediaSource(mediaItem);
+		} else {
+			return new ProgressiveMediaSource.Factory(factory).createMediaSource(mediaItem);
 		}
 	}
 
