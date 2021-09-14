@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.dao.ChannelDao;
 
-@Database(entities = {Channel.class}, version = 8, exportSchema = false)
+@Database(entities = {Channel.class}, version = 10, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
 	private static volatile AppDatabase instance;
@@ -20,7 +20,7 @@ public abstract class AppDatabase extends RoomDatabase {
 	}
 
 	private static AppDatabase create(Context context) {
-		return Room.databaseBuilder(context, AppDatabase.class, App.getName()).allowMainThreadQueries().fallbackToDestructiveMigration().build();
+		return Room.databaseBuilder(context, AppDatabase.class, "bear").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 	}
 
 	public abstract ChannelDao getDao();

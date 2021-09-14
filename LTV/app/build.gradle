@@ -37,7 +37,7 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "ltv.apk"
+            outputFileName = "bear.apk"
         }
     }
 }

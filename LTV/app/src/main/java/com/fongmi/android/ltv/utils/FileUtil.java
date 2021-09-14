@@ -13,6 +13,7 @@ import com.fongmi.android.ltv.BuildConfig;
 import com.fongmi.android.ltv.R;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.net.URLConnection;
@@ -21,26 +22,18 @@ public class FileUtil {
 
 	private static final String TAG = FileUtil.class.getSimpleName();
 
-	private static String getApkName() {
-		return App.getName().concat(".apk");
-	}
-
 	private static File getCachePath() {
 		return App.get().getExternalCacheDir();
-	}
-
-	private static File getApkFile() {
-		return getCacheFile(getApkName());
 	}
 
 	public static File getCacheFile(String fileName) {
 		return new File(getCachePath(), fileName);
 	}
 
-	private static void clearFile(File file) {
-		if (file.delete() && BuildConfig.DEBUG) {
-			Log.d(TAG, file.getPath() + " File Deleted");
-		}
+	public static void clearDir(File dir) {
+		if (dir == null) return;
+		if (dir.isDirectory()) for (File file : dir.listFiles()) clearDir(file);
+		if (dir.delete()) Log.d(TAG, dir.getPath() + " File Deleted");
 	}
 
 	private static String getMimeType(String fileName) {
@@ -57,12 +50,16 @@ public class FileUtil {
 			Notify.show(R.string.app_update);
 			startDownload();
 		} else {
-			FileUtil.clearFile(getApkFile());
+			clearDir(getCachePath());
 		}
 	}
 
 	private static void startDownload() {
-		FirebaseStorage.getInstance().getReference().child(getApkName()).getFile(getApkFile()).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(getApkFile()));
+		StorageReference ref = FirebaseStorage.getInstance().getReference();
+		ref.listAll().addOnSuccessListener(listResult -> {
+			File apkFile = getCacheFile(listResult.getItems().get(0).getName());
+			ref.child(apkFile.getName()).getFile(apkFile).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(apkFile));
+		});
 	}
 
 	private static void openFile(File file) {

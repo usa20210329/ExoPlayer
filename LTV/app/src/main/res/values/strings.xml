@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
 
     <!-- App -->
-    <string name="app_id">ltv</string>
     <string name="app_name">熊愛電視</string>
     <string name="app_unlock">已解鎖</string>
     <string name="app_update">發現新版本</string>
