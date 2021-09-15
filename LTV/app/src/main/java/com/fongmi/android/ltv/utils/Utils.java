@@ -121,7 +121,7 @@ public class Utils {
 	}
 
 	public static GlideUrl getImageUrl(String url) {
-		return new GlideUrl(url, new LazyHeaders.Builder().addHeader(HttpHeaders.USER_AGENT, getUserAgent()).build());
+		return new GlideUrl(Token.getImg(url), new LazyHeaders.Builder().addHeader(HttpHeaders.USER_AGENT, getUserAgent()).build());
 	}
 
 	public static String getUUID() {
