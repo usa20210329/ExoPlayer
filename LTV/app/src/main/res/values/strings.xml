@@ -4,7 +4,7 @@
     <string name="app_name">熊愛電視</string>
     <string name="app_unlock">已解鎖</string>
     <string name="app_update">發現新版本</string>
-    <string name="app_uuid">授權碼：<xliff:g name="name">%s</xliff:g></string>
+    <string name="app_uuid">UUID : <xliff:g name="name">%s</xliff:g></string>
 
     <!-- Channel -->
     <string name="channel_keep_insert">已加入收藏</string>
