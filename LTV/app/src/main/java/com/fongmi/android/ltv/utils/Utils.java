@@ -124,7 +124,7 @@ public class Utils {
 		return new GlideUrl(url, new LazyHeaders.Builder().addHeader(HttpHeaders.USER_AGENT, getUserAgent()).build());
 	}
 
-	static String getAndroidId() {
+	public static String getUUID() {
 		return Settings.Secure.getString(App.get().getContentResolver(), Settings.Secure.ANDROID_ID);
 	}
 

@@ -42,6 +42,7 @@ import com.king.player.kingplayer.source.DataSource;
 
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
+	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
 	private ActivityPlayerBinding binding;
 	private PlayerAdapter mAdapter;
@@ -78,6 +79,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
 		binding.video.setPlayer(new ExoPlayer(this));
+		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
 		setScaleType();
 	}
@@ -101,6 +103,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		setCustomSize();
 		hideProgress();
 		checkKeep();
+		hideUUID();
 	}
 
 	private void onClick(Channel item) {
@@ -191,6 +194,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
+	private void showUUID() {
+		binding.widget.uuid.setText(Utils.getUUID());
+		Utils.showView(binding.widget.uuid);
+		hideProgress();
+	}
+
+	private void hideUUID() {
+		mHandler.removeCallbacks(mShowUUID);
+		Utils.hideView(binding.widget.uuid);
+	}
+
 	private void hideEpg() {
 		Utils.hideViews(binding.epg.getRoot(), binding.widget.digital);
 	}
@@ -248,7 +262,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void onGear(View view) {
-		Notify.showDialog(this);
+		Notify.showDialog(this, View.GONE);
 	}
 
 	public void onAdd(View view) {

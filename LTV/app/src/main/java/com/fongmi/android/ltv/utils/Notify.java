@@ -1,7 +1,6 @@
 package com.fongmi.android.ltv.utils;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -37,10 +36,6 @@ public class Notify {
 		if (mToast != null) mToast.cancel();
 		mToast = Toast.makeText(App.get(), message, Toast.LENGTH_LONG);
 		mToast.show();
-	}
-
-	public static void showDialog(PlayerActivity context) {
-		showDialog(context, View.GONE);
 	}
 
 	public static void showDialog(PlayerActivity context, int visible) {
