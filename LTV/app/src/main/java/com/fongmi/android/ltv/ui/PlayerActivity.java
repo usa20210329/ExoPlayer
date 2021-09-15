@@ -195,7 +195,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void showUUID() {
-		binding.widget.uuid.setText(Utils.getUUID());
+		binding.widget.uuid.setText(getString(R.string.app_uuid, Utils.getUUID()));
 		Utils.showView(binding.widget.uuid);
 		hideProgress();
 	}

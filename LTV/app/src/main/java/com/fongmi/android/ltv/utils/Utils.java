@@ -136,7 +136,7 @@ public class Utils {
 	}
 
 	static String getVersion() {
-		return BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
+		return BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ", " + Build.VERSION.RELEASE + ")";
 	}
 
 	public static String getUserAgent() {
