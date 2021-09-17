@@ -4,6 +4,7 @@ import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.network.task.DynamicTask;
 import com.fongmi.android.ltv.network.task.EpgTask;
+import com.fongmi.android.ltv.network.task.IPTask;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ApiService {
@@ -32,5 +33,9 @@ public class ApiService {
 	public static void getEpg(Channel item, AsyncCallback callback) {
 		if (get().eTask != null) get().eTask.cancel();
 		get().eTask = EpgTask.create(callback).run(item);
+	}
+
+	public static void getIP() {
+		IPTask.create().run();
 	}
 }

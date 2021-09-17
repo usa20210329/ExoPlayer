@@ -64,6 +64,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this);
 		VerifyReceiver.create(this);
+		ApiService.getIP();
 		showProgress();
 		Token.check();
 		setView();
