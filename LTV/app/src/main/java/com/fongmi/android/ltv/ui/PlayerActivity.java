@@ -99,6 +99,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		FileUtil.checkUpdate(config.getVersion());
 		mAdapter.addAll(config.getChannel());
 		TvBus.get().init(config.getCore());
+		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
 		setCustomSize();
@@ -229,6 +230,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		boolean hasBg = !TextUtils.isEmpty(item.getBg());
 		binding.bg.setVisibility(hasBg ? View.VISIBLE : View.GONE);
 		if (hasBg) item.loadBg(binding.bg);
+	}
+
+	private void setNotice(String notice) {
+		binding.widget.notice.setSelected(true);
+		binding.widget.notice.setText(notice);
 	}
 
 	private void setCustomSize() {

@@ -7,6 +7,7 @@ import java.util.List;
 public class Config {
 
 	private List<Channel> channel;
+	private String notice;
 	private String url;
 	private Core core;
 	private int version;
@@ -17,6 +18,10 @@ public class Config {
 
 	public List<Channel> getChannel() {
 		return channel;
+	}
+
+	public String getNotice() {
+		return notice;
 	}
 
 	public String getUrl() {
