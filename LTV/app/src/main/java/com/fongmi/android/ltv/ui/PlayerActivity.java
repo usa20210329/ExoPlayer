@@ -27,6 +27,7 @@ import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
+import com.fongmi.android.ltv.ui.custom.ExoPlayer;
 import com.fongmi.android.ltv.utils.Clock;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
@@ -233,8 +234,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setNotice(String notice) {
-		binding.widget.notice.setSelected(true);
 		binding.widget.notice.setText(notice);
+		binding.widget.notice.startScroll();
 	}
 
 	private void setCustomSize() {

@@ -4,18 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/notice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="16dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
     <ImageView
         android:id="@+id/gear"
         android:layout_width="wrap_content"
@@ -62,6 +50,19 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:visibility="gone" />
+
+    <com.fongmi.android.ltv.ui.custom.ScrollTextView
+        android:id="@+id/notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <include
         android:id="@+id/keypad"
