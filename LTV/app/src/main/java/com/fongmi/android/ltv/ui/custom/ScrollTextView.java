@@ -11,21 +11,15 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 public class ScrollTextView extends AppCompatTextView {
 
-	private static final int mDuration = 20000;
+	private static final int DURATION = 30 * 1000;
 	private Scroller mScroller;
 
 	public ScrollTextView(Context context) {
 		this(context, null);
-		setSingleLine();
-		setEllipsize(null);
-		setVisibility(INVISIBLE);
 	}
 
 	public ScrollTextView(Context context, AttributeSet attrs) {
 		this(context, attrs, android.R.attr.textViewStyle);
-		setSingleLine();
-		setEllipsize(null);
-		setVisibility(INVISIBLE);
 	}
 
 	public ScrollTextView(Context context, AttributeSet attrs, int defStyle) {
@@ -41,7 +35,7 @@ public class ScrollTextView extends AppCompatTextView {
 		setScroller(mScroller = new Scroller(getContext(), new LinearInterpolator()));
 		int scrollingLen = calculateScrollingLen();
 		int distance = scrollingLen - (getWidth() + width);
-		int duration = (Double.valueOf(mDuration * distance * 1.0 / scrollingLen)).intValue();
+		int duration = (Double.valueOf(DURATION * distance * 1.0 / scrollingLen)).intValue();
 		mScroller.startScroll(width, 0, distance, 0, duration);
 		setVisibility(VISIBLE);
 		invalidate();

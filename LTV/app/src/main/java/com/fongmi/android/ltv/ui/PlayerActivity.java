@@ -83,6 +83,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.video.setPlayer(new ExoPlayer(this));
 		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
+		setCustomSize();
 		setScaleType();
 	}
 
@@ -103,7 +104,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
-		setCustomSize();
 		hideProgress();
 		checkKeep();
 		hideUUID();
@@ -240,6 +240,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void setCustomSize() {
 		binding.widget.digital.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 4 + 30);
+		binding.widget.notice.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.number.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
