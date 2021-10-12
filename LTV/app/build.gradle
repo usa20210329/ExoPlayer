@@ -45,19 +45,20 @@ android {
 dependencies {
     implementation project(path: ':tvbus')
     implementation project(path: ':forcetech')
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.room:room-runtime:2.3.0'
-    implementation 'com.google.code.gson:gson:2.8.8'
-    implementation 'com.google.firebase:firebase-analytics:19.0.2'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
-    implementation 'com.google.firebase:firebase-database:20.0.2'
-    implementation 'com.google.firebase:firebase-firestore:23.0.4'
-    implementation 'com.google.firebase:firebase-storage:20.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.15.1'
     implementation 'com.google.android.exoplayer:extension-rtmp:2.15.1'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-storage'
     implementation 'com.king.player:king-player:1.0.0-beta1'
     implementation 'io.grpc:grpc-okhttp:1.39.0'
     implementation 'org.jsoup:jsoup:1.14.2'
