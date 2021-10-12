@@ -6,7 +6,9 @@ public interface KeyDownImpl {
 
 	void onFind(String number);
 
-	void onKeyVertical(boolean isNext);
+	void onFlip(boolean up);
+
+	void onKeyVertical(boolean next);
 
 	void onKeyLeft();
 

@@ -1,5 +1,6 @@
 package com.fongmi.android.ltv.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.media.AudioManager;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
 import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
 import com.fongmi.android.ltv.ui.custom.ExoPlayer;
+import com.fongmi.android.ltv.ui.custom.FlipDetector;
 import com.fongmi.android.ltv.utils.Clock;
 import com.fongmi.android.ltv.utils.FileUtil;
 import com.fongmi.android.ltv.utils.KeyDown;
@@ -46,6 +49,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
 	private ActivityPlayerBinding binding;
+	private GestureDetector mDetector;
 	private PlayerAdapter mAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
@@ -64,6 +68,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this);
+		mDetector = FlipDetector.create(this);
 		VerifyReceiver.create(this);
 		ApiService.getIP();
 		showProgress();
@@ -71,10 +76,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		setView();
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	private void initEvent() {
 		mAdapter.setOnItemListener(this::onClick);
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
+		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 	}
 
 	private void setView() {
@@ -289,6 +296,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (Utils.hasEvent(event)) return mKeyDown.onKeyDown(event);
+		else return super.dispatchKeyEvent(event);
+	}
+
+	@Override
 	public void onShow(String number) {
 		binding.widget.digital.setText(number);
 		Utils.showView(binding.widget.digital);
@@ -304,15 +317,15 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (Utils.hasEvent(event)) return mKeyDown.onKeyDown(event);
-		else return super.dispatchKeyEvent(event);
+	public void onFlip(boolean up) {
+		if (isVisible(binding.recycler)) return;
+		binding.recycler.scrollToPosition(up ? mAdapter.onMoveUp(true) : mAdapter.onMoveDown(true));
 	}
 
 	@Override
-	public void onKeyVertical(boolean isNext) {
+	public void onKeyVertical(boolean next) {
 		boolean play = !isVisible(binding.recycler);
-		binding.recycler.scrollToPosition(isNext ? mAdapter.onMoveDown(play) : mAdapter.onMoveUp(play));
+		binding.recycler.scrollToPosition(next ? mAdapter.onMoveDown(play) : mAdapter.onMoveUp(play));
 	}
 
 	@Override
