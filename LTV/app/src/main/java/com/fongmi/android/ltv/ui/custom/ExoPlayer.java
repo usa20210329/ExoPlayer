@@ -28,7 +28,6 @@ import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.rtsp.RtspMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
@@ -63,7 +62,9 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 	}
 
 	private SimpleExoPlayer create() {
-		return new SimpleExoPlayer.Builder(mContext, new DefaultRenderersFactory(mContext)).setTrackSelector(new DefaultTrackSelector(mContext)).build();
+		DefaultRenderersFactory factory = new DefaultRenderersFactory(mContext);
+		factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+		return new SimpleExoPlayer.Builder(mContext, factory).build();
 	}
 
 	@Override
