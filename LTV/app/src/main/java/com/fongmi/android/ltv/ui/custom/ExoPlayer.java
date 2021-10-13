@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.fongmi.android.ltv.utils.Utils;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
@@ -62,9 +61,7 @@ public class ExoPlayer extends KingPlayer<SimpleExoPlayer> {
 	}
 
 	private SimpleExoPlayer create() {
-		DefaultRenderersFactory factory = new DefaultRenderersFactory(mContext);
-		factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
-		return new SimpleExoPlayer.Builder(mContext, factory).build();
+		return new SimpleExoPlayer.Builder(mContext).build();
 	}
 
 	@Override
