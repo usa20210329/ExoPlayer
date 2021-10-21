@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.king.player:king-player:1.0.0-beta1'
     implementation 'io.grpc:grpc-okhttp:1.39.0'
-    implementation 'org.jsoup:jsoup:1.14.2'
+    implementation 'org.jsoup:jsoup:1.14.3'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
