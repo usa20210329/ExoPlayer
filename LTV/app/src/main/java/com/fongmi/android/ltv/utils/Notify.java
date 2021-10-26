@@ -1,6 +1,7 @@
 package com.fongmi.android.ltv.utils;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -38,10 +39,10 @@ public class Notify {
 		mToast.show();
 	}
 
-	public static void showDialog(PlayerActivity context, int visible) {
+	public static void showDialog(PlayerActivity context) {
 		DialogSettingBinding binding = DialogSettingBinding.inflate(LayoutInflater.from(context));
 		new AlertDialog.Builder(context).setView(binding.getRoot()).show();
-		binding.control.setVisibility(visible);
+		binding.control.setVisibility(View.VISIBLE);
 		binding.delay.setProgress(Prefers.getDelay());
 		binding.size.setProgress(Prefers.getSize());
 		binding.boot.setChecked(Prefers.isBoot());

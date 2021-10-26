@@ -123,7 +123,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onItemClick(Type item) {
-		if (item.isSetting()) Notify.showDialog(this, View.GONE);
+		if (item.isSetting()) Notify.showDialog(this);
 		else mChannelAdapter.addAll(item, item.getChannel());
 	}
 
@@ -350,6 +350,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyLeft() {
+		if (!isVisible(binding.recycler)) return;
 		mTypeAdapter.setFocus(true);
 		mTypeAdapter.setSelected();
 		mChannelAdapter.setFocus(false);
@@ -358,9 +359,11 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onKeyRight() {
+		if (!isVisible(binding.recycler)) return;
 		mTypeAdapter.setFocus(false);
 		mChannelAdapter.setFocus(true);
 		mChannelAdapter.setSelected();
+		binding.channel.scrollToPosition(mChannelAdapter.getPosition());
 	}
 
 	@Override

@@ -51,6 +51,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		this.focus = focus;
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
 	public void setPosition(int position) {
 		this.position = position;
 	}

@@ -90,13 +90,8 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		notifyDataSetChanged();
 	}
 
-	public void clearSelect() {
-		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
-		notifyDataSetChanged();
-	}
-
 	private void addCount() {
-		if (mHides.isEmpty() || ++count < 5) return;
+		if (mHides.isEmpty() || ++count < 10) return;
 		mItems.addAll(mItems.size() - 1, mHides);
 		Notify.show(R.string.app_unlock);
 		notifyDataSetChanged();
