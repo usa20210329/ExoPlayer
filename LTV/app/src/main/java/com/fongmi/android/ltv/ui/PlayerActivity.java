@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.bean.Config;
+import com.fongmi.android.ltv.bean.Type;
 import com.fongmi.android.ltv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.impl.KeyDownImpl;
@@ -28,7 +28,8 @@ import com.fongmi.android.ltv.network.ApiService;
 import com.fongmi.android.ltv.receiver.VerifyReceiver;
 import com.fongmi.android.ltv.source.Force;
 import com.fongmi.android.ltv.source.TvBus;
-import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
+import com.fongmi.android.ltv.ui.adapter.ChannelAdapter;
+import com.fongmi.android.ltv.ui.adapter.TypeAdapter;
 import com.fongmi.android.ltv.ui.custom.ExoPlayer;
 import com.fongmi.android.ltv.ui.custom.FlipDetector;
 import com.fongmi.android.ltv.utils.Clock;
@@ -50,7 +51,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private final Runnable mHideEpg = this::hideEpg;
 	private ActivityPlayerBinding binding;
 	private GestureDetector mDetector;
-	private PlayerAdapter mAdapter;
+	private ChannelAdapter mChannelAdapter;
+	private TypeAdapter mTypeAdapter;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private int retry;
@@ -78,15 +80,18 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@SuppressLint("ClickableViewAccessibility")
 	private void initEvent() {
-		mAdapter.setOnItemListener(this::onClick);
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
 		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
+		mChannelAdapter.setOnItemListener(this::onChannelClick);
+		mTypeAdapter.setOnItemListener(this::onTypeClick);
 	}
 
 	private void setView() {
-		binding.recycler.setLayoutManager(new LinearLayoutManager(this));
-		binding.recycler.setAdapter(mAdapter = new PlayerAdapter());
+		binding.channel.setLayoutManager(new LinearLayoutManager(this));
+		binding.type.setLayoutManager(new LinearLayoutManager(this));
+		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
+		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
 		binding.video.setPlayer(new ExoPlayer(this));
 		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
@@ -106,7 +111,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
-		mAdapter.addAll(config.getChannel());
+		mTypeAdapter.addAll(config.getType());
 		TvBus.get().init(config.getCore());
 		setNotice(config.getNotice());
 		Token.setConfig(config);
@@ -116,7 +121,15 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		hideUUID();
 	}
 
-	private void onClick(Channel item) {
+	private void onTypeClick(Type item) {
+		if (item.isSetting()) {
+			Notify.showDialog(this, View.GONE);
+		} else {
+			mChannelAdapter.addAll(item, item.getChannel());
+		}
+	}
+
+	private void onChannelClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
 		showProgress();
@@ -156,8 +169,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
-		if (++retry > 3 || mAdapter.getCurrent() == null) onError();
-		else getUrl(mAdapter.getCurrent());
+		if (++retry > 3 || mChannelAdapter.getCurrent() == null) onError();
+		else getUrl(mChannelAdapter.getCurrent());
 	}
 
 	private void onError() {
@@ -195,12 +208,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void showUI() {
-		Utils.showViews(binding.recycler, binding.widget.gear);
+		Utils.showViews(binding.recycler);
 		if (Prefers.isPad()) Utils.showView(binding.widget.keypad.getRoot());
 	}
 
 	private void hideUI() {
-		Utils.hideViews(binding.recycler, binding.widget.gear);
+		Utils.hideViews(binding.recycler);
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
@@ -252,14 +265,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
-		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
-		params.width = Utils.dp2px(Prefers.getSize() * 20 + 260);
-		binding.recycler.setLayoutParams(params);
 	}
 
+	@SuppressLint("NotifyDataSetChanged")
 	public void onSizeChange(int progress) {
 		Prefers.putSize(progress);
-		mAdapter.notifyDataSetChanged();
+		mChannelAdapter.notifyDataSetChanged();
+		mTypeAdapter.notifyDataSetChanged();
 		setCustomSize();
 	}
 
@@ -275,10 +287,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		if (isVisible(binding.recycler)) hideUI();
 		else showUI();
 		hideEpg();
-	}
-
-	public void onGear(View view) {
-		Notify.showDialog(this, View.GONE);
 	}
 
 	public void onAdd(View view) {
@@ -309,28 +317,30 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onFind(String number) {
-		int position = mAdapter.getIndex(number);
-		if (position < 0) Utils.hideView(binding.widget.digital);
-		binding.recycler.scrollToPosition(position);
-		mAdapter.setPosition(position);
-		mAdapter.setChannel();
+		Utils.hideView(binding.widget.digital);
+		int[] position = mTypeAdapter.find(number);
+		if (position[0] == -1 || position[1] == -1) return;
+		mTypeAdapter.setPosition(position[0]); mTypeAdapter.setType();
+		mChannelAdapter.setPosition(position[1]); mChannelAdapter.setChannel();
+		binding.type.scrollToPosition(position[0]);
+		binding.channel.scrollToPosition(position[1]);
 	}
 
 	@Override
 	public void onFlip(boolean up) {
 		if (isVisible(binding.recycler)) return;
-		binding.recycler.scrollToPosition(up ? mAdapter.onMoveUp(true) : mAdapter.onMoveDown(true));
+		binding.channel.scrollToPosition(up ? mChannelAdapter.onMoveUp(true) : mChannelAdapter.onMoveDown(true));
 	}
 
 	@Override
 	public void onKeyVertical(boolean next) {
 		boolean play = !isVisible(binding.recycler);
-		binding.recycler.scrollToPosition(next ? mAdapter.onMoveDown(play) : mAdapter.onMoveUp(play));
+		binding.channel.scrollToPosition(next ? mChannelAdapter.onMoveDown(play) : mChannelAdapter.onMoveUp(play));
 	}
 
 	@Override
 	public void onKeyLeft() {
-		mAdapter.addCount();
+		//mChanAdapter.addCount();
 	}
 
 	@Override
@@ -341,7 +351,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onKeyCenter() {
 		if (isVisible(binding.recycler)) {
-			mAdapter.setChannel();
+			mChannelAdapter.setChannel();
 		} else {
 			showUI(); hideEpg();
 		}
@@ -354,7 +364,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	public void onLongPress() {
-		mAdapter.onKeep();
+		mChannelAdapter.onKeep();
 	}
 
 	@Override

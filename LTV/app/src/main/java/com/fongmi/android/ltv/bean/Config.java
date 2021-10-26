@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Config {
 
-	private List<Channel> channel;
+	private List<Type> type;
 	private String notice;
 	private String url;
 	private Core core;
@@ -16,8 +16,8 @@ public class Config {
 		return data.getValue(Config.class);
 	}
 
-	public List<Channel> getChannel() {
-		return channel;
+	public List<Type> getType() {
+		return type;
 	}
 
 	public String getNotice() {

@@ -22,13 +22,10 @@ public class Channel extends Bean {
 	@NonNull
 	@PrimaryKey
 	private String number;
-	private String name;
-	private String logo;
 	private String epg;
 	private String url;
 	private String ua;
 	private String bg;
-	private boolean hidden;
 	private boolean dynamic;
 
 	public static Channel create(String number) {
@@ -51,22 +48,6 @@ public class Channel extends Bean {
 
 	public void setNumber(@NonNull String number) {
 		this.number = number;
-	}
-
-	public String getName() {
-		return TextUtils.isEmpty(name) ? "" : name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
 	}
 
 	public String getEpg() {
@@ -101,14 +82,6 @@ public class Channel extends Bean {
 		this.ua = ua;
 	}
 
-	public boolean isHidden() {
-		return hidden;
-	}
-
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
-	}
-
 	public boolean isDynamic() {
 		return dynamic;
 	}
@@ -129,29 +102,12 @@ public class Channel extends Bean {
 		Glide.with(App.get()).load(Utils.getImageUrl(getBg())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
-	public void loadLogo(ImageView view) {
-		Glide.with(App.get()).load(Utils.getImageUrl(getLogo())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
-	}
-
 	public void putKeep() {
-		if (!isHidden()) Prefers.putKeep(getNumber());
+		Prefers.putKeep(getNumber());
 	}
 
 	public String getDigital() {
 		return Integer.valueOf(getNumber()).toString();
-	}
-
-	public Channel get() {
-		Channel item = new Channel();
-		item.setDynamic(isDynamic());
-		item.setNumber(getNumber());
-		item.setHidden(isHidden());
-		item.setName(getName());
-		item.setLogo(getLogo());
-		item.setEpg(getEpg());
-		item.setUrl(getUrl());
-		item.setUa(getUa());
-		return item;
 	}
 
 	@Override

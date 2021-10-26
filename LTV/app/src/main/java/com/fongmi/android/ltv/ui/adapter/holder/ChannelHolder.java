@@ -4,25 +4,31 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.databinding.AdapterChannelBinding;
-import com.fongmi.android.ltv.ui.adapter.PlayerAdapter;
+import com.fongmi.android.ltv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Utils;
 
-public class ChannelHolder extends BaseHolder implements View.OnLongClickListener {
+public class ChannelHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
 	private final AdapterChannelBinding binding;
+	private final ChannelAdapter adapter;
 
-	public ChannelHolder(PlayerAdapter adapter, AdapterChannelBinding binding) {
-		super(binding.getRoot(), adapter);
+	public ChannelHolder(ChannelAdapter adapter, @NonNull AdapterChannelBinding binding) {
+		super(binding.getRoot());
 		this.binding = binding;
+		this.adapter = adapter;
+		itemView.setOnClickListener(this);
 		itemView.setOnLongClickListener(this);
 	}
 
 	@Override
 	public void onClick(View view) {
-		super.onClick(view);
+		adapter.setPosition(getLayoutPosition());
 		adapter.setChannel();
 	}
 

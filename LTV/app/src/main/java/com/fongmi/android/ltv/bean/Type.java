@@ -1,30 +1,58 @@
 package com.fongmi.android.ltv.bean;
 
-import com.fongmi.android.ltv.utils.Prefers;
+import com.fongmi.android.ltv.AppDatabase;
+import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.utils.Utils;
+
+import java.util.List;
 
 public class Type extends Bean {
 
-	private String name;
+	private int id;
+	private boolean hidden;
+	private List<Channel> channel;
 
-	public static Type create(int resId) {
-		return new Type(Utils.getString(resId));
+	public static Type create(int id) {
+		Type type = new Type();
+		type.setId(id);
+		type.setName(Utils.getString(id));
+		type.setLogo(type.isKeep() ? "keep.png" : "setting.png");
+		return type;
 	}
 
-	private Type(String name) {
-		this.name = name;
+	public Type() {
 	}
 
-	public String getName() {
-		return name;
+	public int getId() {
+		return id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public int getTextSize() {
-		return Prefers.getSize() * 2 + 16;
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public List<Channel> getChannel() {
+		return isKeep() ? AppDatabase.get().getDao().getKeep() : channel;
+	}
+
+	public void setChannel(List<Channel> channel) {
+		this.channel = channel;
+	}
+
+	public boolean isKeep() {
+		return getId() == R.string.channel_type_keep;
+	}
+
+	public boolean isSetting() {
+		return getId() == R.string.channel_type_setting;
+	}
+
+	public int find(String number) {
+		return getChannel().lastIndexOf(Channel.create(number));
 	}
 
 	@Override

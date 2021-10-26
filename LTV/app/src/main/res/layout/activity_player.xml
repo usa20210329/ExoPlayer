@@ -17,17 +17,37 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:id="@+id/recycler"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:alpha="0"
         android:background="@drawable/shadow"
-        android:minWidth="260dp"
+        android:orientation="horizontal"
         android:visibility="gone"
         tools:alpha="1"
-        tools:listitem="@layout/adapter_channel"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_type" />
+
+        <View
+            android:layout_width="0.3dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey_500" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/channel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_channel" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/epg"
