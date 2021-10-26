@@ -22,6 +22,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	private OnItemClickListener mItemClickListener;
 	private final List<Type> mItems;
 	private final List<Type> mHides;
+	private boolean focus;
 	private int position;
 	private int count;
 
@@ -37,6 +38,14 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 
 	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
+	}
+
+	public boolean isFocus() {
+		return focus;
+	}
+
+	public void setFocus(boolean focus) {
+		this.focus = focus;
 	}
 
 	public void setPosition(int position) {
@@ -58,12 +67,31 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	public void setType() {
 		Type item = mItems.get(position);
 		mItemClickListener.onItemClick(item);
-		if (!item.isSetting()) setSelected();
 		if (item.isKeep()) addCount();
+		setSelected();
 	}
 
-	private void setSelected() {
+	public int onMoveUp() {
+		if (mItems.isEmpty()) return 0;
+		this.position = position > 0 ? --position : mItems.size() - 1;
+		if (mItems.get(position).isSetting()) setSelected(); else setType();
+		return position;
+	}
+
+	public int onMoveDown() {
+		if (mItems.isEmpty()) return 0;
+		this.position = position < mItems.size() - 1 ? ++position : 0;
+		if (mItems.get(position).isSetting()) setSelected(); else setType();
+		return position;
+	}
+
+	public void setSelected() {
 		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(i == position);
+		notifyDataSetChanged();
+	}
+
+	public void clearSelect() {
+		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
 		notifyDataSetChanged();
 	}
 

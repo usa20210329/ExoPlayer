@@ -8,9 +8,10 @@ import java.util.List;
 
 public class Type extends Bean {
 
-	private int id;
-	private boolean hidden;
 	private List<Channel> channel;
+	private boolean hidden;
+	private int position;
+	private int id;
 
 	public static Type create(int id) {
 		Type type = new Type();
@@ -29,6 +30,14 @@ public class Type extends Bean {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	public boolean isHidden() {

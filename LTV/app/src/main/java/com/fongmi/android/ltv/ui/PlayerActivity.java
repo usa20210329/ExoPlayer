@@ -162,8 +162,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void checkKeep() {
-		if (Prefers.getKeep().isEmpty()) showUI();
-		else onFind(Prefers.getKeep());
+		if (Prefers.getKeep().isEmpty()) {
+			mTypeAdapter.setFocus(true);
+			showUI();
+		} else {
+			mChannelAdapter.setFocus(true);
+			onFind(Prefers.getKeep());
+		}
 	}
 
 	private void onRetry(int event, @Nullable Bundle bundle) {
@@ -271,8 +276,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@SuppressLint("NotifyDataSetChanged")
 	public void onSizeChange(int progress) {
 		Prefers.putSize(progress);
-		mChannelAdapter.notifyDataSetChanged();
 		mTypeAdapter.notifyDataSetChanged();
+		mChannelAdapter.notifyDataSetChanged();
 		setCustomSize();
 	}
 
@@ -336,25 +341,36 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onKeyVertical(boolean next) {
 		boolean play = !isVisible(binding.recycler);
-		binding.channel.scrollToPosition(next ? mChannelAdapter.onMoveDown(play) : mChannelAdapter.onMoveUp(play));
+		if (mChannelAdapter.isFocus()) {
+			binding.channel.scrollToPosition(next ? mChannelAdapter.onMoveDown(play) : mChannelAdapter.onMoveUp(play));
+		} else if (mTypeAdapter.isFocus()) {
+			binding.type.scrollToPosition(next ? mTypeAdapter.onMoveDown() : mTypeAdapter.onMoveUp());
+		}
 	}
 
 	@Override
 	public void onKeyLeft() {
-		//mChanAdapter.addCount();
+		mTypeAdapter.setFocus(true);
+		mTypeAdapter.setSelected();
+		mChannelAdapter.setFocus(false);
+		mChannelAdapter.clearSelect();
 	}
 
 	@Override
 	public void onKeyRight() {
-		Notify.showDialog(this, View.VISIBLE);
+		mTypeAdapter.setFocus(false);
+		mChannelAdapter.setFocus(true);
+		mChannelAdapter.setSelected();
 	}
 
 	@Override
 	public void onKeyCenter() {
 		if (isVisible(binding.recycler)) {
-			mChannelAdapter.setChannel();
+			if (mChannelAdapter.isFocus()) mChannelAdapter.setChannel();
+			else if (mTypeAdapter.isFocus()) mTypeAdapter.setType();
 		} else {
-			showUI(); hideEpg();
+			showUI();
+			hideEpg();
 		}
 	}
 

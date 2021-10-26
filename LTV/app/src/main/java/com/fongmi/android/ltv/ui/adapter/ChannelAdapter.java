@@ -25,6 +25,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 	private OnItemClickListener mItemClickListener;
 	private final List<Channel> mItems;
 	private final ChannelDao mDao;
+	private boolean focus;
 	private int position;
 	private Type mType;
 
@@ -40,6 +41,14 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 
 	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
+	}
+
+	public boolean isFocus() {
+		return focus;
+	}
+
+	public void setFocus(boolean focus) {
+		this.focus = focus;
 	}
 
 	public void setPosition(int position) {
@@ -58,6 +67,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		setType(type);
 		mItems.clear();
 		mItems.addAll(items);
+		setPosition(type.getPosition());
 		notifyDataSetChanged();
 	}
 
@@ -82,10 +92,16 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		notifyDataSetChanged();
 	}
 
+	public void clearSelect() {
+		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
+		notifyDataSetChanged();
+	}
+
 	public void setChannel() {
 		if (position < 0 || position > mItems.size() - 1) return;
 		if (!getType().isHidden()) mItems.get(position).putKeep();
 		mItemClickListener.onItemClick(mItems.get(position));
+		getType().setPosition(position);
 		setSelected();
 	}
 
