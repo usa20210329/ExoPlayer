@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,8 +84,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnPlayerEventListener(this::onPrepared);
 		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
-		mChannelAdapter.setOnItemListener(this::onChannelClick);
-		mTypeAdapter.setOnItemListener(this::onTypeClick);
+		mChannelAdapter.setOnItemClickListener(this::onItemClick);
+		mTypeAdapter.setOnItemClickListener(this::onItemClick);
 	}
 
 	private void setView() {
@@ -121,15 +122,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		hideUUID();
 	}
 
-	private void onTypeClick(Type item) {
-		if (item.isSetting()) {
-			Notify.showDialog(this, View.GONE);
-		} else {
-			mChannelAdapter.addAll(item, item.getChannel());
-		}
+	private void onItemClick(Type item) {
+		if (item.isSetting()) Notify.showDialog(this, View.GONE);
+		else mChannelAdapter.addAll(item, item.getChannel());
 	}
 
-	private void onChannelClick(Channel item) {
+	private void onItemClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
 		showProgress();
@@ -265,6 +263,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.epg.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
+		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
+		params.width = Utils.dp2px(Prefers.getSize() * 24 + 380);
+		binding.recycler.setLayoutParams(params);
 	}
 
 	@SuppressLint("NotifyDataSetChanged")

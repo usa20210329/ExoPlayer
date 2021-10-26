@@ -38,7 +38,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		void onItemClick(Channel item);
 	}
 
-	public void setOnItemListener(OnItemClickListener itemClickListener) {
+	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
 	}
 

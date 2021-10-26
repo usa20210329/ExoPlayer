@@ -35,7 +35,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		void onItemClick(Type item);
 	}
 
-	public void setOnItemListener(OnItemClickListener itemClickListener) {
+	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
 		this.mItemClickListener = itemClickListener;
 	}
 
