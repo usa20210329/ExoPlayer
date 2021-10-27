@@ -351,9 +351,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onKeyLeft() {
 		if (!isVisible(binding.recycler)) return;
-		mTypeAdapter.setFocus(true);
 		mTypeAdapter.setSelected();
-		mChannelAdapter.setFocus(false);
 		mChannelAdapter.clearSelect();
 		binding.type.scrollToPosition(mTypeAdapter.getPosition());
 	}
@@ -361,9 +359,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onKeyRight() {
 		if (!isVisible(binding.recycler)) return;
-		mTypeAdapter.setFocus(false);
 		mTypeAdapter.clearSelect();
-		mChannelAdapter.setFocus(true);
 		mChannelAdapter.setSelected();
 		binding.channel.scrollToPosition(mChannelAdapter.getPosition());
 	}
@@ -384,9 +380,23 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		Notify.showDialog(this, true);
 	}
 
+	private void reposition() {
+		Channel c = mChannelAdapter.getCurrent();
+		if (c == null) return;
+		Type type = c.getType();
+		if (type == mChannelAdapter.getType()) return;
+		mTypeAdapter.setPosition(type.getId());
+		mTypeAdapter.clearSelect();
+		mTypeAdapter.setType();
+		binding.channel.scrollToPosition(type.getPosition());
+		mChannelAdapter.setPosition(type.getPosition());
+		mChannelAdapter.setSelected();
+	}
+
 	@Override
 	public void onKeyBack() {
 		onBackPressed();
+		reposition();
 	}
 
 	@Override

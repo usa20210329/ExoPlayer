@@ -69,6 +69,6 @@ public class Type extends Bean {
 		if (this == obj) return true;
 		if (!(obj instanceof Type)) return false;
 		Type it = (Type) obj;
-		return getName().equals(it.getName());
+		return getId() == it.getId();
 	}
 }

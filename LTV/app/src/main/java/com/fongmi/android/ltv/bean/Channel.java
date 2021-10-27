@@ -28,6 +28,9 @@ public class Channel extends Bean {
 	private String bg;
 	private boolean dynamic;
 
+	@Ignore
+	private Type type;
+
 	public static Channel create(String number) {
 		return new Channel(String.format(Locale.getDefault(), "%03d", Integer.valueOf(number)));
 	}
@@ -88,6 +91,14 @@ public class Channel extends Bean {
 
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	public boolean isTvBus() {
