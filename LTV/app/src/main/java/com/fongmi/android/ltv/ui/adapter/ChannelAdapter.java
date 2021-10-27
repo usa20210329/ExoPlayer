@@ -76,10 +76,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		this.mType = type;
 	}
 
-	public void addAll(Type type, List<Channel> items) {
+	public void addAll(Type type) {
 		setType(type);
 		mItems.clear();
-		mItems.addAll(items);
+		mItems.addAll(type.getChannel());
 		setPosition(type.getPosition());
 		notifyDataSetChanged();
 	}

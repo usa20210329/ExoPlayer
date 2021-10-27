@@ -124,7 +124,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void onItemClick(Type item, boolean tv) {
 		if (item.isSetting()) Notify.showDialog(this, tv);
-		else mChannelAdapter.addAll(item, item.getChannel());
+		else mChannelAdapter.addAll(item);
 	}
 
 	private void onItemClick(Channel item) {
@@ -387,10 +387,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		if (type == mChannelAdapter.getType()) return;
 		mTypeAdapter.setPosition(type.getId());
 		mTypeAdapter.clearSelect();
-		mTypeAdapter.setType();
-		binding.channel.scrollToPosition(type.getPosition());
-		mChannelAdapter.setPosition(type.getPosition());
+		mChannelAdapter.addAll(type);
 		mChannelAdapter.setSelected();
+		binding.channel.scrollToPosition(type.getPosition());
 	}
 
 	@Override
