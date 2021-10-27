@@ -33,7 +33,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 
 	public interface OnItemClickListener {
 
-		void onItemClick(Type item);
+		void onItemClick(Type item, boolean tv);
 	}
 
 	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -48,8 +48,16 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		this.focus = focus;
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
 	public void setPosition(int position) {
 		this.position = position;
+	}
+
+	private Type getItem() {
+		return mItems.get(position);
 	}
 
 	public void addAll(List<Type> items) {
@@ -65,23 +73,21 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	}
 
 	public void setType() {
-		Type item = mItems.get(position);
-		mItemClickListener.onItemClick(item);
-		if (item.isKeep()) addCount();
+		mItemClickListener.onItemClick(getItem(), false);
 		setSelected();
 	}
 
 	public int onMoveUp() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position > 0 ? --position : mItems.size() - 1;
-		if (mItems.get(position).isSetting()) setSelected(); else setType();
+		if (getItem().isSetting()) setSelected(); else setType();
 		return position;
 	}
 
 	public int onMoveDown() {
 		if (mItems.isEmpty()) return 0;
 		this.position = position < mItems.size() - 1 ? ++position : 0;
-		if (mItems.get(position).isSetting()) setSelected(); else setType();
+		if (getItem().isSetting()) setSelected(); else setType();
 		return position;
 	}
 
@@ -90,12 +96,21 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		notifyDataSetChanged();
 	}
 
-	private void addCount() {
-		if (mHides.isEmpty() || ++count < 10) return;
+	public void clearSelect() {
+		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
+		notifyDataSetChanged();
+	}
+
+	public void addCount() {
+		if (!getItem().isKeep() || mHides.isEmpty() || ++count < 5) return;
 		mItems.addAll(mItems.size() - 1, mHides);
 		Notify.show(R.string.app_unlock);
 		notifyDataSetChanged();
 		mHides.clear();
+	}
+
+	public void onKeyCenter() {
+		addCount(); mItemClickListener.onItemClick(getItem(), true);
 	}
 
 	public int[] find(String number) {

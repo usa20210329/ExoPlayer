@@ -16,6 +16,8 @@ public interface KeyDownImpl {
 
 	void onKeyCenter();
 
+	void onKeyMenu();
+
 	void onKeyBack();
 
 	void onLongPress();

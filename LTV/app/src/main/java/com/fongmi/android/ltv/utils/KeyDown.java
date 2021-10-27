@@ -38,7 +38,7 @@ public class KeyDown {
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isBackKey(event)) {
 			mKeyDown.onKeyBack();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isMenuKey(event)) {
-			mKeyDown.onLongPress();
+			mKeyDown.onKeyMenu();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isDigitKey(event)) {
 			onKeyDown(event.getKeyCode());
 		} else if (Utils.isEnterKey(event)) {

@@ -39,10 +39,10 @@ public class Notify {
 		mToast.show();
 	}
 
-	public static void showDialog(PlayerActivity context) {
+	public static void showDialog(PlayerActivity context, boolean tv) {
 		DialogSettingBinding binding = DialogSettingBinding.inflate(LayoutInflater.from(context));
 		new AlertDialog.Builder(context).setView(binding.getRoot()).show();
-		binding.control.setVisibility(View.VISIBLE);
+		binding.control.setVisibility(tv ? View.VISIBLE : View.GONE);
 		binding.delay.setProgress(Prefers.getDelay());
 		binding.size.setProgress(Prefers.getSize());
 		binding.boot.setChecked(Prefers.isBoot());

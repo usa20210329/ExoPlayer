@@ -122,8 +122,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		hideUUID();
 	}
 
-	private void onItemClick(Type item) {
-		if (item.isSetting()) Notify.showDialog(this);
+	private void onItemClick(Type item, boolean tv) {
+		if (item.isSetting()) Notify.showDialog(this, tv);
 		else mChannelAdapter.addAll(item, item.getChannel());
 	}
 
@@ -355,12 +355,14 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mTypeAdapter.setSelected();
 		mChannelAdapter.setFocus(false);
 		mChannelAdapter.clearSelect();
+		binding.type.scrollToPosition(mTypeAdapter.getPosition());
 	}
 
 	@Override
 	public void onKeyRight() {
 		if (!isVisible(binding.recycler)) return;
 		mTypeAdapter.setFocus(false);
+		mTypeAdapter.clearSelect();
 		mChannelAdapter.setFocus(true);
 		mChannelAdapter.setSelected();
 		binding.channel.scrollToPosition(mChannelAdapter.getPosition());
@@ -370,11 +372,16 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onKeyCenter() {
 		if (isVisible(binding.recycler)) {
 			if (mChannelAdapter.isFocus()) mChannelAdapter.setChannel();
-			else if (mTypeAdapter.isFocus()) mTypeAdapter.setType();
+			else if (mTypeAdapter.isFocus()) mTypeAdapter.onKeyCenter();
 		} else {
 			showUI();
 			hideEpg();
 		}
+	}
+
+	@Override
+	public void onKeyMenu() {
+		Notify.showDialog(this, true);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.fongmi.android.ltv.impl.KeyDownImpl;
 
 public class FlipDetector implements GestureDetector.OnGestureListener {
 
-	private static final int DISTANCE = 250;
+	private static final int DISTANCE = 50;
 	private final KeyDownImpl mKeyDown;
 
 	public static GestureDetector create(Context context) {
