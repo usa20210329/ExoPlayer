@@ -46,6 +46,8 @@ import com.king.player.kingplayer.IPlayer;
 import com.king.player.kingplayer.KingPlayer;
 import com.king.player.kingplayer.source.DataSource;
 
+import java.util.Objects;
+
 public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
@@ -89,6 +91,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void setView() {
+		Objects.requireNonNull(binding.channel.getItemAnimator()).setChangeDuration(0);
+		Objects.requireNonNull(binding.type.getItemAnimator()).setChangeDuration(0);
 		binding.channel.setLayoutManager(new LinearLayoutManager(this));
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
@@ -124,7 +128,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void onItemClick(Type item, boolean tv) {
 		if (item.isSetting()) Notify.showDialog(this, tv);
-		else mChannelAdapter.addAll(item);
+		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
 	}
 
 	private void onItemClick(Channel item) {
@@ -384,18 +388,23 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		Channel c = mChannelAdapter.getCurrent();
 		if (c == null) return;
 		Type type = c.getType();
-		if (type == mChannelAdapter.getType()) return;
-		mTypeAdapter.setPosition(type.getId());
-		mTypeAdapter.clearSelect();
-		mChannelAdapter.addAll(type);
-		mChannelAdapter.setSelected();
-		binding.channel.scrollToPosition(type.getPosition());
+		if (type == mChannelAdapter.getType()) {
+			binding.channel.scrollToPosition(type.getPosition());
+			mChannelAdapter.setPosition(type.getPosition());
+			mChannelAdapter.setSelected();
+		} else {
+			mTypeAdapter.clearSelect();
+			mTypeAdapter.setPosition(type.getId());
+			mChannelAdapter.addAll(type);
+			mChannelAdapter.setSelected();
+			binding.channel.scrollToPosition(type.getPosition());
+		}
 	}
 
 	@Override
 	public void onKeyBack() {
+		mHandler.postDelayed(this::reposition, 250);
 		onBackPressed();
-		reposition();
 	}
 
 	@Override

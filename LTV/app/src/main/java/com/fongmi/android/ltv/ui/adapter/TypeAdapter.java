@@ -48,12 +48,12 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		this.focus = focus;
 	}
 
-	public void setPosition(int position) {
-		this.position = position;
-	}
-
 	public int getPosition() {
 		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	private Type getItem() {
@@ -97,16 +97,18 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	}
 
 	public void clearSelect() {
-		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
-		notifyDataSetChanged();
+		if (mItems.isEmpty()) return;
+		getItem().setSelect(false);
+		notifyItemChanged(position);
 		setFocus(false);
 	}
 
 	public void addCount() {
 		if (!getItem().isKeep() || mHides.isEmpty() || ++count < 5) return;
-		mItems.addAll(mItems.size() - 1, mHides);
+		int position = mItems.size() - 1;
+		mItems.addAll(position, mHides);
+		notifyItemRangeInserted(position, mHides.size());
 		Notify.show(R.string.app_unlock);
-		notifyDataSetChanged();
 		mHides.clear();
 	}
 

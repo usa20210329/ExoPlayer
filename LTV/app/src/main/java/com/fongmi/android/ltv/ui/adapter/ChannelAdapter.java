@@ -68,6 +68,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 		this.position = position;
 	}
 
+	private Channel getItem() {
+		return mItems.get(position);
+	}
+
 	public Type getType() {
 		return mType;
 	}
@@ -78,6 +82,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 
 	public void addAll(Type type) {
 		setType(type);
+		clearSelect();
 		mItems.clear();
 		mItems.addAll(type.getChannel());
 		setPosition(type.getPosition());
@@ -107,29 +112,28 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 	}
 
 	public void clearSelect() {
-		for (int i = 0; i < mItems.size(); i++) mItems.get(i).setSelect(false);
-		notifyDataSetChanged();
+		if (mItems.isEmpty()) return;
+		getItem().setSelect(false);
+		notifyItemChanged(position);
 		setFocus(false);
 	}
 
 	public void setChannel() {
 		if (position < 0 || position > mItems.size() - 1) return;
-		Channel item = mItems.get(position);
-		if (!getType().isHidden()) item.putKeep();
-		mItemClickListener.onItemClick(item);
+		if (!getType().isHidden()) getItem().putKeep();
+		mItemClickListener.onItemClick(getItem());
 		getType().setPosition(position);
-		item.setType(getType());
-		setCurrent(item);
+		getItem().setType(getType());
+		setCurrent(getItem());
 		setSelected();
 	}
 
 	public boolean onKeep() {
 		if (getType().isHidden() || mItems.isEmpty() || position < 0) return false;
-		Channel item = mItems.get(position);
-		boolean exist = mDao.getCount(item.getNumber()) > 0;
+		boolean exist = mDao.getCount(getItem().getNumber()) > 0;
 		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
-		if (exist) delete(item);
-		else mDao.insert(item);
+		if (exist) delete(getItem());
+		else mDao.insert(getItem());
 		return true;
 	}
 

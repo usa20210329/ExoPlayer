@@ -66,6 +66,7 @@ public class Type extends Bean {
 
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null) return false;
 		if (this == obj) return true;
 		if (!(obj instanceof Type)) return false;
 		Type it = (Type) obj;
