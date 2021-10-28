@@ -2,11 +2,17 @@ package com.fongmi.android.ltv.impl;
 
 public interface KeyDownImpl {
 
+	void onTapUp();
+
 	void onShow(String number);
 
 	void onFind(String number);
 
 	void onFlip(boolean up);
+
+	void onSeek(boolean forward);
+
+	void onSeek(int time);
 
 	void onKeyVertical(boolean next);
 

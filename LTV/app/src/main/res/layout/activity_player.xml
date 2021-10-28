@@ -8,8 +8,7 @@
     <com.king.player.kingplayer.view.VideoView
         android:id="@+id/video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="onToggle" />
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/bg"

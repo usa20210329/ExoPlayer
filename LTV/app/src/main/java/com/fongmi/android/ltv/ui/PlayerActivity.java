@@ -56,6 +56,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private GestureDetector mDetector;
 	private ChannelAdapter mChannelAdapter;
 	private TypeAdapter mTypeAdapter;
+	private ExoPlayer mPlayer;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private int retry;
@@ -97,7 +98,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
-		binding.video.setPlayer(new ExoPlayer(this));
+		binding.video.setPlayer(mPlayer = new ExoPlayer(this));
 		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
 		setCustomSize();
@@ -190,9 +191,10 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void onPrepared(int event, @Nullable Bundle bundle) {
-		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE) return;
-		if (bundle == null || bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT) != Player.STATE_READY) return;
-		hideProgress();
+		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE || bundle == null) return;
+		event = bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT);
+		if (event == Player.STATE_BUFFERING) showProgress();
+		else if (event == Player.STATE_READY) hideProgress();
 	}
 
 	private void playVideo(Channel item, String url) {
@@ -292,12 +294,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
 	}
 
-	public void onToggle(View view) {
-		if (isVisible(binding.recycler)) hideUI();
-		else showUI();
-		hideEpg();
-	}
-
 	public void onAdd(View view) {
 		AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
@@ -316,6 +312,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (Utils.hasEvent(event)) return mKeyDown.onKeyDown(event);
 		else return super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public void onTapUp() {
+		if (isVisible(binding.recycler)) hideUI();
+		else showUI();
+		hideEpg();
 	}
 
 	@Override
@@ -339,6 +342,19 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onFlip(boolean up) {
 		if (isVisible(binding.recycler)) return;
 		binding.channel.scrollToPosition(up ? mChannelAdapter.onMoveUp(true) : mChannelAdapter.onMoveDown(true));
+	}
+
+	@Override
+	public void onSeek(boolean forward) {
+		if (isVisible(binding.recycler)) return;
+		if (forward) mPlayer.getPlayer().seekForward();
+		else mPlayer.getPlayer().seekBack();
+	}
+
+	@Override
+	public void onSeek(int time) {
+		if (isVisible(binding.recycler)) return;
+		mPlayer.getPlayer().seekTo(mPlayer.getCurrentPosition() + time);
 	}
 
 	@Override

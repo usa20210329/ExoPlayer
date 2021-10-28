@@ -31,6 +31,10 @@ public class KeyDown {
 			mKeyDown.onKeyVertical(Prefers.isRev());
 		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isDownKey(event)) {
 			mKeyDown.onKeyVertical(!Prefers.isRev());
+		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isLeftKey(event)) {
+			mKeyDown.onSeek(false);
+		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isRightKey(event)) {
+			mKeyDown.onSeek(true);
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isLeftKey(event)) {
 			mKeyDown.onKeyLeft();
 		} else if (event.getAction() == KeyEvent.ACTION_UP && Utils.isRightKey(event)) {
