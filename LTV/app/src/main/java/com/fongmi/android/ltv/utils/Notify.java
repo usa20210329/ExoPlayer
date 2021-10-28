@@ -64,7 +64,8 @@ public class Notify {
 		binding.size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				context.onSizeChange(progress);
+				Prefers.putSize(progress);
+				context.onSizeChange();
 			}
 		});
 		binding.delay.setOnSeekBarChangeListener(new SeekBarListener() {

@@ -278,10 +278,9 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
-	public void onSizeChange(int progress) {
-		Prefers.putSize(progress);
-		mTypeAdapter.notifyDataSetChanged();
+	public void onSizeChange() {
 		mChannelAdapter.notifyDataSetChanged();
+		mTypeAdapter.notifyDataSetChanged();
 		setCustomSize();
 	}
 
