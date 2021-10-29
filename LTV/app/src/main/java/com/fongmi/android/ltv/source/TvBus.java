@@ -6,6 +6,7 @@ import android.os.Looper;
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.bean.Config.Core;
 import com.fongmi.android.ltv.impl.AsyncCallback;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tvbus.engine.TVCore;
@@ -68,7 +69,7 @@ public class TvBus implements TVListener {
 	public void onStop(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		int errno = json.get("errno").getAsInt();
-		if (errno < 0 && callback != null) handler.post(() -> callback.onFail());
+		if (errno < 0 && callback != null) handler.post(() -> callback.onError(new PlaybackException(null, null, errno)));
 	}
 
 	@Override

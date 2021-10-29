@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -40,10 +39,12 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
+import com.google.android.exoplayer2.PlaybackException;
+import com.google.android.exoplayer2.Player;
 
 import java.util.Objects;
 
-public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements Player.Listener, VerifyReceiver.Callback, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
@@ -54,7 +55,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private ExoPlayer mPlayer;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
-	private int retry;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +73,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		mDetector = FlipDetector.create(this);
 		VerifyReceiver.create(this);
 		ApiService.getIP();
+		showProgress();
 		Token.check();
 		setView();
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
 	private void initEvent() {
-		//binding.video.setOnErrorListener(this::onRetry);
-		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
-		mChannelAdapter.setOnItemClickListener(this::onItemClick);
+		mPlayer.addListener(this);
 		mTypeAdapter.setOnItemClickListener(this::onItemClick);
+		mChannelAdapter.setOnItemClickListener(this::onItemClick);
+		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 	}
 
 	private void setView() {
@@ -129,6 +130,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void onItemClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
+		showProgress();
 		showEpg(item);
 		showBg(item);
 		getEpg(item);
@@ -144,8 +146,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 			}
 
 			@Override
-			public void onFail() {
-				onRetry(0, null);
+			public void onError(PlaybackException error) {
+				onPlayerError(error);
 			}
 		});
 	}
@@ -169,21 +171,29 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		}
 	}
 
-	private void onRetry(int event, @Nullable Bundle bundle) {
-		if (++retry > 3 || mChannelAdapter.getCurrent() == null) onError();
-		else getUrl(mChannelAdapter.getCurrent());
+	@Override
+	public void onPlaybackStateChanged(int state) {
+		if (state == Player.STATE_READY) hideProgress();
 	}
 
-	private void onError() {
+	@Override
+	public void onPlayerError(@NonNull PlaybackException error) {
 		Notify.show(R.string.channel_error);
 		TvBus.get().stop();
 		Force.get().stop();
 		mPlayer.stop();
-		retry = 0;
 	}
 
 	private boolean isVisible(View view) {
 		return view.getAlpha() == 1;
+	}
+
+	private void showProgress() {
+		Utils.showView(binding.widget.progress);
+	}
+
+	private void hideProgress() {
+		Utils.hideView(binding.widget.progress);
 	}
 
 	private void showUI() {
@@ -199,6 +209,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void showUUID() {
 		binding.widget.uuid.setText(getString(R.string.app_uuid, Utils.getUUID()));
 		Utils.showView(binding.widget.uuid);
+		hideProgress();
 	}
 
 	private void hideUUID() {
