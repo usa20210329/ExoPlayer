@@ -69,7 +69,8 @@ public class TvBus implements TVListener {
 	public void onStop(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		int errno = json.get("errno").getAsInt();
-		if (errno < 0 && callback != null) handler.post(() -> callback.onError(new PlaybackException(null, null, errno)));
+		if (errno >= 0 || callback == null) return;
+		handler.post(() -> callback.onError(new PlaybackException(null, null, errno)));
 	}
 
 	@Override

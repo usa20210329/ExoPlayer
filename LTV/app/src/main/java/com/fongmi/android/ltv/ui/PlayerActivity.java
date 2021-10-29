@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -132,7 +131,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Force.get().stop();
 		showProgress();
 		showEpg(item);
-		showBg(item);
 		getEpg(item);
 		getUrl(item);
 		hideUI();
@@ -181,6 +179,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Notify.show(R.string.channel_error);
 		TvBus.get().stop();
 		Force.get().stop();
+		hideProgress();
 		mPlayer.stop();
 	}
 
@@ -235,12 +234,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.epg.play.setText(epg);
 		binding.epg.play.setSelected(true);
 		mHandler.postDelayed(mHideEpg, 5000);
-	}
-
-	private void showBg(Channel item) {
-		boolean hasBg = !TextUtils.isEmpty(item.getBg());
-		binding.bg.setVisibility(hasBg ? View.VISIBLE : View.GONE);
-		if (hasBg) item.loadBg(binding.bg);
 	}
 
 	private void showController() {

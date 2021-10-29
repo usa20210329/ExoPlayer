@@ -12,6 +12,7 @@ import android.os.Looper;
 import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.forcetech.service.P5PService;
+import com.google.android.exoplayer2.PlaybackException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -19,8 +20,9 @@ import java.net.URL;
 
 public class Force {
 
-	private HttpURLConnection conn;
 	private final Handler handler;
+	private AsyncCallback callback;
+	private HttpURLConnection conn;
 
 	private static class Loader {
 		static volatile Force INSTANCE = new Force();
@@ -39,15 +41,8 @@ public class Force {
 	}
 
 	public void start(AsyncCallback callback, String source) {
-		Uri uri = Uri.parse(source);
-		String cmd = "http://127.0.0.1:6001/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
-		String tmp = uri.getLastPathSegment();
-		int index = tmp.lastIndexOf(".");
-		if (index == -1) cmd = cmd + tmp;
-		else cmd = cmd + tmp.substring(0, index);
-		connect(cmd + "&" + uri.getQuery());
-		String result = "http://127.0.0.1:6001" + uri.getPath();
-		handler.post(() -> callback.onResponse(result));
+		this.callback = callback;
+		this.onPrepare(source);
 	}
 
 	public void stop() {
@@ -62,6 +57,18 @@ public class Force {
 		}
 	}
 
+	public void onPrepare(String source) {
+		Uri uri = Uri.parse(source);
+		String cmd = "http://127.0.0.1:6001/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
+		String tmp = uri.getLastPathSegment();
+		int index = tmp.lastIndexOf(".");
+		if (index == -1) cmd = cmd + tmp;
+		else cmd = cmd + tmp.substring(0, index);
+		connect(cmd + "&" + uri.getQuery());
+		String result = "http://127.0.0.1:6001" + uri.getPath();
+		handler.post(() -> callback.onResponse(result));
+	}
+
 	private void connect(String url) {
 		try {
 			conn = (HttpURLConnection) new URL(url).openConnection();
@@ -71,7 +78,8 @@ public class Force {
 			conn.connect();
 			conn.getInputStream();
 		} catch (IOException e) {
-			e.printStackTrace();
+			if (callback == null) return;
+			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
 		}
 	}
 

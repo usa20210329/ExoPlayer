@@ -1,18 +1,13 @@
 package com.fongmi.android.ltv.bean;
 
 import android.text.TextUtils;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.fongmi.android.ltv.App;
 import com.fongmi.android.ltv.utils.Prefers;
-import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.Locale;
 
@@ -25,7 +20,6 @@ public class Channel extends Bean {
 	private String epg;
 	private String url;
 	private String ua;
-	private String bg;
 	private boolean dynamic;
 
 	@Ignore
@@ -69,14 +63,6 @@ public class Channel extends Bean {
 		this.url = url;
 	}
 
-	public String getBg() {
-		return bg;
-	}
-
-	public void setBg(String bg) {
-		this.bg = bg;
-	}
-
 	public String getUa() {
 		return TextUtils.isEmpty(ua) ? "" : ua;
 	}
@@ -107,10 +93,6 @@ public class Channel extends Bean {
 
 	public boolean isForce() {
 		return getUrl().startsWith("p5p://");
-	}
-
-	public void loadBg(ImageView view) {
-		Glide.with(App.get()).load(Utils.getImageUrl(getBg())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
 	}
 
 	public void putKeep() {
