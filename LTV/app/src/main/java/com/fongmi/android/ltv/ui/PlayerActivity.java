@@ -40,11 +40,6 @@ import com.fongmi.android.ltv.utils.Notify;
 import com.fongmi.android.ltv.utils.Prefers;
 import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
-import com.google.android.exoplayer2.Player;
-import com.google.common.net.HttpHeaders;
-import com.king.player.kingplayer.IPlayer;
-import com.king.player.kingplayer.KingPlayer;
-import com.king.player.kingplayer.source.DataSource;
 
 import java.util.Objects;
 
@@ -74,18 +69,17 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = new KeyDown(this);
+		mPlayer = new ExoPlayer(this);
 		mDetector = FlipDetector.create(this);
 		VerifyReceiver.create(this);
 		ApiService.getIP();
-		showProgress();
 		Token.check();
 		setView();
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
 	private void initEvent() {
-		binding.video.setOnErrorListener(this::onRetry);
-		binding.video.setOnPlayerEventListener(this::onPrepared);
+		//binding.video.setOnErrorListener(this::onRetry);
 		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 		mChannelAdapter.setOnItemClickListener(this::onItemClick);
 		mTypeAdapter.setOnItemClickListener(this::onItemClick);
@@ -98,7 +92,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
-		binding.video.setPlayer(mPlayer = new ExoPlayer(this));
+		binding.video.setPlayer(mPlayer.get());
 		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
 		setCustomSize();
@@ -122,7 +116,6 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
-		hideProgress();
 		checkKeep();
 		hideUUID();
 	}
@@ -130,12 +123,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	private void onItemClick(Type item, boolean tv) {
 		if (item.isSetting()) Notify.showDialog(this, tv);
 		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
+		binding.channel.scrollToPosition(mChannelAdapter.getType().getPosition());
 	}
 
 	private void onItemClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
-		showProgress();
 		showEpg(item);
 		showBg(item);
 		getEpg(item);
@@ -147,7 +140,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		ApiService.getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				playVideo(item, url);
+				mPlayer.setDataSource(item.getUa(), url);
 			}
 
 			@Override
@@ -183,37 +176,14 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	private void onError() {
 		Notify.show(R.string.channel_error);
-		binding.video.reset();
 		TvBus.get().stop();
 		Force.get().stop();
-		hideProgress();
+		mPlayer.stop();
 		retry = 0;
-	}
-
-	private void onPrepared(int event, @Nullable Bundle bundle) {
-		if (event != KingPlayer.Event.EVENT_ON_STATUS_CHANGE || bundle == null) return;
-		event = bundle.getInt(KingPlayer.EventBundleKey.KEY_ORIGINAL_EVENT);
-		if (event == Player.STATE_BUFFERING) showProgress();
-		else if (event == Player.STATE_READY) hideProgress();
-	}
-
-	private void playVideo(Channel item, String url) {
-		DataSource source = new DataSource(url);
-		source.getHeaders().put(HttpHeaders.USER_AGENT, item.getUa());
-		binding.video.setDataSource(source);
-		binding.video.start();
 	}
 
 	private boolean isVisible(View view) {
 		return view.getAlpha() == 1;
-	}
-
-	private void showProgress() {
-		Utils.showView(binding.widget.progress);
-	}
-
-	private void hideProgress() {
-		Utils.hideView(binding.widget.progress);
 	}
 
 	private void showUI() {
@@ -222,14 +192,13 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void hideUI() {
-		Utils.hideViews(binding.recycler);
+		Utils.hideViews(binding.recycler, binding.widget.notice);
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
 	private void showUUID() {
 		binding.widget.uuid.setText(getString(R.string.app_uuid, Utils.getUUID()));
 		Utils.showView(binding.widget.uuid);
-		hideProgress();
 	}
 
 	private void hideUUID() {
@@ -238,6 +207,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	private void hideEpg() {
+		if (mPlayer.isMovie()) binding.video.showController();
 		Utils.hideViews(binding.epg.getRoot(), binding.widget.digital);
 	}
 
@@ -287,7 +257,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	}
 
 	public void setScaleType() {
-		binding.video.setAspectRatio(Prefers.getRatio());
+		binding.video.setResizeMode(Prefers.getRatio());
 	}
 
 	public void setKeypad() {
@@ -347,14 +317,8 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	public void onSeek(boolean forward) {
 		if (isVisible(binding.recycler)) return;
-		if (forward) mPlayer.getPlayer().seekForward();
-		else mPlayer.getPlayer().seekBack();
-	}
-
-	@Override
-	public void onSeek(int time) {
-		if (isVisible(binding.recycler)) return;
-		mPlayer.getPlayer().seekTo(mPlayer.getCurrentPosition() + time);
+		if (forward) mPlayer.seekForward();
+		else mPlayer.seekBack();
 	}
 
 	@Override
@@ -410,6 +374,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 		} else {
 			mTypeAdapter.clearSelect();
 			mTypeAdapter.setPosition(type.getId());
+			mChannelAdapter.clearSelect();
 			mChannelAdapter.addAll(type);
 			mChannelAdapter.setSelected();
 			binding.channel.scrollToPosition(type.getPosition());
@@ -449,7 +414,7 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
 		if (isInPictureInPictureMode) {
 			hideEpg(); hideUI();
-		} else if (binding.video.getPlayerState() == IPlayer.STATE_PAUSED) {
+		} else if (!mPlayer.isPlaying()) {
 			finish();
 		}
 	}
@@ -457,12 +422,12 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 	@Override
 	protected void onStart() {
 		super.onStart();
-		binding.video.start();
+		mPlayer.start();
 	}
 
 	@Override
 	protected void onStop() {
-		binding.video.pause();
+		mPlayer.pause();
 		super.onStop();
 	}
 
@@ -475,11 +440,10 @@ public class PlayerActivity extends AppCompatActivity implements VerifyReceiver.
 
 	@Override
 	protected void onDestroy() {
-		binding.video.release();
+		super.onDestroy();
 		TvBus.get().destroy();
 		Force.get().destroy();
+		mPlayer.release();
 		Clock.destroy();
-		super.onDestroy();
-		System.exit(0);
 	}
 }

@@ -12,8 +12,6 @@ public interface KeyDownImpl {
 
 	void onSeek(boolean forward);
 
-	void onSeek(int time);
-
 	void onKeyVertical(boolean next);
 
 	void onKeyLeft();

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.fongmi.android.ltv.App;
-import com.king.player.kingplayer.AspectRatio;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 
 public class Prefers {
 
@@ -115,6 +115,6 @@ public class Prefers {
 	}
 
 	public static int getRatio() {
-		return Prefers.isFull() ? AspectRatio.AR_MATCH_PARENT : AspectRatio.AR_16_9_FIT_PARENT;
+		return Prefers.isFull() ? AspectRatioFrameLayout.RESIZE_MODE_FILL : AspectRatioFrameLayout.RESIZE_MODE_FIT;
 	}
 }
