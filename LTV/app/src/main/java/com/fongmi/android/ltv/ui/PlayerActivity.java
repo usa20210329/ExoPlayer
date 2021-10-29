@@ -116,6 +116,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
+		hideProgress();
 		checkKeep();
 		hideUUID();
 	}
@@ -171,7 +172,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	@Override
 	public void onPlaybackStateChanged(int state) {
-		if (state == Player.STATE_READY) hideProgress();
+		if (state == Player.STATE_BUFFERING) showProgress();
+		else if (state == Player.STATE_READY) hideProgress();
 	}
 
 	@Override
