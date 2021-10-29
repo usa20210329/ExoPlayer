@@ -12,7 +12,11 @@ public class KeyDown {
 	private final Handler mHandler;
 	private boolean mPress;
 
-	public KeyDown(KeyDownImpl keyDown) {
+	public static KeyDown create(KeyDownImpl keyDown) {
+		return new KeyDown(keyDown);
+	}
+
+	private KeyDown(KeyDownImpl keyDown) {
 		this.mKeyDown = keyDown;
 		this.mHandler = new Handler();
 		this.mText = new StringBuilder();

@@ -15,7 +15,7 @@ public class FlipDetector implements GestureDetector.OnGestureListener {
 		return new GestureDetector(context, new FlipDetector((KeyDownImpl) context));
 	}
 
-	public FlipDetector(KeyDownImpl keyDown) {
+	private FlipDetector(KeyDownImpl keyDown) {
 		this.mKeyDown = keyDown;
 	}
 

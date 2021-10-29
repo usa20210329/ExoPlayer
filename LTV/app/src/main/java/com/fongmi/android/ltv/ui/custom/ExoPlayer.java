@@ -28,9 +28,13 @@ public class ExoPlayer {
 	private final Context mContext;
 	private SimpleExoPlayer mPlayer;
 
-	public ExoPlayer(Context context) {
+	public static ExoPlayer create(Context context) {
+		return new ExoPlayer(context);
+	}
+
+	private ExoPlayer(Context context) {
 		this.mContext = context.getApplicationContext();
-		init(mPlayer);
+		this.init(mPlayer);
 	}
 
 	private void init(SimpleExoPlayer player) {

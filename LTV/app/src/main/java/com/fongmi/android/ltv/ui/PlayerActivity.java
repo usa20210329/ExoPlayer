@@ -68,8 +68,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void initView() {
 		mHandler = new Handler();
-		mKeyDown = new KeyDown(this);
-		mPlayer = new ExoPlayer(this);
+		mKeyDown = KeyDown.create(this);
+		mPlayer = ExoPlayer.create(this);
 		mDetector = FlipDetector.create(this);
 		VerifyReceiver.create(this);
 		ApiService.getIP();
@@ -218,8 +218,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void hideEpg() {
-		if (mPlayer.isMovie()) binding.video.showController();
 		Utils.hideViews(binding.epg.getRoot(), binding.widget.digital);
+		showController();
 	}
 
 	private void showEpg(Channel item) {
@@ -241,6 +241,11 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		boolean hasBg = !TextUtils.isEmpty(item.getBg());
 		binding.bg.setVisibility(hasBg ? View.VISIBLE : View.GONE);
 		if (hasBg) item.loadBg(binding.bg);
+	}
+
+	private void showController() {
+		if (binding.video.isControllerFullyVisible()) return;
+		if (mPlayer.isMovie()) binding.video.showController();
 	}
 
 	private void setNotice(String notice) {
@@ -330,6 +335,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		if (isVisible(binding.recycler)) return;
 		if (forward) mPlayer.seekForward();
 		else mPlayer.seekBack();
+		showController();
 	}
 
 	@Override
