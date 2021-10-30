@@ -457,5 +457,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Force.get().destroy();
 		mPlayer.release();
 		Clock.destroy();
+		System.exit(0);
 	}
 }
