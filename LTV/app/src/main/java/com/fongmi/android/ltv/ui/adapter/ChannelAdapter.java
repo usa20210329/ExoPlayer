@@ -111,10 +111,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 	}
 
 	public void clearSelect() {
+		setFocus(false);
 		if (mItems.isEmpty()) return;
 		getItem().setSelect(false);
 		notifyItemChanged(position);
-		setFocus(false);
 	}
 
 	public void setChannel() {
