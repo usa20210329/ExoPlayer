@@ -203,7 +203,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void hideUI() {
-		Utils.hideViews(binding.recycler, binding.widget.notice);
+		Utils.hideViews(binding.recycler);
 		if (Prefers.isPad()) Utils.hideView(binding.widget.keypad.getRoot());
 	}
 
