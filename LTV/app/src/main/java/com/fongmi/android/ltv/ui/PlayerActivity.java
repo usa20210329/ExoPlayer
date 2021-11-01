@@ -262,12 +262,10 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void release() {
 		if (!isFinishing()) return;
-		binding.video.setPlayer(null);
 		TvBus.get().destroy();
 		Force.get().destroy();
 		Clock.get().destroy();
 		mPlayer.release();
-		mPlayer = null;
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
