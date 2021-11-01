@@ -14,6 +14,7 @@
         app:controller_layout_id="@layout/view_control"
         app:default_artwork="@drawable/radio"
         app:keep_content_on_player_reset="true"
+        app:resize_mode="fill"
         app:show_buffering="never"
         app:surface_type="surface_view"
         app:use_artwork="true" />
