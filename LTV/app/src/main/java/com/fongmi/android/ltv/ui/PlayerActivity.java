@@ -124,7 +124,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void onItemClick(Type item, boolean tv) {
 		if (item.isSetting()) Notify.showDialog(this, tv);
 		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
-		binding.channel.scrollToPosition(mChannelAdapter.getType().getPosition());
+		binding.channel.scrollToPosition(item.getPosition());
 	}
 
 	private void onItemClick(Channel item) {
