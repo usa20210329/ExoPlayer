@@ -266,6 +266,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Force.get().destroy();
 		Clock.get().destroy();
 		mPlayer.release();
+		System.exit(0);
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
