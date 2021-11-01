@@ -119,6 +119,6 @@ public class ExoPlayer {
 	}
 
 	public boolean isMovie() {
-		return mPlayer.getDuration() > 30 * 60 * 1000;
+		return mPlayer.getDuration() > 20 * 60 * 1000;
 	}
 }
