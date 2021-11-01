@@ -128,7 +128,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelHolder> {
 	}
 
 	public boolean onKeep() {
-		if (getType().isHidden() || mItems.isEmpty() || position < 0) return false;
+		if (mItems.isEmpty() || position < 0 || getType().isHidden()) return false;
 		boolean exist = mDao.getCount(getItem().getNumber()) > 0;
 		Notify.show(exist ? R.string.channel_keep_delete : R.string.channel_keep_insert);
 		if (exist) delete(getItem());
