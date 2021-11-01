@@ -260,6 +260,16 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.recycler.setLayoutParams(params);
 	}
 
+	private void release() {
+		if (!isFinishing()) return;
+		binding.video.setPlayer(null);
+		TvBus.get().destroy();
+		Force.get().destroy();
+		Clock.get().destroy();
+		mPlayer.release();
+		mPlayer = null;
+	}
+
 	@SuppressLint("NotifyDataSetChanged")
 	public void onSizeChange() {
 		mChannelAdapter.notifyDataSetChanged();
@@ -453,10 +463,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		TvBus.get().destroy();
-		Force.get().destroy();
-		mPlayer.release();
-		Clock.destroy();
-		System.exit(0);
+		release();
 	}
 }

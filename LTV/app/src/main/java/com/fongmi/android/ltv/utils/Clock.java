@@ -20,7 +20,7 @@ public class Clock {
 		static volatile Clock INSTANCE = new Clock();
 	}
 
-	private static Clock get() {
+	public static Clock get() {
 		return Loader.INSTANCE;
 	}
 
@@ -34,8 +34,8 @@ public class Clock {
 		get().run(view);
 	}
 
-	public static void destroy() {
-		get().cancel();
+	public void destroy() {
+		cancel();
 	}
 
 	private void run(TextView view) {

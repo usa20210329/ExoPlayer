@@ -51,7 +51,7 @@ public class Force {
 
 	public void destroy() {
 		try {
-			App.get().unbindService(mConn);
+			stop(); App.get().unbindService(mConn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

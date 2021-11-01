@@ -51,7 +51,7 @@ public class TvBus implements TVListener {
 	}
 
 	public void destroy() {
-		TVService.stop(App.get());
+		stop(); TVService.stop(App.get());
 	}
 
 	private void setCallback(AsyncCallback callback) {
