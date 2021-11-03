@@ -1,1 +1,1 @@
-# ExoStream
+# ExoPlayer Demo App
