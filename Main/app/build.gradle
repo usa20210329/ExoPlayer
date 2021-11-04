@@ -9,11 +9,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.fongmi.android.ltv"
+        applicationId "com.fongmi.android.tv"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 111
-        versionName "2.1.1"
+        versionCode 1
+        versionName "1.0.1"
         ndk { abiFilters "armeabi-v7a" }
     }
 
@@ -33,12 +33,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            outputFileName = "bear.apk"
-        }
     }
 }
 

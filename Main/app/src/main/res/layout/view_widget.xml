@@ -40,7 +40,7 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
-    <com.fongmi.android.ltv.ui.custom.ScrollTextView
+    <com.fongmi.android.tv.ui.custom.ScrollTextView
         android:id="@+id/notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
