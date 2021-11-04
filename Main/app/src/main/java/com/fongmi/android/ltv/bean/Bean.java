@@ -1,14 +1,13 @@
 package com.fongmi.android.ltv.bean;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.room.Ignore;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.fongmi.android.ltv.App;
-import com.fongmi.android.ltv.utils.Utils;
 
 public class Bean {
 
@@ -42,6 +41,7 @@ public class Bean {
 	}
 
 	public void loadLogo(ImageView view) {
-		Glide.with(App.get()).load(Utils.getImageUrl(getLogo())).transition(DrawableTransitionOptions.withCrossFade()).into(view);
+		view.setVisibility(getLogo().isEmpty() ? View.GONE : View.VISIBLE);
+		if (!TextUtils.isEmpty(getLogo())) Glide.with(App.get()).load(getLogo()).into(view);
 	}
 }

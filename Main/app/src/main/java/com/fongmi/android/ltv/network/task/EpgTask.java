@@ -7,7 +7,6 @@ import com.fongmi.android.ltv.R;
 import com.fongmi.android.ltv.bean.Channel;
 import com.fongmi.android.ltv.impl.AsyncCallback;
 import com.fongmi.android.ltv.network.Connector;
-import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
 import java.util.concurrent.ExecutorService;
@@ -36,7 +35,7 @@ public class EpgTask {
 
 	private void doInBackground(Channel item) {
 		try {
-			onPostExecute(Connector.link(Token.getEpg(item.getEpg())).getResult());
+			onPostExecute(Connector.link(item.getEpg()).getResult());
 		} catch (Exception e) {
 			onPostExecute(Utils.getString(R.string.channel_epg));
 		}
