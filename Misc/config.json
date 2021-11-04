@@ -7,16 +7,158 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
+          "name":"Ch01",
           "number":"001",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch02",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch03",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch04",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch05",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         }
       ],
       "hidden":false,
-      "id":1,
+      "id":2,
       "logo":"",
-      "name":"Sample"
+      "name":"Type 1"
+    },
+    {
+      "channel":[
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Ch01",
+          "number":"001",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch02",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch03",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch04",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch05",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        }
+      ],
+      "hidden":false,
+      "id":2,
+      "logo":"",
+      "name":"Type 2"
+    },
+    {
+      "channel":[
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Ch01",
+          "number":"001",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch02",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch03",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch04",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic":false,
+          "epg":"",
+          "logo":"",
+          "name":"Big Buck Bunny",
+          "number":"Ch05",
+          "ua":"",
+          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        }
+      ],
+      "hidden":false,
+      "id":3,
+      "logo":"",
+      "name":"Type 3"
     }
   ],
   "url":"",
