@@ -6,7 +6,6 @@ import android.widget.ImageView;
 
 import androidx.room.Ignore;
 
-import com.fongmi.android.ltv.utils.Token;
 import com.fongmi.android.ltv.utils.Utils;
 
 public class Bean {
