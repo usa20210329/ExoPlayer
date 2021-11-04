@@ -6,8 +6,8 @@ import android.widget.ImageView;
 
 import androidx.room.Ignore;
 
-import com.bumptech.glide.Glide;
-import com.fongmi.android.ltv.App;
+import com.fongmi.android.ltv.utils.Token;
+import com.fongmi.android.ltv.utils.Utils;
 
 public class Bean {
 
@@ -33,7 +33,7 @@ public class Bean {
 	}
 
 	public String getLogo() {
-		return logo;
+		return TextUtils.isEmpty(logo) ? "" : logo;
 	}
 
 	public void setLogo(String logo) {
@@ -42,6 +42,6 @@ public class Bean {
 
 	public void loadLogo(ImageView view) {
 		view.setVisibility(getLogo().isEmpty() ? View.GONE : View.VISIBLE);
-		if (!TextUtils.isEmpty(getLogo())) Glide.with(App.get()).load(getLogo()).into(view);
+		if (!getLogo().isEmpty()) Utils.loadImage(getLogo(), view);
 	}
 }
