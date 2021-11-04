@@ -16,35 +16,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch02",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch03",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch04",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch05",
+          "name":"Ch02",
+          "number":"002",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         }
@@ -69,8 +42,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch02",
+          "name":"Ch02",
+          "number":"002",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         },
@@ -78,26 +51,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch03",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch04",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch05",
+          "name":"Ch03",
+          "number":"003",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         }
@@ -122,8 +77,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch02",
+          "name":"Ch02",
+          "number":"002",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         },
@@ -131,8 +86,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch03",
+          "name":"Ch03",
+          "number":"003",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         },
@@ -140,17 +95,8 @@
           "dynamic":false,
           "epg":"",
           "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch04",
-          "ua":"",
-          "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
-        },
-        {
-          "dynamic":false,
-          "epg":"",
-          "logo":"",
-          "name":"Big Buck Bunny",
-          "number":"Ch05",
+          "name":"Ch04",
+          "number":"004",
           "ua":"",
           "url":"http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
         }
