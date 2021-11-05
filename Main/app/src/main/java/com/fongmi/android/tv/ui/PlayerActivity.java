@@ -27,14 +27,15 @@ import com.fongmi.android.tv.network.ApiService;
 import com.fongmi.android.tv.network.task.ConfigTask;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
-import com.fongmi.android.tv.ui.custom.ExoPlayer;
 import com.fongmi.android.tv.ui.custom.FlipDetector;
 import com.fongmi.android.tv.utils.Clock;
+import com.fongmi.android.tv.utils.ExoUtil;
 import com.fongmi.android.tv.utils.FileUtil;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
 import com.fongmi.android.tv.utils.Utils;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 
@@ -66,7 +67,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = KeyDown.create(this);
-		mPlayer = ExoPlayer.create(this);
 		mDetector = FlipDetector.create(this);
 		showProgress();
 		setView();
@@ -81,13 +81,13 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void setView() {
+		binding.video.setPlayer(mPlayer = new ExoPlayer.Builder(this).build());
 		Objects.requireNonNull(binding.channel.getItemAnimator()).setChangeDuration(0);
 		Objects.requireNonNull(binding.type.getItemAnimator()).setChangeDuration(0);
 		binding.channel.setLayoutManager(new LinearLayoutManager(this));
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
-		binding.video.setPlayer(mPlayer.get());
 		mHandler.postDelayed(mShowUUID, 3000);
 		Clock.start(binding.epg.time);
 		setCustomSize();
@@ -126,18 +126,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		hideUI();
 	}
 
-	private void getUrl(Channel item) {
-		ApiService.getUrl(item, new AsyncCallback() {
-			@Override
-			public void onResponse(String url) {
-				mPlayer.setDataSource(item.getUa(), url);
-			}
-
-			@Override
-			public void onError(PlaybackException error) {
-				onPlayerError(error);
-			}
-		});
+	private void checkKeep() {
+		if (Prefers.getKeep().isEmpty()) {
+			mTypeAdapter.setFocus(true);
+			showUI();
+		} else {
+			mChannelAdapter.setFocus(true);
+			onFind(Prefers.getKeep());
+		}
 	}
 
 	private void getEpg(Channel item) {
@@ -149,14 +145,24 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		});
 	}
 
-	private void checkKeep() {
-		if (Prefers.getKeep().isEmpty()) {
-			mTypeAdapter.setFocus(true);
-			showUI();
-		} else {
-			mChannelAdapter.setFocus(true);
-			onFind(Prefers.getKeep());
-		}
+	private void getUrl(Channel item) {
+		ApiService.getUrl(item, new AsyncCallback() {
+			@Override
+			public void onResponse(String url) {
+				onPlay(item.getUa(), url);
+			}
+
+			@Override
+			public void onError(PlaybackException error) {
+				onPlayerError(error);
+			}
+		});
+	}
+
+	private void onPlay(String userAgent, String url) {
+		mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
+		mPlayer.prepare();
+		mPlayer.play();
 	}
 
 	@Override
@@ -227,7 +233,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void showController() {
 		if (binding.video.isControllerFullyVisible()) return;
-		if (mPlayer.isMovie()) binding.video.showController();
+		if (ExoUtil.isVoD(mPlayer.getDuration())) binding.video.showController();
 	}
 
 	private void setNotice(String notice) {
@@ -428,7 +434,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	protected void onStart() {
 		super.onStart();
-		mPlayer.start();
+		mPlayer.play();
 	}
 
 	@Override
