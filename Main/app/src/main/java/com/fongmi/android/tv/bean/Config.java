@@ -1,7 +1,6 @@
 package com.fongmi.android.tv.bean;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -15,10 +14,6 @@ public class Config {
 
 	public static Config get(DataSnapshot data) {
 		return data.getValue(Config.class);
-	}
-
-	public static Config objectFrom(String str) {
-		return new Gson().fromJson(str, Config.class);
 	}
 
 	public List<Type> getType() {
