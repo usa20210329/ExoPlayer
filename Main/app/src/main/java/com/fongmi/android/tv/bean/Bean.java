@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.room.Ignore;
 
+import com.fongmi.android.tv.utils.Token;
 import com.fongmi.android.tv.utils.Utils;
 
 public class Bean {
@@ -41,6 +42,6 @@ public class Bean {
 
 	public void loadLogo(ImageView view) {
 		view.setVisibility(getLogo().isEmpty() ? View.GONE : View.VISIBLE);
-		if (!getLogo().isEmpty()) Utils.loadImage(getLogo(), view);
+		if (!getLogo().isEmpty()) Utils.loadImage(Token.getImg(getLogo()), view);
 	}
 }

@@ -3,6 +3,8 @@ package com.fongmi.android.tv.network.task;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.fongmi.android.tv.utils.Token;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -11,7 +13,7 @@ import java.util.concurrent.Executors;
 
 public class IPTask {
 
-	private ExecutorService executor;
+	private final ExecutorService executor;
 	private final Handler handler;
 
 	public static IPTask create() {
@@ -37,6 +39,6 @@ public class IPTask {
 	}
 
 	private void onPostExecute(String ip) {
-		//TODO UPDATE USER IP
+		handler.postDelayed(() -> Token.updateUser(ip), 2000);
 	}
 }

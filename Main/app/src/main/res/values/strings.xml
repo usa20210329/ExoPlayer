@@ -1,29 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="http://schemas.android.com/apk/res-auto" tools:ignore="ExtraTranslation">
 
     <!-- App -->
-    <string name="app_name">TV</string>
-    <string name="app_unlock">Unlocked</string>
-    <string name="app_update">New version found</string>
+    <string name="app_name">熊愛電視</string>
+    <string name="app_unlock">已解鎖</string>
+    <string name="app_update">發現新版本</string>
     <string name="app_uuid">UUID : <xliff:g name="name">%s</xliff:g></string>
 
     <!-- Channel -->
-    <string name="channel_keep_insert">Added to keep</string>
-    <string name="channel_keep_delete">Removed</string>
-    <string name="channel_type_keep">Keep</string>
-    <string name="channel_type_setting">Setting</string>
-    <string name="channel_error">Connection failed</string>
-    <string name="channel_epg">No information</string>
+    <string name="channel_keep_insert">已加入收藏</string>
+    <string name="channel_keep_delete">已移除收藏</string>
+    <string name="channel_type_keep">收藏</string>
+    <string name="channel_type_setting">設定</string>
+    <string name="channel_error">連線失敗，請稍後再試</string>
+    <string name="channel_epg">暫無頻道資訊</string>
 
     <!-- Setting -->
-    <string name="setting_common">General settings</string>
-    <string name="setting_common_size">Font size</string>
-    <string name="setting_common_boot">Auto start</string>
-    <string name="setting_common_full">Fullscreen</string>
-    <string name="setting_common_pad">Number pad</string>
-    <string name="setting_common_pip">PiP</string>
-    <string name="setting_control">Control settings</string>
-    <string name="setting_control_delay">Key delay</string>
-    <string name="setting_control_rev">Key reverse </string>
+    <string name="setting_common">一般設定</string>
+    <string name="setting_common_size">字體大小</string>
+    <string name="setting_common_boot">開機啟動</string>
+    <string name="setting_common_full">全螢幕</string>
+    <string name="setting_common_pad">小鍵盤</string>
+    <string name="setting_common_pip">畫中畫</string>
+    <string name="setting_control">控制設定</string>
+    <string name="setting_control_delay">數字鍵延遲</string>
+    <string name="setting_control_rev">上下鍵相反</string>
 
     <!-- Column -->
     <string name="column_user">使用者</string>

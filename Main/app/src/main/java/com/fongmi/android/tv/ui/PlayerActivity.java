@@ -24,7 +24,9 @@ import com.fongmi.android.tv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.tv.impl.AsyncCallback;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.network.ApiService;
-import com.fongmi.android.tv.network.task.ConfigTask;
+import com.fongmi.android.tv.receiver.VerifyReceiver;
+import com.fongmi.android.tv.source.Force;
+import com.fongmi.android.tv.source.TvBus;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
 import com.fongmi.android.tv.ui.custom.FlipDetector;
@@ -34,6 +36,7 @@ import com.fongmi.android.tv.utils.FileUtil;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
+import com.fongmi.android.tv.utils.Token;
 import com.fongmi.android.tv.utils.Utils;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
@@ -41,7 +44,7 @@ import com.google.android.exoplayer2.Player;
 
 import java.util.Objects;
 
-public class PlayerActivity extends AppCompatActivity implements Player.Listener, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements Player.Listener, VerifyReceiver.Callback, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
@@ -61,14 +64,16 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Utils.hideSystemUI(this);
 		initView();
 		initEvent();
-		getConfig();
 	}
 
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = KeyDown.create(this);
 		mDetector = FlipDetector.create(this);
+		VerifyReceiver.create(this);
+		ApiService.getIP();
 		showProgress();
+		Token.check();
 		setView();
 	}
 
@@ -94,8 +99,9 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		setScaleType();
 	}
 
-	private void getConfig() {
-		ConfigTask.create().run(new AsyncCallback() {
+	@Override
+	public void onVerified() {
+		ApiService.getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(Config config) {
 				setConfig(config);
@@ -106,7 +112,10 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
 		mTypeAdapter.addAll(config.getType());
+		TvBus.get().init(config.getCore());
 		setNotice(config.getNotice());
+		Token.setConfig(config);
+		Force.get().init();
 		hideProgress();
 		checkKeep();
 		hideUUID();
@@ -119,6 +128,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onItemClick(Channel item) {
+		TvBus.get().stop();
+		Force.get().stop();
 		showProgress();
 		showEpg(item);
 		getEpg(item);
@@ -174,6 +185,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onPlayerError(@NonNull PlaybackException error) {
 		Notify.show(R.string.channel_error);
+		TvBus.get().stop();
+		Force.get().stop();
 		hideProgress();
 		mPlayer.stop();
 	}
@@ -255,6 +268,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void release() {
 		if (!isFinishing()) return;
+		TvBus.get().destroy();
+		Force.get().destroy();
 		Clock.get().destroy();
 		mPlayer.release();
 		System.exit(0);
