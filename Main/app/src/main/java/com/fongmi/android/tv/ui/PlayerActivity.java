@@ -93,7 +93,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
-		mHandler.postDelayed(mShowUUID, 3000);
+		mHandler.postDelayed(mShowUUID, 5000);
 		Clock.start(binding.epg.time);
 		setCustomSize();
 		setScaleType();
