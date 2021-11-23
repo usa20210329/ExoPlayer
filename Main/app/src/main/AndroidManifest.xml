@@ -44,19 +44,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver
-            android:name=".receiver.BootReceiver"
-            android:priority="999">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".ui.PlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="true"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:screenOrientation="sensorLandscape"
@@ -69,9 +60,25 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.tvbus.engine.TVService" />
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="false"
+            android:priority="999">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
-        <service android:name="com.forcetech.service.P5PService" android:process=":p5p" />
+        <service
+            android:name="com.tvbus.engine.TVService"
+            android:exported="false" />
+
+        <service
+            android:name="com.forcetech.service.P5PService"
+            android:exported="false"
+            android:process=":p5p" />
 
     </application>
 </manifest>
