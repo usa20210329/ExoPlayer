@@ -12,7 +12,7 @@ public interface KeyDownImpl {
 
 	void onSeek(boolean forward);
 
-	void onKeyVertical(boolean next);
+	void onKeyVertical(boolean up);
 
 	void onKeyLeft();
 

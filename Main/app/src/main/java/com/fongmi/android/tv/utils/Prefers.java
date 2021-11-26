@@ -106,7 +106,7 @@ public class Prefers {
 		putBoolean(PIP, value);
 	}
 
-	static boolean isRev() {
+	public static boolean isRev() {
 		return getBoolean(REV);
 	}
 

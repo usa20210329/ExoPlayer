@@ -32,9 +32,9 @@ public class KeyDown {
 
 	public boolean onKeyDown(KeyEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isUpKey(event)) {
-			mKeyDown.onKeyVertical(Prefers.isRev());
+			mKeyDown.onKeyVertical(true);
 		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isDownKey(event)) {
-			mKeyDown.onKeyVertical(!Prefers.isRev());
+			mKeyDown.onKeyVertical(false);
 		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isLeftKey(event)) {
 			mKeyDown.onSeek(false);
 		} else if (event.getAction() == KeyEvent.ACTION_DOWN && Utils.isRightKey(event)) {

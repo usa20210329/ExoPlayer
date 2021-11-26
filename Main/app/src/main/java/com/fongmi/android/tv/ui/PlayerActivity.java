@@ -349,12 +349,13 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	@Override
-	public void onKeyVertical(boolean next) {
+	public void onKeyVertical(boolean up) {
 		boolean play = !isVisible(binding.recycler);
+		if (Prefers.isRev() && play) up = !up;
 		if (mChannelAdapter.isFocus()) {
-			binding.channel.scrollToPosition(next ? mChannelAdapter.onMoveDown(play) : mChannelAdapter.onMoveUp(play));
+			binding.channel.scrollToPosition(up ? mChannelAdapter.onMoveUp(play) : mChannelAdapter.onMoveDown(play));
 		} else if (mTypeAdapter.isFocus()) {
-			binding.type.scrollToPosition(next ? mTypeAdapter.onMoveDown() : mTypeAdapter.onMoveUp());
+			binding.type.scrollToPosition(up ? mTypeAdapter.onMoveUp() : mTypeAdapter.onMoveDown());
 		}
 	}
 
