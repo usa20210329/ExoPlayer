@@ -55,6 +55,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private ExoPlayer mPlayer;
 	private KeyDown mKeyDown;
 	private Handler mHandler;
+	private int retry;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +166,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 			@Override
 			public void onError(PlaybackException error) {
-				onPlayerError(error);
+				onRetry(error);
 			}
 		});
 	}
@@ -182,6 +183,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		else if (state == Player.STATE_READY) hideProgress();
 	}
 
+	private void onRetry(PlaybackException error) {
+		if (++retry < 3 && mChannelAdapter.getCurrent() != null) {
+			getUrl(mChannelAdapter.getCurrent());
+		} else {
+			onPlayerError(error);
+		}
+	}
+
 	@Override
 	public void onPlayerError(@NonNull PlaybackException error) {
 		Notify.show(R.string.channel_error);
@@ -189,6 +198,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Force.get().stop();
 		hideProgress();
 		mPlayer.stop();
+		retry = 0;
 	}
 
 	private boolean isVisible(View view) {
