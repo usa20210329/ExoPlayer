@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation project(path: ':tvbus')
     implementation project(path: ':forcetech')
-    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.1')
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.1'
     implementation 'com.google.android.exoplayer:extension-rtmp:2.16.1'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta03'
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta04'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-firestore'
