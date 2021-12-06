@@ -17,6 +17,7 @@ public class Prefers {
 	private static final String PAD = "pad";
 	private static final String PIP = "pip";
 	private static final String REV = "rev";
+	private static final String HDR = "hdr";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
@@ -112,6 +113,14 @@ public class Prefers {
 
 	static void putRev(boolean value) {
 		putBoolean(REV, value);
+	}
+
+	public static boolean isHdr() {
+		return getBoolean(HDR);
+	}
+
+	static void putHdr(boolean value) {
+		putBoolean(HDR, value);
 	}
 
 	public static int getRatio() {

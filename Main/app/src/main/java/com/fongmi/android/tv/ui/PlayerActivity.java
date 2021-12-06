@@ -41,6 +41,7 @@ import com.fongmi.android.tv.utils.Utils;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 
 import java.util.Objects;
 
@@ -83,11 +84,12 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		mPlayer.addListener(this);
 		mTypeAdapter.setOnItemClickListener(this::onItemClick);
 		mChannelAdapter.setOnItemClickListener(this::onItemClick);
-		binding.video.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
+		binding.surface.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
+		binding.texture.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 	}
 
 	private void setView() {
-		binding.video.setPlayer(mPlayer = new ExoPlayer.Builder(this).build());
+		mPlayer = new ExoPlayer.Builder(this).build();
 		Objects.requireNonNull(binding.channel.getItemAnimator()).setChangeDuration(0);
 		Objects.requireNonNull(binding.type.getItemAnimator()).setChangeDuration(0);
 		binding.channel.setLayoutManager(new LinearLayoutManager(this));
@@ -96,6 +98,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
 		mHandler.postDelayed(mShowUUID, 5000);
 		Clock.start(binding.epg.time);
+		setPlayerView();
 		setCustomSize();
 		setScaleType();
 	}
@@ -255,8 +258,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showController() {
-		if (binding.video.isControllerFullyVisible()) return;
-		if (ExoUtil.isVoD(mPlayer.getDuration())) binding.video.showController();
+		if (getPlayerView().isControllerFullyVisible()) return;
+		if (ExoUtil.isVoD(mPlayer.getDuration())) getPlayerView().showController();
 	}
 
 	private void setNotice(String notice) {
@@ -293,11 +296,23 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	public void setScaleType() {
-		binding.video.setResizeMode(Prefers.getRatio());
+		binding.surface.setResizeMode(Prefers.getRatio());
+		binding.texture.setResizeMode(Prefers.getRatio());
 	}
 
 	public void setKeypad() {
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
+	}
+
+	private StyledPlayerView getPlayerView() {
+		return Prefers.isHdr() ? binding.surface : binding.texture;
+	}
+
+	public void setPlayerView() {
+		binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
+		binding.texture.setVisibility(Prefers.isHdr() ? View.GONE : View.VISIBLE);
+		binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
+		binding.texture.setPlayer(Prefers.isHdr() ? null : mPlayer);
 	}
 
 	public void onAdd(View view) {

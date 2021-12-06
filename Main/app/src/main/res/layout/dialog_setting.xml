@@ -1,178 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    tools:background="@color/white">
+    android:background="@color/white">
 
     <LinearLayout
-        android:id="@+id/common"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_common_size"
-                android:textColor="@color/grey_900" />
-
-            <SeekBar
-                android:id="@+id/size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
-                android:max="12" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_common_boot"
-                android:textColor="@color/grey_900" />
-
-            <CheckBox
-                android:id="@+id/boot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_common_full"
-                android:textColor="@color/grey_900" />
-
-            <CheckBox
-                android:id="@+id/full"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_common_pad"
-                android:textColor="@color/grey_900" />
-
-            <CheckBox
-                android:id="@+id/pad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/pip_row"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_common_pip"
-                android:textColor="@color/grey_900" />
-
-            <CheckBox
-                android:id="@+id/pip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </TableRow>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp">
 
-        <TableRow
+        <LinearLayout
+            android:id="@+id/common"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_control_delay"
-                android:textColor="@color/grey_900" />
-
-            <SeekBar
-                android:id="@+id/delay"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
-                android:max="5" />
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
 
-        </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_size"
+                    android:textColor="@color/grey_900" />
 
-        <TableRow
+                <SeekBar
+                    android:id="@+id/size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-4dp"
+                    android:max="12" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_boot"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/boot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_full"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/full"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_pad"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/pad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pip_row"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_pip"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/pip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/hdr_row"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_common_hdr"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/hdr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/control"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="6"
-                android:text="@string/setting_control_rev"
-                android:textColor="@color/grey_900" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
 
-            <CheckBox
-                android:id="@+id/rev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_control_delay"
+                    android:textColor="@color/grey_900" />
 
-        </TableRow>
+                <SeekBar
+                    android:id="@+id/delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-4dp"
+                    android:max="5" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:text="@string/setting_control_rev"
+                    android:textColor="@color/grey_900" />
+
+                <CheckBox
+                    android:id="@+id/rev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

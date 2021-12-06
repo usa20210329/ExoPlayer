@@ -50,9 +50,10 @@ public class Notify {
 		binding.pad.setChecked(Prefers.isPad());
 		binding.pip.setChecked(Prefers.isPip());
 		binding.rev.setChecked(Prefers.isRev());
+		binding.hdr.setChecked(Prefers.isHdr());
 		binding.boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
-		binding.rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
 		binding.pip.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putPip(isChecked));
+		binding.rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
 		binding.full.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putFull(isChecked);
 			context.setScaleType();
@@ -60,6 +61,10 @@ public class Notify {
 		binding.pad.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
 			Prefers.putPad(isChecked);
 			context.setKeypad();
+		});
+		binding.hdr.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+			Prefers.putHdr(isChecked);
+			context.setPlayerView();
 		});
 		binding.size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override

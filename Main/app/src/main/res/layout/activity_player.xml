@@ -7,16 +7,18 @@
     android:keepScreenOn="true">
 
     <com.google.android.exoplayer2.ui.StyledPlayerView
-        android:id="@+id/video"
+        android:id="@+id/texture"
+        style="@style/PlayerStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:auto_show="false"
-        app:controller_layout_id="@layout/view_control"
-        app:default_artwork="@drawable/radio"
-        app:keep_content_on_player_reset="true"
-        app:resize_mode="fill"
-        app:show_buffering="never"
-        app:use_artwork="true" />
+        app:surface_type="texture_view" />
+
+    <com.google.android.exoplayer2.ui.StyledPlayerView
+        android:id="@+id/surface"
+        style="@style/PlayerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:surface_type="surface_view" />
 
     <LinearLayout
         android:id="@+id/recycler"
