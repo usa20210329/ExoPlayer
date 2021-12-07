@@ -21,7 +21,9 @@
     <string name="setting_common_full">全螢幕</string>
     <string name="setting_common_pad">小鍵盤</string>
     <string name="setting_common_pip">畫中畫</string>
-    <string name="setting_common_hdr">高畫質</string>
+    <string name="setting_common_draw">渲染方式</string>
+    <string name="setting_common_surface">Surface</string>
+    <string name="setting_common_texture">Texture</string>
     <string name="setting_control">控制設定</string>
     <string name="setting_control_delay">數字鍵延遲</string>
     <string name="setting_control_rev">上下鍵相反</string>

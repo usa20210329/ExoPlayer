@@ -3,12 +3,14 @@ package com.fongmi.android.tv.utils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.fongmi.android.tv.App;
+import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.databinding.DialogSettingBinding;
 import com.fongmi.android.tv.impl.SeekBarListener;
 import com.fongmi.android.tv.ui.PlayerActivity;
@@ -50,7 +52,7 @@ public class Notify {
 		binding.pad.setChecked(Prefers.isPad());
 		binding.pip.setChecked(Prefers.isPip());
 		binding.rev.setChecked(Prefers.isRev());
-		binding.hdr.setChecked(Prefers.isHdr());
+		binding.draw.check(Prefers.isHdr() ? R.id.surface : R.id.texture);
 		binding.boot.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putBoot(isChecked));
 		binding.pip.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putPip(isChecked));
 		binding.rev.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> Prefers.putRev(isChecked));
@@ -62,8 +64,8 @@ public class Notify {
 			Prefers.putPad(isChecked);
 			context.setKeypad();
 		});
-		binding.hdr.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
-			Prefers.putHdr(isChecked);
+		binding.draw.setOnCheckedChangeListener((group, checkedId) -> {
+			Prefers.putHdr(checkedId == R.id.surface);
 			context.setPlayerView();
 		});
 		binding.size.setOnSeekBarChangeListener(new SeekBarListener() {

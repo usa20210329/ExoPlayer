@@ -99,7 +99,6 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/pip_row"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
                 android:gravity="center_vertical">
@@ -119,7 +118,6 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/hdr_row"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
                 android:gravity="center_vertical">
@@ -128,14 +126,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="6"
-                    android:text="@string/setting_common_hdr"
+                    android:text="@string/setting_common_draw"
                     android:textColor="@color/grey_900" />
 
-                <CheckBox
-                    android:id="@+id/hdr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/draw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/texture"
+                    android:orientation="horizontal">
 
+                    <RadioButton
+                        android:id="@+id/surface"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/setting_common_surface" />
+
+                    <RadioButton
+                        android:id="@+id/texture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_common_texture" />
+
+                </RadioGroup>
             </TableRow>
         </LinearLayout>
 
