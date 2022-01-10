@@ -169,7 +169,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 			@Override
 			public void onError(PlaybackException error) {
-				onRetry(error);
+				onRetry();
 			}
 		});
 	}
@@ -180,28 +180,32 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		mPlayer.play();
 	}
 
-	@Override
-	public void onPlaybackStateChanged(int state) {
-		if (state == Player.STATE_BUFFERING) showProgress();
-		else if (state == Player.STATE_READY) hideProgress();
-	}
-
-	private void onRetry(PlaybackException error) {
-		if (++retry < 3 && mChannelAdapter.getCurrent() != null) {
+	private void onRetry() {
+		if (++retry < 5 && mChannelAdapter.getCurrent() != null) {
 			getUrl(mChannelAdapter.getCurrent());
 		} else {
-			onPlayerError(error);
+			onError();
 		}
 	}
 
-	@Override
-	public void onPlayerError(@NonNull PlaybackException error) {
+	private void onError() {
 		Notify.show(R.string.channel_error);
 		TvBus.get().stop();
 		Force.get().stop();
 		hideProgress();
 		mPlayer.stop();
 		retry = 0;
+	}
+
+	@Override
+	public void onPlaybackStateChanged(int state) {
+		if (state == Player.STATE_BUFFERING) showProgress();
+		else if (state == Player.STATE_READY) hideProgress();
+	}
+
+	@Override
+	public void onPlayerError(@NonNull PlaybackException error) {
+		onRetry();
 	}
 
 	private boolean isVisible(View view) {
@@ -277,15 +281,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
 		params.width = Utils.dp2px(Prefers.getSize() * 24 + 380);
 		binding.recycler.setLayoutParams(params);
-	}
-
-	private void release() {
-		if (!isFinishing()) return;
-		TvBus.get().destroy();
-		Force.get().destroy();
-		Clock.get().destroy();
-		mPlayer.release();
-		System.exit(0);
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
@@ -494,6 +489,12 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		release();
+		if (!isFinishing()) return;
+		mPlayer.stop();
+		mPlayer.release();
+		TvBus.get().destroy();
+		Force.get().destroy();
+		Clock.get().destroy();
+		System.exit(0);
 	}
 }
