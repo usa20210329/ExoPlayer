@@ -30,6 +30,7 @@ import com.fongmi.android.tv.source.TvBus;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
 import com.fongmi.android.tv.ui.custom.FlipDetector;
+import com.fongmi.android.tv.ui.custom.SettingDialog;
 import com.fongmi.android.tv.utils.Clock;
 import com.fongmi.android.tv.utils.ExoUtil;
 import com.fongmi.android.tv.utils.FileUtil;
@@ -126,7 +127,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onItemClick(Type item, boolean tv) {
-		if (item.isSetting()) Notify.showDialog(this, tv);
+		if (item.isSetting()) SettingDialog.show(this);
 		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
 		binding.channel.scrollToPosition(item.getPosition());
 	}
@@ -407,7 +408,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	@Override
 	public void onKeyMenu() {
-		Notify.showDialog(this, true);
+		SettingDialog.show(this);
 	}
 
 	private void reposition() {

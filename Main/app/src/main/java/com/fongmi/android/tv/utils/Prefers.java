@@ -67,11 +67,11 @@ public class Prefers {
 		putInt(SIZE, value);
 	}
 
-	static int getDelay() {
+	public static int getDelay() {
 		return getInt(DELAY, 1);
 	}
 
-	static void putDelay(int value) {
+	public static void putDelay(int value) {
 		putInt(DELAY, value);
 	}
 
@@ -79,7 +79,7 @@ public class Prefers {
 		return getBoolean(BOOT);
 	}
 
-	static void putBoot(boolean value) {
+	public static void putBoot(boolean value) {
 		putBoolean(BOOT, value);
 	}
 
@@ -87,7 +87,7 @@ public class Prefers {
 		return getBoolean(FULL, true);
 	}
 
-	static void putFull(boolean value) {
+	public static void putFull(boolean value) {
 		putBoolean(FULL, value);
 	}
 
@@ -95,7 +95,7 @@ public class Prefers {
 		return getBoolean(PAD);
 	}
 
-	static void putPad(boolean value) {
+	public static void putPad(boolean value) {
 		putBoolean(PAD, value);
 	}
 
@@ -103,7 +103,7 @@ public class Prefers {
 		return getBoolean(PIP);
 	}
 
-	static void putPip(boolean value) {
+	public static void putPip(boolean value) {
 		putBoolean(PIP, value);
 	}
 
@@ -111,7 +111,7 @@ public class Prefers {
 		return getBoolean(REV);
 	}
 
-	static void putRev(boolean value) {
+	public static void putRev(boolean value) {
 		putBoolean(REV, value);
 	}
 
@@ -119,7 +119,7 @@ public class Prefers {
 		return getBoolean(HDR);
 	}
 
-	static void putHdr(boolean value) {
+	public static void putHdr(boolean value) {
 		putBoolean(HDR, value);
 	}
 

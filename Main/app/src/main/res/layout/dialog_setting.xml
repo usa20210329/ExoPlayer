@@ -1,206 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
         android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp">
+        android:paddingEnd="24dp">
 
-        <LinearLayout
-            android:id="@+id/common"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:text="@string/setting_size"
+            android:textColor="@color/grey_900" />
+
+        <SeekBar
+            android:id="@+id/size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="-4dp"
+            android:max="12" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
+    </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_size"
-                    android:textColor="@color/grey_900" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-                <SeekBar
-                    android:id="@+id/size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
-                    android:max="12" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:text="@string/setting_delay"
+            android:textColor="@color/grey_900" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_boot"
-                    android:textColor="@color/grey_900" />
-
-                <CheckBox
-                    android:id="@+id/boot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_full"
-                    android:textColor="@color/grey_900" />
-
-                <CheckBox
-                    android:id="@+id/full"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_pad"
-                    android:textColor="@color/grey_900" />
-
-                <CheckBox
-                    android:id="@+id/pad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_pip"
-                    android:textColor="@color/grey_900" />
-
-                <CheckBox
-                    android:id="@+id/pip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_common_draw"
-                    android:textColor="@color/grey_900" />
-
-                <RadioGroup
-                    android:id="@+id/draw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkedButton="@id/texture"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/surface"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/setting_common_surface" />
-
-                    <RadioButton
-                        android:id="@+id/texture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/setting_common_texture" />
-
-                </RadioGroup>
-            </TableRow>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/control"
+        <SeekBar
+            android:id="@+id/delay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:layout_marginStart="-4dp"
+            android:max="5" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
+    </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_control_delay"
-                    android:textColor="@color/grey_900" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-                <SeekBar
-                    android:id="@+id/delay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
-                    android:max="5" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:text="@string/setting_draw"
+            android:textColor="@color/grey_900" />
 
-            </TableRow>
+        <RadioGroup
+            android:id="@+id/draw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/texture"
+            android:orientation="horizontal">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:gravity="center_vertical">
+            <RadioButton
+                android:id="@+id/surface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="@string/setting_surface" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:text="@string/setting_control_rev"
-                    android:textColor="@color/grey_900" />
+            <RadioButton
+                android:id="@+id/texture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_texture" />
 
-                <CheckBox
-                    android:id="@+id/rev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+        </RadioGroup>
+    </TableRow>
 
-            </TableRow>
-        </LinearLayout>
-    </LinearLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-</androidx.core.widget.NestedScrollView>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/setting_full"
+                android:textColor="@color/grey_900" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/pip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/setting_pip"
+                android:textColor="@color/grey_900" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/pad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/setting_pad"
+                android:textColor="@color/grey_900" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/boot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/setting_boot"
+                android:textColor="@color/grey_900" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/rev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/setting_rev"
+                android:textColor="@color/grey_900" />
+
+        </FrameLayout>
+
+    </TableRow>
+</LinearLayout>
