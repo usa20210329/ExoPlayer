@@ -182,11 +182,9 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onRetry() {
-		if (++retry < 3 && mChannelAdapter.getCurrent() != null) {
-			getUrl(mChannelAdapter.getCurrent());
-		} else {
-			onError();
-		}
+		Channel current = mChannelAdapter.getCurrent();
+		if (++retry < 3 && current != null) getUrl(current);
+		else onError();
 	}
 
 	private void onError() {
