@@ -108,6 +108,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:text="@string/setting_full"
                 android:textColor="@color/grey_900" />
 
@@ -125,6 +126,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:text="@string/setting_pip"
                 android:textColor="@color/grey_900" />
 
@@ -142,6 +144,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:text="@string/setting_pad"
                 android:textColor="@color/grey_900" />
 
@@ -159,6 +162,7 @@
                 android:layout_gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:text="@string/setting_boot"
                 android:textColor="@color/grey_900" />
 
@@ -176,10 +180,10 @@
                 android:layout_gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:text="@string/setting_rev"
                 android:textColor="@color/grey_900" />
 
         </FrameLayout>
-
     </TableRow>
 </LinearLayout>

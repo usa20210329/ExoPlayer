@@ -127,7 +127,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onItemClick(Type item, boolean tv) {
-		if (item.isSetting()) SettingDialog.show(this);
+		if (item.isSetting()) SettingDialog.show(this, tv);
 		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
 		binding.channel.scrollToPosition(item.getPosition());
 	}
@@ -408,7 +408,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	@Override
 	public void onKeyMenu() {
-		SettingDialog.show(this);
+		SettingDialog.show(this, true);
 	}
 
 	private void reposition() {

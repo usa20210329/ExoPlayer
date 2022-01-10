@@ -4,10 +4,6 @@ import android.content.Context;
 
 public class TVCore {
 
-	static {
-		System.loadLibrary("tvcore");
-	}
-
 	private long nativeHandle;
 
 	private static class Loader {
@@ -20,6 +16,7 @@ public class TVCore {
 
 	private TVCore() {
 		try {
+			System.loadLibrary("tvcore");
 			nativeHandle = initialise();
 		} catch (Throwable e) {
 			e.printStackTrace();

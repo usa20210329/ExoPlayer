@@ -27,13 +27,15 @@ public class SettingDialog extends BottomSheetDialogFragment {
 
 	private DialogSettingBinding binding;
 	private final PlayerActivity context;
+	private boolean tv;
 
-	public static void show(PlayerActivity context) {
-		new SettingDialog(context).show(context.getSupportFragmentManager(), null);
+	public static void show(PlayerActivity context, boolean tv) {
+		new SettingDialog(context, tv).show(context.getSupportFragmentManager(), null);
 	}
 
-	private SettingDialog(PlayerActivity context) {
+	private SettingDialog(PlayerActivity context, boolean tv) {
 		this.context = context;
+		this.tv = tv;
 	}
 
 	@Nullable
@@ -55,9 +57,8 @@ public class SettingDialog extends BottomSheetDialogFragment {
 	private void setBehavior(BottomSheetDialog dialog) {
 		FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
 		BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-		behavior.setSkipCollapsed(true);
 		behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-		behavior.setMaxWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+		behavior.setSkipCollapsed(true);
 	}
 
 	@Override
@@ -76,6 +77,10 @@ public class SettingDialog extends BottomSheetDialogFragment {
 		binding.pip.setChecked(Prefers.isPip());
 		binding.rev.setChecked(Prefers.isRev());
 		binding.draw.check(Prefers.isHdr() ? R.id.surface : R.id.texture);
+		binding.pad.setVisibility(tv ? View.GONE : View.VISIBLE);
+		binding.pip.setVisibility(tv ? View.GONE : View.VISIBLE);
+		binding.rev.setVisibility(tv ? View.VISIBLE : View.GONE);
+		binding.boot.setVisibility(tv ? View.VISIBLE : View.GONE);
 	}
 
 	protected void initEvent() {
