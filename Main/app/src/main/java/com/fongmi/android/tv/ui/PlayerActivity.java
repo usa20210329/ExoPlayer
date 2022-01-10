@@ -178,10 +178,11 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
 		mPlayer.prepare();
 		mPlayer.play();
+		retry = 0;
 	}
 
 	private void onRetry() {
-		if (++retry < 5 && mChannelAdapter.getCurrent() != null) {
+		if (++retry < 3 && mChannelAdapter.getCurrent() != null) {
 			getUrl(mChannelAdapter.getCurrent());
 		} else {
 			onError();
@@ -483,14 +484,12 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	public void onBackPressed() {
 		if (isVisible(binding.epg.getRoot())) hideEpg();
 		else if (isVisible(binding.recycler)) hideUI();
-		else super.onBackPressed();
+		else finish();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (!isFinishing()) return;
-		mPlayer.stop();
 		mPlayer.release();
 		TvBus.get().destroy();
 		Force.get().destroy();
