@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <TableRow
         android:layout_width="match_parent"
@@ -96,94 +98,65 @@
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
 
-        <FrameLayout
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/full"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:layout_marginEnd="16dp"
+            android:singleLine="true"
+            android:text="@string/setting_full"
+            android:textColor="@color/grey_900" />
 
-            <CheckBox
-                android:id="@+id/full"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:text="@string/setting_full"
-                android:textColor="@color/grey_900" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/pip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:singleLine="true"
+            android:text="@string/setting_pip"
+            android:textColor="@color/grey_900" />
 
-            <CheckBox
-                android:id="@+id/pip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:text="@string/setting_pip"
-                android:textColor="@color/grey_900" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/pad"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:paddingStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:paddingEnd="4dp"
+            android:singleLine="true"
+            android:text="@string/setting_pad"
+            android:textColor="@color/grey_900" />
 
-            <CheckBox
-                android:id="@+id/pad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:text="@string/setting_pad"
-                android:textColor="@color/grey_900" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/boot"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:singleLine="true"
+            android:text="@string/setting_boot"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/grey_900" />
 
-            <CheckBox
-                android:id="@+id/boot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:text="@string/setting_boot"
-                android:textColor="@color/grey_900" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/rev"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:singleLine="true"
+            android:text="@string/setting_rev"
+            android:textColor="@color/grey_900" />
 
-            <CheckBox
-                android:id="@+id/rev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:text="@string/setting_rev"
-                android:textColor="@color/grey_900" />
-
-        </FrameLayout>
     </TableRow>
 </LinearLayout>

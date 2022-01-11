@@ -13,19 +13,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_1"
             android:text="@string/num_1" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_2"
             android:text="@string/num_2" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_3"
@@ -37,19 +37,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_4"
             android:text="@string/num_4" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_5"
             android:text="@string/num_5" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_6"
@@ -61,19 +61,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_7"
             android:text="@string/num_7" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_8"
             android:text="@string/num_8" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_9"
@@ -85,19 +85,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <TextView
             android:id="@+id/add"
             style="@style/KeyStyle"
             android:onClick="onAdd"
             android:text="@string/add" />
 
-        <Button
+        <TextView
             style="@style/KeyStyle"
             android:onClick="onKeyDown"
             android:tag="@string/num_0"
             android:text="@string/num_0" />
 
-        <Button
+        <TextView
             android:id="@+id/sub"
             style="@style/KeyStyle"
             android:onClick="onSub"
