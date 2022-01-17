@@ -27,7 +27,7 @@ public class SettingDialog extends BottomSheetDialogFragment {
 
 	private DialogSettingBinding binding;
 	private final PlayerActivity context;
-	private boolean tv;
+	private final boolean tv;
 
 	public static void show(PlayerActivity context, boolean tv) {
 		new SettingDialog(context, tv).show(context.getSupportFragmentManager(), null);

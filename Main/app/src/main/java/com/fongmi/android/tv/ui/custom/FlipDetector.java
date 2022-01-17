@@ -8,7 +8,7 @@ import com.fongmi.android.tv.impl.KeyDownImpl;
 
 public class FlipDetector implements GestureDetector.OnGestureListener {
 
-	private static final int DISTANCE = 50;
+	private static final int DISTANCE = 150;
 	private final KeyDownImpl mKeyDown;
 
 	public static GestureDetector create(Context context) {
@@ -48,7 +48,7 @@ public class FlipDetector implements GestureDetector.OnGestureListener {
 		if (e1.getY() - e2.getY() > DISTANCE) {
 			mKeyDown.onFlip(true);
 			return true;
-		} else if (e2.getY() - e1.getY() > DISTANCE) {
+		} else if (e1.getY() > 100 && e2.getY() - e1.getY() > DISTANCE) {
 			mKeyDown.onFlip(false);
 			return true;
 		} else {
