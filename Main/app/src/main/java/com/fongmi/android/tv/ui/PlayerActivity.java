@@ -279,7 +279,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.epg.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		binding.epg.play.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefers.getSize() * 2 + 16);
 		ViewGroup.LayoutParams params = binding.recycler.getLayoutParams();
-		params.width = Utils.dp2px(Prefers.getSize() * 24 + 380);
+		params.width = Utils.dp2px(Prefers.getSize() * 24 + 400);
 		binding.recycler.setLayoutParams(params);
 	}
 

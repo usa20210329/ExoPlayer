@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="6"
+            android:letterSpacing="0.05"
             android:text="@string/setting_size"
             android:textColor="@color/grey_900" />
 
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="6"
+            android:letterSpacing="0.05"
             android:text="@string/setting_delay"
             android:textColor="@color/grey_900" />
 
@@ -65,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="6"
+            android:letterSpacing="0.05"
             android:text="@string/setting_draw"
             android:textColor="@color/grey_900" />
 
@@ -80,12 +83,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
+                android:letterSpacing="0.05"
                 android:text="@string/setting_surface" />
 
             <RadioButton
                 android:id="@+id/texture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:letterSpacing="0.05"
                 android:text="@string/setting_texture" />
 
         </RadioGroup>
@@ -103,9 +108,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:letterSpacing="0.05"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:layout_marginEnd="16dp"
             android:singleLine="true"
             android:text="@string/setting_full"
             android:textColor="@color/grey_900" />
@@ -116,6 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
+            android:letterSpacing="0.05"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:singleLine="true"
@@ -127,8 +134,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingStart="4dp"
             android:layout_marginEnd="16dp"
+            android:letterSpacing="0.05"
+            android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:singleLine="true"
             android:text="@string/setting_pad"
@@ -139,11 +147,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:letterSpacing="0.05"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:singleLine="true"
             android:text="@string/setting_boot"
-            android:layout_marginEnd="16dp"
             android:textColor="@color/grey_900" />
 
         <CheckBox
@@ -152,6 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
+            android:letterSpacing="0.05"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:singleLine="true"

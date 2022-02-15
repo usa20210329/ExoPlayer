@@ -10,13 +10,15 @@
 
         <TextView
             android:id="@id/exo_position"
-            style="@style/ExoStyledControls.TimeText.Position" />
+            style="@style/ExoStyledControls.TimeText.Position"
+            android:letterSpacing="0.05" />
 
         <TextView style="@style/ExoStyledControls.TimeText.Separator" />
 
         <TextView
             android:id="@id/exo_duration"
-            style="@style/ExoStyledControls.TimeText.Duration" />
+            style="@style/ExoStyledControls.TimeText.Duration"
+            android:letterSpacing="0.05" />
 
     </LinearLayout>
 
