@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
 import com.google.android.exoplayer2.util.Util;
@@ -124,7 +123,7 @@ public class Utils {
 	}
 
 	public static void loadImage(String url, ImageView view) {
-		Glide.with(App.get()).load(getImageUrl(url)).transition(DrawableTransitionOptions.withCrossFade()).into(view);
+		Glide.with(App.get()).load(getImageUrl(url)).into(view);
 	}
 
 	private static GlideUrl getImageUrl(String url) {
