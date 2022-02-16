@@ -7,6 +7,8 @@ import android.os.IBinder;
 
 public class TVService extends Service {
 
+	private TVCore tvCore;
+
 	public static void start(Context context) {
 		try {
 			context.startService(new Intent(context, TVService.class));
@@ -25,7 +27,11 @@ public class TVService extends Service {
 
 	@Override
 	public void onCreate() {
-		new Thread(new TVServer()).start();
+		tvCore = TVCore.getInstance();
+		tvCore.setServPort(0);
+		tvCore.setPlayPort(8902);
+		tvCore.setRunningMode(1);
+		tvCore.init(this);
 	}
 
 	@Override
@@ -35,30 +41,12 @@ public class TVService extends Service {
 
 	@Override
 	public void onDestroy() {
-		TVCore.getInstance().quit();
 		super.onDestroy();
+		tvCore.quit();
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
-	}
-
-	private class TVServer implements Runnable {
-
-		private TVCore tvcore;
-
-		private TVServer() {
-			this.tvcore = TVCore.getInstance();
-		}
-
-		@Override
-		public void run() {
-			tvcore.setServPort(0);
-			tvcore.setPlayPort(8902);
-			tvcore.setRunningMode(1);
-			int ret = tvcore.init(getApplicationContext());
-			if (ret == 0) tvcore.run();
-		}
 	}
 }
