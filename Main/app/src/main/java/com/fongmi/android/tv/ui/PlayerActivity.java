@@ -137,6 +137,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void onItemClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
+		ZLive.get().stop();
 		showProgress();
 		showEpg(item);
 		getEpg(item);
@@ -194,6 +195,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Notify.show(R.string.channel_error);
 		TvBus.get().stop();
 		Force.get().stop();
+		ZLive.get().stop();
 		hideProgress();
 		mPlayer.stop();
 		retry = 0;

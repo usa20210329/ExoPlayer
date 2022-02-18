@@ -16,6 +16,7 @@ public class ZLive {
 	private final String BASE = "http://127.0.0.1:6677/stream/";
 	private final Handler handler;
 	private AsyncCallback callback;
+	private HttpURLConnection conn;
 	private String current;
 
 	private static class Loader {
@@ -39,9 +40,13 @@ public class ZLive {
 		this.onPrepare(source);
 	}
 
+	public void stop() {
+		if (conn != null) conn.disconnect();
+	}
+
 	public void destroy() {
 		try {
-			com.east.android.zlive.ZLive.INSTANCE.OnLiveStop();
+			stop(); com.east.android.zlive.ZLive.INSTANCE.OnLiveStop();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +77,7 @@ public class ZLive {
 
 	private void connect(String url) {
 		try {
-			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+			conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setRequestProperty("connection", "Keep-Alive");
 			conn.setRequestProperty("accept", "*/*");
 			conn.connect();
