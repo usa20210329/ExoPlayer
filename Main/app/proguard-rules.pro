@@ -17,6 +17,12 @@
 # tvbus
 -keep class com.tvbus.engine.** { *; }
 
+# zlive
+-keep class com.east.android.zlive.** { *; }
+
+# jna
+-keep class com.sun.jna.** { *; }
+
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep class * extends com.bumptech.glide.module.AppGlideModule {

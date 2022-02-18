@@ -13,6 +13,7 @@ import java.net.URL;
 
 public class ZLive {
 
+	private final String BASE = "http://127.0.0.1:6677/stream/";
 	private final Handler handler;
 	private AsyncCallback callback;
 	private String current;
@@ -38,10 +39,6 @@ public class ZLive {
 		this.onPrepare(source);
 	}
 
-	public void stop() {
-		if (current != null) new Thread(() -> connect("close", current)).start();
-	}
-
 	public void destroy() {
 		try {
 			com.east.android.zlive.ZLive.INSTANCE.OnLiveStop();
@@ -50,18 +47,32 @@ public class ZLive {
 		}
 	}
 
+	private String getLive(String uuid) {
+		return BASE + "live?uuid=" + uuid;
+	}
+
+	private String getOpen(String uuid) {
+		return BASE + "open?uuid=" + uuid;
+	}
+
+	private String getClose(String uuid) {
+		return BASE + "close?uuid=" + uuid;
+	}
+
 	public void onPrepare(String source) {
 		String[] split = source.split("/");
 		String server = split[2];
 		String uuid = split[3];
-		connect("open", current = uuid);
-		String result = "http://127.0.0.1:6677/stream/live?uuid=" + uuid + "&server=" + server + "&group=5850&mac=00:00:00:00:00:00&dir=" + FileUtil.getCachePath().getAbsolutePath();
+		if (current != null) connect(getClose(uuid));
+		connect(getOpen(current = uuid));
+		String param = "&group=5850&mac=00:00:00:00:00:00&dir=";
+		String result = getLive(uuid) + "&server=" + server + param + FileUtil.getCachePath().getAbsolutePath();
 		handler.post(() -> callback.onResponse(result));
 	}
 
-	private void connect(String action, String uuid) {
+	private void connect(String url) {
 		try {
-			HttpURLConnection conn = (HttpURLConnection) new URL("http://127.0.0.1:6677/stream/" + action + "?uuid=" + uuid).openConnection();
+			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setRequestProperty("connection", "Keep-Alive");
 			conn.setRequestProperty("accept", "*/*");
 			conn.connect();
