@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation project(path: ':tvbus')
+    implementation project(path: ':zlive')
     implementation project(path: ':forcetech')
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -51,6 +52,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
+    implementation 'net.java.dev.jna:jna:5.10.0'
     implementation 'org.jsoup:jsoup:1.14.3'
     annotationProcessor 'androidx.room:room-compiler:2.4.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'

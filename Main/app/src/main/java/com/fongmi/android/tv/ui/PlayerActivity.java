@@ -27,6 +27,7 @@ import com.fongmi.android.tv.network.ApiService;
 import com.fongmi.android.tv.receiver.VerifyReceiver;
 import com.fongmi.android.tv.source.Force;
 import com.fongmi.android.tv.source.TvBus;
+import com.fongmi.android.tv.source.ZLive;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
 import com.fongmi.android.tv.ui.custom.FlipDetector;
@@ -121,6 +122,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
+		ZLive.get().init();
 		hideProgress();
 		checkKeep();
 		hideUUID();
@@ -135,6 +137,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void onItemClick(Channel item) {
 		TvBus.get().stop();
 		Force.get().stop();
+		ZLive.get().stop();
 		showProgress();
 		showEpg(item);
 		getEpg(item);
@@ -192,6 +195,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Notify.show(R.string.channel_error);
 		TvBus.get().stop();
 		Force.get().stop();
+		ZLive.get().stop();
 		hideProgress();
 		mPlayer.stop();
 		retry = 0;
@@ -492,6 +496,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		mPlayer.release();
 		TvBus.get().destroy();
 		Force.get().destroy();
+		ZLive.get().destroy();
 		Clock.get().destroy();
 		System.exit(0);
 	}

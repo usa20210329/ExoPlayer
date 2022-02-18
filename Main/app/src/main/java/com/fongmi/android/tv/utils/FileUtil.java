@@ -22,7 +22,7 @@ public class FileUtil {
 
 	private static final String TAG = FileUtil.class.getSimpleName();
 
-	private static File getCachePath() {
+	public static File getCachePath() {
 		return App.get().getExternalCacheDir();
 	}
 

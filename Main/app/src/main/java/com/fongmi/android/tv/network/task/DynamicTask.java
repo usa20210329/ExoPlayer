@@ -8,6 +8,7 @@ import com.fongmi.android.tv.impl.AsyncCallback;
 import com.fongmi.android.tv.network.Connector;
 import com.fongmi.android.tv.source.Force;
 import com.fongmi.android.tv.source.TvBus;
+import com.fongmi.android.tv.source.ZLive;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,6 +39,7 @@ public class DynamicTask {
 			String url = item.getUrl();
 			if (item.isTvBus()) TvBus.get().start(callback, item.getUrl());
 			else if (item.isForce()) Force.get().start(callback, item.getUrl());
+			else if (item.isZLive()) ZLive.get().start(callback, item.getUrl());
 			else onPostExecute(Connector.link(url).getPath());
 		} catch (Exception e) {
 			onPostExecute(item.getUrl());

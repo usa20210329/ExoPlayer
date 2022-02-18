@@ -95,6 +95,10 @@ public class Channel extends Bean {
 		return getUrl().startsWith("p5p://");
 	}
 
+	public boolean isZLive() {
+		return getUrl().startsWith("zlive://");
+	}
+
 	public void putKeep() {
 		Prefers.putKeep(getNumber());
 	}
