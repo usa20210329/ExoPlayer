@@ -66,7 +66,7 @@ public class ZLive {
 
 	private void connect(String url) {
 		try {
-			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute().body().string();
+			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute();
 		} catch (IOException e) {
 			if (callback == null) return;
 			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
