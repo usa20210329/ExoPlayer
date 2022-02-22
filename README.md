@@ -8,4 +8,4 @@
 5. Support Number Pad  
 6. Support EPG 
 7. Support Notice 
-8. Support p5p;tvbus;zlive;rtmp
+8. Support p5p, tvbus, zlive, rtmp
