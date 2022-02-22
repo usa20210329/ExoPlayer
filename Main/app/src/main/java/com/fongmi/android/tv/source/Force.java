@@ -13,16 +13,15 @@ import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.impl.AsyncCallback;
 import com.forcetech.service.P5PService;
 import com.google.android.exoplayer2.PlaybackException;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class Force {
 
 	private final Handler handler;
 	private AsyncCallback callback;
-	private HttpURLConnection conn;
 
 	private static class Loader {
 		static volatile Force INSTANCE = new Force();
@@ -45,13 +44,9 @@ public class Force {
 		this.onPrepare(source);
 	}
 
-	public void stop() {
-		if (conn != null) conn.disconnect();
-	}
-
 	public void destroy() {
 		try {
-			stop(); App.get().unbindService(mConn);
+			App.get().unbindService(mConn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,12 +66,7 @@ public class Force {
 
 	private void connect(String url) {
 		try {
-			conn = (HttpURLConnection) new URL(url).openConnection();
-			conn.setRequestProperty("connection", "Keep-Alive");
-			conn.setRequestProperty("user-agent", "MTV");
-			conn.setRequestProperty("accept", "*/*");
-			conn.connect();
-			conn.getInputStream();
+			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute();
 		} catch (IOException e) {
 			if (callback == null) return;
 			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
