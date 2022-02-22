@@ -13,21 +13,21 @@ import com.tvbus.engine.TVCore;
 import com.tvbus.engine.TVListener;
 import com.tvbus.engine.TVService;
 
-public class TvBus implements TVListener {
+public class TVBus implements TVListener {
 
 	private final Handler handler;
 	private AsyncCallback callback;
 	private TVCore tvcore;
 
 	private static class Loader {
-		static volatile TvBus INSTANCE = new TvBus();
+		static volatile TVBus INSTANCE = new TVBus();
 	}
 
-	public static TvBus get() {
+	public static TVBus get() {
 		return Loader.INSTANCE;
 	}
 
-	public TvBus() {
+	public TVBus() {
 		this.handler = new Handler(Looper.getMainLooper());
 	}
 

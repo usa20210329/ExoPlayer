@@ -26,7 +26,7 @@ import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.network.ApiService;
 import com.fongmi.android.tv.receiver.VerifyReceiver;
 import com.fongmi.android.tv.source.Force;
-import com.fongmi.android.tv.source.TvBus;
+import com.fongmi.android.tv.source.TVBus;
 import com.fongmi.android.tv.source.ZLive;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
@@ -118,7 +118,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
 		mTypeAdapter.addAll(config.getType());
-		TvBus.get().init(config.getCore());
+		TVBus.get().init(config.getCore());
 		setNotice(config.getNotice());
 		Token.setConfig(config);
 		Force.get().init();
@@ -135,7 +135,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onItemClick(Channel item) {
-		TvBus.get().stop();
+		TVBus.get().stop();
 		showProgress();
 		showEpg(item);
 		getEpg(item);
@@ -191,7 +191,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void onError() {
 		Notify.show(R.string.channel_error);
-		TvBus.get().stop();
+		TVBus.get().stop();
 		hideProgress();
 		mPlayer.stop();
 		retry = 0;
@@ -490,7 +490,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	protected void onDestroy() {
 		super.onDestroy();
 		mPlayer.release();
-		TvBus.get().destroy();
+		TVBus.get().destroy();
 		Force.get().destroy();
 		ZLive.get().destroy();
 		Clock.get().destroy();

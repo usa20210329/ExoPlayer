@@ -87,7 +87,7 @@ public class Channel extends Bean {
 		this.type = type;
 	}
 
-	public boolean isTvBus() {
+	public boolean isTVBus() {
 		return getUrl().startsWith("tvbus://");
 	}
 
