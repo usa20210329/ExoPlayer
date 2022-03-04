@@ -146,6 +146,6 @@ public class Utils {
 	}
 
 	public static String getUserAgent() {
-		return Util.getUserAgent(App.get(), App.get().getPackageName());
+		return Util.getUserAgent(App.get(), App.get().getPackageName().concat(".").concat(getUUID()));
 	}
 }

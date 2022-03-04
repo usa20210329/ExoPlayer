@@ -56,7 +56,7 @@ public class SettingDialog extends BottomSheetDialogFragment {
 
 	private void setBehavior(BottomSheetDialog dialog) {
 		FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-		BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+		BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
 		behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 		behavior.setSkipCollapsed(true);
 	}
