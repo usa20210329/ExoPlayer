@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.fongmi.android.tv.BuildConfig;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.bean.Channel;
 import com.fongmi.android.tv.bean.Config;
@@ -98,6 +99,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
+		binding.widget.version.setText(BuildConfig.VERSION_NAME);
 		mHandler.postDelayed(mShowUUID, 5000);
 		Clock.start(binding.epg.time);
 		setPlayerView();
@@ -117,6 +119,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
+		Utils.hideView(binding.widget.version);
 		mTypeAdapter.addAll(config.getType());
 		TVBus.get().init(config.getCore());
 		setNotice(config.getNotice());
