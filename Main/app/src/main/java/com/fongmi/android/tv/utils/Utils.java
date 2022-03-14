@@ -1,7 +1,5 @@
 package com.fongmi.android.tv.utils;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.PictureInPictureParams;
 import android.content.pm.PackageManager;
@@ -84,21 +82,11 @@ public class Utils {
 	}
 
 	public static void showView(View view) {
-		view.animate().alpha(1).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator animation) {
-				view.setVisibility(View.VISIBLE);
-			}
-		}).start();
+		view.setVisibility(View.VISIBLE);
 	}
 
 	public static void hideView(View view) {
-		view.animate().alpha(0).setDuration(250).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				view.setVisibility(View.GONE);
-			}
-		}).start();
+		view.setVisibility(View.GONE);
 	}
 
 	public static void hideSystemUI(Activity activity) {

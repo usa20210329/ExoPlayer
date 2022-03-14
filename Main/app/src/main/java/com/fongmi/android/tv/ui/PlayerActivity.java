@@ -209,7 +209,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private boolean isVisible(View view) {
-		return view.getAlpha() == 1;
+		return view.getVisibility() == View.VISIBLE;
 	}
 
 	private void showProgress() {
