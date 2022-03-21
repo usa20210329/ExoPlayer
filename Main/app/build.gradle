@@ -38,7 +38,7 @@ dependencies {
     implementation project(path: ':tvbus')
     implementation project(path: ':zlive')
     implementation project(path: ':forcetech')
-    implementation platform('com.google.firebase:firebase-bom:29.2.0')
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
