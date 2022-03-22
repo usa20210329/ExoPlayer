@@ -26,14 +26,6 @@
     <string name="setting_delay">數字鍵延遲</string>
     <string name="setting_rev">上下鍵相反</string>
 
-    <!-- Column -->
-    <string name="column_user">使用者</string>
-    <string name="column_version">版本</string>
-    <string name="column_device">裝置</string>
-    <string name="column_enable">啟用</string>
-    <string name="column_date">登入日期</string>
-    <string name="column_ip">位址</string>
-
     <!-- Keypad -->
     <string name="num_0">0</string>
     <string name="num_1">1</string>
