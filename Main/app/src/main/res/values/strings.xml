@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="http://schemas.android.com/apk/res-auto" tools:ignore="ExtraTranslation">
 
     <!-- App -->
-    <string name="app_name">熊愛電視</string>
+    <string name="app_name">ExoPlayer</string>
     <string name="app_unlock">已解鎖</string>
     <string name="app_update">發現新版本</string>
     <string name="app_uuid">UUID : <xliff:g name="name">%s</xliff:g></string>

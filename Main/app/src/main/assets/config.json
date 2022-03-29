@@ -1,0 +1,112 @@
+{
+  "notice": "Here is notice, Here is notice, Here is notice, Here is notice, Here is notice",
+  "type": [
+    {
+      "channel": [
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch01",
+          "number": "101",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch02",
+          "number": "102",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        }
+      ],
+      "hidden": false,
+      "id": 1,
+      "logo": "",
+      "name": "Type 1"
+    },
+    {
+      "channel": [
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch01",
+          "number": "201",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch02",
+          "number": "202",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch03",
+          "number": "203",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        }
+      ],
+      "hidden": false,
+      "id": 2,
+      "logo": "",
+      "name": "Type 2"
+    },
+    {
+      "channel": [
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch01",
+          "number": "001",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch02",
+          "number": "300",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch03",
+          "number": "301",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        },
+        {
+          "dynamic": false,
+          "epg": "",
+          "logo": "",
+          "name": "Ch04",
+          "number": "302",
+          "ua": "",
+          "url": "http://sample.vodobox.com/big_buck_bunny_4k/big_buck_bunny_4k.m3u8"
+        }
+      ],
+      "hidden": false,
+      "id": 3,
+      "logo": "",
+      "name": "Type 3"
+    }
+  ],
+  "url": "",
+  "version": 1
+}

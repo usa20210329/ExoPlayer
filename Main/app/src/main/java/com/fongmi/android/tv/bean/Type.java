@@ -17,7 +17,6 @@ public class Type extends Bean {
 		Type type = new Type();
 		type.setId(id);
 		type.setName(Utils.getString(id));
-		type.setLogo(type.isKeep() ? "keep.png" : "setting.png");
 		return type;
 	}
 

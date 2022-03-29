@@ -15,7 +15,10 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLConnection;
 
 public class FileUtil {
@@ -43,6 +46,24 @@ public class FileUtil {
 
 	private static Uri getShareUri(File file) {
 		return Build.VERSION.SDK_INT < Build.VERSION_CODES.N ? Uri.fromFile(file) : FileProvider.getUriForFile(App.get(), App.get().getPackageName() + ".provider", file);
+	}
+
+	public static String getAssets(String fileName) {
+		try {
+			return getInputStream(App.get().getAssets().open(fileName));
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	private static String getInputStream(InputStream is) throws Exception {
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		StringBuilder sb = new StringBuilder();
+		String text;
+		while ((text = br.readLine()) != null) sb.append(text).append("\n");
+		br.close();
+		return sb.toString();
 	}
 
 	public static void checkUpdate(long version) {

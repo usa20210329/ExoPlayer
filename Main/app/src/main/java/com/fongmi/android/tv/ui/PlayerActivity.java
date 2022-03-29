@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -25,7 +26,6 @@ import com.fongmi.android.tv.databinding.ActivityPlayerBinding;
 import com.fongmi.android.tv.impl.AsyncCallback;
 import com.fongmi.android.tv.impl.KeyDownImpl;
 import com.fongmi.android.tv.network.ApiService;
-import com.fongmi.android.tv.receiver.VerifyReceiver;
 import com.fongmi.android.tv.source.Force;
 import com.fongmi.android.tv.source.TVBus;
 import com.fongmi.android.tv.source.ZLive;
@@ -39,7 +39,6 @@ import com.fongmi.android.tv.utils.FileUtil;
 import com.fongmi.android.tv.utils.KeyDown;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Prefers;
-import com.fongmi.android.tv.utils.Token;
 import com.fongmi.android.tv.utils.Utils;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
@@ -48,7 +47,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView;
 
 import java.util.Objects;
 
-public class PlayerActivity extends AppCompatActivity implements Player.Listener, VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements Player.Listener, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
@@ -69,16 +68,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Utils.hideSystemUI(this);
 		initView();
 		initEvent();
+		getConfig();
 	}
 
 	private void initView() {
 		mHandler = new Handler();
 		mKeyDown = KeyDown.create(this);
 		mDetector = FlipDetector.create(this);
-		VerifyReceiver.create(this);
-		ApiService.getIP();
 		showProgress();
-		Token.check();
 		setView();
 	}
 
@@ -107,23 +104,15 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		setScaleType();
 	}
 
-	@Override
-	public void onVerified() {
-		ApiService.getConfig(new AsyncCallback() {
-			@Override
-			public void onResponse(Config config) {
-				setConfig(config);
-			}
-		});
+	public void getConfig() {
+		setConfig(Config.get(FileUtil.getAssets("config.json")));
 	}
 
 	private void setConfig(Config config) {
 		FileUtil.checkUpdate(config.getVersion());
 		Utils.hideView(binding.widget.version);
 		mTypeAdapter.addAll(config.getType());
-		TVBus.get().init(config.getCore());
 		setNotice(config.getNotice());
-		Token.setConfig(config);
 		Force.get().init();
 		ZLive.get().init();
 		hideProgress();
