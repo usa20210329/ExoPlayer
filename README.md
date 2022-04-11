@@ -1,9 +1,9 @@
 # ExoPlayer Demo App
 
 ### Function
+PiP  
 EPG  
 Notice  
-PiP Mode  
 Firebase  
 Classification  
 D-Pad, Number Pad  
