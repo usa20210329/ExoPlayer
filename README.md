@@ -5,7 +5,6 @@ EPG
 Notice  
 PiP Mode  
 Firebase  
-Number Pad  
-D-Pad Control  
 Classification  
+D-Pad, Number Pad  
 p5p, tvbus, zlive, rtmp
