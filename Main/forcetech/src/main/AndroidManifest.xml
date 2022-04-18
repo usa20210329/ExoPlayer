@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.forcetech" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.forcetech">
+
+    <application>
+
+        <service
+            android:name="com.forcetech.service.P5PService"
+            android:exported="false"
+            android:process=":p5p" />
+
+    </application>
+</manifest>

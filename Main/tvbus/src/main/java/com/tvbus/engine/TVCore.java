@@ -16,6 +16,7 @@ public class TVCore {
 
 	private TVCore() {
 		try {
+			PmsHook.inject();
 			System.loadLibrary("tvcore");
 			nativeHandle = initialise();
 		} catch (Throwable e) {

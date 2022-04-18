@@ -22,24 +22,30 @@ public class PmsHook implements InvocationHandler {
 	private String name;
 	private Object base;
 
-	public static void inject(Context context) {
-		new PmsHook().hook(context);
+	public static void inject() {
+		new PmsHook().hook();
 	}
 
-	public void hook(Context context) {
+	private Context getContext() throws Exception {
+		Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
+		Method method = activityThreadClass.getMethod("currentApplication");
+		return (Context) method.invoke(null);
+	}
+
+	private void hook() {
 		try {
 			Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
 			Class<?> iPackageManagerInterface = Class.forName("android.content.pm.IPackageManager");
 			Method currentActivityThreadMethod = activityThreadClass.getDeclaredMethod("currentActivityThread");
-			Object currentActivityThread = currentActivityThreadMethod.invoke(null);
 			Field sPackageManagerField = activityThreadClass.getDeclaredField("sPackageManager");
+			Object currentActivityThread = currentActivityThreadMethod.invoke(null);
 			sPackageManagerField.setAccessible(true);
-			this.sign = getSign(context);
-			this.name = context.getPackageName();
+			this.sign = getSign(getContext());
+			this.name = getContext().getPackageName();
 			this.base = sPackageManagerField.get(currentActivityThread);
 			Object proxy = Proxy.newProxyInstance(iPackageManagerInterface.getClassLoader(), new Class<?>[]{iPackageManagerInterface}, this);
 			sPackageManagerField.set(currentActivityThread, proxy);
-			PackageManager pm = context.getPackageManager();
+			PackageManager pm = getContext().getPackageManager();
 			Field mPmField = pm.getClass().getDeclaredField("mPM");
 			mPmField.setAccessible(true);
 			mPmField.set(pm, proxy);
