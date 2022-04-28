@@ -31,6 +31,7 @@ import com.fongmi.android.tv.source.TVBus;
 import com.fongmi.android.tv.source.ZLive;
 import com.fongmi.android.tv.ui.adapter.ChannelAdapter;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
+import com.fongmi.android.tv.ui.custom.PassDialog;
 import com.fongmi.android.tv.ui.custom.FlipDetector;
 import com.fongmi.android.tv.ui.custom.SettingDialog;
 import com.fongmi.android.tv.utils.Clock;
@@ -60,6 +61,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private KeyDown mKeyDown;
 	private Handler mHandler;
 	private int retry;
+	private int count;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		if (item.isSetting()) SettingDialog.show(this, tv);
 		else if (item != mChannelAdapter.getType()) mChannelAdapter.addAll(item);
 		binding.channel.scrollToPosition(item.getPosition());
+		if (!item.isKeep() || ++count < 5) return;
+		PassDialog.show(this, mTypeAdapter);
 	}
 
 	private void onItemClick(Channel item) {
@@ -487,6 +491,11 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		if (isVisible(binding.epg.getRoot())) hideEpg();
 		else if (isVisible(binding.recycler)) hideUI();
 		else finish();
+	}
+
+	@Override
+	public void finish() {
+		super.finishAndRemoveTask();
 	}
 
 	@Override

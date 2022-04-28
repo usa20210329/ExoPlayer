@@ -28,7 +28,6 @@ public class TypeHolder extends RecyclerView.ViewHolder implements View.OnClickL
 	public void onClick(View view) {
 		adapter.setPosition(getLayoutPosition());
 		adapter.setSelected();
-		adapter.addCount();
 		adapter.setType();
 	}
 

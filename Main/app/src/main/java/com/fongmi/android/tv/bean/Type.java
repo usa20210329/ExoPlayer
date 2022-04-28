@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Type extends Bean {
 
+	private String pass;
 	private List<Channel> channel;
 	private boolean hidden;
 	private int position;
@@ -52,12 +53,16 @@ public class Type extends Bean {
 		this.channel = channel;
 	}
 
+	public String getPass() {
+		return pass;
+	}
+
 	public boolean isKeep() {
-		return getId() == R.string.channel_type_keep;
+		return getId() == R.string.type_keep;
 	}
 
 	public boolean isSetting() {
-		return getId() == R.string.channel_type_setting;
+		return getId() == R.string.type_setting;
 	}
 
 	public int find(String number) {
