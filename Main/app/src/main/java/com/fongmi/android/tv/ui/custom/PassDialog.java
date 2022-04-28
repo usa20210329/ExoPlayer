@@ -62,7 +62,12 @@ public class PassDialog extends BottomSheetDialogFragment {
 	}
 
 	protected void initEvent() {
-		binding.confirm.setOnClickListener(view -> adapter.addHides(binding.pass.getText().toString()));
+		binding.confirm.setOnClickListener(this::addHides);
+	}
+
+	private void addHides(View view) {
+		adapter.addHides(binding.pass.getText().toString());
+		dismiss();
 	}
 
 	@Override

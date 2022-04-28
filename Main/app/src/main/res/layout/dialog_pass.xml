@@ -21,7 +21,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLength="10"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.bean;
 
+import android.text.TextUtils;
+
 import com.fongmi.android.tv.AppDatabase;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.utils.Utils;
@@ -54,7 +56,7 @@ public class Type extends Bean {
 	}
 
 	public String getPass() {
-		return pass;
+		return TextUtils.isEmpty(pass) ? "" : pass;
 	}
 
 	public boolean isKeep() {

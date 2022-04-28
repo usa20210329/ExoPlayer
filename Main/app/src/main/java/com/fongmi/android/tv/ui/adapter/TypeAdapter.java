@@ -103,6 +103,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	}
 
 	public void addHides(String pass) {
+		if (pass.isEmpty()) return;
 		int position = mItems.size() - 1;
 		for (Type item : mHides) {
 			if (!item.getPass().equals(pass)) continue;
