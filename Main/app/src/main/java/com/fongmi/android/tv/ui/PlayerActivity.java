@@ -46,16 +46,19 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
+import com.lodz.android.mmsplayer.impl.MmsVideoView;
 
 import java.util.Objects;
 
-public class PlayerActivity extends AppCompatActivity implements Player.Listener, VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements Player.Listener, MmsVideoView.Listener, VerifyReceiver.Callback, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;
 	private ActivityPlayerBinding binding;
 	private GestureDetector mDetector;
 	private ChannelAdapter mChannelAdapter;
+	private IjkPlayerSetting mSetting;
 	private TypeAdapter mTypeAdapter;
 	private ExoPlayer mPlayer;
 	private KeyDown mKeyDown;
@@ -87,8 +90,10 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@SuppressLint("ClickableViewAccessibility")
 	private void initEvent() {
 		mPlayer.addListener(this);
+		binding.ijk.setListener(this);
 		mTypeAdapter.setOnItemClickListener(this::onItemClick);
 		mChannelAdapter.setOnItemClickListener(this::onItemClick);
+		binding.ijk.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 		binding.surface.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 		binding.texture.setOnTouchListener((view, event) -> mDetector.onTouchEvent(event));
 	}
@@ -101,6 +106,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
+		binding.ijk.init(mSetting = IjkPlayerSetting.getDefault());
 		binding.widget.version.setText(BuildConfig.VERSION_NAME);
 		mHandler.postDelayed(mShowUUID, 5000);
 		Clock.start(binding.epg.time);
@@ -185,13 +191,19 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onPlay(String userAgent, String url) {
-		mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
-		mPlayer.prepare();
-		mPlayer.play();
-		retry = 0;
+		if (Prefers.isExo()) {
+			mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
+			mPlayer.prepare();
+			mPlayer.play();
+			retry = 0;
+		} else {
+			binding.ijk.setVideoPath(url);
+			binding.ijk.start();
+			retry = 0;
+		}
 	}
 
-	private void onRetry() {
+	public void onRetry() {
 		Channel current = mChannelAdapter.getCurrent();
 		if (++retry < 3 && current != null) getUrl(current);
 		else onError();
@@ -199,9 +211,10 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void onError() {
 		Notify.show(R.string.channel_error);
+		if (Prefers.isExo()) mPlayer.stop();
+		else binding.ijk.stopPlayback();
 		TVBus.get().stop();
 		hideProgress();
-		mPlayer.stop();
 		retry = 0;
 	}
 
@@ -212,7 +225,17 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	@Override
+	public void onPrepared() {
+		hideProgress();
+	}
+
+	@Override
 	public void onPlayerError(@NonNull PlaybackException error) {
+		onRetry();
+	}
+
+	@Override
+	public void onError(int errorType, String msg) {
 		onRetry();
 	}
 
@@ -270,8 +293,9 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showController() {
-		if (getPlayerView().isControllerFullyVisible()) return;
-		if (ExoUtil.isVoD(mPlayer.getDuration())) getPlayerView().showController();
+		StyledPlayerView playerView = Prefers.isHdr() ? binding.surface : binding.texture;
+		if (playerView.getVisibility() == View.GONE || playerView.isControllerFullyVisible()) return;
+		if (ExoUtil.isVoD(mPlayer.getDuration())) playerView.showController();
 	}
 
 	private void setNotice(String notice) {
@@ -299,23 +323,31 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	public void setScaleType() {
-		binding.surface.setResizeMode(Prefers.getRatio());
-		binding.texture.setResizeMode(Prefers.getRatio());
+		if (Prefers.isExo()) {
+			binding.surface.setResizeMode(Prefers.getRatio());
+			binding.texture.setResizeMode(Prefers.getRatio());
+		}
 	}
 
 	public void setKeypad() {
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
 	}
 
-	private StyledPlayerView getPlayerView() {
-		return Prefers.isHdr() ? binding.surface : binding.texture;
-	}
-
 	public void setPlayerView() {
-		binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
-		binding.texture.setVisibility(Prefers.isHdr() ? View.GONE : View.VISIBLE);
-		binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
-		binding.texture.setPlayer(Prefers.isHdr() ? null : mPlayer);
+		if (Prefers.isExo()) {
+			binding.ijk.setVisibility(View.GONE);
+			binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
+			binding.texture.setVisibility(Prefers.isHdr() ? View.GONE : View.VISIBLE);
+			binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
+			binding.texture.setPlayer(Prefers.isHdr() ? null : mPlayer);
+			binding.ijk.stopPlayback();
+		} else {
+			binding.surface.setVisibility(View.GONE);
+			binding.texture.setVisibility(View.GONE);
+			binding.ijk.setVisibility(View.VISIBLE);
+			binding.ijk.init(mSetting);
+			mPlayer.stop();
+		}
 	}
 
 	public void onAdd(View view) {
@@ -371,9 +403,15 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onSeek(boolean forward) {
 		if (isVisible(binding.recycler)) return;
-		if (forward) mPlayer.seekForward();
-		else mPlayer.seekBack();
-		showController();
+		if (Prefers.isExo()) {
+			if (forward) mPlayer.seekForward();
+			else mPlayer.seekBack();
+			showController();
+		} else {
+			int range = 15 * 1000;
+			if (forward) binding.ijk.seekTo(binding.ijk.getCurrentPosition() + range);
+			else binding.ijk.seekTo(binding.ijk.getCurrentPosition() - range);
+		}
 	}
 
 	@Override
@@ -469,8 +507,9 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
 		if (isInPictureInPictureMode) {
-			hideEpg(); hideUI();
-		} else if (!mPlayer.isPlaying()) {
+			hideEpg();
+			hideUI();
+		} else if ((Prefers.isExo() && !mPlayer.isPlaying()) || (Prefers.isIjk() && !binding.ijk.isPlaying())) {
 			finish();
 		}
 	}
@@ -478,12 +517,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	protected void onStart() {
 		super.onStart();
-		mPlayer.play();
+		if (Prefers.isExo()) mPlayer.play();
+		else binding.ijk.start();
 	}
 
 	@Override
 	protected void onStop() {
-		mPlayer.pause();
+		if (Prefers.isExo()) mPlayer.pause();
+		else binding.ijk.pause();
 		super.onStop();
 	}
 
@@ -502,11 +543,24 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mPlayer.release();
+		if (Prefers.isExo()) mPlayer.release();
+		else binding.ijk.release();
 		TVBus.get().destroy();
 		Force.get().destroy();
 		ZLive.get().destroy();
 		Clock.get().destroy();
 		System.exit(0);
+	}
+
+	@Override
+	public void onBufferingStart() {
+	}
+
+	@Override
+	public void onBufferingEnd() {
+	}
+
+	@Override
+	public void onCompletion() {
 	}
 }

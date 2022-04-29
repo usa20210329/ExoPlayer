@@ -27,6 +27,9 @@
     <string name="setting_draw">渲染方式</string>
     <string name="setting_surface">Surface</string>
     <string name="setting_texture">Texture</string>
+    <string name="setting_core">核心模式</string>
+    <string name="setting_exo">ExoPlayer</string>
+    <string name="setting_ijk">IjkPlayer</string>
     <string name="setting_delay">數字鍵延遲</string>
     <string name="setting_rev">上下鍵相反</string>
 
