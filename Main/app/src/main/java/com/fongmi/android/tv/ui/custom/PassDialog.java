@@ -3,11 +3,14 @@ package com.fongmi.android.tv.ui.custom;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +66,12 @@ public class PassDialog extends BottomSheetDialogFragment {
 
 	protected void initEvent() {
 		binding.confirm.setOnClickListener(this::addHides);
+		binding.pass.setOnEditorActionListener(this::onEditorAction);
+	}
+
+	private boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+		if (actionId == EditorInfo.IME_ACTION_DONE) binding.confirm.performClick();
+		return true;
 	}
 
 	private void addHides(View view) {

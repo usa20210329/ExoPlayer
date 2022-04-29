@@ -30,7 +30,7 @@ public class ZLive {
 	}
 
 	public void init() {
-		com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677L);
+		com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677);
 	}
 
 	public void start(AsyncCallback callback, String source) {
