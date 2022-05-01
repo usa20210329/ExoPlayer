@@ -11,11 +11,14 @@ import androidx.core.content.FileProvider;
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.BuildConfig;
 import com.fongmi.android.tv.R;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.fongmi.android.tv.impl.AsyncCallback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URLConnection;
 
 public class FileUtil {
@@ -48,21 +51,27 @@ public class FileUtil {
 	public static void checkUpdate(long version) {
 		if (version > BuildConfig.VERSION_CODE) {
 			Notify.show(R.string.app_update);
-			startDownload();
+			download();
 		} else {
 			clearDir(getCachePath());
 		}
 	}
 
-	private static void startDownload() {
-		StorageReference ref = FirebaseStorage.getInstance().getReference();
-		ref.listAll().addOnSuccessListener(listResult -> {
-			File apkFile = getCacheFile(listResult.getItems().get(0).getName());
-			ref.child(apkFile.getName()).getFile(apkFile).addOnSuccessListener((FileDownloadTask.TaskSnapshot taskSnapshot) -> openFile(apkFile));
+	private static void download() {
+		new OkHttpClient().newCall(new Request.Builder().url(Token.getApk()).build()).enqueue(new AsyncCallback() {
+			@Override
+			public void onResponse(Response response) throws IOException {
+				if (!response.isSuccessful()) return;
+				File file = getCacheFile(response.header("Content-Disposition").split("=")[1]);
+				FileOutputStream fos = new FileOutputStream(file);
+				fos.write(response.body().bytes());
+				fos.close();
+				open(file);
+			}
 		});
 	}
 
-	private static void openFile(File file) {
+	private static void open(File file) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

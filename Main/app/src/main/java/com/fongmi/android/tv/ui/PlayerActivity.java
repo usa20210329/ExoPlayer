@@ -120,6 +120,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ApiService.getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(Config config) {
+				Token.setConfig(config);
 				setConfig(config);
 			}
 		});
@@ -131,7 +132,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		mTypeAdapter.addAll(config.getType());
 		TVBus.get().init(config.getCore());
 		setNotice(config.getNotice());
-		Token.setConfig(config);
 		Force.get().init();
 		ZLive.get().init();
 		hideProgress();
