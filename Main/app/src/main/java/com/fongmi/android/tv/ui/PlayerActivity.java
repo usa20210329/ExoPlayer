@@ -336,24 +336,13 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	public void setPlayerView(boolean reload) {
-		if (Prefers.isExo()) {
-			binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
-			binding.texture.setVisibility(Prefers.isHdr() ? View.GONE : View.VISIBLE);
-			binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
-			binding.texture.setPlayer(Prefers.isHdr() ? null : mPlayer);
-			binding.ijk.setVisibility(View.GONE);
-			binding.ijk.stopPlayback();
-		} else {
-			binding.surface.setVisibility(View.GONE);
-			binding.texture.setVisibility(View.GONE);
-			binding.surface.setPlayer(null);
-			binding.texture.setPlayer(null);
-			binding.ijk.setVisibility(View.VISIBLE);
-			mPlayer.stop();
-		}
-		if (reload) {
-			onRetry();
-		}
+		binding.ijk.setVisibility(Prefers.isExo() ? View.GONE : View.VISIBLE);
+		binding.surface.setVisibility(Prefers.isExo() && Prefers.isHdr() ? View.VISIBLE : View.GONE);
+		binding.texture.setVisibility(Prefers.isExo() && !Prefers.isHdr() ? View.VISIBLE : View.GONE);
+		binding.surface.setPlayer(Prefers.isExo() && Prefers.isHdr() ? mPlayer : null);
+		binding.texture.setPlayer(Prefers.isExo() && !Prefers.isHdr() ? mPlayer : null);
+		if (Prefers.isExo()) binding.ijk.stopPlayback(); else mPlayer.stop();
+		if (reload) onRetry();
 	}
 
 	public void onAdd(View view) {
