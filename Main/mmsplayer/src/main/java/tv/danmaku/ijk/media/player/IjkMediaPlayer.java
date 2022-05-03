@@ -42,6 +42,8 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import androidx.annotation.NonNull;
+
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -304,8 +306,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 	@Override
 	public void setSurface(Surface surface) {
 		if (mScreenOnWhilePlaying && surface != null) {
-			DebugLog.w(TAG,
-					"setScreenOnWhilePlaying(true) is ineffective for Surface");
+			DebugLog.w(TAG, "setScreenOnWhilePlaying(true) is ineffective for Surface");
 		}
 		mSurfaceHolder = null;
 		_setVideoSurface(surface);
@@ -558,8 +559,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 	public void setScreenOnWhilePlaying(boolean screenOn) {
 		if (mScreenOnWhilePlaying != screenOn) {
 			if (screenOn && mSurfaceHolder == null) {
-				DebugLog.w(TAG,
-						"setScreenOnWhilePlaying(true) is ineffective without a SurfaceHolder");
+				DebugLog.w(TAG, "setScreenOnWhilePlaying(true) is ineffective without a SurfaceHolder");
 			}
 			mScreenOnWhilePlaying = screenOn;
 			updateSurfaceScreenOn();
@@ -962,11 +962,10 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 		}
 
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(@NonNull Message msg) {
 			IjkMediaPlayer player = mWeakPlayer.get();
 			if (player == null || player.mNativeMediaPlayer == 0) {
-				DebugLog.w(TAG,
-						"IjkMediaPlayer went away with unhandled events");
+				DebugLog.w(TAG, "IjkMediaPlayer went away with unhandled events");
 				return;
 			}
 
