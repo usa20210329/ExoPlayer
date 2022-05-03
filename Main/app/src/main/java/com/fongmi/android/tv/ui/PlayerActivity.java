@@ -197,7 +197,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 			mPlayer.play();
 			retry = 0;
 		} else {
-			binding.ijk.setVideoPath(url);
+			binding.ijk.setVideoPath(userAgent, url);
 			binding.ijk.start();
 			retry = 0;
 		}
@@ -205,7 +205,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	public void onRetry() {
 		Channel current = mChannelAdapter.getCurrent();
-		if (++retry < 3 && current != null) getUrl(current);
+		if (current == null) return;
+		if (++retry < 3) getUrl(current);
 		else onError();
 	}
 
@@ -326,6 +327,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		if (Prefers.isExo()) {
 			binding.surface.setResizeMode(Prefers.getRatio());
 			binding.texture.setResizeMode(Prefers.getRatio());
+		} else {
+			binding.ijk.setAspectRatio(Prefers.getRatio());
 		}
 	}
 
@@ -550,17 +553,5 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ZLive.get().destroy();
 		Clock.get().destroy();
 		System.exit(0);
-	}
-
-	@Override
-	public void onBufferingStart() {
-	}
-
-	@Override
-	public void onBufferingEnd() {
-	}
-
-	@Override
-	public void onCompletion() {
 	}
 }

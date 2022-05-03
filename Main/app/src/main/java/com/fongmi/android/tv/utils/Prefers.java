@@ -141,7 +141,7 @@ public class Prefers {
 		if (isExo()) {
 			return Prefers.isFull() ? AspectRatioFrameLayout.RESIZE_MODE_FILL : AspectRatioFrameLayout.RESIZE_MODE_FIT;
 		} else {
-			return Prefers.isFull() ? IRenderView.AR_ASPECT_FIT_PARENT : IRenderView.AR_ASPECT_WRAP_CONTENT;
+			return Prefers.isFull() ? IRenderView.AR_MATCH_PARENT : IRenderView.AR_ASPECT_FIT_PARENT;
 		}
 	}
 }
