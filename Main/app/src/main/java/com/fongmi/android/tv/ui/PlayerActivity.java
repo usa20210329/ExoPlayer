@@ -58,7 +58,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	private ActivityPlayerBinding binding;
 	private GestureDetector mDetector;
 	private ChannelAdapter mChannelAdapter;
-	private IjkPlayerSetting mSetting;
 	private TypeAdapter mTypeAdapter;
 	private ExoPlayer mPlayer;
 	private KeyDown mKeyDown;
@@ -106,11 +105,11 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
-		binding.ijk.init(mSetting = IjkPlayerSetting.getDefault());
 		binding.widget.version.setText(BuildConfig.VERSION_NAME);
+		binding.ijk.init(IjkPlayerSetting.getDefault());
 		mHandler.postDelayed(mShowUUID, 5000);
 		Clock.start(binding.epg.time);
-		setPlayerView();
+		setPlayerView(false);
 		setCustomSize();
 		setScaleType();
 	}
@@ -336,20 +335,24 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
 	}
 
-	public void setPlayerView() {
+	public void setPlayerView(boolean reload) {
 		if (Prefers.isExo()) {
-			binding.ijk.setVisibility(View.GONE);
 			binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
 			binding.texture.setVisibility(Prefers.isHdr() ? View.GONE : View.VISIBLE);
 			binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
 			binding.texture.setPlayer(Prefers.isHdr() ? null : mPlayer);
+			binding.ijk.setVisibility(View.GONE);
 			binding.ijk.stopPlayback();
 		} else {
 			binding.surface.setVisibility(View.GONE);
 			binding.texture.setVisibility(View.GONE);
+			binding.surface.setPlayer(null);
+			binding.texture.setPlayer(null);
 			binding.ijk.setVisibility(View.VISIBLE);
-			binding.ijk.init(mSetting);
 			mPlayer.stop();
+		}
+		if (reload) {
+			onRetry();
 		}
 	}
 

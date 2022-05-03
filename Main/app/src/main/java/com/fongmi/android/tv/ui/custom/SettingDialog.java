@@ -78,8 +78,8 @@ public class SettingDialog extends BottomSheetDialogFragment {
 		binding.pad.setChecked(Prefers.isPad());
 		binding.pip.setChecked(Prefers.isPip());
 		binding.rev.setChecked(Prefers.isRev());
-		binding.draw.check(Prefers.isHdr() ? R.id.surface : R.id.texture);
 		binding.core.check(Prefers.isExo() ? R.id.exo : R.id.ijk);
+		binding.draw.check(Prefers.isHdr() ? R.id.surface : R.id.texture);
 		binding.pad.setVisibility(tv ? View.GONE : View.VISIBLE);
 		binding.pip.setVisibility(tv ? View.GONE : View.VISIBLE);
 		binding.rev.setVisibility(tv ? View.VISIBLE : View.GONE);
@@ -98,15 +98,13 @@ public class SettingDialog extends BottomSheetDialogFragment {
 			Prefers.putPad(isChecked);
 			context.setKeypad();
 		});
-		binding.draw.setOnCheckedChangeListener((group, checkedId) -> {
-			Prefers.putHdr(checkedId == R.id.surface);
-			context.setPlayerView();
-			context.onRetry();
-		});
 		binding.core.setOnCheckedChangeListener((group, checkedId) -> {
 			Prefers.putExo(checkedId == R.id.exo);
-			context.setPlayerView();
-			context.onRetry();
+			context.setPlayerView(true);
+		});
+		binding.draw.setOnCheckedChangeListener((group, checkedId) -> {
+			Prefers.putHdr(checkedId == R.id.surface);
+			context.setPlayerView(false);
 		});
 		binding.size.setOnSeekBarChangeListener(new SeekBarListener() {
 			@Override
