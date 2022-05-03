@@ -27,7 +27,7 @@ public class IjkPlayerSetting {
 		setting.isUsingOpenSLES = false;
 		setting.pixelFormatType = PixelFormatType.PIXEL_AUTO;
 		setting.isUsingMediaDataSource = true;
-		setting.renderViewType = RenderViewType.TEXTURE_VIEW;
+		setting.renderViewType = RenderViewType.SURFACE_VIEW;
 		setting.isEnableDetachedSurfaceTexture = true;
 		setting.aspectRatioType = IRenderView.AR_MATCH_PARENT;
 		return setting;
@@ -143,7 +143,7 @@ public class IjkPlayerSetting {
 	 * 渲染的view的类型
 	 */
 	@RenderViewType
-	public int renderViewType = RenderViewType.TEXTURE_VIEW;
+	public int renderViewType = RenderViewType.SURFACE_VIEW;
 
 	/**
 	 * 是否使用SurfaceTexture处理视频图像
