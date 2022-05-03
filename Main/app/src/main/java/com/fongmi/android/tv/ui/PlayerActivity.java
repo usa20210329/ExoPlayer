@@ -195,11 +195,9 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 			mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
 			mPlayer.prepare();
 			mPlayer.play();
-			retry = 0;
 		} else {
 			binding.ijk.setVideoPath(userAgent, url);
 			binding.ijk.start();
-			retry = 0;
 		}
 	}
 
@@ -221,13 +219,15 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	@Override
 	public void onPlaybackStateChanged(int state) {
-		if (state == Player.STATE_BUFFERING) showProgress();
-		else if (state == Player.STATE_READY) hideProgress();
+		if (state != Player.STATE_READY) return;
+		hideProgress();
+		retry = 0;
 	}
 
 	@Override
 	public void onPrepared() {
 		hideProgress();
+		retry = 0;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.fongmi.android.tv.databinding.DialogPassBinding;
 import com.fongmi.android.tv.ui.PlayerActivity;
@@ -28,6 +29,7 @@ public class PassDialog extends BottomSheetDialogFragment {
 	private final TypeAdapter adapter;
 
 	public static void show(PlayerActivity context, TypeAdapter adapter) {
+		for (Fragment fragment : context.getSupportFragmentManager().getFragments()) if (fragment instanceof BottomSheetDialogFragment) return;
 		new PassDialog(adapter).show(context.getSupportFragmentManager(), null);
 	}
 

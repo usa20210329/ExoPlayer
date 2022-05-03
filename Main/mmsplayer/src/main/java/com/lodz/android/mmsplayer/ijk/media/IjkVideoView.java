@@ -429,6 +429,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 	};
 
 	private final IMediaPlayer.OnErrorListener mErrorListener = new IMediaPlayer.OnErrorListener() {
+		@Override
 		public boolean onError(IMediaPlayer mp, int framework_err, int impl_err) {
 			mCurrentState = STATE_ERROR;
 			mTargetState = STATE_ERROR;
@@ -804,7 +805,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 	public String getPlayerText(Context context) {
 		String text;
 		switch (mSetting.playerType) {
-			case IjkPlayerSetting.PlayerType.PALY_ANDROID_MEDIA:
+			case IjkPlayerSetting.PlayerType.PLAY_ANDROID_MEDIA:
 				text = context.getString(R.string.mmsplayer_videoview_player_androidmediaplayer);
 				break;
 			case IjkPlayerSetting.PlayerType.PLAY_IJK:
@@ -820,7 +821,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 	public IMediaPlayer createPlayer(@IjkPlayerSetting.PlayerType int playerType) {
 		IMediaPlayer mediaPlayer;
 		switch (playerType) {
-			case IjkPlayerSetting.PlayerType.PALY_ANDROID_MEDIA:
+			case IjkPlayerSetting.PlayerType.PLAY_ANDROID_MEDIA:
 				mediaPlayer = new AndroidMediaPlayer();
 				break;
 			case IjkPlayerSetting.PlayerType.PLAY_IJK:

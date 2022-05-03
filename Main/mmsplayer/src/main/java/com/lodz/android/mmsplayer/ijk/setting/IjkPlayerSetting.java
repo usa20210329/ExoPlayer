@@ -28,19 +28,19 @@ public class IjkPlayerSetting {
 		setting.pixelFormatType = PixelFormatType.PIXEL_AUTO;
 		setting.isUsingMediaDataSource = true;
 		setting.renderViewType = RenderViewType.SURFACE_VIEW;
-		setting.isEnableDetachedSurfaceTexture = true;
+		setting.isEnableDetachedSurfaceTexture = false;
 		setting.aspectRatioType = IRenderView.AR_MATCH_PARENT;
 		return setting;
 	}
 
 	//--------------------------- 播放器设置 -----------------------------------
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({PlayerType.PALY_ANDROID_MEDIA, PlayerType.PLAY_IJK})
+	@IntDef({PlayerType.PLAY_ANDROID_MEDIA, PlayerType.PLAY_IJK})
 	public @interface PlayerType {
 		/**
 		 * android原生播放器
 		 */
-		int PALY_ANDROID_MEDIA = 1;
+		int PLAY_ANDROID_MEDIA = 1;
 		/**
 		 * Ijk播放器
 		 */
