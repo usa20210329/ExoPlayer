@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.fongmi.android.tv.App;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.lodz.android.mmsplayer.ijk.media.IRenderView;
 
 public class Prefers {
 
@@ -19,7 +17,6 @@ public class Prefers {
 	private static final String PIP = "pip";
 	private static final String REV = "rev";
 	private static final String HDR = "hdr";
-	private static final String EXO = "exo";
 
 	private static SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
@@ -123,25 +120,5 @@ public class Prefers {
 
 	public static void putHdr(boolean value) {
 		putBoolean(HDR, value);
-	}
-
-	public static boolean isExo() {
-		return getBoolean(EXO, true);
-	}
-
-	public static boolean isIjk() {
-		return !isExo();
-	}
-
-	public static void putExo(boolean value) {
-		putBoolean(EXO, value);
-	}
-
-	public static int getRatio() {
-		if (isExo()) {
-			return Prefers.isFull() ? AspectRatioFrameLayout.RESIZE_MODE_FILL : AspectRatioFrameLayout.RESIZE_MODE_FIT;
-		} else {
-			return Prefers.isFull() ? IRenderView.AR_MATCH_PARENT : IRenderView.AR_ASPECT_FIT_PARENT;
-		}
 	}
 }
