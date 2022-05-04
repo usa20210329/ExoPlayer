@@ -181,7 +181,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ApiService.getUrl(item, new AsyncCallback() {
 			@Override
 			public void onResponse(String url) {
-				setCore(item.getCore());
+				core = item.getCore();
 				onPlay(item.getUa(), url);
 			}
 
@@ -192,35 +192,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		});
 	}
 
-	private void setCore(String core) {
-		boolean same = Objects.equals(this.core, core);
-		this.core = core; if (!same) setPlayerView();
-	}
-
-	public void setPlayerView() {
-		if (isExo()) {
-			binding.ijk.setVisibility(View.GONE);
-			binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
-			binding.texture.setVisibility(!Prefers.isHdr() ? View.VISIBLE : View.GONE);
-			binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
-			binding.texture.setPlayer(!Prefers.isHdr() ? mPlayer : null);
-			binding.ijk.stopPlayback();
-		} else {
-			binding.ijk.setVisibility(View.VISIBLE);
-			binding.surface.setVisibility(View.GONE);
-			binding.texture.setVisibility(View.GONE);
-			binding.surface.setPlayer(null);
-			binding.texture.setPlayer(null);
-			mPlayer.stop();
-		}
-	}
-
 	private void onPlay(String userAgent, String url) {
 		if (isExo()) {
+			binding.ijk.stopPlayback();
 			mPlayer.setMediaSource(ExoUtil.getSource(userAgent, url));
 			mPlayer.prepare();
 			mPlayer.play();
 		} else {
+			mPlayer.stop();
 			binding.ijk.setVideoPath(userAgent, url);
 			binding.ijk.start();
 		}
@@ -246,12 +225,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	public void onPlaybackStateChanged(int state) {
 		if (state != Player.STATE_READY) return;
 		hideProgress();
+		hideIjk();
 		retry = 0;
 	}
 
 	@Override
 	public void onPrepared() {
 		hideProgress();
+		hideExo();
 		retry = 0;
 	}
 
@@ -360,6 +341,27 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	public void setKeypad() {
 		binding.widget.keypad.getRoot().setVisibility(Prefers.isPad() ? View.VISIBLE : View.GONE);
+	}
+
+	public void setPlayerView() {
+		if (isExo()) hideIjk();
+		else hideExo();
+	}
+
+	private void hideIjk() {
+		binding.ijk.setVisibility(View.INVISIBLE);
+		binding.surface.setVisibility(Prefers.isHdr() ? View.VISIBLE : View.GONE);
+		binding.texture.setVisibility(!Prefers.isHdr() ? View.VISIBLE : View.GONE);
+		binding.surface.setPlayer(Prefers.isHdr() ? mPlayer : null);
+		binding.texture.setPlayer(!Prefers.isHdr() ? mPlayer : null);
+	}
+
+	private void hideExo() {
+		binding.ijk.setVisibility(View.VISIBLE);
+		binding.surface.setVisibility(View.GONE);
+		binding.texture.setVisibility(View.GONE);
+		binding.surface.setPlayer(null);
+		binding.texture.setPlayer(null);
 	}
 
 	public void onAdd(View view) {
