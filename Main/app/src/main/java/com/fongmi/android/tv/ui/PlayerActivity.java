@@ -224,15 +224,15 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onPlaybackStateChanged(int state) {
 		if (state != Player.STATE_READY) return;
+		new Handler().postDelayed(this::hideIjk, 100);
 		hideProgress();
-		hideIjk();
 		retry = 0;
 	}
 
 	@Override
 	public void onPrepared() {
+		new Handler().postDelayed(this::hideExo, 100);
 		hideProgress();
-		hideExo();
 		retry = 0;
 	}
 
