@@ -246,7 +246,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		onRetry();
 	}
 
-	private boolean isExo() {
+	public boolean isExo() {
 		return Objects.equals(core, "exo");
 	}
 

@@ -83,6 +83,7 @@ public class SettingDialog extends BottomSheetDialogFragment {
 		binding.pip.setVisibility(tv ? View.GONE : View.VISIBLE);
 		binding.rev.setVisibility(tv ? View.VISIBLE : View.GONE);
 		binding.boot.setVisibility(tv ? View.VISIBLE : View.GONE);
+		binding.drawRow.setVisibility(context.isExo() ? View.VISIBLE : View.GONE);
 	}
 
 	protected void initEvent() {
