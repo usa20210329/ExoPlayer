@@ -4,6 +4,7 @@ plugins {
 
 android {
     compileSdk 29
+    namespace 'com.tvbus.engine'
 
     defaultConfig {
         minSdk 21

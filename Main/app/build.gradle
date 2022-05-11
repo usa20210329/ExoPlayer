@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdk 31
+    namespace 'com.fongmi.android.tv'
 
     defaultConfig {
         applicationId "com.fongmi.android.ltv"

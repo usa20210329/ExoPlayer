@@ -4,6 +4,7 @@ plugins {
 
 android {
     compileSdk 29
+    namespace 'com.forcetech'
 
     defaultConfig {
         minSdk 21
