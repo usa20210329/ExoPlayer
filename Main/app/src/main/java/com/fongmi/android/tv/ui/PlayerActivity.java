@@ -111,6 +111,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		binding.widget.version.setText(BuildConfig.VERSION_NAME);
 		binding.ijk.init(IjkPlayerSetting.getDefault());
 		mHandler.postDelayed(mShowUUID, 5000);
+		binding.channel.setHasFixedSize(true);
+		binding.type.setHasFixedSize(true);
 		Clock.start(binding.epg.time);
 		setCustomSize();
 		setScaleType();

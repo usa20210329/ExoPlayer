@@ -25,18 +25,18 @@ public class FileUtil {
 
 	private static final String TAG = FileUtil.class.getSimpleName();
 
-	public static File getCachePath() {
+	public static File getCacheDir() {
 		return App.get().getExternalCacheDir();
 	}
 
 	public static File getCacheFile(String fileName) {
-		return new File(getCachePath(), fileName);
+		return new File(getCacheDir(), fileName);
 	}
 
 	public static void clearDir(File dir) {
 		if (dir == null) return;
 		if (dir.isDirectory()) for (File file : dir.listFiles()) clearDir(file);
-		if (dir.delete()) Log.d(TAG, dir.getPath() + " File Deleted");
+		if (dir.delete()) Log.d(TAG, "Deleted:" + dir.getPath());
 	}
 
 	private static String getMimeType(String fileName) {
@@ -53,7 +53,7 @@ public class FileUtil {
 			Notify.show(R.string.app_update);
 			download();
 		} else {
-			clearDir(getCachePath());
+			clearDir(getCacheDir());
 		}
 	}
 
