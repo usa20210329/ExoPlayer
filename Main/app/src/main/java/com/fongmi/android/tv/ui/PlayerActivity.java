@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -52,7 +51,7 @@ import com.lodz.android.mmsplayer.impl.MmsVideoView;
 
 import java.util.Objects;
 
-public class PlayerActivity extends AppCompatActivity implements Player.Listener, MmsVideoView.Listener, VerifyReceiver.Callback, KeyDownImpl {
+public class PlayerActivity extends AppCompatActivity implements Player.Listener, MmsVideoView.Listener, KeyDownImpl {
 
 	private final Runnable mShowUUID = this::showUUID;
 	private final Runnable mHideEpg = this::hideEpg;

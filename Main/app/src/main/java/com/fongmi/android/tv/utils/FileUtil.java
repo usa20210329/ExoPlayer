@@ -16,9 +16,12 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLConnection;
 
 public class FileUtil {
@@ -42,6 +45,24 @@ public class FileUtil {
 	private static String getMimeType(String fileName) {
 		String mimeType = URLConnection.guessContentTypeFromName(fileName);
 		return TextUtils.isEmpty(mimeType) ? "*/*" : mimeType;
+	}
+
+	public static String getAssets(String fileName) {
+		try {
+			return getInputStream(App.get().getAssets().open(fileName));
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	private static String getInputStream(InputStream is) throws Exception {
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		StringBuilder sb = new StringBuilder();
+		String text;
+		while ((text = br.readLine()) != null) sb.append(text).append("\n");
+		br.close();
+		return sb.toString();
 	}
 
 	private static Uri getShareUri(File file) {
