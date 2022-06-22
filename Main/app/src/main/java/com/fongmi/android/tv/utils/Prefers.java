@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.fongmi.android.tv.App;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 
 public class Prefers {
 
@@ -121,9 +120,5 @@ public class Prefers {
 
 	public static void putHdr(boolean value) {
 		putBoolean(HDR, value);
-	}
-
-	public static int getRatio() {
-		return Prefers.isFull() ? AspectRatioFrameLayout.RESIZE_MODE_FILL : AspectRatioFrameLayout.RESIZE_MODE_FIT;
 	}
 }

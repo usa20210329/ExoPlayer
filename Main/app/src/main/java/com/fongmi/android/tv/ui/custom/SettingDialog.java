@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.databinding.DialogSettingBinding;
@@ -30,6 +31,7 @@ public class SettingDialog extends BottomSheetDialogFragment {
 	private final boolean tv;
 
 	public static void show(PlayerActivity context, boolean tv) {
+		for (Fragment fragment : context.getSupportFragmentManager().getFragments()) if (fragment instanceof BottomSheetDialogFragment) return;
 		new SettingDialog(context, tv).show(context.getSupportFragmentManager(), null);
 	}
 
@@ -81,6 +83,7 @@ public class SettingDialog extends BottomSheetDialogFragment {
 		binding.pip.setVisibility(tv ? View.GONE : View.VISIBLE);
 		binding.rev.setVisibility(tv ? View.VISIBLE : View.GONE);
 		binding.boot.setVisibility(tv ? View.VISIBLE : View.GONE);
+		binding.drawRow.setVisibility(context.isExo() ? View.VISIBLE : View.GONE);
 	}
 
 	protected void initEvent() {

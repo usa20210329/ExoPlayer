@@ -30,7 +30,7 @@ public class ZLive {
 	}
 
 	public void init() {
-		com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677L);
+		com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677);
 	}
 
 	public void start(AsyncCallback callback, String source) {
@@ -60,7 +60,7 @@ public class ZLive {
 		String uuid = split[3];
 		connect(getOpen(uuid));
 		String param = "&group=5850&mac=00:00:00:00:00:00&dir=";
-		String result = getLive(uuid) + "&server=" + server + param + FileUtil.getCachePath().getAbsolutePath();
+		String result = getLive(uuid) + "&server=" + server + param + FileUtil.getCacheDir().getAbsolutePath();
 		handler.post(() -> callback.onResponse(result));
 	}
 

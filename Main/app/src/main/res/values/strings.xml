@@ -6,11 +6,15 @@
     <string name="app_update">發現新版本</string>
     <string name="app_uuid">UUID : <xliff:g name="name">%s</xliff:g></string>
 
+    <!-- Type -->
+    <string name="type_keep">收藏</string>
+    <string name="type_setting">設定</string>
+    <string name="type_pass">密碼</string>
+    <string name="type_confirm">確定</string>
+
     <!-- Channel -->
     <string name="channel_keep_insert">已加入收藏</string>
     <string name="channel_keep_delete">已移除收藏</string>
-    <string name="channel_type_keep">收藏</string>
-    <string name="channel_type_setting">設定</string>
     <string name="channel_error">連線失敗，請稍後再試</string>
     <string name="channel_epg">暫無頻道資訊</string>
 

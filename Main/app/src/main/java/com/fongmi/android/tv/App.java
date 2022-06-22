@@ -1,9 +1,6 @@
 package com.fongmi.android.tv;
 
 import android.app.Application;
-import android.content.Context;
-
-import com.tvbus.engine.PmsHook;
 
 public class App extends Application {
 
@@ -15,11 +12,5 @@ public class App extends Application {
 
 	public static App get() {
 		return instance;
-	}
-
-	@Override
-	protected void attachBaseContext(Context base) {
-		PmsHook.inject(base);
-		super.attachBaseContext(base);
 	}
 }

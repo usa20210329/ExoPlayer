@@ -16,90 +16,80 @@ public class TVCore {
 
 	private TVCore() {
 		try {
+			PmsHook.inject();
 			System.loadLibrary("tvcore");
 			nativeHandle = initialise();
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setTVListener(TVListener listener) {
 		try {
 			setListener(nativeHandle, listener);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setPlayPort(int iPort) {
 		try {
 			setPlayPort(nativeHandle, iPort);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setServPort(int iPort) {
 		try {
 			setServPort(nativeHandle, iPort);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setRunningMode(int mode) {
 		try {
 			setRunningMode(nativeHandle, mode);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setAuthUrl(String str) {
 		try {
 			setAuthUrl(nativeHandle, str);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setMKBroker(String str) {
 		try {
 			setMKBroker(nativeHandle, str);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setPassword(String str) {
 		try {
 			setPassword(nativeHandle, str);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void setUsername(String str) {
 		try {
 			setUsername(nativeHandle, str);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void start(String url) {
 		try {
 			start(nativeHandle, url);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
 	public void stop() {
 		try {
 			stop(nativeHandle);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 
@@ -113,8 +103,7 @@ public class TVCore {
 	void quit() {
 		try {
 			quit(nativeHandle);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable ignored) {
 		}
 	}
 

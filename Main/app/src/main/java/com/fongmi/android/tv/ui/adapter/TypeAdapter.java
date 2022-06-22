@@ -24,7 +24,6 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	private final List<Type> mHides;
 	private boolean focus;
 	private int position;
-	private int count;
 
 	public TypeAdapter() {
 		this.mItems = new ArrayList<>();
@@ -67,9 +66,9 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	}
 
 	private void addType(List<Type> items) {
-		mItems.add(Type.create(R.string.channel_type_keep));
+		mItems.add(Type.create(R.string.type_keep));
 		for (Type item : items) if (item.isHidden()) mHides.add(item); else mItems.add(item);
-		mItems.add(Type.create(R.string.channel_type_setting));
+		mItems.add(Type.create(R.string.type_setting));
 	}
 
 	public void setType() {
@@ -103,17 +102,20 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 		notifyItemChanged(position);
 	}
 
-	public void addCount() {
-		if (!getItem().isKeep() || mHides.isEmpty() || ++count < 5) return;
+	public void addHides(String pass) {
+		if (pass.isEmpty()) return;
 		int position = mItems.size() - 1;
-		mItems.addAll(position, mHides);
-		notifyItemRangeInserted(position, mHides.size());
-		Notify.show(R.string.app_unlock);
-		mHides.clear();
+		for (Type item : mHides) {
+			if (!item.getPass().equals(pass)) continue;
+			mItems.add(position, item);
+			notifyItemRangeInserted(position, 1);
+			Notify.show(R.string.app_unlock);
+			mHides.remove(item);
+		}
 	}
 
 	public void onKeyCenter() {
-		addCount(); mItemClickListener.onItemClick(getItem(), true);
+		mItemClickListener.onItemClick(getItem(), true);
 	}
 
 	public int[] find(String number) {

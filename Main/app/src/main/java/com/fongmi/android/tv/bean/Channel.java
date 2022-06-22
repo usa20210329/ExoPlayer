@@ -17,6 +17,7 @@ public class Channel extends Bean {
 	@NonNull
 	@PrimaryKey
 	private String number;
+	private String core;
 	private String epg;
 	private String url;
 	private String ua;
@@ -45,6 +46,14 @@ public class Channel extends Bean {
 
 	public void setNumber(@NonNull String number) {
 		this.number = number;
+	}
+
+	public String getCore() {
+		return TextUtils.isEmpty(core) ? "exo" : core;
+	}
+
+	public void setCore(String core) {
+		this.core = core;
 	}
 
 	public String getEpg() {
