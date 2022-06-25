@@ -73,7 +73,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		super.onCreate(savedInstanceState);
 		binding = ActivityPlayerBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
-		Utils.hideSystemUI(this);
 		initView();
 		initEvent();
 	}
@@ -500,18 +499,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onLongPress() {
 		mChannelAdapter.onKeep();
-	}
-
-	@Override
-	public void onConfigurationChanged(@NonNull Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		Utils.hideSystemUI(this);
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) Utils.hideSystemUI(this);
 	}
 
 	@Override

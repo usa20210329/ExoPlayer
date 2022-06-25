@@ -30,7 +30,11 @@ public class ZLive {
 	}
 
 	public void init() {
-		com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677);
+		try {
+			com.east.android.zlive.ZLive.INSTANCE.OnLiveStart(6677);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void start(AsyncCallback callback, String source) {
