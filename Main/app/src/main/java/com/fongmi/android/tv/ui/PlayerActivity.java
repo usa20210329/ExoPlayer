@@ -47,6 +47,7 @@ import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lodz.android.mmsplayer.ijk.media.IRenderView;
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
 import com.lodz.android.mmsplayer.impl.MmsVideoView;
@@ -122,6 +123,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ApiService.getConfig(new AsyncCallback() {
 			@Override
 			public void onResponse(Config config) {
+				FirebaseDatabase.getInstance().goOffline();
 				Token.setConfig(config);
 				setConfig(config);
 			}

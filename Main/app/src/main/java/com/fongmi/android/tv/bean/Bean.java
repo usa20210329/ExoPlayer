@@ -1,7 +1,6 @@
 package com.fongmi.android.tv.bean;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.room.Ignore;
@@ -41,7 +40,6 @@ public class Bean {
 	}
 
 	public void loadLogo(ImageView view) {
-		view.setVisibility(getLogo().isEmpty() ? View.GONE : View.VISIBLE);
 		if (!getLogo().isEmpty()) Utils.loadImage(Token.getImg(getLogo()), view);
 	}
 }
