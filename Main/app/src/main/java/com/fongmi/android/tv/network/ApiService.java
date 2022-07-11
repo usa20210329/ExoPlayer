@@ -2,6 +2,7 @@ package com.fongmi.android.tv.network;
 
 import com.fongmi.android.tv.bean.Channel;
 import com.fongmi.android.tv.impl.AsyncCallback;
+import com.fongmi.android.tv.network.task.CheckTask;
 import com.fongmi.android.tv.network.task.DynamicTask;
 import com.fongmi.android.tv.network.task.EpgTask;
 import com.fongmi.android.tv.network.task.IPTask;
@@ -18,6 +19,10 @@ public class ApiService {
 
 	private static ApiService get() {
 		return Loader.INSTANCE;
+	}
+
+	public static void check(AsyncCallback callback) {
+		CheckTask.create(callback).run();
 	}
 
 	public static void getConfig(AsyncCallback callback) {

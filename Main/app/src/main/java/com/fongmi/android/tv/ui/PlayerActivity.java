@@ -216,7 +216,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onError() {
-		Notify.show(R.string.channel_error);
+		Notify.show(R.string.error_channel);
 		if (isExo()) mPlayer.stop();
 		else binding.ijk.stopPlayback();
 		TVBus.get().stop();
@@ -276,9 +276,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showUUID() {
-		binding.widget.uuid.setText(getString(R.string.app_uuid, Utils.getUUID()));
-		Utils.showView(binding.widget.uuid);
-		hideProgress();
+		ApiService.check(new AsyncCallback() {
+			@Override
+			public void onResponse(boolean success) {
+				binding.widget.uuid.setText(success ? getString(R.string.app_uuid, Utils.getUUID()) : getString(R.string.error_network));
+				Utils.showView(binding.widget.uuid);
+				hideProgress();
+			}
+		});
 	}
 
 	private void hideUUID() {

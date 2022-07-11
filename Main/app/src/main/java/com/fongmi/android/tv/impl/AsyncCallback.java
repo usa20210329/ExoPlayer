@@ -15,6 +15,9 @@ import java.io.IOException;
 
 public abstract class AsyncCallback implements ValueEventListener, Callback {
 
+	public void onResponse(boolean success) {
+	}
+
 	public void onResponse(String result) {
 	}
 
