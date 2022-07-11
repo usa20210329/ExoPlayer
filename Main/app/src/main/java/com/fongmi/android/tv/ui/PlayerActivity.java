@@ -102,12 +102,12 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void setView() {
 		mPlayer = new ExoPlayer.Builder(this).build();
-		Objects.requireNonNull(binding.channel.getItemAnimator()).setChangeDuration(0);
-		Objects.requireNonNull(binding.type.getItemAnimator()).setChangeDuration(0);
 		binding.channel.setLayoutManager(new LinearLayoutManager(this));
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
+		binding.channel.getItemAnimator().setChangeDuration(0);
+		binding.type.getItemAnimator().setChangeDuration(0);
 		binding.widget.version.setText(BuildConfig.VERSION_NAME);
 		binding.ijk.init(IjkPlayerSetting.getDefault());
 		mHandler.postDelayed(mShowUUID, 5000);
