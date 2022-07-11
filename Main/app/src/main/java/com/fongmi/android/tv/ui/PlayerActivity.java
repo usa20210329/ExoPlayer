@@ -74,6 +74,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		super.onCreate(savedInstanceState);
 		binding = ActivityPlayerBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
+		Utils.hideSystemUI(this);
 		initView();
 		initEvent();
 	}
@@ -308,7 +309,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void showController() {
 		StyledPlayerView playerView = Prefers.isHdr() ? binding.surface : binding.texture;
-		if (playerView.getVisibility() == View.GONE || playerView.isControllerFullyVisible()) return;
+		if (playerView.getVisibility() == View.GONE || playerView.isControllerFullyVisible())
+			return;
 		if (ExoUtil.isVoD(mPlayer.getDuration())) playerView.showController();
 	}
 
@@ -405,8 +407,10 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Utils.hideView(binding.widget.digital);
 		int[] position = mTypeAdapter.find(number);
 		if (position[0] == -1 || position[1] == -1) return;
-		mTypeAdapter.setPosition(position[0]); mTypeAdapter.setType();
-		mChannelAdapter.setPosition(position[1]); mChannelAdapter.setChannel();
+		mTypeAdapter.setPosition(position[0]);
+		mTypeAdapter.setType();
+		mChannelAdapter.setPosition(position[1]);
+		mChannelAdapter.setChannel();
 		binding.type.scrollToPosition(position[0]);
 		binding.channel.scrollToPosition(position[1]);
 	}
@@ -501,6 +505,18 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	@Override
 	public void onLongPress() {
 		mChannelAdapter.onKeep();
+	}
+
+	@Override
+	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		Utils.hideSystemUI(this);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) Utils.hideSystemUI(this);
 	}
 
 	@Override
