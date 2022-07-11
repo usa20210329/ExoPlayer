@@ -140,7 +140,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ZLive.get().init();
 		hideProgress();
 		checkKeep();
-		hideUUID();
 	}
 
 	private void onItemClick(Type item, boolean tv) {
@@ -276,6 +275,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showUUID() {
+		if (mTypeAdapter.getItemCount() > 0) return;
 		ApiService.check(new AsyncCallback() {
 			@Override
 			public void onResponse(boolean success) {
@@ -284,11 +284,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 				hideProgress();
 			}
 		});
-	}
-
-	private void hideUUID() {
-		mHandler.removeCallbacks(mShowUUID);
-		Utils.hideView(binding.widget.uuid);
 	}
 
 	private void hideEpg() {
