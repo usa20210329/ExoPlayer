@@ -141,6 +141,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		ZLive.get().init();
 		hideProgress();
 		checkKeep();
+		hideUUID();
 	}
 
 	private void onItemClick(Type item, boolean tv) {
@@ -276,15 +277,19 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showUUID() {
-		if (mTypeAdapter.getItemCount() > 0) return;
 		ApiService.check(new AsyncCallback() {
 			@Override
 			public void onResponse(boolean success) {
 				binding.widget.uuid.setText(success ? getString(R.string.app_uuid, Utils.getUUID()) : getString(R.string.error_network));
-				Utils.showView(binding.widget.uuid);
+				if (mTypeAdapter.getItemCount() == 0) Utils.showView(binding.widget.uuid);
 				hideProgress();
 			}
 		});
+	}
+
+	private void hideUUID() {
+		mHandler.removeCallbacks(mShowUUID);
+		Utils.hideView(binding.widget.uuid);
 	}
 
 	private void hideEpg() {
@@ -309,8 +314,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void showController() {
 		StyledPlayerView playerView = Prefers.isHdr() ? binding.surface : binding.texture;
-		if (playerView.getVisibility() == View.GONE || playerView.isControllerFullyVisible())
-			return;
+		if (playerView.getVisibility() == View.GONE || playerView.isControllerFullyVisible()) return;
 		if (ExoUtil.isVoD(mPlayer.getDuration())) playerView.showController();
 	}
 
@@ -407,10 +411,8 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Utils.hideView(binding.widget.digital);
 		int[] position = mTypeAdapter.find(number);
 		if (position[0] == -1 || position[1] == -1) return;
-		mTypeAdapter.setPosition(position[0]);
-		mTypeAdapter.setType();
-		mChannelAdapter.setPosition(position[1]);
-		mChannelAdapter.setChannel();
+		mTypeAdapter.setPosition(position[0]); mTypeAdapter.setType();
+		mChannelAdapter.setPosition(position[1]); mChannelAdapter.setChannel();
 		binding.type.scrollToPosition(position[0]);
 		binding.channel.scrollToPosition(position[1]);
 	}
