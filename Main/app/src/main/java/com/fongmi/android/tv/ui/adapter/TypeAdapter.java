@@ -14,6 +14,7 @@ import com.fongmi.android.tv.ui.adapter.holder.TypeHolder;
 import com.fongmi.android.tv.utils.Notify;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @SuppressLint("NotifyDataSetChanged")
@@ -105,12 +106,14 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 	public void addHides(String pass) {
 		if (pass.isEmpty()) return;
 		int position = mItems.size() - 1;
-		for (Type item : mHides) {
+		Iterator<Type> iterator = mHides.iterator();
+		while (iterator.hasNext()) {
+			Type item = iterator.next();
 			if (!item.getPass().equals(pass)) continue;
 			mItems.add(position, item);
 			notifyItemRangeInserted(position, 1);
 			Notify.show(R.string.app_unlock);
-			mHides.remove(item);
+			iterator.remove();
 		}
 	}
 
