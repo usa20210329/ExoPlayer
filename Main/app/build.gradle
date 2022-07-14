@@ -11,8 +11,8 @@ android {
         applicationId "com.fongmi.android.ltv"
         minSdk 21
         targetSdk 31
-        versionCode 134
-        versionName "2.3.4"
+        versionCode 135
+        versionName "2.3.5"
         ndk { abiFilters "armeabi-v7a" }
     }
 
