@@ -29,7 +29,8 @@ public class EpgTask {
 	}
 
 	public EpgTask run(Channel item) {
-		executor.submit(() -> doInBackground(item));
+		if (item.getEpg().isEmpty()) callback.onResponse(Utils.getString(R.string.channel_epg));
+		else executor.submit(() -> doInBackground(item));
 		return this;
 	}
 

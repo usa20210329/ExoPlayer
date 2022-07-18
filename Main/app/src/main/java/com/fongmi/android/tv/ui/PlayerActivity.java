@@ -45,6 +45,7 @@ import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lodz.android.mmsplayer.ijk.media.IRenderView;
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
 import com.lodz.android.mmsplayer.impl.MmsVideoView;
@@ -98,12 +99,12 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	private void setView() {
 		mPlayer = new ExoPlayer.Builder(this).build();
-		Objects.requireNonNull(binding.channel.getItemAnimator()).setChangeDuration(0);
-		Objects.requireNonNull(binding.type.getItemAnimator()).setChangeDuration(0);
 		binding.channel.setLayoutManager(new LinearLayoutManager(this));
 		binding.type.setLayoutManager(new LinearLayoutManager(this));
 		binding.channel.setAdapter(mChannelAdapter = new ChannelAdapter());
 		binding.type.setAdapter(mTypeAdapter = new TypeAdapter());
+		binding.channel.getItemAnimator().setChangeDuration(0);
+		binding.type.getItemAnimator().setChangeDuration(0);
 		binding.widget.version.setText(BuildConfig.VERSION_NAME);
 		binding.ijk.init(IjkPlayerSetting.getDefault());
 		mHandler.postDelayed(mShowUUID, 5000);
@@ -203,7 +204,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onError() {
-		Notify.show(R.string.channel_error);
+		Notify.show(R.string.error_channel);
 		if (isExo()) mPlayer.stop();
 		else binding.ijk.stopPlayback();
 		TVBus.get().stop();
@@ -263,9 +264,14 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void showUUID() {
-		binding.widget.uuid.setText(getString(R.string.app_uuid, Utils.getUUID()));
-		Utils.showView(binding.widget.uuid);
-		hideProgress();
+		ApiService.check(new AsyncCallback() {
+			@Override
+			public void onResponse(boolean success) {
+				binding.widget.uuid.setText(success ? getString(R.string.app_uuid, Utils.getUUID()) : getString(R.string.error_network));
+				if (mTypeAdapter.getItemCount() == 0) Utils.showView(binding.widget.uuid);
+				hideProgress();
+			}
+		});
 	}
 
 	private void hideUUID() {

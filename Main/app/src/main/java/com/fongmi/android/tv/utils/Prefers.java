@@ -22,11 +22,11 @@ public class Prefers {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
 	}
 
-	private static String getString(String key, String defaultValue) {
+	public static String getString(String key, String defaultValue) {
 		return getPreferences().getString(key, defaultValue);
 	}
 
-	private static void putString(String key, String value) {
+	public static void putString(String key, String value) {
 		getPreferences().edit().putString(key, value).apply();
 	}
 

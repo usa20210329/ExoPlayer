@@ -32,13 +32,13 @@ public class ExoUtil {
 		DataSource.Factory factory = getFactory(userAgent, url);
 		MediaItem mediaItem = new MediaItem.Builder().setUri(videoUri).build();
 		int type = Util.inferContentType(videoUri);
-		if (type == C.TYPE_HLS || url.contains(".php")) {
+		if (type == C.CONTENT_TYPE_HLS || url.contains(".php")) {
 			return new HlsMediaSource.Factory(factory).createMediaSource(mediaItem);
-		} else if (type == C.TYPE_DASH) {
+		} else if (type == C.CONTENT_TYPE_DASH) {
 			return new DashMediaSource.Factory(factory).createMediaSource(mediaItem);
-		} else if (type == C.TYPE_SS) {
+		} else if (type == C.CONTENT_TYPE_SS) {
 			return new SsMediaSource.Factory(factory).createMediaSource(mediaItem);
-		} else if (type == C.TYPE_RTSP) {
+		} else if (type == C.CONTENT_TYPE_RTSP) {
 			return new RtspMediaSource.Factory().createMediaSource(mediaItem);
 		} else {
 			return new ProgressiveMediaSource.Factory(factory).createMediaSource(mediaItem);

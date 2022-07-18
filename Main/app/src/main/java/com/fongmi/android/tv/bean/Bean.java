@@ -1,7 +1,6 @@
 package com.fongmi.android.tv.bean;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.room.Ignore;
