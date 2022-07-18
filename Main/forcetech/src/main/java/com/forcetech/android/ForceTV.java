@@ -3,7 +3,7 @@ package com.forcetech.android;
 public class ForceTV {
 
 	public static int P2P = 9906;
-	public static int P5P = 16666;
+	public static int P5P = 9909;
 
 	public void start(String lib, int port) {
 		try {
