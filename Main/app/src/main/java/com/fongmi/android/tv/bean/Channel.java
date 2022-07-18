@@ -101,7 +101,7 @@ public class Channel extends Bean {
 	}
 
 	public boolean isForce() {
-		return getUrl().startsWith("p5p://");
+		return getUrl().toLowerCase().startsWith("p2p://") || getUrl().startsWith("p5p://");
 	}
 
 	public boolean isZLive() {

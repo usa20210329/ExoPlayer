@@ -11,12 +11,13 @@ import android.os.Looper;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.impl.AsyncCallback;
+import com.forcetech.android.ForceTV;
+import com.forcetech.service.P2PService;
 import com.forcetech.service.P5PService;
 import com.google.android.exoplayer2.PlaybackException;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-
-import java.io.IOException;
+import com.squareup.okhttp.Response;
 
 public class Force {
 
@@ -36,6 +37,7 @@ public class Force {
 	}
 
 	public void init() {
+		App.get().bindService(new Intent(App.get(), P2PService.class), mConn, Context.BIND_AUTO_CREATE);
 		App.get().bindService(new Intent(App.get(), P5PService.class), mConn, Context.BIND_AUTO_CREATE);
 	}
 
@@ -54,21 +56,22 @@ public class Force {
 
 	public void onPrepare(String source) {
 		Uri uri = Uri.parse(source);
-		String cmd = "http://127.0.0.1:6001/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
+		String cmd = "http://127.0.0.1:" + ForceTV.getPort(source) + "/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
 		String tmp = uri.getLastPathSegment();
 		int index = tmp.lastIndexOf(".");
 		if (index == -1) cmd = cmd + tmp;
 		else cmd = cmd + tmp.substring(0, index);
-		connect(cmd + "&" + uri.getQuery());
-		String result = "http://127.0.0.1:6001" + uri.getPath();
-		handler.post(() -> callback.onResponse(result));
+		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + uri.getPath();
+		connect(cmd, result);
 	}
 
-	private void connect(String url) {
+	private void connect(String cmd, String result) {
 		try {
-			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute();
-		} catch (IOException e) {
 			if (callback == null) return;
+			Response response = new OkHttpClient().newCall(new Request.Builder().url(cmd).build()).execute();
+			if (response.isSuccessful()) handler.post(() -> callback.onResponse(result));
+			else handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+		} catch (Exception e) {
 			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
 		}
 	}

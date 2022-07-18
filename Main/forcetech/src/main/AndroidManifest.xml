@@ -4,6 +4,11 @@
     <application>
 
         <service
+            android:name="com.forcetech.service.P2PService"
+            android:exported="false"
+            android:process=":p2p" />
+
+        <service
             android:name="com.forcetech.service.P5PService"
             android:exported="false"
             android:process=":p5p" />
