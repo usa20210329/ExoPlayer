@@ -17,14 +17,12 @@ import com.forcetech.service.P5PService;
 import com.google.android.exoplayer2.PlaybackException;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 public class Force {
 
 	private final OkHttpClient client;
 	private final Handler handler;
 	private AsyncCallback callback;
-	private boolean playing;
 
 	private static class Loader {
 		static volatile Force INSTANCE = new Force();
@@ -49,14 +47,6 @@ public class Force {
 		this.onPrepare(source);
 	}
 
-	public boolean isPlaying() {
-		return playing;
-	}
-
-	public void setPlaying(boolean playing) {
-		this.playing = playing;
-	}
-
 	public void destroy() {
 		try {
 			App.get().unbindService(mConn);
@@ -79,11 +69,9 @@ public class Force {
 
 	private void connect(String url) {
 		try {
-			Response response = client.newCall(new Request.Builder().url(url).build()).execute();
-			if (response.isSuccessful()) setPlaying(true);
+			client.newCall(new Request.Builder().url(url).build()).execute();
 		} catch (Exception e) {
 			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
-			setPlaying(false);
 		}
 	}
 
