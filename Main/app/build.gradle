@@ -40,7 +40,7 @@ dependencies {
     implementation project(path: ':zlive')
     implementation project(path: ':forcetech')
     implementation project(path: ':mmsplayer')
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform('com.google.firebase:firebase-bom:30.3.0')
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

@@ -21,8 +21,10 @@ import com.squareup.okhttp.Response;
 
 public class Force {
 
+	private final OkHttpClient client;
 	private final Handler handler;
 	private AsyncCallback callback;
+	private boolean playing;
 
 	private static class Loader {
 		static volatile Force INSTANCE = new Force();
@@ -34,6 +36,7 @@ public class Force {
 
 	public Force() {
 		this.handler = new Handler(Looper.getMainLooper());
+		this.client = new OkHttpClient();
 	}
 
 	public void init() {
@@ -44,6 +47,14 @@ public class Force {
 	public void start(AsyncCallback callback, String source) {
 		this.callback = callback;
 		this.onPrepare(source);
+	}
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
 	}
 
 	public void destroy() {
@@ -62,17 +73,17 @@ public class Force {
 		if (index == -1) cmd = cmd + tmp;
 		else cmd = cmd + tmp.substring(0, index);
 		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + uri.getPath();
-		connect(cmd, result);
+		if (callback != null) handler.post(() -> callback.onResponse(result));
+		connect(cmd);
 	}
 
-	private void connect(String cmd, String result) {
+	private void connect(String url) {
 		try {
-			if (callback == null) return;
-			Response response = new OkHttpClient().newCall(new Request.Builder().url(cmd).build()).execute();
-			if (response.isSuccessful()) handler.post(() -> callback.onResponse(result));
-			else handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			Response response = client.newCall(new Request.Builder().url(url).build()).execute();
+			if (response.isSuccessful()) setPlaying(true);
 		} catch (Exception e) {
 			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			setPlaying(false);
 		}
 	}
 

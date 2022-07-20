@@ -154,6 +154,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 	}
 
 	private void onItemClick(Channel item) {
+		Force.get().setPlaying(false);
 		TVBus.get().stop();
 		showProgress();
 		showEpg(item);
@@ -227,6 +228,7 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 
 	@Override
 	public void onPlaybackStateChanged(int state) {
+		if (Force.get().isPlaying() && state == Player.STATE_BUFFERING) onRetry();
 		if (state != Player.STATE_READY) return;
 		new Handler().postDelayed(this::hideIjk, 100);
 		hideProgress();
