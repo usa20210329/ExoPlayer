@@ -57,12 +57,9 @@ public class Force {
 
 	public void onPrepare(String source) {
 		Uri uri = Uri.parse(source);
-		String cmd = "http://127.0.0.1:" + ForceTV.getPort(source) + "/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
-		String tmp = uri.getLastPathSegment();
-		int index = tmp.lastIndexOf(".");
-		if (index == -1) cmd = cmd + tmp;
-		else cmd = cmd + tmp.substring(0, index);
-		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + uri.getPath();
+		String id = uri.getLastPathSegment();
+		String cmd = "http://127.0.0.1:" + ForceTV.getPort(source) + "/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=" + id;
+		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + "/" + id;
 		if (callback != null) handler.post(() -> callback.onResponse(result));
 		connect(cmd);
 	}
