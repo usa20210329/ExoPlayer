@@ -61,16 +61,23 @@ public class TVBus implements TVListener {
 	@Override
 	public void onPrepared(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
-		if (json.get("hls") == null || callback == null) return;
-		handler.post(() -> callback.onResponse(json.get("hls").getAsString()));
+		if (json.get("hls") == null) return;
+		handler.post(() -> onResponse(json.get("hls").getAsString()));
 	}
 
 	@Override
 	public void onStop(String result) {
 		JsonObject json = new Gson().fromJson(result, JsonObject.class);
 		int errno = json.get("errno").getAsInt();
-		if (errno >= 0 || callback == null) return;
-		handler.post(() -> callback.onError(new PlaybackException(null, null, errno)));
+		if (errno < 0) handler.post(this::onError);
+	}
+
+	private void onResponse(String result) {
+		if (callback != null) callback.onResponse(result);
+	}
+
+	private void onError() {
+		if (callback != null) callback.onError(new PlaybackException(null, null, 0));
 	}
 
 	@Override

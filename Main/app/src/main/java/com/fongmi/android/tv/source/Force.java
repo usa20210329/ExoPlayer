@@ -60,7 +60,7 @@ public class Force {
 		String id = uri.getLastPathSegment();
 		String cmd = "http://127.0.0.1:" + ForceTV.getPort(source) + "/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=" + id;
 		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + "/" + id;
-		if (callback != null) handler.post(() -> callback.onResponse(result));
+		handler.post(() -> onResponse(result));
 		connect(cmd);
 	}
 
@@ -68,8 +68,16 @@ public class Force {
 		try {
 			client.newCall(new Request.Builder().url(url).build()).execute();
 		} catch (Exception e) {
-			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			handler.post(this::onError);
 		}
+	}
+
+	private void onResponse(String result) {
+		if (callback != null) callback.onResponse(result);
+	}
+
+	private void onError() {
+		if (callback != null) callback.onError(new PlaybackException(null, null, 0));
 	}
 
 	private final ServiceConnection mConn = new ServiceConnection() {

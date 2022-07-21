@@ -64,7 +64,7 @@ public class ZLive {
 		String uuid = split[3];
 		String param = "&group=5850&mac=00:00:00:00:00:00&dir=";
 		String result = getLive(uuid) + "&server=" + server + param + FileUtil.getCacheDir().getAbsolutePath();
-		if (callback != null) handler.post(() -> callback.onResponse(result));
+		handler.post(() -> onResponse(result));
 		connect(getOpen(uuid));
 	}
 
@@ -72,7 +72,15 @@ public class ZLive {
 		try {
 			client.newCall(new Request.Builder().url(url).build()).execute();
 		} catch (Exception e) {
-			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			handler.post(this::onError);
 		}
+	}
+
+	private void onResponse(String result) {
+		if (callback != null) callback.onResponse(result);
+	}
+
+	private void onError() {
+		if (callback != null) callback.onError(new PlaybackException(null, null, 0));
 	}
 }
