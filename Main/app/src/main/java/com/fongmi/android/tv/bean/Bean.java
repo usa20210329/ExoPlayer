@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.room.Ignore;
-
+import android.view.View;
 import com.fongmi.android.tv.utils.Utils;
 
 public class Bean {
