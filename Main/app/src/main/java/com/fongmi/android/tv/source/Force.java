@@ -11,15 +11,16 @@ import android.os.Looper;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.impl.AsyncCallback;
+import com.forcetech.android.ForceTV;
+import com.forcetech.service.P2PService;
 import com.forcetech.service.P5PService;
 import com.google.android.exoplayer2.PlaybackException;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
-import java.io.IOException;
-
 public class Force {
 
+	private final OkHttpClient client;
 	private final Handler handler;
 	private AsyncCallback callback;
 
@@ -33,9 +34,11 @@ public class Force {
 
 	public Force() {
 		this.handler = new Handler(Looper.getMainLooper());
+		this.client = new OkHttpClient();
 	}
 
 	public void init() {
+		App.get().bindService(new Intent(App.get(), P2PService.class), mConn, Context.BIND_AUTO_CREATE);
 		App.get().bindService(new Intent(App.get(), P5PService.class), mConn, Context.BIND_AUTO_CREATE);
 	}
 
@@ -54,23 +57,27 @@ public class Force {
 
 	public void onPrepare(String source) {
 		Uri uri = Uri.parse(source);
-		String cmd = "http://127.0.0.1:6001/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=";
-		String tmp = uri.getLastPathSegment();
-		int index = tmp.lastIndexOf(".");
-		if (index == -1) cmd = cmd + tmp;
-		else cmd = cmd + tmp.substring(0, index);
-		connect(cmd + "&" + uri.getQuery());
-		String result = "http://127.0.0.1:6001" + uri.getPath();
-		handler.post(() -> callback.onResponse(result));
+		String id = uri.getLastPathSegment();
+		String cmd = "http://127.0.0.1:" + ForceTV.getPort(source) + "/cmd.xml?cmd=switch_chan&server=" + uri.getHost() + ":" + uri.getPort() + "&id=" + id;
+		String result = "http://127.0.0.1:" + ForceTV.getPort(source) + "/" + id;
+		handler.post(() -> onResponse(result));
+		connect(cmd);
 	}
 
 	private void connect(String url) {
 		try {
-			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute();
-		} catch (IOException e) {
-			if (callback == null) return;
-			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			client.newCall(new Request.Builder().url(url).build()).execute();
+		} catch (Exception e) {
+			handler.post(this::onError);
 		}
+	}
+
+	private void onResponse(String result) {
+		if (callback != null) callback.onResponse(result);
+	}
+
+	private void onError() {
+		if (callback != null) callback.onError(new PlaybackException(null, null, 0));
 	}
 
 	private final ServiceConnection mConn = new ServiceConnection() {

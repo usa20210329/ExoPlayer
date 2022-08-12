@@ -124,8 +124,6 @@ public class PlayerActivity extends AppCompatActivity implements Player.Listener
 		Utils.hideView(binding.widget.version);
 		mTypeAdapter.addAll(config.getType());
 		setNotice(config.getNotice());
-		Force.get().init();
-		ZLive.get().init();
 		hideProgress();
 		checkKeep();
 		hideUUID();

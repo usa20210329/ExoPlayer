@@ -83,7 +83,7 @@ public class FileUtil {
 			@Override
 			public void onResponse(Response response) throws IOException {
 				if (!response.isSuccessful()) return;
-				File file = getCacheFile(response.header("Content-Disposition").split("=")[1]);
+				File file = getCacheFile("update.apk");
 				FileOutputStream fos = new FileOutputStream(file);
 				fos.write(response.body().bytes());
 				fos.close();

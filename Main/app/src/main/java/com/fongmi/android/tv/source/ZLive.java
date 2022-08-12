@@ -9,11 +9,10 @@ import com.google.android.exoplayer2.PlaybackException;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
-import java.io.IOException;
-
 public class ZLive {
 
 	private final String BASE = "http://127.0.0.1:6677/stream/";
+	private final OkHttpClient client;
 	private final Handler handler;
 	private AsyncCallback callback;
 
@@ -27,6 +26,7 @@ public class ZLive {
 
 	public ZLive() {
 		this.handler = new Handler(Looper.getMainLooper());
+		this.client = new OkHttpClient();
 	}
 
 	public void init() {
@@ -62,18 +62,25 @@ public class ZLive {
 		String[] split = source.split("/");
 		String server = split[2];
 		String uuid = split[3];
-		connect(getOpen(uuid));
 		String param = "&group=5850&mac=00:00:00:00:00:00&dir=";
 		String result = getLive(uuid) + "&server=" + server + param + FileUtil.getCacheDir().getAbsolutePath();
-		handler.post(() -> callback.onResponse(result));
+		handler.post(() -> onResponse(result));
+		connect(getOpen(uuid));
 	}
 
 	private void connect(String url) {
 		try {
-			new OkHttpClient().newCall(new Request.Builder().url(url).build()).execute();
-		} catch (IOException e) {
-			if (callback == null) return;
-			handler.post(() -> callback.onError(new PlaybackException(null, null, 0)));
+			client.newCall(new Request.Builder().url(url).build()).execute();
+		} catch (Exception e) {
+			handler.post(this::onError);
 		}
+	}
+
+	private void onResponse(String result) {
+		if (callback != null) callback.onResponse(result);
+	}
+
+	private void onError() {
+		if (callback != null) callback.onError(new PlaybackException(null, null, 0));
 	}
 }
