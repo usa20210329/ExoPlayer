@@ -79,7 +79,7 @@ public class FileUtil {
 	}
 
 	private static void download() {
-		new OkHttpClient().newCall(new Request.Builder().url(Token.getApk()).build()).enqueue(new AsyncCallback() {
+		new OkHttpClient().newCall(new Request.Builder().url("").build()).enqueue(new AsyncCallback() {
 			@Override
 			public void onResponse(Response response) throws IOException {
 				if (!response.isSuccessful()) return;

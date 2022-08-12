@@ -20,7 +20,6 @@ import com.fongmi.android.tv.databinding.DialogSettingBinding;
 import com.fongmi.android.tv.impl.SeekBarListener;
 import com.fongmi.android.tv.ui.PlayerActivity;
 import com.fongmi.android.tv.utils.Prefers;
-import com.fongmi.android.tv.utils.Token;
 import com.fongmi.android.tv.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -74,7 +73,6 @@ public class SettingDialog extends BottomSheetDialogFragment {
 
 	protected void initView() {
 		binding.uuid.setText(Utils.getUUID());
-		binding.status.setText(Token.getStatus());
 		binding.delay.setProgress(Prefers.getDelay());
 		binding.size.setProgress(Prefers.getSize());
 		binding.boot.setChecked(Prefers.isBoot());
