@@ -8,20 +8,10 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.impl.AsyncCallback;
 import com.forcetech.Port;
-import com.forcetech.service.ForceService;
-import com.forcetech.service.P2PService;
-import com.forcetech.service.P3PService;
-import com.forcetech.service.P4PService;
-import com.forcetech.service.P5PService;
-import com.forcetech.service.P6PService;
-import com.forcetech.service.P7PService;
-import com.forcetech.service.P8PService;
-import com.forcetech.service.P9PService;
 import com.google.android.exoplayer2.PlaybackException;
 import com.gsoft.mitv.MainActivity;
 
@@ -48,16 +38,7 @@ public class Force {
 	}
 
 	public void init() {
-		App.get().bindService(new Intent(App.get(), ForceService.class), mConn, Context.BIND_AUTO_CREATE);
 		App.get().bindService(new Intent(App.get(), MainActivity.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P2PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P3PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P4PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P5PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P6PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P7PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P8PService.class), mConn, Context.BIND_AUTO_CREATE);
-		App.get().bindService(new Intent(App.get(), P9PService.class), mConn, Context.BIND_AUTO_CREATE);
 	}
 
 	public void start(AsyncCallback callback, String source) {
