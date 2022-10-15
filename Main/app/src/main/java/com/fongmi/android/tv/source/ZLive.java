@@ -6,8 +6,9 @@ import android.os.Looper;
 import com.fongmi.android.tv.impl.AsyncCallback;
 import com.fongmi.android.tv.utils.FileUtil;
 import com.google.android.exoplayer2.PlaybackException;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class ZLive {
 
